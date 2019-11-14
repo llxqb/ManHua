@@ -14,6 +14,15 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
+        <activity android:name=".mvp.ui.activity.mine.TransactionDetailsActivity"></activity>
+        <activity android:name=".mvp.ui.activity.mine.BuyActivity" />
+        <activity android:name=".mvp.ui.activity.mine.MemberCenterActivity" />
+        <activity android:name=".mvp.ui.activity.book.SearchActivity" />
+        <activity android:name=".mvp.ui.activity.book.ReadingHistoryActivity" />
+        <activity android:name=".mvp.ui.activity.book.CommentDetailsActivity" />
+        <activity android:name=".mvp.ui.activity.book.BookDetailActivity" />
+        <activity android:name=".mvp.ui.activity.book.BarrageSettingActivity" />
+        <activity android:name=".mvp.ui.activity.book.ReadActivity" />
         <activity
             android:name=".mvp.ui.activity.main.MainActivity"
             android:launchMode="singleTask"

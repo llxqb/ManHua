@@ -19,10 +19,10 @@ public class LoginPresenterImpl implements LoginControl.PresenterLogin {
     private final Context mContext;
 
     @Inject
-    public LoginPresenterImpl(Context context, LoginModel model, LoginControl.LoginView LoginView) {
+    public LoginPresenterImpl(Context context, LoginModel model, LoginControl.LoginView view) {
         mContext = context;
         mLoginModel = model;
-        mLoginView = LoginView;
+        mLoginView = view;
     }
 
 
