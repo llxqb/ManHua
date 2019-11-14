@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">ManHua</string>
+    <!--&#160;表示空格      一个汉字宽度的空格：&#12288;  或者\u3000-->
+    <!--app相关 -->
+    <string name="text_check_internet">请检查网络连接</string>
+    <string name="text_wait_try">请重试</string>
+    <string name="loading">loading…</string>
+
+    <string name="main_bottom_home">书城</string>
+    <string name="main_bottom_teacher">书架</string>
+    <string name="main_bottom_mime">我的</string>
+    <string name="main_exit_app">再点一次退出应用</string>
+</resources>

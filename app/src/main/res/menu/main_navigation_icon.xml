@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_home"
+        android:enabled="true"
+        android:icon="@mipmap/tutor"
+        android:title="@string/main_bottom_home"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_teacher"
+        android:enabled="true"
+        android:icon="@mipmap/teacher_gray"
+        android:title="@string/main_bottom_teacher"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_mine"
+        android:enabled="true"
+        android:icon="@mipmap/my_gray"
+        android:title="@string/main_bottom_mime"
+        app:showAsAction="ifRoom" />
+</menu>
