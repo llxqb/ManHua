@@ -1,13 +1,8 @@
 package com.shushan.manhua.mvp.ui.activity.book;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-
 import com.shushan.manhua.R;
-import com.shushan.manhua.di.components.DaggerReadComponent;
 import com.shushan.manhua.di.components.DaggerReadingHistoryComponent;
 import com.shushan.manhua.di.modules.ActivityModule;
-import com.shushan.manhua.di.modules.ReadModule;
 import com.shushan.manhua.di.modules.ReadingHistoryModule;
 import com.shushan.manhua.mvp.ui.base.BaseActivity;
 

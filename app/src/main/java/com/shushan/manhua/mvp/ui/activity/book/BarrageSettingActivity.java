@@ -1,8 +1,5 @@
 package com.shushan.manhua.mvp.ui.activity.book;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-
 import com.shushan.manhua.R;
 import com.shushan.manhua.mvp.ui.base.BaseActivity;
 

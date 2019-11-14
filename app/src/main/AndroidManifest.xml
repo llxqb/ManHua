@@ -14,7 +14,13 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
-        <activity android:name=".mvp.ui.activity.mine.TransactionDetailsActivity"></activity>
+        <activity android:name=".mvp.ui.activity.mine.CheckInActivity"></activity>
+        <activity android:name=".mvp.ui.activity.mine.PurchasedActivity" />
+        <activity android:name=".mvp.ui.activity.mine.FeedbackActivity" />
+        <activity android:name=".mvp.ui.activity.setting.SettingActivity" />
+        <activity android:name=".mvp.ui.activity.user.MessageActivity" />
+        <activity android:name=".mvp.ui.activity.user.PersonalInfoActivity" />
+        <activity android:name=".mvp.ui.activity.mine.TransactionDetailsActivity" />
         <activity android:name=".mvp.ui.activity.mine.BuyActivity" />
         <activity android:name=".mvp.ui.activity.mine.MemberCenterActivity" />
         <activity android:name=".mvp.ui.activity.book.SearchActivity" />
