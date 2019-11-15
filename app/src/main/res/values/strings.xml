@@ -12,6 +12,7 @@
     <string name="main_exit_app">再点一次退出应用</string>
 
 
+    <!--书架 -->
     <string name="BookShelfFragment_search_hint_tv">搜漫画</string>
     <string name="BookShelfFragment_vip_center_tv">会员中心</string>
     <string name="BookShelfFragment_recent_read_tv">最近阅读</string>
@@ -19,5 +20,19 @@
     <string name="BookShelfFragment_recent_read_record_tv">阅读记录</string>
     <string name="BookShelfFragment_recommend_hint_tv">为你推荐</string>
     <string name="BookShelfFragment_change_tv">换一批</string>
-    <string name="BookShelfAdapter_more_tv">Point I found More cartoons</string>
+    <string name="BookShelfAdapter_more_tv">Point I found \nMore cartoons</string>
+
+    <string name="LongDeleteActivity_select_tv">已选择</string>
+    <string name="LongDeleteActivity_select_all">全选</string>
+    <string name="LongDeleteActivity_select_all_no">全不选</string>
+    <string name="LongDeleteActivity_select_delete">删除</string>
+    <!--<string name="ReadActivity_add_bookshelf">加入书架</string>-->
+    <!--<string name="ReadActivity_back_top">返回顶部</string>-->
+    <string name="ReadActivity_barrage">弹幕</string>
+    <string name="ReadActivity_send">发射</string>
+    <string name="ReadActivity_bottom_directory">目录</string>
+    <string name="ReadActivity_bottom_comment">评论</string>
+    <string name="ReadActivity_bottom_share">分享</string>
+    <string name="ReadActivity_bottom_setting">设置</string>
+
 </resources>

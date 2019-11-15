@@ -13,6 +13,14 @@
         android:layout_height="@dimen/dp_162"
         android:src="@mipmap/book_icon" />
 
+    <ImageView
+        android:id="@+id/check_iv"
+        android:layout_width="@dimen/dp_20"
+        android:layout_height="@dimen/dp_20"
+        android:layout_marginStart="@dimen/dp_135"
+        android:layout_marginTop="@dimen/dp_14"
+        android:src="@mipmap/history_delete_unchoose" />
+
     <TextView
         android:id="@+id/date_tv"
         android:layout_width="@dimen/dp_42"
@@ -74,14 +82,4 @@
         android:textColor="@color/color_80"
         android:textSize="@dimen/sp_10" />
 
-    <TextView
-        android:id="@+id/more_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/dp_100"
-        android:text="@string/BookShelfAdapter_more_tv"
-        android:textColor="#A68AE1"
-        android:textSize="@dimen/sp_12"
-        android:visibility="gone" />
 </RelativeLayout>

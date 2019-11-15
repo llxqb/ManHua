@@ -14,7 +14,8 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
-        <activity android:name=".mvp.ui.activity.mine.CheckInActivity"></activity>
+        <activity android:name=".mvp.ui.activity.book.LongDeleteActivity"></activity>
+        <activity android:name=".mvp.ui.activity.mine.CheckInActivity" />
         <activity android:name=".mvp.ui.activity.mine.PurchasedActivity" />
         <activity android:name=".mvp.ui.activity.mine.FeedbackActivity" />
         <activity android:name=".mvp.ui.activity.setting.SettingActivity" />

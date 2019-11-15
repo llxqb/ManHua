@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_60"
+    android:layout_gravity="bottom"
+    android:gravity="bottom"
+    android:orientation="horizontal">
+
+    <!-- 目录-->
+    <LinearLayout
+        android:id="@+id/bottom_directory_ll"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/last_chapter_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp_5"
+            android:src="@mipmap/lcatalogue_last_chapter" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_8"
+            android:layout_marginEnd="@dimen/dp_8"
+            android:drawableTop="@mipmap/cartoon_directory"
+            android:gravity="center"
+            android:text="@string/ReadActivity_bottom_directory"
+            android:textColor="@color/first_text_color"
+            android:textSize="@dimen/sp_10" />
+
+        <ImageView
+            android:id="@+id/next_chapter_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp_5"
+            android:src="@mipmap/lcatalogue_next_chapter" />
+    </LinearLayout>
+
+    <!-- 评论-->
+    <RelativeLayout
+        android:id="@+id/bottom_comment_ll"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/comment_hint_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@mipmap/cartoon_evaluation"
+            android:gravity="center"
+            android:text="@string/ReadActivity_bottom_comment"
+            android:textColor="@color/first_text_color"
+            android:textSize="@dimen/sp_10" />
+
+        <TextView
+            android:id="@+id/comment_num_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_2"
+            android:layout_toEndOf="@id/comment_hint_tv"
+            android:text="999+"
+            android:textColor="@color/first_text_color"
+            android:textSize="@dimen/sp_10" />
+
+    </RelativeLayout>
+
+    <!-- 分享-->
+    <LinearLayout
+        android:id="@+id/bottom_share_ll"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_8"
+            android:layout_marginEnd="@dimen/dp_8"
+            android:drawableTop="@mipmap/cartoon_share"
+            android:gravity="center"
+            android:text="@string/ReadActivity_bottom_share"
+            android:textColor="@color/first_text_color"
+            android:textSize="@dimen/sp_10" />
+
+    </LinearLayout>
+
+    <!-- 设置-->
+    <LinearLayout
+        android:id="@+id/bottom_setting_ll"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_8"
+            android:layout_marginEnd="@dimen/dp_8"
+            android:drawableTop="@mipmap/cartoon_settings"
+            android:gravity="center"
+            android:text="@string/ReadActivity_bottom_setting"
+            android:textColor="@color/first_text_color"
+            android:textSize="@dimen/sp_10" />
+
+    </LinearLayout>
+</LinearLayout>

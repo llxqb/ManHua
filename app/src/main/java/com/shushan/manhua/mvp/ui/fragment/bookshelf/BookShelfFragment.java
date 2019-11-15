@@ -11,14 +11,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.shushan.manhua.ManHuaApplication;
 import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerBookShelfFragmentComponent;
 import com.shushan.manhua.di.modules.BookShelfFragmentModule;
 import com.shushan.manhua.di.modules.MainModule;
 import com.shushan.manhua.entity.response.BookShelfResponse;
+import com.shushan.manhua.entity.response.RecommendResponse;
 import com.shushan.manhua.entity.user.User;
+import com.shushan.manhua.mvp.ui.activity.book.BookDetailActivity;
+import com.shushan.manhua.mvp.ui.activity.book.LongDeleteActivity;
+import com.shushan.manhua.mvp.ui.activity.book.ReadActivity;
 import com.shushan.manhua.mvp.ui.adapter.BookShelfAdapter;
+import com.shushan.manhua.mvp.ui.adapter.RecommendAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseFragment;
 
 import java.util.ArrayList;
@@ -48,7 +54,9 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
     RecyclerView mRecommendRecyclerView;
     Unbinder unbinder;
     private BookShelfAdapter mBookShelfAdapter;
+    private RecommendAdapter mRecommendAdapter;
     private List<BookShelfResponse> bookShelfResponseList = new ArrayList<>();
+    private List<RecommendResponse> recommendResponseList = new ArrayList<>();
     private User mUser;
     @Inject
     BookShelfFragmentControl.BookShelfFragmentPresenter mPresenter;
@@ -71,6 +79,30 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
         mBookShelfAdapter = new BookShelfAdapter(bookShelfResponseList);
         mBookshelfRecyclerView.setAdapter(mBookShelfAdapter);
         mBookshelfRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        mRecommendAdapter = new RecommendAdapter(recommendResponseList);
+        mRecommendRecyclerView.setAdapter(mRecommendAdapter);
+        mRecommendRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        mBookShelfAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            startActivitys(ReadActivity.class);//阅读页面
+        });
+        //长按删除
+        mBookShelfAdapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
+                BookShelfResponse bookShelfResponse = (BookShelfResponse) adapter.getItem(position);
+                LongDeleteActivity.start(getActivity(), bookShelfResponse);
+                return false;
+            }
+        });
+
+        mRecommendAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                startActivitys(BookDetailActivity.class);
+            }
+        });
+
+
     }
 
     @Override
@@ -82,19 +114,30 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
         }
         BookShelfResponse bookShelfResponse = new BookShelfResponse();
         bookShelfResponse.cover = R.mipmap.bookshelf_find_more;
+        bookShelfResponse.isMore = true;
         bookShelfResponseList.add(bookShelfResponse);
+
+        //推荐数据
+        for (int i = 0; i < 10; i++) {
+            RecommendResponse recommendResponse = new RecommendResponse();
+            recommendResponseList.add(recommendResponse);
+        }
     }
 
-    @OnClick({R.id.search_rl, R.id.vip_center_ll, R.id.continue_read_ll, R.id.change_tv})
+    @OnClick({R.id.search_rl, R.id.vip_center_tv, R.id.continue_read_ll, R.id.change_tv})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.search_rl:
+                showToast("搜索");
                 break;
-            case R.id.vip_center_ll:
+            case R.id.vip_center_tv:
+                showToast("会员中心");
                 break;
             case R.id.continue_read_ll:
+                showToast("继续阅读");
                 break;
             case R.id.change_tv:
+                showToast("换一批");
                 break;
         }
     }

@@ -1,9 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".mvp.ui.activity.book.ReadActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <include layout="@layout/common_toolbar" />
+
+    <!-- 底部布局-->
+    <LinearLayout
+        android:id="@+id/read_bottom_ll"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_120"
+        android:layout_alignParentBottom="true"
+        android:background="#F3F4F7"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/dp_15">
+
+            <RelativeLayout
+                android:id="@+id/send_message_rl"
+                android:layout_width="@dimen/dp_280"
+                android:layout_height="@dimen/dp_32"
+                android:layout_marginStart="@dimen/dp_18"
+                android:layout_marginTop="@dimen/dp_14"
+                android:background="@drawable/bg_line_round_stroke_30"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/send_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_12"
+                android:layout_marginTop="@dimen/dp_18"
+                android:text="@string/ReadActivity_send"
+                android:textColor="@color/first_text_color"
+                android:textSize="@dimen/sp_16" />
+        </LinearLayout>
+
+
+        <include
+            layout="@layout/read_bottom_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+
+    <!-- 中间布局-->
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_above="@id/read_bottom_ll"
+        android:layout_below="@id/common_toolbar_layout">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.shushan.manhua.mvp.views.ResizableImageView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/introduction"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+
+    <LinearLayout
+        android:id="@+id/barrage_ll"
+        android:layout_width="@dimen/dp_60"
+        android:layout_height="@dimen/dp_18"
+        android:layout_above="@id/read_bottom_ll"
+        android:layout_marginStart="@dimen/dp_18"
+        android:background="@drawable/read_gray_round_solid_top_5"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/barrage_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/barrage_open" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_6"
+            android:text="@string/ReadActivity_barrage"
+            android:textColor="@color/first_text_color"
+            android:textSize="@dimen/sp_11" />
+    </LinearLayout>
+
+
+    <!-- 返回顶部-->
+    <LinearLayout
+        android:id="@+id/back_top_ll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/read_bottom_ll"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/dp_20"
+        android:layout_marginBottom="@dimen/dp_22"
+        android:background="@drawable/round_gray_360"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/cartoon_to_top" />
+
+    </LinearLayout>
+
+    <!-- 加入书架-->
+    <LinearLayout
+        android:id="@+id/add_bookshelf_ll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/back_top_ll"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/dp_20"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:background="@drawable/round_gray_360"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/cartoon_add_bookshelf" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>
