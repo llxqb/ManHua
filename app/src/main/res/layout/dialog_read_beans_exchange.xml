@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/common_dialog_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#90000000">
+
+
+    <RelativeLayout
+        android:layout_width="@dimen/dp_252"
+        android:layout_height="@dimen/dp_195"
+        android:layout_centerInParent="true"
+        android:background="@drawable/bg_white_round_solid_5">
+
+
+        <ImageView
+            android:id="@+id/close_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:padding="@dimen/dp_10"
+            android:src="@mipmap/popup_close" />
+
+        <TextView
+            android:id="@+id/title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/close_iv"
+            android:layout_centerHorizontal="true"
+            android:text="@string/ReadBeansExchangeDialog_title"
+            android:textColor="#00D08D"
+            android:textSize="@dimen/sp_18" />
+
+
+        <TextView
+            android:id="@+id/exchange_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title_tv"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp_14"
+            android:text="@string/ReadBeansExchangeDialog_hint"
+            android:textColor="@color/first_text_color"
+            android:textSize="@dimen/sp_14" />
+
+
+        <com.shushan.manhua.mvp.views.ResizableImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:src="@mipmap/popup_vip_barrage_background" />
+
+        <TextView
+            android:id="@+id/sure_tv"
+            android:layout_width="@dimen/dp_138"
+            android:layout_height="@dimen/dp_40"
+            android:layout_below="@id/exchange_hint"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp_18"
+            android:background="@drawable/gradient_exchange_bg"
+            android:gravity="center"
+            android:text="@string/ReadBeansExchangeDialog_sure"
+            android:textColor="#007538"
+            android:textSize="@dimen/sp_18" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sure_tv"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp_6"
+            android:text="@string/ReadBeansExchangeDialog_sure_hint"
+            android:textColor="#00D08D"
+            android:textSize="@dimen/sp_11" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

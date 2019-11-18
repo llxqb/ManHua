@@ -254,4 +254,14 @@ public class SystemUtils {
     public static String getSystemModel() {
         return android.os.Build.MODEL;
     }
+
+    /**
+     * 获取屏幕密度
+     * @param context
+     * @return
+     * by Hankkin at:2015-10-07 21:16:29
+     */
+    public static float getScreenDensity(Context context) {
+        return context.getResources().getDisplayMetrics().density;
+    }
 }

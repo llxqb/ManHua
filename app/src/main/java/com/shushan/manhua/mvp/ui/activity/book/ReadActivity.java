@@ -1,6 +1,7 @@
 package com.shushan.manhua.mvp.ui.activity.book;
 
 import android.os.Build;
+import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -16,11 +18,19 @@ import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerReadComponent;
 import com.shushan.manhua.di.modules.ActivityModule;
 import com.shushan.manhua.di.modules.ReadModule;
+import com.shushan.manhua.entity.response.ChapterResponse;
 import com.shushan.manhua.entity.response.ReadingCommendResponse;
 import com.shushan.manhua.entity.response.ReadingRecommendResponse;
+import com.shushan.manhua.help.DialogFactory;
+import com.shushan.manhua.mvp.ui.activity.setting.SettingActivity;
 import com.shushan.manhua.mvp.ui.adapter.ReadingCommentAdapter;
 import com.shushan.manhua.mvp.ui.adapter.ReadingRecommendAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseActivity;
+import com.shushan.manhua.mvp.ui.dialog.ReadBeansExchangeDialog;
+import com.shushan.manhua.mvp.ui.dialog.ReadContentsPopupWindow;
+import com.shushan.manhua.mvp.ui.dialog.ReadOpenVipDialog;
+import com.shushan.manhua.mvp.ui.dialog.ReadSettingPopupWindow;
+import com.shushan.manhua.mvp.ui.dialog.ReadUseCoinDialog;
 import com.shushan.manhua.mvp.views.ResizableImageView;
 
 import java.util.ArrayList;
@@ -34,10 +44,12 @@ import butterknife.OnClick;
 /**
  * 阅读页面
  */
-public class ReadActivity extends BaseActivity implements ReadControl.ReadView {
-
+public class ReadActivity extends BaseActivity implements ReadControl.ReadView, ReadUseCoinDialog.ReadUseCoinDialogListener, ReadBeansExchangeDialog.ReadBeansExchangeDialogListener,
+        ReadOpenVipDialog.ReadOpenVipDialogListener, ReadSettingPopupWindow.ReadSettingPopupWindowListener {
     @Inject
     ReadControl.PresenterRead mPresenter;
+    @BindView(R.id.read_layout)
+    RelativeLayout mReadLayout;
     @BindView(R.id.common_title_tv)
     TextView mCommonTitleTv;
     @BindView(R.id.common_right_tv)
@@ -69,8 +81,9 @@ public class ReadActivity extends BaseActivity implements ReadControl.ReadView {
     @BindView(R.id.comment_recycler_view)
     RecyclerView mCommentRecyclerView;
     boolean mBarrage;//是否弹幕
-    private List<ReadingRecommendResponse> readingRecommendResponseList = new ArrayList<>();
-    private List<ReadingCommendResponse> readingCommendResponseList = new ArrayList<>();
+    private List<ReadingRecommendResponse> readingRecommendResponseList = new ArrayList<>();//推荐list
+    private List<ReadingCommendResponse> readingCommendResponseList = new ArrayList<>();//评论
+    private List<ChapterResponse> chapterResponseList = new ArrayList<>();//章节list
 
     @Override
     protected void initContentView() {
@@ -124,7 +137,38 @@ public class ReadActivity extends BaseActivity implements ReadControl.ReadView {
             ReadingCommendResponse readingRecommendResponse = new ReadingCommendResponse();
             readingCommendResponseList.add(readingRecommendResponse);
         }
+        for (int i = 0; i < 20; i++) {
+            ChapterResponse chapterResponse = new ChapterResponse();
+            chapterResponse.title = "title"+i;
+            chapterResponseList.add(chapterResponse);
+        }
+    }
 
+    /**
+     * 显示去充值弹框
+     */
+    private void showRechargeDialog() {
+        ReadUseCoinDialog readUseCoinDialog = ReadUseCoinDialog.newInstance();
+        readUseCoinDialog.setListener(this);
+        DialogFactory.showDialogFragment(getSupportFragmentManager(), readUseCoinDialog, ReadUseCoinDialog.TAG);
+    }
+
+    /**
+     * 显示漫豆兑换弹幕弹框
+     */
+    private void showBeansExchangeDialog() {
+        ReadBeansExchangeDialog readBeansExchangeDialog = ReadBeansExchangeDialog.newInstance();
+        readBeansExchangeDialog.setListener(this);
+        DialogFactory.showDialogFragment(getSupportFragmentManager(), readBeansExchangeDialog, ReadBeansExchangeDialog.TAG);
+    }
+
+    /**
+     * 显示开通会员弹框
+     */
+    private void showOpenVipDialog() {
+        ReadOpenVipDialog readOpenVipDialog = ReadOpenVipDialog.newInstance();
+        readOpenVipDialog.setListener(this);
+        DialogFactory.showDialogFragment(getSupportFragmentManager(), readOpenVipDialog, ReadOpenVipDialog.TAG);
     }
 
     @OnClick({R.id.common_left_iv, R.id.common_right_tv, R.id.image, R.id.send_tv, R.id.bottom_directory_ll, R.id.last_chapter_iv, R.id.next_chapter_iv, R.id.barrage_ll, R.id.send_message_left_iv, R.id.send_message_right_iv,
@@ -172,7 +216,7 @@ public class ReadActivity extends BaseActivity implements ReadControl.ReadView {
 
                 break;
             case R.id.bottom_directory_ll: //目录
-
+                new ReadContentsPopupWindow(this, chapterResponseList ).initPopWindow(mReadLayout);
                 break;
             case R.id.bottom_comment_ll://评论
 
@@ -180,6 +224,7 @@ public class ReadActivity extends BaseActivity implements ReadControl.ReadView {
             case R.id.bottom_share_ll://分享
                 break;
             case R.id.bottom_setting_ll://设置
+                new ReadSettingPopupWindow(this, this, mSharePreferenceUtil).initPopWindow(mReadLayout);
                 break;
             case R.id.back_top_ll:// 让页面返回顶部
                 mNestedScrollView.post(() -> mNestedScrollView.post(new Runnable() {
@@ -195,6 +240,68 @@ public class ReadActivity extends BaseActivity implements ReadControl.ReadView {
                 showToast("加入书架");
                 break;
         }
+    }
+
+    /**
+     * 去充值弹框  去充值
+     */
+    @Override
+    public void readUseCoinDialogBtnOkListener() {
+
+    }
+
+    /**
+     * 漫豆兑换弹幕弹框  去兑换
+     */
+    @Override
+    public void readBeansExchangeDialogBtnOkListener() {
+
+    }
+
+    /**
+     * 显示开通会员弹框  开通会员
+     */
+    @Override
+    public void readOpenVipDialogBtnOkListener() {
+
+    }
+
+    /**
+     * 点击翻页开关
+     */
+    @Override
+    public void pageTurningBtnListener() {
+
+    }
+
+    /**
+     * 夜间模式开关
+     */
+    @Override
+    public void nightModelBtnListener(boolean nightModel) {
+        if (nightModel) {
+            //设置白天模式
+            Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 120);//屏幕亮度值范围必须位于：0～255
+        } else {
+            //设置夜间模式
+            Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 25);//屏幕亮度值范围必须位于：0～255
+        }
+    }
+
+    /**
+     * 关闭弹幕开关
+     */
+    @Override
+    public void barrageSwitchBtnListener() {
+
+    }
+
+    /**
+     * 更多设置
+     */
+    @Override
+    public void clickMoreBtnListener() {
+        startActivitys(SettingActivity.class);
     }
 
     private void showFunction() {

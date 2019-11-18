@@ -3,6 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.shushan.manhua">
 
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 允许程序设置内置sd卡的读写权限 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 允许程序获取网络状态 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 允许程序访问WiFi网络信息 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions" /><!-- 调节亮度 -->
+
     <application
         android:name=".ManHuaApplication"
         android:allowBackup="false"
@@ -14,7 +26,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
-        <activity android:name=".mvp.ui.activity.book.LongDeleteActivity"></activity>
+        <activity android:name=".mvp.ui.activity.book.LongDeleteActivity" />
         <activity android:name=".mvp.ui.activity.mine.CheckInActivity" />
         <activity android:name=".mvp.ui.activity.mine.PurchasedActivity" />
         <activity android:name=".mvp.ui.activity.mine.FeedbackActivity" />
@@ -31,7 +43,7 @@
         <activity android:name=".mvp.ui.activity.book.BarrageSettingActivity" />
         <activity
             android:name=".mvp.ui.activity.book.ReadActivity"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
+            android:windowSoftInputMode="stateVisible|adjustResize|stateHidden" />
         <activity
             android:name=".mvp.ui.activity.main.MainActivity"
             android:launchMode="singleTask"

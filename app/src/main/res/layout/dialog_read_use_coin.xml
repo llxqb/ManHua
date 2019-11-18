@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/common_dialog_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#90000000">
+
+
+    <RelativeLayout
+        android:layout_width="@dimen/dp_252"
+        android:layout_height="@dimen/dp_195"
+        android:layout_centerInParent="true"
+        android:background="@drawable/bg_white_round_solid_5">
+
+
+        <ImageView
+            android:id="@+id/close_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:padding="@dimen/dp_10"
+            android:src="@mipmap/popup_close" />
+
+        <TextView
+            android:id="@+id/pay_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/close_iv"
+            android:layout_centerHorizontal="true"
+            android:text="应付5金币"
+            android:textColor="#915AFF"
+            android:textSize="@dimen/sp_18" />
+
+        <ImageView
+            android:id="@+id/vip_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/pay_tv"
+            android:layout_marginStart="@dimen/dp_49"
+            android:layout_marginTop="@dimen/dp_16"
+            android:src="@mipmap/recharge_vip" />
+
+        <TextView
+            android:id="@+id/vip_pay_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/pay_tv"
+            android:layout_marginStart="@dimen/dp_6"
+            android:layout_marginTop="@dimen/dp_16"
+            android:layout_toEndOf="@id/vip_icon"
+            android:text="会员价3金币"
+            android:textColor="@color/first_text_color"
+            android:textSize="@dimen/sp_14" />
+
+        <TextView
+            android:id="@+id/available_coin_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/vip_icon"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp_18"
+            android:text="可用金币0"
+            android:textColor="@color/first_text_color"
+            android:textSize="@dimen/sp_12" />
+
+        <com.shushan.manhua.mvp.views.ResizableImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:src="@mipmap/popup_beans_barrage_background" />
+
+        <TextView
+            android:id="@+id/recharge_tv"
+            android:layout_width="@dimen/dp_138"
+            android:layout_height="@dimen/dp_40"
+            android:layout_below="@id/available_coin_tv"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:background="@drawable/gradient_recharge_bg"
+            android:gravity="center"
+            android:text="@string/ReadUseCoinDialog_sure"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_18" />
+    </RelativeLayout>
+
+</RelativeLayout>

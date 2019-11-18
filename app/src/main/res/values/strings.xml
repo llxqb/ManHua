@@ -40,4 +40,24 @@
     <string name="ReadActivity_recommend_tv">其他人还在看</string>
     <string name="ReadActivity_comment_tv">评论</string>
 
+    <string name="ReadUseCoinDialog_sure">去充值</string>
+
+    <string name="ReadBeansExchangeDialog_title">漫豆兑换弹幕</string>
+    <string name="ReadBeansExchangeDialog_hint">100漫豆兑换，佩戴有限期30天~</string>
+    <string name="ReadBeansExchangeDialog_sure">去充漫豆</string>
+    <string name="ReadBeansExchangeDialog_sure_hint">漫豆不足</string>
+
+    <string name="ReadOpenVipDialog_title">会员专属弹幕</string>
+    <string name="ReadOpenVipDialog_hint">您还不是会员，开通会员可享会员专属弹幕气泡~</string>
+    <string name="ReadOpenVipDialog_sure">开通会员</string>
+
+    <string name="ReadSettingPopupWindow_model">翻页模式</string>
+    <string name="ReadSettingPopupWindow_model_hint">当前漫画仅支持上下翻页</string>
+    <string name="ReadSettingPopupWindow_page_turning">点击翻页</string>
+    <string name="ReadSettingPopupWindow_page_turning_hint">打开后可点击屏幕上下方翻页</string>
+    <string name="ReadSettingPopupWindow_night_model">夜间模式</string>
+    <string name="ReadSettingPopupWindow_barrage">弹幕开关</string>
+    <string name="ReadSettingPopupWindow_barrage_hint">不看弹幕，可能错过很多不一样的精彩哦~</string>
+    <string name="ReadSettingPopupWindow_more">更多弹幕设置</string>
+
 </resources>

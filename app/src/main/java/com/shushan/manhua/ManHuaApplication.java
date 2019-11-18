@@ -2,7 +2,6 @@ package com.shushan.manhua;
 
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.shushan.manhua.di.components.AppComponent;
