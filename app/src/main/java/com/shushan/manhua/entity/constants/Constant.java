@@ -14,10 +14,11 @@ public class Constant {
      * 默认图片
      */
     //占位图图片资源
-    public static final int LOADING_SMALL = R.mipmap.ic_launcher;
-    public static final int LOADING_MIDDLE = R.mipmap.ic_launcher;
-    public static final int LOADING_BIG = R.mipmap.ic_launcher;
-//    public static final int LOADING_AVATOR = R.mipmap.my_default_head;
+    public static final int LOADING_DEFAULT_1 = R.mipmap.default_graph_1;
+    public static final int LOADING_DEFAULT_2 = R.mipmap.default_graph_2;
+    public static final int LOADING_DEFAULT_3 = R.mipmap.default_graph_3;
+    public static final int LOADING_DEFAULT_4 = R.mipmap.default_graph_4;
+    public static final int LOADING_AVATOR = R.mipmap.default_head;
 //    public static final int LOADING_BANNER = R.mipmap.load_banner;
 
     /**

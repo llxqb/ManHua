@@ -13,7 +13,7 @@
         android:layout_width="@dimen/dp_101"
         android:layout_height="@dimen/dp_134"
         android:scaleType="fitXY"
-        android:src="@mipmap/book_icon" />
+        android:src="@mipmap/default_graph_4" />
 
 
     <TextView

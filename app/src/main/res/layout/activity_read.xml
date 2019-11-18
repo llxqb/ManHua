@@ -9,6 +9,175 @@
 
     <include layout="@layout/common_toolbar" />
 
+
+    <!-- 中间布局-->
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/common_toolbar_layout">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.shushan.manhua.mvp.views.ResizableImageView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/introduction"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginBottom="@dimen/dp_10"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/support_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTop="@mipmap/title_praise_gray"
+                    android:drawablePadding="@dimen/dp_5"
+                    android:gravity="center"
+                    android:text="赞 8990" />
+
+                <TextView
+                    android:id="@+id/add_bookshelf_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTop="@mipmap/cartoon_chapter_add_bookshelf"
+                    android:drawablePadding="@dimen/dp_5"
+                    android:gravity="center"
+                    android:text="加入书架" />
+
+                <TextView
+                    android:id="@+id/share_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTop="@mipmap/cartoon_chapter_share"
+                    android:drawablePadding="@dimen/dp_5"
+                    android:gravity="center"
+                    android:text="分享" />
+
+
+            </LinearLayout>
+
+            <View style="@style/line_height_1" />
+
+            <!-- 上一章 和下一章 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_59"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/last_chapter_ll"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/cartoon_last_chapter" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_8"
+                        android:text="@string/ReadActivity_pre_chapter" />
+                </LinearLayout>
+
+
+                <View
+                    android:layout_width="@dimen/dp_1"
+                    android:layout_height="@dimen/dp_30"
+                    android:layout_gravity="center"
+                    android:background="@color/color_6d" />
+
+
+                <LinearLayout
+                    android:id="@+id/next_chapter_ll"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ReadActivity_next_chapter" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_8"
+                        android:src="@mipmap/cartoon_next_chapter" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- 广告位 -->
+            <!--<ImageView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" -->
+            <!--/>-->
+
+            <!-- 其他人还在看 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_20"
+                android:layout_marginTop="@dimen/dp_20"
+                android:drawableStart="@drawable/bg_rectangle_blue"
+                android:drawablePadding="@dimen/dp_4"
+                android:text="@string/ReadActivity_recommend_tv"
+                android:textColor="@color/color_30"
+                android:textSize="@dimen/sp_18"
+                android:textStyle="bold" />
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recommend_recycler_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_20"
+                android:layout_marginTop="@dimen/dp_12" />
+
+            <!-- 评论 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_20"
+                android:layout_marginTop="@dimen/dp_20"
+                android:drawableStart="@drawable/bg_rectangle_blue"
+                android:drawablePadding="@dimen/dp_4"
+                android:text="@string/ReadActivity_comment_tv"
+                android:textColor="@color/color_30"
+                android:textSize="@dimen/sp_18"
+                android:textStyle="bold" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/comment_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginBottom="@dimen/dp_20" />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+
     <!-- 底部布局-->
     <LinearLayout
         android:id="@+id/read_bottom_ll"
@@ -22,7 +191,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingBottom="@dimen/dp_15">
+            android:paddingBottom="@dimen/dp_20">
 
             <RelativeLayout
                 android:id="@+id/send_message_rl"
@@ -34,6 +203,39 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
+                <ImageView
+                    android:id="@+id/send_message_left_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/dp_2"
+                    android:padding="@dimen/dp_5"
+                    android:src="@mipmap/history_delete_unchoose" />
+
+                <ImageView
+                    android:id="@+id/send_message_right_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/dp_3"
+                    android:padding="@dimen/dp_5"
+                    android:src="@mipmap/barrage_color_gray" />
+
+                <EditText
+                    android:id="@+id/message_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@id/send_message_right_iv"
+                    android:layout_toEndOf="@id/send_message_left_iv"
+                    android:background="@null"
+                    android:gravity="start"
+                    android:paddingStart="@dimen/dp_6"
+                    android:paddingEnd="@dimen/dp_6"
+                    android:text="1861人在看，弹幕撩一下"
+                    android:textColor="@color/color_80"
+                    android:textSize="@dimen/sp_14" />
 
             </RelativeLayout>
 
@@ -55,32 +257,6 @@
             android:layout_height="match_parent" />
 
     </LinearLayout>
-
-
-    <!-- 中间布局-->
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/nestedScrollView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_above="@id/read_bottom_ll"
-        android:layout_below="@id/common_toolbar_layout">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <com.shushan.manhua.mvp.views.ResizableImageView
-                android:id="@+id/image"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/introduction"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
-
 
     <LinearLayout
         android:id="@+id/barrage_ll"

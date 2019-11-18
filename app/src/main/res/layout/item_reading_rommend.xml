@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_20"
+        android:layout_marginEnd="@dimen/dp_20">
+
+        <ImageView
+            android:id="@+id/avatar_iv"
+            android:layout_width="@dimen/dp_34"
+            android:layout_height="@dimen/dp_34"
+            android:src="@mipmap/default_head"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_10"
+            android:text="漫画情报局"
+            android:textColor="#262626"
+            android:textSize="@dimen/sp_13"
+            app:layout_constraintStart_toEndOf="@id/avatar_iv"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_4"
+            android:text="09:22"
+            android:textColor="@color/color_80"
+            android:textSize="@dimen/sp_11"
+            app:layout_constraintStart_toEndOf="@id/avatar_iv"
+            app:layout_constraintTop_toBottomOf="@id/name_tv" />
+
+        <TextView
+            android:id="@+id/content_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_8"
+            android:text="这漫画真的挺有意思的啊！"
+            android:textColor="@color/first_text_color"
+            android:textSize="@dimen/sp_14"
+            app:layout_constraintStart_toEndOf="@id/avatar_iv"
+            app:layout_constraintTop_toBottomOf="@id/time_tv" />
+
+
+        <LinearLayout
+            android:id="@+id/comment_ll"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_10"
+            android:background="@drawable/comment_answer_bg"
+            android:padding="@dimen/dp_10"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/avatar_iv"
+            app:layout_constraintTop_toBottomOf="@id/content_tv">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="取个名字好难：我是评论我是评论我是评论我是评论" />
+        </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
+
+
+    <View
+        style="@style/line_height_1"
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_marginBottom="@dimen/dp_20" />
+
+</LinearLayout>

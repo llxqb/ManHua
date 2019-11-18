@@ -59,6 +59,7 @@ public class LongDeleteActivity extends BaseActivity implements LongDeleteContro
     @Override
     protected void initContentView() {
         setContentView(R.layout.activity_long_delete);
+        mCommonTitleTv.setText(getResources().getString(R.string.LongDeleteActivity_select_title_tv));
         initInjectData();
     }
 

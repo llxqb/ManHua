@@ -95,7 +95,7 @@
                         android:layout_height="@dimen/dp_60"
                         android:layout_marginStart="@dimen/dp_6"
                         android:scaleType="fitXY"
-                        android:src="@mipmap/book_icon" />
+                        android:src="@mipmap/default_graph_2" />
 
                     <TextView
                         android:id="@+id/recent_read_book_name_tv"
@@ -182,9 +182,9 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/bookshelf_recycler_view"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_5"
-                android:layout_marginEnd="@dimen/dp_5"
-                android:layout_height="wrap_content" />
+                android:layout_marginEnd="@dimen/dp_5" />
 
             <!--为你推荐 -->
             <RelativeLayout
@@ -200,7 +200,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_10"
-                    android:text="@string/BookShelfFragment_recommend_hint_tv" />
+                    android:drawableStart="@mipmap/bookcity_recommend"
+                    android:drawablePadding="@dimen/dp_6"
+                    android:text="@string/BookShelfFragment_recommend_hint_tv"
+                    android:textColor="@color/color_30"
+                    android:textSize="@dimen/sp_18"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/change_tv"
@@ -212,7 +217,8 @@
                     android:drawablePadding="@dimen/dp_6"
                     android:text="@string/BookShelfFragment_change_tv"
                     android:textColor="#B4B4B4"
-                    android:textSize="@dimen/sp_13" />
+                    android:textSize="@dimen/sp_13"
+                    android:visibility="invisible" />
             </RelativeLayout>
 
             <android.support.v7.widget.RecyclerView
@@ -220,8 +226,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_5"
-                android:layout_marginEnd="@dimen/dp_5"
-                android:layout_marginTop="@dimen/dp_10" />
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginEnd="@dimen/dp_5" />
         </LinearLayout>
     </LinearLayout>
 

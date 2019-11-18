@@ -22,6 +22,7 @@
     <string name="BookShelfFragment_change_tv">换一批</string>
     <string name="BookShelfAdapter_more_tv">Point I found \nMore cartoons</string>
 
+    <string name="LongDeleteActivity_select_title_tv">请选择</string>
     <string name="LongDeleteActivity_select_tv">已选择</string>
     <string name="LongDeleteActivity_select_all">全选</string>
     <string name="LongDeleteActivity_select_all_no">全不选</string>
@@ -34,5 +35,9 @@
     <string name="ReadActivity_bottom_comment">评论</string>
     <string name="ReadActivity_bottom_share">分享</string>
     <string name="ReadActivity_bottom_setting">设置</string>
+    <string name="ReadActivity_pre_chapter">上一篇</string>
+    <string name="ReadActivity_next_chapter">下一篇</string>
+    <string name="ReadActivity_recommend_tv">其他人还在看</string>
+    <string name="ReadActivity_comment_tv">评论</string>
 
 </resources>

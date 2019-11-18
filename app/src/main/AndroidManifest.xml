@@ -29,7 +29,9 @@
         <activity android:name=".mvp.ui.activity.book.CommentDetailsActivity" />
         <activity android:name=".mvp.ui.activity.book.BookDetailActivity" />
         <activity android:name=".mvp.ui.activity.book.BarrageSettingActivity" />
-        <activity android:name=".mvp.ui.activity.book.ReadActivity" />
+        <activity
+            android:name=".mvp.ui.activity.book.ReadActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".mvp.ui.activity.main.MainActivity"
             android:launchMode="singleTask"
