@@ -81,6 +81,7 @@
                     android:textSize="@dimen/sp_12" />
 
                 <RelativeLayout
+                    android:id="@+id/continue_read_rl"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_14"
@@ -142,13 +143,14 @@
                         android:background="@color/white" />
 
                     <LinearLayout
-                        android:id="@+id/continue_read_ll"
+                        android:id="@+id/read_record_ll"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:layout_toEndOf="@id/line1"
                         android:gravity="center"
+                        android:padding="@dimen/dp_10"
                         android:orientation="vertical">
 
                         <ImageView

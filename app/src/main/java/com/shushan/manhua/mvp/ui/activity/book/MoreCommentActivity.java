@@ -35,6 +35,7 @@ public class MoreCommentActivity extends BaseActivity implements MoreCommentCont
     @Override
     protected void initContentView() {
         setContentView(R.layout.activity_more_comment);
+        setStatusBar();
         initInjectData();
     }
 
@@ -55,15 +56,16 @@ public class MoreCommentActivity extends BaseActivity implements MoreCommentCont
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.common_back_iv:
+                finish();
                 break;
-            case R.id.comment_tv:
+            case R.id.comment_tv://发表评论
+
                 break;
         }
     }
 
     private class MyPageAdapter extends FragmentPagerAdapter {
         private List<Fragment> fragments = new ArrayList<Fragment>();
-
         MyPageAdapter(FragmentManager fm) {
             super(fm);
             LatestCommentFragment latestCommentFragment = new LatestCommentFragment();

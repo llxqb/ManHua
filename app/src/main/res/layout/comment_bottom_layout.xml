@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/comment_bottom_layout"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_60"
+    android:layout_alignParentBottom="true"
+    android:background="#F3F4F7">
+
+    <RelativeLayout
+        android:id="@+id/comment_content_rl"
+        android:layout_width="@dimen/dp_280"
+        android:layout_height="@dimen/dp_32"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/dp_18"
+        android:background="@drawable/bg_line_round_stroke_30">
+
+        <ImageView
+            android:id="@+id/comment_icon_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/dp_8"
+            android:src="@mipmap/history_delete_unchoose" />
+
+        <EditText
+            android:id="@+id/comment_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/dp_12"
+            android:layout_toEndOf="@id/comment_icon_iv"
+            android:background="@null"
+            android:hint="@string/LatestCommentFragment_comment_hint"
+            android:textColor="@color/color_30"
+            android:textSize="@dimen/sp_15" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/publish_comment_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/comment_content_rl"
+        android:gravity="center"
+        android:padding="@dimen/dp_5"
+        android:text="@string/LatestCommentFragment_publish"
+        android:textColor="@color/color_30"
+        android:textSize="@dimen/sp_16" />
+</RelativeLayout>

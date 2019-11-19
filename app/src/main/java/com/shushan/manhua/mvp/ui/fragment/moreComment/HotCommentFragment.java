@@ -31,7 +31,7 @@ public class HotCommentFragment extends BaseFragment implements HotCommentFragme
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_latest_comment, container, false);
+        View view = inflater.inflate(R.layout.fragment_hot_comment, container, false);
         initializeInjector();
         initView();
         initData();

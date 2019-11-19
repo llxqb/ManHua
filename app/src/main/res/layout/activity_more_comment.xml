@@ -19,8 +19,11 @@
         android:id="@+id/comment_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_10"
         android:padding="@dimen/dp_10"
-        android:text="评论"
+        android:text="@string/MoreCommentActivity_comment"
+        android:textColor="@color/color_30"
+        android:textSize="@dimen/sp_14"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -28,6 +31,8 @@
         android:id="@+id/xTabLayout"
         android:layout_width="0dp"
         android:layout_height="@dimen/dp_40"
+        android:layout_marginStart="@dimen/dp_20"
+        android:layout_marginEnd="@dimen/dp_20"
         app:layout_constraintEnd_toStartOf="@id/comment_tv"
         app:layout_constraintStart_toEndOf="@id/common_back_iv"
         app:layout_constraintTop_toTopOf="parent"

@@ -59,12 +59,13 @@ public class LongDeleteActivity extends BaseActivity implements LongDeleteContro
     @Override
     protected void initContentView() {
         setContentView(R.layout.activity_long_delete);
-        mCommonTitleTv.setText(getResources().getString(R.string.LongDeleteActivity_select_title_tv));
+        setStatusBar();
         initInjectData();
     }
 
     @Override
     public void initView() {
+        mCommonTitleTv.setText(getResources().getString(R.string.LongDeleteActivity_select_title_tv));
         if (getIntent() != null) {
             BookShelfResponse bookShelfResponse = getIntent().getParcelableExtra("bookShelfResponse");
             mBookShelfDeleteAdapter = new BookShelfDeleteAdapter(bookShelfResponseList);

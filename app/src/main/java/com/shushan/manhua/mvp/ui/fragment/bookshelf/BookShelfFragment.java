@@ -23,6 +23,7 @@ import com.shushan.manhua.entity.user.User;
 import com.shushan.manhua.mvp.ui.activity.book.BookDetailActivity;
 import com.shushan.manhua.mvp.ui.activity.book.LongDeleteActivity;
 import com.shushan.manhua.mvp.ui.activity.book.ReadActivity;
+import com.shushan.manhua.mvp.ui.activity.book.ReadingHistoryActivity;
 import com.shushan.manhua.mvp.ui.adapter.BookShelfAdapter;
 import com.shushan.manhua.mvp.ui.adapter.RecommendAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseFragment;
@@ -126,7 +127,7 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
         }
     }
 
-    @OnClick({R.id.search_rl, R.id.vip_center_tv, R.id.continue_read_ll, R.id.change_tv})
+    @OnClick({R.id.search_rl, R.id.vip_center_tv, R.id.continue_read_rl, R.id.read_record_ll, R.id.change_tv})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.search_rl:
@@ -135,8 +136,11 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
             case R.id.vip_center_tv:
                 showToast("会员中心");
                 break;
-            case R.id.continue_read_ll:
+            case R.id.continue_read_rl:
                 showToast("继续阅读");
+                break;
+            case R.id.read_record_ll:
+                startActivitys(ReadingHistoryActivity.class);
                 break;
             case R.id.change_tv:
                 showToast("换一批");

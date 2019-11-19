@@ -20,6 +20,6 @@ public class ReadingCommentAdapter extends BaseQuickAdapter<ReadingCommendRespon
 
     @Override
     protected void convert(BaseViewHolder helper, ReadingCommendResponse item) {
-
+        helper.addOnClickListener(R.id.look_all_comment_tv);
     }
 }

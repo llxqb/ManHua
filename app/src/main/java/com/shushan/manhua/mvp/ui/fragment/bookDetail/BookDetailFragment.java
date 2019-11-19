@@ -93,7 +93,6 @@ public class BookDetailFragment extends BaseFragment implements BookDetailFragme
                 showToast("发表评论");
                 break;
             case R.id.more_comment_tv:
-                showToast("更多评论");
                 startActivitys(MoreCommentActivity.class);
                 break;
             case R.id.start_reading_tv:

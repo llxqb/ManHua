@@ -6,4 +6,44 @@
     android:layout_height="match_parent"
     tools:context=".mvp.ui.activity.book.ReadingHistoryActivity">
 
+    <include layout="@layout/common_toolbar" />
+
+    <LinearLayout
+        android:id="@+id/history_bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_52"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/select_all_tv"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/ReadingHistoryActivity_select_all" />
+
+        <View style="@style/line_width_05" />
+
+        <TextView
+            android:id="@+id/delete_tv"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/ReadingHistoryActivity_delete" />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/history_record_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:paddingBottom="@dimen/dp_10"
+        app:layout_constraintBottom_toTopOf="@id/history_bottom_layout"
+        app:layout_constraintTop_toBottomOf="@id/common_toolbar_layout" />
+
+
 </android.support.constraint.ConstraintLayout>

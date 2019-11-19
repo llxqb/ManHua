@@ -71,7 +71,20 @@
     <string name="BookDetailFragment_more_comment">查看更多评论</string>
     <string name="BookDetailFragment_start_reading">开始阅读</string>
 
+    <string name="MoreCommentActivity_comment">评论</string>
     <string name="MoreCommentActivity_latest_tv">最新</string>
     <string name="MoreCommentActivity_hot_tv">最热</string>
+
+    <string name="LatestCommentFragment_comment_hint">吐槽什么的尽管来～</string>
+    <string name="LatestCommentFragment_publish">发表</string>
+
+    <string name="CommentDetailsActivity_title">评论详情</string>
+
+    <string name="ReadingHistoryActivity_title">浏览历史</string>
+    <string name="ReadingHistoryActivity_edit">编辑</string>
+    <string name="ReadingHistoryActivity_edit_cancel">取消</string>
+    <string name="ReadingHistoryActivity_select_all">全选</string>
+    <string name="ReadingHistoryActivity_select_all_no">全不选</string>
+    <string name="ReadingHistoryActivity_delete">删除</string>
 
 </resources>
