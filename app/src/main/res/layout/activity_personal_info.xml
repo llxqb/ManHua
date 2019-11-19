@@ -6,4 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".mvp.ui.activity.user.PersonalInfoActivity">
 
+
+
+
+
 </android.support.constraint.ConstraintLayout>

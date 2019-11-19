@@ -6,4 +6,194 @@
     android:layout_height="match_parent"
     tools:context=".mvp.ui.activity.mine.MemberCenterActivity">
 
+
+    <RelativeLayout
+        android:id="@+id/bottom_rl"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_52"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/money_tv"
+            android:layout_width="@dimen/dp_154"
+            android:layout_height="match_parent"
+            android:background="#F5F2FF"
+            android:gravity="center"
+            android:text="$ 9.99"
+            android:textColor="#915AFF"
+            android:textSize="@dimen/sp_20" />
+
+        <TextView
+            android:id="@+id/pay_tv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toEndOf="@id/money_tv"
+            android:background="@drawable/gradient_pay_bg"
+            android:gravity="center"
+            android:text="@string/PersonalInfoActivity_pay"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_17" />
+
+    </RelativeLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/bottom_rl"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.shushan.manhua.mvp.views.ResizableImageView
+                android:id="@+id/top_iv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/vip_center_background"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/common_back_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_25"
+                android:padding="@dimen/dp_10"
+                android:src="@mipmap/back_write"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/common_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_25"
+                android:text="@string/PersonalInfoActivity_title"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_16"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <ImageView
+                android:id="@+id/avatar_iv"
+                android:layout_width="@dimen/dp_43"
+                android:layout_height="@dimen/dp_43"
+                android:layout_marginStart="@dimen/dp_43"
+                android:layout_marginTop="@dimen/dp_88"
+                android:src="@mipmap/default_head"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <ImageView
+                android:id="@+id/become_vip_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_9"
+                android:layout_marginTop="@dimen/dp_88"
+                android:src="@mipmap/recharge_vip"
+                app:layout_constraintStart_toEndOf="@id/avatar_iv"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_6"
+                android:text="@string/PersonalInfoActivity_become_vip_hint"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_12"
+                app:layout_constraintStart_toEndOf="@id/avatar_iv"
+                app:layout_constraintTop_toBottomOf="@id/become_vip_iv" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_44"
+                android:layout_marginTop="@dimen/dp_12"
+                android:text="@string/PersonalInfoActivity_become_vip_saving_money"
+                android:textColor="#FFD775"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/avatar_iv" />
+
+
+            <TextView
+                android:id="@+id/get_beans_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginEnd="@dimen/dp_40"
+                android:background="@drawable/gradient_get_beans_bg"
+                android:gravity="center"
+                android:paddingStart="@dimen/dp_14"
+                android:paddingTop="@dimen/dp_4"
+                android:paddingEnd="@dimen/dp_14"
+                android:paddingBottom="@dimen/dp_4"
+                android:text="@string/PersonalInfoActivity_get_beans"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/avatar_iv" />
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_20"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/top_iv" />
+
+
+            <TextView
+                android:id="@+id/vip_profit_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_20"
+                android:layout_marginTop="@dimen/dp_30"
+                android:text="@string/PersonalInfoActivity_vip_profit_hint"
+                android:textColor="@color/color_30"
+                android:textSize="@dimen/sp_17"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/recycler_view" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/vip_profit_recycler_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_20"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/vip_profit_hint" />
+
+
+            <TextView
+                android:id="@+id/profit_text_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_20"
+                android:text="会员可每日免费领取20漫豆的礼包。"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/vip_profit_recycler_view" />
+
+            <ImageView
+                android:id="@+id/profit_img_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_16"
+                android:layout_marginBottom="@dimen/dp_15"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/profit_text_tv" />
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+
 </android.support.constraint.ConstraintLayout>

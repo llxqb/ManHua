@@ -62,6 +62,9 @@
     <color name="color_30">#303030</color>
     <color name="color_6d">#6d6d6d</color>
     <color name="shadow">#50E0E1EC</color><!-- 阴影-->
+    <color name="subscription_check_color">#8981B3</color><!-- 阴影-->
+    <color name="buy_check_color">#915AFF</color><!-- 阴影-->
+    <color name="buy_no_check_color">#83848D</color><!-- 阴影-->
 
 
 </resources>

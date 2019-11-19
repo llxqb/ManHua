@@ -49,13 +49,13 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
     @Override
     protected void initContentView() {
         setContentView(R.layout.activity_book_detail);
+        StatusBarUtil.setTransparentForImageView(this, null);
         initInjectData();
     }
 
     @Override
     public void initView() {
         titles = new String[]{getResources().getString(R.string.BookDetailActivity_detail_tv), getResources().getString(R.string.BookDetailActivity_selection_tv)};
-        StatusBarUtil.setTransparentForImageView(this, null);
         mViewPager.setOffscreenPageLimit(2);
         mViewPager.setAdapter(new MyPageAdapter(getSupportFragmentManager()));
         mXTabLayout.setupWithViewPager(mViewPager);

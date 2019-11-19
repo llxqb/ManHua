@@ -87,4 +87,33 @@
     <string name="ReadingHistoryActivity_select_all_no">全不选</string>
     <string name="ReadingHistoryActivity_delete">删除</string>
 
+    <string name="MineFragment_beans_tv">漫豆</string>
+    <string name="MineFragment_recharge">充值</string>
+    <string name="MineFragment_open_vip">立即开通</string>
+    <string name="MineFragment_welfare_hint_title">福利专区</string>
+    <string name="MineFragment_check_in">签到领漫豆</string>
+    <string name="MineFragment_check_in_hint">人已领</string>
+    <string name="MineFragment_check_in_vip">会员领漫豆</string>
+    <string name="MineFragment_reading_hint_title">阅读偏好</string>
+    <string name="MineFragment_reading_record">阅读记录</string>
+    <string name="MineFragment_buy_book">已购漫画</string>
+    <string name="MineFragment_other_hint_title">其它</string>
+    <string name="MineFragment_other_feedback">意见反馈</string>
+
+    <string name="PersonalInfoActivity_title">会员中心</string>
+    <string name="PersonalInfoActivity_become_vip_hint">开通会员，享多重特权</string>
+    <string name="PersonalInfoActivity_become_vip_saving_money">开通会员每月可省 $25</string>
+    <string name="PersonalInfoActivity_get_beans">领取漫豆</string>
+    <string name="PersonalInfoActivity_vip_profit_hint">会员权益说明</string>
+    <string name="PersonalInfoActivity_pay">立即开通</string>
+
+    <string name="MemberCenterActivity_beans_everyday">每日漫豆</string>
+    <string name="MemberCenterActivity_restriction">作品限免</string>
+    <string name="MemberCenterActivity_discount">会员折扣</string>
+    <string name="MemberCenterActivity_barrage">会员弹幕</string>
+    <string name="MemberCenterActivity_Identity">尊贵身份</string>
+
+    <string name="BuyAdapter_subscription">谷歌订阅</string>
+
+
 </resources>
