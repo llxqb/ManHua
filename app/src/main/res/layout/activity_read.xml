@@ -43,7 +43,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:drawableTop="@mipmap/title_praise_gray"
+                    android:drawableTop="@mipmap/cartoon_chapter_praise_black"
                     android:drawablePadding="@dimen/dp_5"
                     android:gravity="center"
                     android:text="赞 8990" />

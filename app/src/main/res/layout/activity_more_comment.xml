@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".mvp.ui.activity.book.MoreCommentActivity">
+
+    <ImageView
+        android:id="@+id/common_back_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp_10"
+        android:src="@drawable/vector_arrow_left"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/comment_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp_10"
+        android:text="评论"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.androidkun.xtablayout.XTabLayout
+        android:id="@+id/xTabLayout"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_40"
+        app:layout_constraintEnd_toStartOf="@id/comment_tv"
+        app:layout_constraintStart_toEndOf="@id/common_back_iv"
+        app:layout_constraintTop_toTopOf="parent"
+        app:xTabIndicatorColor="@color/color_30"
+        app:xTabIndicatorHeight="@dimen/dp_4"
+        app:xTabIndicatorWidth="@dimen/dp_20"
+        app:xTabMode="fixed"
+        app:xTabSelectedTextColor="@color/color_30"
+        app:xTabSelectedTextSize="@dimen/sp_18"
+        app:xTabTextColor="@color/color_9b"
+        app:xTabTextSelectedBold="true"
+        app:xTabTextSize="@dimen/sp_18" />
+
+    <!--<View style="@style/line_height_1" />-->
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/xTabLayout" />
+</android.support.constraint.ConstraintLayout>

@@ -26,6 +26,7 @@ import com.shushan.manhua.mvp.ui.activity.book.ReadActivity;
 import com.shushan.manhua.mvp.ui.adapter.BookShelfAdapter;
 import com.shushan.manhua.mvp.ui.adapter.RecommendAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseFragment;
+import com.shushan.manhua.mvp.utils.StatusBarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,6 +66,7 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_bookshelf, container, false);
+        StatusBarUtil.setTransparentForImageViewInFragment(getActivity(), null);
         unbinder = ButterKnife.bind(this, view);
         initializeInjector();
         mUser = mBuProcessor.getUser();

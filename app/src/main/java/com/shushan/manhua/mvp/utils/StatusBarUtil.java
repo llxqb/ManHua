@@ -447,7 +447,7 @@ public class StatusBarUtil {
     }
 
     /**
-     * 为 fragment 头部是 ImageView 的设置状态栏透明
+     * 为 fragment 头部是 ImageView 的设置状态栏全透明
      *
      * @param activity       fragment 对应的 activity
      * @param needOffsetView 需要向下偏移的 View

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/dp_18">
+
+        <TextView
+            android:id="@+id/desc_hint_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_24"
+            android:drawableStart="@drawable/bg_rectangle_blue"
+            android:drawablePadding="@dimen/dp_6"
+            android:gravity="center"
+            android:text="@string/BookDetailFragment_book_desc_hint"
+            android:textColor="@color/color_30"
+            android:textSize="@dimen/sp_16"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/desc_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_12"
+            android:layout_marginEnd="@dimen/dp_20"
+            android:text="傲娇男五月奉急先锋之命，对晓雨进行贴身保护。充满了青先锋之命，对晓雨进行贴身保护。充满了青先锋之命，对晓雨进行贴身保护。充满了青先锋之命，对晓雨进行贴身保护。充满了青"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/desc_hint_tv" />
+
+
+        <TextView
+            android:id="@+id/author_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_18"
+            android:text="作者：谷子远远"
+            android:textColor="@color/first_text_color"
+            android:textSize="@dimen/sp_14"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/desc_tv" />
+
+
+        <TextView
+            android:id="@+id/comment_num_hint_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_19"
+            android:drawableStart="@mipmap/details_page_comments_number"
+            android:drawablePadding="@dimen/dp_4"
+            android:text="@string/BookDetailFragment_comment_num"
+            android:textColor="@color/color_80"
+            android:textSize="@dimen/sp_12"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/author_tv" />
+
+        <TextView
+            android:id="@+id/comment_num_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_6"
+            android:layout_marginTop="@dimen/dp_19"
+            android:text="1111"
+            android:textColor="@color/color_80"
+            android:textSize="@dimen/sp_12"
+            app:layout_constraintStart_toEndOf="@id/comment_num_hint_tv"
+            app:layout_constraintTop_toBottomOf="@id/author_tv" />
+
+
+        <TextView
+            android:id="@+id/collection_num_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_30"
+            android:layout_marginTop="@dimen/dp_19"
+            android:drawableStart="@mipmap/details_page_follow_number"
+            android:drawablePadding="@dimen/dp_4"
+            android:textColor="@color/color_80"
+            android:textSize="@dimen/sp_12"
+            app:layout_constraintStart_toEndOf="@id/comment_num_tv"
+            app:layout_constraintTop_toBottomOf="@id/author_tv" />
+
+        <View
+            android:id="@+id/line1"
+            style="@style/line_height_1"
+            android:layout_marginTop="@dimen/dp_22"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/comment_num_hint_tv" />
+
+        <TextView
+            android:id="@+id/comment_hint_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_22"
+            android:drawableStart="@drawable/bg_rectangle_blue"
+            android:drawablePadding="@dimen/dp_6"
+            android:text="@string/BookDetailFragment_comment_hint"
+            android:textColor="@color/color_30"
+            android:textSize="@dimen/sp_16"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line1" />
+
+        <TextView
+            android:id="@+id/publish_comment_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_22"
+            android:layout_marginEnd="@dimen/dp_20"
+            android:background="@drawable/bg_blue2_round_solid_30"
+            android:drawableStart="@mipmap/details_page_write_comments"
+            android:drawablePadding="@dimen/dp_4"
+            android:paddingStart="@dimen/dp_10"
+            android:paddingTop="@dimen/dp_3"
+            android:paddingEnd="@dimen/dp_10"
+            android:paddingBottom="@dimen/dp_3"
+            android:text="@string/BookDetailFragment_submit_comment"
+            android:textColor="#8981B3"
+            android:textSize="@dimen/sp_13"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line1" />
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/comment_recycler_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_22"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/comment_hint_tv" />
+
+        <TextView
+            android:id="@+id/more_comment_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:drawableEnd="@mipmap/more_comments"
+            android:drawablePadding="@dimen/dp_5"
+            android:padding="@dimen/dp_5"
+            android:text="@string/BookDetailFragment_more_comment"
+            android:textColor="@color/color_80"
+            android:textSize="@dimen/sp_10"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/comment_recycler_view" />
+
+
+        <TextView
+            android:id="@+id/start_reading_tv"
+            android:layout_width="@dimen/dp_305"
+            android:layout_height="@dimen/dp_40"
+            android:layout_marginTop="@dimen/dp_28"
+            android:background="@drawable/start_reading_bg"
+            android:gravity="center"
+            android:text="@string/BookDetailFragment_start_reading"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_18"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/more_comment_tv" />
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.v4.widget.NestedScrollView>

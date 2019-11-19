@@ -111,7 +111,6 @@ public class ReadContentsPopupWindow {
                 //计算比例
                 float proportion = endX / maxEndX;
 
-                LogUtils.e("proportion:" + proportion);
                 mSeekBar.setProgress((int) (proportion * 100));
 //                //计算滚动条宽度
 //                int transMaxRange = ((ViewGroup) mSeekBar.getParent()).getWidth() - mSeekBar.getWidth();

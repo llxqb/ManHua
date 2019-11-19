@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <!-- 0 是从左到右渐变；45是从左下角向右上角渐变；90是从下到上，135是从右下角到左上角；180则是从右到左；（当然也可以是 -45，-90....）-->
+    <gradient
+        android:angle="180"
+        android:endColor="#C66CFF"
+        android:startColor="#636FFF"
+        android:type="linear" />
+    <corners android:radius="@dimen/dp_8" />
+</shape>

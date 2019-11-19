@@ -60,4 +60,18 @@
     <string name="ReadSettingPopupWindow_barrage_hint">不看弹幕，可能错过很多不一样的精彩哦~</string>
     <string name="ReadSettingPopupWindow_more">更多弹幕设置</string>
 
+    <string name="BookDetailActivity_detail_tv">详情</string>
+    <string name="BookDetailActivity_selection_tv">选集</string>
+
+    <string name="BookDetailFragment_book_desc_hint">作品简介</string>
+    <string name="BookDetailFragment_comment_num">总评论数</string>
+    <string name="BookDetailFragment_connection_num">万人已加入书架</string>
+    <string name="BookDetailFragment_comment_hint">评论</string>
+    <string name="BookDetailFragment_submit_comment">发表评论</string>
+    <string name="BookDetailFragment_more_comment">查看更多评论</string>
+    <string name="BookDetailFragment_start_reading">开始阅读</string>
+
+    <string name="MoreCommentActivity_latest_tv">最新</string>
+    <string name="MoreCommentActivity_hot_tv">最热</string>
+
 </resources>

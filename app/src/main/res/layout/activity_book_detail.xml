@@ -1,9 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".mvp.ui.activity.book.BookDetailActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_214">
+
+        <ImageView
+            android:id="@+id/cover_iv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/default_graph_1" />
+
+        <ImageView
+            android:id="@+id/common_left_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_15"
+            android:background="@drawable/selector_back_img_bg"
+            android:padding="@dimen/dp_10"
+            android:src="@drawable/vector_arrow_left" />
+
+
+        <TextView
+            android:id="@+id/username_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_133"
+            android:text="Pelopor"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_20" />
+
+        <!-- 加入书架-->
+        <ImageView
+            android:id="@+id/add_bookshelf_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/dp_125"
+            android:src="@mipmap/bookcity_top_list" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/label_recycler_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/username_tv"
+            android:layout_marginStart="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_15" />
+
+    </RelativeLayout>
+
+
+
+    <com.androidkun.xtablayout.XTabLayout
+        android:id="@+id/xTabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        app:xTabIndicatorColor="@color/color_30"
+        app:xTabIndicatorHeight="@dimen/dp_4"
+        app:xTabIndicatorWidth="@dimen/dp_20"
+        app:xTabMode="fixed"
+        app:xTabSelectedTextColor="@color/color_30"
+        app:xTabSelectedTextSize="@dimen/sp_18"
+        app:xTabTextColor="@color/color_9b"
+        app:xTabTextSelectedBold="true"
+        app:xTabTextSize="@dimen/sp_18" />
+
+    <!--<View style="@style/line_height_1" />-->
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>
