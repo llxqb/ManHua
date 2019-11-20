@@ -48,6 +48,7 @@ public class ReadingHistoryActivity extends BaseActivity implements ReadingHisto
     @Override
     protected void initContentView() {
         setContentView(R.layout.activity_history_read);
+        setStatusBar();
         initInjectData();
     }
 

@@ -1,29 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".mvp.ui.activity.mine.TransactionDetailsActivity">
 
-    <include layout="@layout/common_toolbar"/>
+    <ImageView
+        android:id="@+id/common_left_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_5"
+        android:background="@drawable/selector_back_img_bg"
+        android:padding="@dimen/dp_10"
+        android:src="@drawable/vector_arrow_left"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tab_layout"
-        android:layout_width="match_parent"
+    <com.androidkun.xtablayout.XTabLayout
+        android:id="@+id/xTabLayout"
+        android:layout_width="0dp"
         android:layout_height="@dimen/dp_40"
-        android:theme="@style/Theme.AppCompat"
-        app:tabIndicatorColor="@color/color_transparent"
-        app:tabSelectedTextColor="#FF5353"
-        app:tabTextAppearance="@style/TabLayoutTextStyle"
-        app:tabMode="fixed"
-        android:background="#F6F6FA"
-        app:tabTextColor="#9495A0"/>
+        android:layout_marginStart="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_5"
+        android:layout_marginEnd="@dimen/dp_40"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/common_left_iv"
+        app:layout_constraintTop_toTopOf="parent"
+        app:xTabIndicatorColor="@color/color_30"
+        app:xTabIndicatorHeight="@dimen/dp_4"
+        app:xTabIndicatorWidth="@dimen/dp_20"
+        app:xTabMode="fixed"
+        app:xTabSelectedTextColor="@color/color_30"
+        app:xTabSelectedTextSize="@dimen/sp_16"
+        app:xTabTextColor="@color/color_9b"
+        app:xTabTextSelectedBold="true"
+        app:xTabTextSize="@dimen/sp_16" />
 
 
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-</LinearLayout>
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/xTabLayout" />
+</android.support.constraint.ConstraintLayout>

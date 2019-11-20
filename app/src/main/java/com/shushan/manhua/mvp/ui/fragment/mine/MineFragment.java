@@ -20,7 +20,9 @@ import com.shushan.manhua.di.modules.MainModule;
 import com.shushan.manhua.di.modules.MineFragmentModule;
 import com.shushan.manhua.entity.response.MineReadingResponse;
 import com.shushan.manhua.entity.user.User;
+import com.shushan.manhua.mvp.ui.activity.mine.BuyActivity;
 import com.shushan.manhua.mvp.ui.activity.mine.MemberCenterActivity;
+import com.shushan.manhua.mvp.ui.activity.user.PersonalInfoActivity;
 import com.shushan.manhua.mvp.ui.adapter.MineReadingAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseFragment;
 import com.shushan.manhua.mvp.utils.StatusBarUtil;
@@ -107,7 +109,7 @@ public class MineFragment extends BaseFragment implements MineFragmentControl.Mi
         mReadingRecyclerView.setLayoutManager(linearLayoutManager);
         mReadingRecyclerView.setAdapter(mMineReadingAdapter);
         mMineReadingAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-            switch (position){
+            switch (position) {
                 case 0://阅读偏好
                     showToast("阅读偏好");
                     break;
@@ -121,19 +123,22 @@ public class MineFragment extends BaseFragment implements MineFragmentControl.Mi
         });
     }
 
-    @OnClick({R.id.avatar_iv, R.id.setting_iv, R.id.message_ll, R.id.recharge_tv, R.id.become_vip_tv, R.id.check_in_beans_ll, R.id.vip_check_in_beans_ll, R.id.feedback_tv})
+    @OnClick({R.id.avatar_iv, R.id.setting_iv, R.id.message_ll, R.id.recharge_tv, R.id.vip_icon, R.id.become_vip_tv, R.id.check_in_beans_ll, R.id.vip_check_in_beans_ll, R.id.feedback_tv})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.avatar_iv:
-                startActivitys(MemberCenterActivity.class);
+                startActivitys(PersonalInfoActivity.class);
                 break;
             case R.id.setting_iv:
                 break;
             case R.id.message_ll:
                 break;
-            case R.id.recharge_tv:
+            case R.id.recharge_tv://充值中心
+                startActivitys(BuyActivity.class);
                 break;
-            case R.id.become_vip_tv:
+            case R.id.vip_icon://立即开通
+            case R.id.become_vip_tv://立即开通
+                startActivitys(MemberCenterActivity.class);
                 break;
             case R.id.check_in_beans_ll:
                 break;

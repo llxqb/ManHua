@@ -27,22 +27,54 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
-        <activity android:name=".mvp.ui.activity.book.MoreCommentActivity"></activity>
-        <activity android:name=".mvp.ui.activity.book.LongDeleteActivity" />
-        <activity android:name=".mvp.ui.activity.mine.CheckInActivity" />
-        <activity android:name=".mvp.ui.activity.mine.PurchasedActivity" />
-        <activity android:name=".mvp.ui.activity.mine.FeedbackActivity" />
-        <activity android:name=".mvp.ui.activity.setting.SettingActivity" />
-        <activity android:name=".mvp.ui.activity.user.MessageActivity" />
-        <activity android:name=".mvp.ui.activity.user.PersonalInfoActivity" />
-        <activity android:name=".mvp.ui.activity.mine.TransactionDetailsActivity" />
-        <activity android:name=".mvp.ui.activity.mine.BuyActivity" />
-        <activity android:name=".mvp.ui.activity.mine.MemberCenterActivity" />
-        <activity android:name=".mvp.ui.activity.book.SearchActivity" />
-        <activity android:name=".mvp.ui.activity.book.ReadingHistoryActivity" />
-        <activity android:name=".mvp.ui.activity.book.CommentDetailsActivity" />
-        <activity android:name=".mvp.ui.activity.book.BookDetailActivity" />
-        <activity android:name=".mvp.ui.activity.book.BarrageSettingActivity" />
+        <activity
+            android:name=".mvp.ui.activity.book.MoreCommentActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.ui.activity.book.LongDeleteActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.ui.activity.mine.CheckInActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.ui.activity.mine.PurchasedActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.ui.activity.mine.FeedbackActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.ui.activity.setting.SettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.ui.activity.user.MessageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.ui.activity.user.PersonalInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.ui.activity.mine.TransactionDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.ui.activity.mine.BuyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.ui.activity.mine.MemberCenterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.ui.activity.book.SearchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.ui.activity.book.ReadingHistoryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.ui.activity.book.CommentDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.ui.activity.book.BookDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.ui.activity.book.BarrageSettingActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".mvp.ui.activity.book.ReadActivity"
             android:windowSoftInputMode="stateVisible|adjustResize|stateHidden" />

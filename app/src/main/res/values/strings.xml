@@ -100,12 +100,12 @@
     <string name="MineFragment_other_hint_title">其它</string>
     <string name="MineFragment_other_feedback">意见反馈</string>
 
-    <string name="PersonalInfoActivity_title">会员中心</string>
-    <string name="PersonalInfoActivity_become_vip_hint">开通会员，享多重特权</string>
-    <string name="PersonalInfoActivity_become_vip_saving_money">开通会员每月可省 $25</string>
-    <string name="PersonalInfoActivity_get_beans">领取漫豆</string>
-    <string name="PersonalInfoActivity_vip_profit_hint">会员权益说明</string>
-    <string name="PersonalInfoActivity_pay">立即开通</string>
+    <string name="MemberCenterActivity_title">会员中心</string>
+    <string name="MemberCenterActivity_become_vip_hint">开通会员，享多重特权</string>
+    <string name="MemberCenterActivity_become_vip_saving_money">开通会员每月可省 $25</string>
+    <string name="MemberCenterActivity_get_beans">领取漫豆</string>
+    <string name="MemberCenterActivity_vip_profit_hint">会员权益说明</string>
+    <string name="MemberCenterActivity_pay">立即开通</string>
 
     <string name="MemberCenterActivity_beans_everyday">每日漫豆</string>
     <string name="MemberCenterActivity_restriction">作品限免</string>
@@ -114,6 +114,30 @@
     <string name="MemberCenterActivity_Identity">尊贵身份</string>
 
     <string name="BuyAdapter_subscription">谷歌订阅</string>
+
+    <string name="BuyActivity_title">充值中心</string>
+    <string name="BuyActivity_right_title">明细</string>
+    <string name="BuyActivity_beans">漫豆</string>
+    <string name="BuyActivity_Invalid_beans_detail">详情</string>
+    <string name="BuyActivity_Recharge_instructions">充值说明：</string>
+    <string name="BuyActivity_Recharge_instructions_tv">1.充值赠送的漫豆将在次月最后一天24:00到期。\n2.充值遇到问题，请联系客服。</string>
+    <string name="BuyActivity_buy">立即购买</string>
+
+    <string name="TransactionDetailsActivity_RechargeRecord">充值记录</string>
+    <string name="TransactionDetailsActivity_ExpensesRecordF">消费记录</string>
+
+    <string name="RechargeRecordAdapter_beans">漫豆</string>
+
+    <string name="BeansExpiredDialog_title">提示</string>
+    <string name="BeansExpiredDialog_hint">赠送的漫豆快到期啦！记得花掉哟~</string>
+    <string name="BeansExpiredDialog_beans">漫豆</string>
+
+    <string name="PersonalInfoActivity_title">个人资料</string>
+    <string name="PersonalInfoActivity_right_title">保存</string>
+    <string name="PersonalInfoActivity_nick">昵称</string>
+    <string name="PersonalInfoActivity_sex">性别</string>
+    <string name="PersonalInfoActivity_birthday">生日</string>
+    <string name="PersonalInfoActivity_select">请选择</string>
 
 
 </resources>

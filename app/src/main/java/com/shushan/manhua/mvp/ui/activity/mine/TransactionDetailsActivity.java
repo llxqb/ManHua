@@ -1,12 +1,11 @@
 package com.shushan.manhua.mvp.ui.activity.mine;
 
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.widget.TextView;
 
+import com.androidkun.xtablayout.XTabLayout;
 import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerTransactionDetailsComponent;
 import com.shushan.manhua.di.modules.ActivityModule;
@@ -26,30 +25,29 @@ import butterknife.OnClick;
  */
 public class TransactionDetailsActivity extends BaseActivity implements TransactionDetailsControl.TransactionDetailsView{
 
-    @BindView(R.id.common_title_tv)
-    TextView mCommonTitleTv;
-    @BindView(R.id.tab_layout)
-    TabLayout mTabLayout;
+    @BindView(R.id.xTabLayout)
+    XTabLayout mXTabLayout;
     @BindView(R.id.view_pager)
     ViewPager mViewPager;
-    String[] titles = {"充值记录", "消费记录"};
+    String[] titles;
 
     @Override
     protected void initContentView() {
         setContentView(R.layout.activity_transaction_details);
+        setStatusBar();
         initInjectData();
     }
 
     @Override
     public void initView() {
+        titles = new String[]{getResources().getString(R.string.TransactionDetailsActivity_RechargeRecord), getResources().getString(R.string.TransactionDetailsActivity_ExpensesRecordF)};
         mViewPager.setOffscreenPageLimit(2);
         mViewPager.setAdapter(new MyPageAdapter(getSupportFragmentManager()));
-        mTabLayout.setupWithViewPager(mViewPager);
+        mXTabLayout.setupWithViewPager(mViewPager);
     }
 
     @Override
     public void initData() {
-        mCommonTitleTv.setText("交易明细");
     }
 
     @OnClick(R.id.common_left_iv)

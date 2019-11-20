@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/dp_24"
+        android:paddingTop="@dimen/dp_14"
+        android:paddingEnd="@dimen/dp_24"
+        android:paddingBottom="@dimen/dp_14">
+
+        <TextView
+            android:id="@+id/title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="吞噬星空"
+            android:textColor="@color/first_text_color"
+            android:textSize="@dimen/sp_15" />
+
+        <TextView
+            android:id="@+id/book_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title_tv"
+            android:layout_marginTop="@dimen/dp_8"
+            android:text="购买：第14话 邀请（下）"
+            android:textColor="@color/color_6d"
+            android:textSize="@dimen/sp_15" />
+
+        <TextView
+            android:id="@+id/date_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/book_name_tv"
+            android:layout_marginTop="@dimen/dp_8"
+            android:text="2019-09-09  21:45"
+            android:textColor="#9495A0"
+            android:textSize="@dimen/sp_13" />
+
+        <TextView
+            android:id="@+id/beans"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:text="@string/RechargeRecordAdapter_beans"
+            android:textColor="#FF9100"
+            android:textSize="@dimen/sp_13" />
+
+        <TextView
+            android:id="@+id/beans_num_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/dp_8"
+            android:layout_toStartOf="@id/beans"
+            android:text="-50"
+            android:textColor="#FF9100"
+            android:textSize="@dimen/sp_24" />
+    </RelativeLayout>
+
+    <View style="@style/line_height_1" />
+</LinearLayout>

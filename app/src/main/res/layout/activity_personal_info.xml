@@ -6,8 +6,159 @@
     android:layout_height="match_parent"
     tools:context=".mvp.ui.activity.user.PersonalInfoActivity">
 
+    <com.shushan.manhua.mvp.views.ResizableImageView
+        android:id="@+id/top_iv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/personal_data_background"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/common_back_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_22"
+        android:padding="@dimen/dp_10"
+        android:src="@mipmap/back_write"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/common_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_28"
+        android:text="@string/PersonalInfoActivity_title"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_18"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:padding="@dimen/dp_10"
+        android:text="@string/PersonalInfoActivity_right_title"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_15"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
+    <com.shushan.manhua.mvp.views.CircleImageView
+        android:id="@+id/avatar_iv"
+        android:layout_width="@dimen/dp_90"
+        android:layout_height="@dimen/dp_90"
+        android:layout_marginTop="@dimen/dp_26"
+        android:src="@mipmap/default_head"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/common_title_tv" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/dp_209"
+        android:background="@drawable/bg_white_round_solid_top_30"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <!-- 昵称-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_60">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/dp_28"
+                android:text="@string/PersonalInfoActivity_nick"
+                android:textColor="@color/color_30"
+                android:textSize="@dimen/sp_16" />
+
+            <TextView
+                android:id="@+id/nick_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/dp_20"
+                android:drawableEnd="@mipmap/arrow_gray"
+                android:drawablePadding="@dimen/dp_8"
+                android:gravity="center"
+                android:paddingStart="@dimen/dp_10"
+                android:paddingEnd="@dimen/dp_1"
+                android:text="苏曼曼"
+                android:textColor="@color/color_30"
+                android:textSize="@dimen/sp_16" />
+        </RelativeLayout>
+
+        <View style="@style/line_height_1" />
+
+        <!-- 性别-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_60">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/dp_28"
+                android:text="@string/PersonalInfoActivity_sex"
+                android:textColor="@color/color_30"
+                android:textSize="@dimen/sp_16" />
+
+            <TextView
+                android:id="@+id/sex_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/dp_36"
+                android:text="苏曼曼"
+                android:textColor="@color/color_30"
+                android:textSize="@dimen/sp_16" />
+        </RelativeLayout>
+
+        <View style="@style/line_height_1" />
+
+        <!-- 昵称-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_60">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/dp_28"
+                android:text="@string/PersonalInfoActivity_birthday"
+                android:textColor="@color/color_30"
+                android:textSize="@dimen/sp_16" />
+
+            <TextView
+                android:id="@+id/birthday_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/dp_20"
+                android:drawableEnd="@mipmap/arrow_gray"
+                android:drawablePadding="@dimen/dp_8"
+                android:gravity="center"
+                android:hint="@string/PersonalInfoActivity_select"
+                android:paddingStart="@dimen/dp_10"
+                android:paddingEnd="@dimen/dp_1"
+                android:textColor="@color/color_30"
+                android:textSize="@dimen/sp_16" />
+        </RelativeLayout>
+
+        <View style="@style/line_height_1" />
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>
