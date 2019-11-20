@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/pay_dialog_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#90000000">
+
+    <!--支付dialog-->
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/pop_contain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="@dimen/dp_30"
+        android:layout_marginEnd="@dimen/dp_30"
+        android:layout_marginBottom="@dimen/dp_30"
+        android:background="@drawable/bg_white_round_solid_5"
+        android:minHeight="@dimen/dp_130"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/name_hint_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_15"
+            android:gravity="center_horizontal"
+            android:text="@string/EditNameDialog_nick"
+            android:textColor="@color/first_text_color"
+            android:textSize="@dimen/sp_18"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <EditText
+            android:id="@+id/name_et"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="@dimen/dp_13"
+            android:layout_marginTop="@dimen/dp_15"
+            android:layout_marginEnd="@dimen/dp_13"
+            android:background="@drawable/dialog_edit_bg"
+            android:gravity="start|center_vertical"
+            android:hint="@string/EditNameDialog_nick_hint"
+            android:lineSpacingExtra="@dimen/dp_3"
+            android:paddingStart="@dimen/dp_10"
+            android:paddingEnd="@dimen/dp_10"
+            android:textColor="@color/color666"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintTop_toBottomOf="@id/name_hint_tv" />
+
+
+        <View
+            android:id="@+id/line"
+            style="@style/line_height_1"
+            android:layout_marginTop="@dimen/dp_15"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/name_et" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/line">
+
+            <TextView
+                android:id="@+id/cancel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/EditNameDialog_cancel"
+                android:textColor="@color/color666"
+                android:textSize="@dimen/sp_16" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/line_color" />
+
+            <TextView
+                android:id="@+id/sure"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                android:text="@string/EditNameDialog_sure"
+                android:textColor="@color/first_text_color"
+                android:textSize="@dimen/sp_16" />
+
+        </LinearLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+</RelativeLayout>

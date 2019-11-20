@@ -130,9 +130,7 @@ dependencies {
     //gif
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.8'
     //图片加载框架 拍照选相册
-
-    //    implementation 'org.devio.takephoto:takephoto_library:4.1.0'
-//    implementation project(':takephoto_library')
+    implementation project(':takephoto_library')
 
     //banner
 //    implementation project(':mzbanner')

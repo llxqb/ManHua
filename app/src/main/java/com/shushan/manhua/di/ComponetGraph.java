@@ -2,6 +2,7 @@ package com.shushan.manhua.di;
 
 
 import com.shushan.manhua.ManHuaApplication;
+import com.shushan.manhua.mvp.ui.activity.setting.SettingActivity;
 import com.shushan.manhua.mvp.ui.base.BaseActivity;
 import com.shushan.manhua.mvp.ui.base.BaseFragment;
 
@@ -16,5 +17,5 @@ public interface ComponetGraph {
 
     void inject(BaseFragment baseFragment);
 
-//    void inject(FirstGuideActivity firstGuideActivity);//引导页
+    void inject(SettingActivity settingActivity);//设置
 }

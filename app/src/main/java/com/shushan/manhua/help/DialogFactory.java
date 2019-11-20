@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.shushan.manhua.R;
 import com.shushan.manhua.mvp.ui.base.BaseActivity;
+import com.shushan.manhua.mvp.ui.dialog.CommonDialog;
 
 import java.util.Calendar;
 
@@ -176,11 +177,11 @@ public class DialogFactory {
      * @param rightBtnText  右边按钮文字
      */
     public static void showCommonDialog(Activity context, String title, String subtitle, String leftBtnText, String rightBtnText, int style) {
-//        com.shushan.homework101.mvp.ui.dialog.CommonDialog commonDialog = com.shushan.homework101.mvp.ui.dialog.CommonDialog.newInstance();
-//        commonDialog.setListener((com.shushan.homework101.mvp.ui.dialog.CommonDialog.CommonDialogListener) context);
-//        commonDialog.setValue(title, subtitle, leftBtnText, rightBtnText);
-//        commonDialog.setStyle(style);
-//        DialogFactory.showDialogFragment(((BaseActivity) context).getSupportFragmentManager(), commonDialog, com.shushan.homework101.mvp.ui.dialog.CommonDialog.TAG);
+        CommonDialog commonDialog =CommonDialog.newInstance();
+        commonDialog.setListener((CommonDialog.CommonDialogListener) context);
+        commonDialog.setValue(title, subtitle, leftBtnText, rightBtnText);
+        commonDialog.setStyle(style);
+        DialogFactory.showDialogFragment(((BaseActivity) context).getSupportFragmentManager(), commonDialog, CommonDialog.TAG);
     }
 
 
@@ -194,10 +195,10 @@ public class DialogFactory {
      * @param rightBtnText  右边按钮文字
      */
     public static void showCommonFragmentDialog(Context context, Fragment fragment, String title, String subtitle, String leftBtnText, String rightBtnText) {
-//        com.shushan.homework101.mvp.ui.dialog.CommonDialog commonDialog = com.shushan.homework101.mvp.ui.dialog.CommonDialog.newInstance();
-//        commonDialog.setListener((com.shushan.homework101.mvp.ui.dialog.CommonDialog.CommonDialogListener) fragment);
-//        commonDialog.setValue(title, subtitle, leftBtnText, rightBtnText);
-//        DialogFactory.showDialogFragment(((BaseActivity) context).getSupportFragmentManager(), commonDialog, com.shushan.homework101.mvp.ui.dialog.CommonDialog.TAG);
+        CommonDialog commonDialog = CommonDialog.newInstance();
+        commonDialog.setListener((CommonDialog.CommonDialogListener) fragment);
+        commonDialog.setValue(title, subtitle, leftBtnText, rightBtnText);
+        DialogFactory.showDialogFragment(((BaseActivity) context).getSupportFragmentManager(), commonDialog, CommonDialog.TAG);
     }
 
 }

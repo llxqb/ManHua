@@ -139,5 +139,43 @@
     <string name="PersonalInfoActivity_birthday">生日</string>
     <string name="PersonalInfoActivity_select">请选择</string>
 
+    <string name="EditNameDialog_nick">昵称</string>
+    <string name="EditNameDialog_nick_hint">请输入你的昵称</string>
+    <string name="EditNameDialog_cancel">取消</string>
+    <string name="EditNameDialog_sure">确定</string>
+
+    <string name="AvatarPopupWindow_photo">拍照</string>
+    <string name="AvatarPopupWindow_album">相册</string>
+    <string name="AvatarPopupWindow_cancel">取消</string>
+
+    <string name="MessageActivity_title">我的消息</string>
+    <string name="MessageActivity_SentMessage">我发出的评论</string>
+    <string name="MessageActivity_ReceivedMessage">回复我的评论</string>
+    <string name="MessageActivity_Notice">通知</string>
+
+    <string name="SentMessageAdapter_delete">删除</string>
+
+    <string name="ReceivedMessageAdapter_comment">回复</string>
+
+    <string name="SettingActivity_title">设置</string>
+    <string name="SettingActivity_cache">清理缓存</string>
+    <string name="SettingActivity_version_update">版本更新</string>
+    <string name="SettingActivity_protocol">用户协议</string>
+    <string name="SettingActivity_about_us">关于我们</string>
+    <string name="SettingActivity_exit_login">退出当前帐号</string>
+    <string name="SettingActivity_cache_hint">你确定要清理缓存?</string>
+    <string name="SettingActivity_exit_hint">你确定要退出吗?</string>
+    <string name="SettingActivity_cancel">取消</string>
+    <string name="SettingActivity_sure">确定</string>
+
+
+
+
+
+
+    <string name="SelectDialogUtil_date_title">选择日期</string>
+    <string name="SelectDialogUtil_cancel">取消</string>
+    <string name="SelectDialogUtil_sure">确定</string>
+
 
 </resources>

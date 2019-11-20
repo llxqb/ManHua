@@ -1,12 +1,12 @@
 package com.shushan.manhua.mvp.ui.activity.user;
 
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.widget.TextView;
 
+import com.androidkun.xtablayout.XTabLayout;
 import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerMessageComponent;
 import com.shushan.manhua.di.modules.ActivityModule;
@@ -28,20 +28,22 @@ import butterknife.OnClick;
 public class MessageActivity extends BaseActivity implements MessageControl.MessageView {
     @BindView(R.id.common_title_tv)
     TextView mCommonTitleTv;
-    @BindView(R.id.tab_layout)
-    TabLayout mTabLayout;
+    @BindView(R.id.xTabLayout)
+    XTabLayout mTabLayout;
     @BindView(R.id.view_pager)
     ViewPager mViewPager;
-    String[] titles = {"我发出的评论", "回复我的评论","通知"};
+    String[] titles;
 
     @Override
     protected void initContentView() {
         setContentView(R.layout.activity_message);
+        setStatusBar();
         initInjectData();
     }
 
     @Override
     public void initView() {
+        titles = new String[]{getResources().getString(R.string.MessageActivity_SentMessage), getResources().getString(R.string.MessageActivity_ReceivedMessage), getResources().getString(R.string.MessageActivity_Notice)};
         mViewPager.setOffscreenPageLimit(3);
         mViewPager.setAdapter(new MyPageAdapter(getSupportFragmentManager()));
         mTabLayout.setupWithViewPager(mViewPager);
@@ -49,7 +51,7 @@ public class MessageActivity extends BaseActivity implements MessageControl.Mess
 
     @Override
     public void initData() {
-        mCommonTitleTv.setText("我的消息");
+        mCommonTitleTv.setText(getResources().getString(R.string.MessageActivity_title));
     }
 
     @OnClick(R.id.common_left_iv)

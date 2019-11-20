@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/personal_info_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".mvp.ui.activity.user.PersonalInfoActivity">
@@ -18,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_10"
-        android:layout_marginTop="@dimen/dp_22"
+        android:layout_marginTop="@dimen/dp_27"
         android:padding="@dimen/dp_10"
         android:src="@mipmap/back_write"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,7 +29,7 @@
         android:id="@+id/common_title_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_28"
+        android:layout_marginTop="@dimen/dp_33"
         android:text="@string/PersonalInfoActivity_title"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_16"
@@ -38,9 +39,10 @@
 
 
     <TextView
+        android:id="@+id/save_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_18"
+        android:layout_marginTop="@dimen/dp_23"
         android:layout_marginEnd="@dimen/dp_10"
         android:padding="@dimen/dp_10"
         android:text="@string/PersonalInfoActivity_right_title"
@@ -50,16 +52,15 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <com.shushan.manhua.mvp.views.CircleImageView
+    <ImageView
         android:id="@+id/avatar_iv"
         android:layout_width="@dimen/dp_90"
         android:layout_height="@dimen/dp_90"
         android:layout_marginTop="@dimen/dp_26"
-        android:src="@mipmap/default_head"
+        android:src="@mipmap/head_default_01"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/common_title_tv" />
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -122,7 +123,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/dp_36"
-                android:text="苏曼曼"
+                android:text="男"
                 android:textColor="@color/color_30"
                 android:textSize="@dimen/sp_16" />
         </RelativeLayout>

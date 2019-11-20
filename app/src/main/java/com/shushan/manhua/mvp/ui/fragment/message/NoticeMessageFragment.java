@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +15,19 @@ import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerNoticeMessageFragmentComponent;
 import com.shushan.manhua.di.modules.MessageModule;
 import com.shushan.manhua.di.modules.NoticeMessageFragmentModule;
-import com.shushan.manhua.entity.user.User;
+import com.shushan.manhua.entity.response.NoticeMessageResponse;
+import com.shushan.manhua.mvp.ui.adapter.NoticeMessageAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseFragment;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+
+import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * 通知
@@ -24,15 +35,20 @@ import java.util.Objects;
 
 public class NoticeMessageFragment extends BaseFragment implements NoticeMessageFragmentControl.NoticeMessageView {
 
-    private User mUser;
-//    @Inject
-//    ExpensesRecordFragmentControl.ExpensesRecordFragmentPresenter mPresenter;
+    @Inject
+    NoticeMessageFragmentControl.NoticeMessageFragmentPresenter mPresenter;
+    @BindView(R.id.recycler_view)
+    RecyclerView mRecyclerView;
+    Unbinder unbinder;
+    private NoticeMessageAdapter mNoticeMessageAdapter;
+    private List<NoticeMessageResponse> noticeMessageResponseList = new ArrayList<>();
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_mine, container, false);
+        View view = inflater.inflate(R.layout.fragment_notice_message, container, false);
         initializeInjector();
+        unbinder = ButterKnife.bind(this, view);
         initView();
         initData();
         return view;
@@ -41,11 +57,17 @@ public class NoticeMessageFragment extends BaseFragment implements NoticeMessage
 
     @Override
     public void initView() {
-//        mUser = mBuProcessor.getUser();
+        mNoticeMessageAdapter = new NoticeMessageAdapter(noticeMessageResponseList);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.setAdapter(mNoticeMessageAdapter);
     }
 
     @Override
     public void initData() {
+        for (int i = 0; i < 4; i++) {
+            NoticeMessageResponse noticeMessageResponse = new NoticeMessageResponse();
+            noticeMessageResponseList.add(noticeMessageResponse);
+        }
     }
 
 
@@ -57,4 +79,9 @@ public class NoticeMessageFragment extends BaseFragment implements NoticeMessage
     }
 
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
 }

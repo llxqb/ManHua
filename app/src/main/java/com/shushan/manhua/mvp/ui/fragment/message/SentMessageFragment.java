@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +15,19 @@ import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerSentMessageFragmentComponent;
 import com.shushan.manhua.di.modules.MessageModule;
 import com.shushan.manhua.di.modules.SentMessageFragmentModule;
-import com.shushan.manhua.entity.user.User;
+import com.shushan.manhua.entity.response.SentMessageResponse;
+import com.shushan.manhua.mvp.ui.adapter.SentMessageAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseFragment;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+
+import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * 我发出的评论
@@ -24,15 +35,20 @@ import java.util.Objects;
 
 public class SentMessageFragment extends BaseFragment implements SentMessageFragmentControl.SentMessageView {
 
-    private User mUser;
-//    @Inject
-//    ExpensesRecordFragmentControl.ExpensesRecordFragmentPresenter mPresenter;
+    @Inject
+    SentMessageFragmentControl.SentMessageFragmentPresenter mPresenter;
+    @BindView(R.id.recycler_view)
+    RecyclerView mRecyclerView;
+    Unbinder unbinder;
+    private SentMessageAdapter mSentMessageAdapter;
+    private List<SentMessageResponse> sentMessageResponseList = new ArrayList<>();
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sent_message, container, false);
         initializeInjector();
+        unbinder = ButterKnife.bind(this, view);
         initView();
         initData();
         return view;
@@ -41,11 +57,17 @@ public class SentMessageFragment extends BaseFragment implements SentMessageFrag
 
     @Override
     public void initView() {
-//        mUser = mBuProcessor.getUser();
+        mSentMessageAdapter = new SentMessageAdapter(sentMessageResponseList);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.setAdapter(mSentMessageAdapter);
     }
 
     @Override
     public void initData() {
+        for (int i=0;i<8;i++){
+            SentMessageResponse sentMessageResponse = new SentMessageResponse();
+            sentMessageResponseList.add(sentMessageResponse);
+        }
     }
 
 
@@ -57,4 +79,9 @@ public class SentMessageFragment extends BaseFragment implements SentMessageFrag
     }
 
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
 }

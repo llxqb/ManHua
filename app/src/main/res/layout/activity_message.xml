@@ -7,20 +7,27 @@
     android:orientation="vertical"
     tools:context=".mvp.ui.activity.user.MessageActivity">
 
-    <include layout="@layout/common_toolbar"/>
+    <include layout="@layout/common_toolbar" />
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tab_layout"
+    <com.androidkun.xtablayout.XTabLayout
+        android:id="@+id/xTabLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_40"
-        android:theme="@style/Theme.AppCompat"
-        app:tabIndicatorColor="@color/color_transparent"
-        app:tabSelectedTextColor="#FF5353"
-        app:tabTextAppearance="@style/TabLayoutTextStyle"
-        app:tabMode="fixed"
-        android:background="#F6F6FA"
-        app:tabTextColor="#9495A0"/>
+        app:xTabIndicatorColor="@color/color_30"
+        app:xTabIndicatorHeight="@dimen/dp_4"
+        app:xTabIndicatorWidth="@dimen/dp_20"
+        app:xTabMode="fixed"
+        app:xTabSelectedTextColor="@color/color_30"
+        app:xTabSelectedTextSize="@dimen/sp_14"
+        app:xTabTextColor="@color/color_9b"
+        app:xTabTextSelectedBold="true"
+        app:xTabTextSize="@dimen/sp_14" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="#F6F6FA" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"

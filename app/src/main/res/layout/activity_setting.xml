@@ -1,9 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".mvp.ui.activity.setting.SettingActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <include layout="@layout/common_toolbar" />
+
+    <LinearLayout
+        android:id="@+id/clear_cache_ll"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:background="@drawable/ripple_write_bg"
+        android:paddingStart="@dimen/dp_24"
+        android:paddingEnd="@dimen/dp_24">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/SettingActivity_cache"
+            android:textColor="@color/first_text_color"
+            android:textSize="@dimen/sp_14"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/clear_cache_tv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawableEnd="@mipmap/arrow_gray"
+            android:drawablePadding="@dimen/dp_10"
+            android:gravity="center_vertical|end"
+            android:text="88"
+            android:textColor="@color/first_text_color"
+            android:textSize="@dimen/sp_14" />
+    </LinearLayout>
+
+    <View style="@style/line_height_1" />
+
+    <LinearLayout
+        android:id="@+id/version_update_ll"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        android:gravity="center_vertical"
+        android:background="@drawable/ripple_write_bg"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/dp_24"
+        android:paddingEnd="@dimen/dp_24">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/SettingActivity_version_update"
+            android:textColor="@color/first_text_color"
+            android:textSize="@dimen/sp_14"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/version_update_tv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawableEnd="@mipmap/arrow_gray"
+            android:drawablePadding="@dimen/dp_10"
+            android:gravity="center_vertical|end"
+            android:text="1.0.2"
+            android:textColor="@color/first_text_color"
+            android:textSize="@dimen/sp_14" />
+    </LinearLayout>
+
+    <View style="@style/line_height_1" />
+
+    <LinearLayout
+        android:id="@+id/protocol_ll"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:background="@drawable/ripple_write_bg"
+        android:paddingStart="@dimen/dp_24"
+        android:paddingEnd="@dimen/dp_24">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/SettingActivity_protocol"
+            android:textColor="@color/first_text_color"
+            android:textSize="@dimen/sp_14"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawableEnd="@mipmap/arrow_gray"
+            android:drawablePadding="@dimen/dp_10"
+            android:gravity="center_vertical|end"
+            android:textColor="@color/first_text_color"
+            android:textSize="@dimen/sp_14" />
+    </LinearLayout>
+
+    <View style="@style/line_height_1" />
+
+    <LinearLayout
+        android:id="@+id/about_us_ll"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:background="@drawable/ripple_write_bg"
+        android:paddingStart="@dimen/dp_24"
+        android:paddingEnd="@dimen/dp_24">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/SettingActivity_about_us"
+            android:textColor="@color/first_text_color"
+            android:textSize="@dimen/sp_14"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawableEnd="@mipmap/arrow_gray"
+            android:drawablePadding="@dimen/dp_10"
+            android:gravity="center_vertical|end"
+            android:textColor="@color/first_text_color"
+            android:textSize="@dimen/sp_14" />
+    </LinearLayout>
+
+    <View style="@style/line_height_1" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/exit_tv"
+            android:layout_width="@dimen/dp_305"
+            android:layout_height="@dimen/dp_40"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="@dimen/dp_35"
+            android:background="@drawable/start_reading_bg"
+            android:gravity="center"
+            android:text="@string/SettingActivity_exit_login"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_16" />
+
+    </FrameLayout>
+
+</LinearLayout>

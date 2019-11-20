@@ -57,10 +57,12 @@ public class SelectDialogUtil {
             }
 //            mSelectDateTv.setText(DateUtil.dateTranString(date, "yyyy年MM月dd日"));
         })
-                .setTitleText("选择日期")//标题文字
+                .setTitleText(mContext.getResources().getString(R.string.SelectDialogUtil_date_title))//标题文字
                 .setTitleColor(mContext.getResources().getColor(R.color.color999))//标题文字颜色
                 .setSubmitColor(mContext.getResources().getColor(R.color.color_blue_btn))//确定按钮文字颜色
                 .setCancelColor(mContext.getResources().getColor(R.color.first_text_color))//取消按钮文字颜色
+                .setCancelText(mContext.getString(R.string.SelectDialogUtil_cancel))
+                .setSubmitText(mContext.getString(R.string.SelectDialogUtil_sure))
                 .build();
         pvTime.show();
     }

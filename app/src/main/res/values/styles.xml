@@ -3,10 +3,10 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <!--<item name="colorPrimary">@color/white</item>    &lt;!&ndash; toolbar背景颜色&ndash;&gt;-->
-        <!--<item name="colorPrimaryDark">@color/white</item>  &lt;!&ndash; 顶部状态栏背景颜色&ndash;&gt;-->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/white</item>    <!-- toolbar背景颜色-->
+        <item name="colorPrimaryDark">@color/white</item>  <!-- 顶部状态栏背景颜色-->
+        <!--<item name="colorPrimary">@color/colorPrimary</item>-->
+        <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
         <item name="colorAccent">@color/colorAccent</item> <!-- EditView 背景 ，RadioButton 圆圈颜色-->
         <item name="android:windowBackground">@color/white</item><!--统一设置xml背景颜色 -->
     </style>

@@ -22,6 +22,8 @@ import com.shushan.manhua.entity.response.MineReadingResponse;
 import com.shushan.manhua.entity.user.User;
 import com.shushan.manhua.mvp.ui.activity.mine.BuyActivity;
 import com.shushan.manhua.mvp.ui.activity.mine.MemberCenterActivity;
+import com.shushan.manhua.mvp.ui.activity.setting.SettingActivity;
+import com.shushan.manhua.mvp.ui.activity.user.MessageActivity;
 import com.shushan.manhua.mvp.ui.activity.user.PersonalInfoActivity;
 import com.shushan.manhua.mvp.ui.adapter.MineReadingAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseFragment;
@@ -130,8 +132,10 @@ public class MineFragment extends BaseFragment implements MineFragmentControl.Mi
                 startActivitys(PersonalInfoActivity.class);
                 break;
             case R.id.setting_iv:
+                startActivitys(SettingActivity.class);
                 break;
-            case R.id.message_ll:
+            case R.id.message_ll://我的消息
+                startActivitys(MessageActivity.class);
                 break;
             case R.id.recharge_tv://充值中心
                 startActivitys(BuyActivity.class);
