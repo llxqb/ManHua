@@ -6,4 +6,99 @@
     android:layout_height="match_parent"
     tools:context=".mvp.ui.activity.mine.FeedbackActivity">
 
+    <include layout="@layout/common_toolbar" />
+
+    <TextView
+        android:id="@+id/hint_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_25"
+        android:layout_marginTop="@dimen/dp_20"
+        android:text="@string/FeedbackActivity_hint"
+        android:textColor="@color/first_text_color"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/common_toolbar_layout" />
+
+
+    <RelativeLayout
+        android:id="@+id/edit_content_rl"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_150"
+        android:layout_marginStart="@dimen/dp_25"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginEnd="@dimen/dp_25"
+        android:background="@drawable/edit_bg"
+        android:paddingStart="@dimen/dp_12"
+        android:paddingTop="@dimen/dp_12"
+        android:paddingEnd="@dimen/dp_8"
+        android:paddingBottom="@dimen/dp_8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/hint_tv">
+
+        <EditText
+            android:id="@+id/content_et"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:gravity="start|top"
+            android:hint="@string/FeedbackActivity_content_hint"
+            android:textColor="@color/color_30"
+            android:textSize="@dimen/sp_14" />
+
+        <TextView
+            android:id="@+id/limit_num_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:text="0/100" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/contact_way_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_25"
+        android:layout_marginTop="@dimen/dp_30"
+        android:text="@string/FeedbackActivity_contact_way"
+        android:textColor="@color/first_text_color"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_content_rl" />
+
+
+    <EditText
+        android:id="@+id/contact_way_tv"
+        android:layout_width="@dimen/dp_325"
+        android:layout_height="@dimen/dp_38"
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="@drawable/edit_bg"
+        android:gravity="center_vertical"
+        android:hint="@string/FeedbackActivity_contact_way_hint"
+        android:paddingStart="@dimen/dp_8"
+        android:paddingEnd="@dimen/dp_8"
+        android:textColor="@color/color_30"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/contact_way_title" />
+
+
+    <TextView
+        android:id="@+id/submit_tv"
+        android:layout_width="@dimen/dp_305"
+        android:layout_height="@dimen/dp_40"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="@dimen/dp_35"
+        android:background="@drawable/start_reading_bg"
+        android:gravity="center"
+        android:text="@string/FeedbackActivity_submit"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_16"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_goneMarginBottom="@dimen/dp_35" />
 </android.support.constraint.ConstraintLayout>

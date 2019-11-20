@@ -21,7 +21,10 @@ import com.shushan.manhua.di.modules.MineFragmentModule;
 import com.shushan.manhua.entity.response.MineReadingResponse;
 import com.shushan.manhua.entity.user.User;
 import com.shushan.manhua.mvp.ui.activity.mine.BuyActivity;
+import com.shushan.manhua.mvp.ui.activity.mine.CheckInActivity;
+import com.shushan.manhua.mvp.ui.activity.mine.FeedbackActivity;
 import com.shushan.manhua.mvp.ui.activity.mine.MemberCenterActivity;
+import com.shushan.manhua.mvp.ui.activity.mine.PurchasedActivity;
 import com.shushan.manhua.mvp.ui.activity.setting.SettingActivity;
 import com.shushan.manhua.mvp.ui.activity.user.MessageActivity;
 import com.shushan.manhua.mvp.ui.activity.user.PersonalInfoActivity;
@@ -119,7 +122,7 @@ public class MineFragment extends BaseFragment implements MineFragmentControl.Mi
                     showToast("阅读记录");
                     break;
                 case 2://已购漫画
-                    showToast("已购漫画");
+                    startActivitys(PurchasedActivity.class);
                     break;
             }
         });
@@ -145,10 +148,13 @@ public class MineFragment extends BaseFragment implements MineFragmentControl.Mi
                 startActivitys(MemberCenterActivity.class);
                 break;
             case R.id.check_in_beans_ll:
+                startActivitys(CheckInActivity.class);
                 break;
             case R.id.vip_check_in_beans_ll:
+                startActivitys(MemberCenterActivity.class);
                 break;
             case R.id.feedback_tv:
+                startActivitys(FeedbackActivity.class);
                 break;
         }
     }

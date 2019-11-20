@@ -90,7 +90,6 @@ public class SettingActivity extends BaseActivity implements CommonDialog.Common
     @Override
     public void commonDialogBtnOkListener() {
         if (commonDialogClickType == 1) {
-            showToast("清理成功");
             DataCleanManager.clearAllCache(this);
             try {
                 mClearCacheTv.setText(DataCleanManager.getTotalCacheSize(this));

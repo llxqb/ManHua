@@ -202,7 +202,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp_10"
+                    android:layout_marginStart="@dimen/dp_12"
                     android:drawableStart="@mipmap/bookcity_recommend"
                     android:drawablePadding="@dimen/dp_6"
                     android:text="@string/BookShelfFragment_recommend_hint_tv"

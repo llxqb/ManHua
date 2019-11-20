@@ -66,6 +66,7 @@
     <color name="buy_check_color">#915AFF</color>
     <color name="buy_no_check_color">#83848D</color>
     <color name="color26">#262626</color>
+    <color name="app_gray">#F6F6FA</color>
 
 
 </resources>

@@ -168,6 +168,25 @@
     <string name="SettingActivity_cancel">取消</string>
     <string name="SettingActivity_sure">确定</string>
 
+    <string name="LoginActivity_protocol">*注册即同意《用户注册协议》</string>
+
+    <string name="FeedbackActivity_title">意见反馈</string>
+    <string name="FeedbackActivity_hint">提供联系方式，工作人员将优先处理您的反馈。</string>
+    <string name="FeedbackActivity_contact_way">联系方式（选填）</string>
+    <string name="FeedbackActivity_contact_way_hint">方便我们与您联系（邮箱，电话，WhatsApp）</string>
+    <string name="FeedbackActivity_submit">提交</string>
+    <string name="FeedbackActivity_content_is_empty">反馈内容不能为空</string>
+    <string name="FeedbackActivity_content_hint">请写下您宝贵的意见和建议。</string>
+    <string name="FeedbackActivity_only_100_word">小于100字</string>
+
+    <string name="PurchasedActivity_title">已购漫画</string>
+
+    <string name="CheckInActivity_title">福利免费领</string>
+    <string name="CheckInActivity_title_right">规则</string>
+    <string name="CheckInActivity_receive">领取</string>
+    <string name="CheckInActivity_sign_in_day">已连续签到2天</string>
+    <string name="CheckInActivity_receive_beans">做任务领漫豆</string>
+
 
 
 
