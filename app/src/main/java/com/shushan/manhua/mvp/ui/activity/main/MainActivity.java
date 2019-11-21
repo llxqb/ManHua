@@ -12,9 +12,12 @@ import com.shushan.manhua.di.components.DaggerMainComponent;
 import com.shushan.manhua.di.modules.ActivityModule;
 import com.shushan.manhua.di.modules.MainModule;
 import com.shushan.manhua.entity.user.User;
+import com.shushan.manhua.help.DialogFactory;
 import com.shushan.manhua.mvp.ui.activity.login.LoginActivity;
 import com.shushan.manhua.mvp.ui.adapter.MyFragmentAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseActivity;
+import com.shushan.manhua.mvp.ui.dialog.SelectChannelDialog;
+import com.shushan.manhua.mvp.ui.dialog.SelectManHuaTypeDialog;
 import com.shushan.manhua.mvp.ui.fragment.bookshelf.BookShelfFragment;
 import com.shushan.manhua.mvp.ui.fragment.home.HomeFragment;
 import com.shushan.manhua.mvp.ui.fragment.mine.MineFragment;
@@ -57,7 +60,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
     @Override
     public void initView() {
-//        LogUtils.d("packName:" + UmengUtil.getChannelName(this));
         mMainBottomNavigation.setItemIconTintList(null);
         mUser = mBuProcessor.getUser();
 //        LogUtils.e("mUser:" + new Gson().toJson(mUser));
@@ -108,6 +110,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 mMainBottomNavigation.setSelectedItemId(R.id.action_teacher);
             }
         }
+        showSelectManHuaTypeDialog();
     }
 
     @Override
@@ -118,6 +121,24 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             startActivitys(LoginActivity.class);
             finish();
         }
+    }
+    /**
+     * 第一次选择频道
+     */
+    private void showSelectChannelDialog() {
+        SelectChannelDialog selectChannelDialog = SelectChannelDialog.newInstance();
+//        editLabelDialog.setListener(this);
+//        editLabelDialog.setTitle(title, hintText);
+//        editLabelDialog.setName(label);
+        DialogFactory.showDialogFragment(this.getSupportFragmentManager(), selectChannelDialog, SelectChannelDialog.TAG);
+    }
+
+    /**
+     * 第一次选择漫画类型
+     */
+    private void showSelectManHuaTypeDialog() {
+        SelectManHuaTypeDialog selectManHuaTypeDialog = SelectManHuaTypeDialog.newInstance();
+        DialogFactory.showDialogFragment(this.getSupportFragmentManager(), selectManHuaTypeDialog, SelectManHuaTypeDialog.TAG);
     }
 
 

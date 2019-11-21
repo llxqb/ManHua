@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/common_dialog_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,31 +8,110 @@
     android:orientation="vertical">
 
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="欢迎"
-        android:textColor="@color/white" />
-
     <ImageView
+        android:id="@+id/top_iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_10"
-        android:src="@mipmap/barrage1" />
+        android:layout_marginTop="@dimen/dp_44"
+        android:src="@mipmap/first_into_preference_tips"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_10"
-        android:src="@mipmap/barrage2" />
 
     <TextView
-        android:layout_width="match_parent"
+        android:id="@+id/welcome_tv"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_50"
-        android:background="@color/white"
+        android:layout_marginStart="@dimen/dp_152"
+        android:layout_marginTop="@dimen/dp_66"
+        android:text="@string/SelectChannelDialog_wecome"
+        android:textColor="@color/color_30"
+        android:textSize="@dimen/sp_16"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_140"
+        android:layout_marginTop="@dimen/dp_5"
         android:gravity="center"
-        android:padding="@dimen/dp_10"
-        android:text="确定"
-        android:textColor="@color/red_color_btn" />
-</LinearLayout>
+        android:text="@string/SelectChannelDialog_title"
+        android:textColor="@color/color_30"
+        android:textSize="@dimen/sp_20"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/welcome_tv" />
+
+
+    <FrameLayout
+        android:id="@+id/channel_male_layout"
+        android:layout_width="@dimen/dp_260"
+        android:layout_height="@dimen/dp_58"
+        android:layout_marginTop="@dimen/dp_20"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/top_iv">
+
+        <TextView
+            android:id="@+id/channel_male_tv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@mipmap/first_into_preference_male"
+            android:gravity="end|center_vertical"
+            android:paddingEnd="@dimen/dp_30"
+            android:text="@string/SelectChannelDialog_male"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_20" />
+
+        <ImageView
+            android:id="@+id/choose_write_male_iv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@mipmap/choose_white"
+            android:visibility="invisible" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/channel_female_layout"
+        android:layout_width="@dimen/dp_260"
+        android:layout_height="@dimen/dp_58"
+        android:layout_marginTop="@dimen/dp_35"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/channel_male_layout">
+
+        <TextView
+            android:id="@+id/channel_female_tv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@mipmap/first_into_preference_female"
+            android:gravity="end|center_vertical"
+            android:paddingEnd="@dimen/dp_30"
+            android:text="@string/SelectChannelDialog_female"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_20" />
+
+        <ImageView
+            android:id="@+id/choose_write_female_iv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@mipmap/choose_white"
+            android:visibility="invisible" />
+    </FrameLayout>
+
+
+    <TextView
+        android:id="@+id/sure_tv"
+        android:layout_width="@dimen/dp_260"
+        android:layout_height="@dimen/dp_52"
+        android:layout_marginBottom="@dimen/dp_70"
+        android:background="@drawable/bg_white_transparent"
+        android:gravity="center"
+        android:text="@string/SelectChannelDialog_sure"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_18"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</android.support.constraint.ConstraintLayout>

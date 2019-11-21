@@ -133,7 +133,7 @@ dependencies {
     implementation project(':takephoto_library')
 
     //banner
-//    implementation project(':mzbanner')
+    implementation project(':mzbanner')
 
     //时间日期选择控件
     implementation 'com.contrarywind:Android-PickerView:4.1.8'

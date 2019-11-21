@@ -1,37 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/common_dialog_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#90000000"
     android:orientation="vertical">
 
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="欢迎"
-        android:textColor="@color/white" />
-
     <ImageView
+        android:id="@+id/top_iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_10"
-        android:src="@mipmap/barrage1" />
+        android:layout_marginTop="@dimen/dp_40"
+        android:src="@mipmap/first_into_preference_tips"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_10"
-        android:src="@mipmap/barrage2" />
 
     <TextView
-        android:layout_width="match_parent"
+        android:id="@+id/title_tv"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_50"
-        android:background="@color/white"
+        android:layout_marginStart="@dimen/dp_140"
+        android:layout_marginTop="@dimen/dp_70"
         android:gravity="center"
-        android:padding="@dimen/dp_10"
-        android:text="确定"
-        android:textColor="@color/red_color_btn" />
-</LinearLayout>
+        android:text="@string/SelectManHuaTypeDialog_title"
+        android:textColor="@color/color_30"
+        android:textSize="@dimen/sp_20"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_160"
+        android:layout_marginTop="@dimen/dp_4"
+        android:text="@string/SelectManHuaTypeDialog_hint"
+        android:textColor="@color/color_30"
+        android:textSize="@dimen/sp_16"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title_tv" />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        app:layout_constraintTop_toBottomOf="@id/top_iv" />
+
+
+    <TextView
+        android:id="@+id/select_num_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_40"
+        android:layout_marginBottom="@dimen/dp_12"
+        android:text="3/3"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintBottom_toTopOf="@id/sure_tv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/sure_tv"
+        android:layout_width="@dimen/dp_260"
+        android:layout_height="@dimen/dp_52"
+        android:layout_marginBottom="@dimen/dp_50"
+        android:background="@drawable/bg_white_transparent"
+        android:gravity="center"
+        android:text="@string/SelectChannelDialog_sure"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_18"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</android.support.constraint.ConstraintLayout>

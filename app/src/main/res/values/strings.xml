@@ -187,9 +187,17 @@
     <string name="CheckInActivity_sign_in_day">已连续签到2天</string>
     <string name="CheckInActivity_receive_beans">做任务领漫豆</string>
 
+    <string name="SelectChannelDialog_wecome">欢迎来到xxxx</string>
+    <string name="SelectChannelDialog_title">请选择\n您喜欢的频道</string>
+    <string name="SelectChannelDialog_male">男频</string>
+    <string name="SelectChannelDialog_female">女频</string>
+    <string name="SelectChannelDialog_sure">确定</string>
 
+    <string name="SelectManHuaTypeDialog_title">请选择\n您喜欢的类型</string>
+    <string name="SelectManHuaTypeDialog_hint">最多可选x个</string>
 
-
+    <string name="ReadingSettingActivity_female">女频</string>
+    <string name="ReadingSettingActivity_male">男频</string>
 
 
     <string name="SelectDialogUtil_date_title">选择日期</string>

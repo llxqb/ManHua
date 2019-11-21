@@ -20,11 +20,13 @@ import com.shushan.manhua.di.modules.MainModule;
 import com.shushan.manhua.di.modules.MineFragmentModule;
 import com.shushan.manhua.entity.response.MineReadingResponse;
 import com.shushan.manhua.entity.user.User;
+import com.shushan.manhua.mvp.ui.activity.book.ReadingHistoryActivity;
 import com.shushan.manhua.mvp.ui.activity.mine.BuyActivity;
 import com.shushan.manhua.mvp.ui.activity.mine.CheckInActivity;
 import com.shushan.manhua.mvp.ui.activity.mine.FeedbackActivity;
 import com.shushan.manhua.mvp.ui.activity.mine.MemberCenterActivity;
 import com.shushan.manhua.mvp.ui.activity.mine.PurchasedActivity;
+import com.shushan.manhua.mvp.ui.activity.mine.ReadingSettingActivity;
 import com.shushan.manhua.mvp.ui.activity.setting.SettingActivity;
 import com.shushan.manhua.mvp.ui.activity.user.MessageActivity;
 import com.shushan.manhua.mvp.ui.activity.user.PersonalInfoActivity;
@@ -116,10 +118,10 @@ public class MineFragment extends BaseFragment implements MineFragmentControl.Mi
         mMineReadingAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             switch (position) {
                 case 0://阅读偏好
-                    showToast("阅读偏好");
+                    startActivitys(ReadingSettingActivity.class);
                     break;
                 case 1://阅读记录
-                    showToast("阅读记录");
+                    startActivitys(ReadingHistoryActivity.class);
                     break;
                 case 2://已购漫画
                     startActivitys(PurchasedActivity.class);

@@ -16,7 +16,7 @@
         android:layout_marginTop="@dimen/dp_14"
         android:text="+40"
         android:textColor="#FF7B43"
-        android:textSize="@dimen/sp_16" />
+        android:textSize="@dimen/sp_15" />
 
     <TextView
         android:id="@+id/sign_in_day_tv"

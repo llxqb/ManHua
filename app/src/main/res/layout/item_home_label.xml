@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_bookshelf_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/dp_5"
+    android:layout_marginTop="@dimen/dp_2"
+    android:layout_marginEnd="@dimen/dp_8"
+    android:layout_marginBottom="@dimen/dp_10">
+
+    <TextView
+        android:id="@+id/label_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/label_solid_bg"
+        android:gravity="center"
+        android:paddingStart="@dimen/dp_10"
+        android:paddingTop="@dimen/dp_4"
+        android:paddingEnd="@dimen/dp_10"
+        android:paddingBottom="@dimen/dp_4"
+        android:text="标签1"
+        android:textColor="#946EFF"
+        android:textSize="@dimen/sp_13" />
+
+</FrameLayout>

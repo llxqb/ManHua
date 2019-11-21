@@ -27,6 +27,8 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
+        <activity android:name=".mvp.ui.activity.mine.ReadingSettingActivity"></activity>
+        <activity android:name=".mvp.ui.activity.mine.RuleActivity" />
         <activity
             android:name=".mvp.ui.activity.book.MoreCommentActivity"
             android:screenOrientation="portrait" />
