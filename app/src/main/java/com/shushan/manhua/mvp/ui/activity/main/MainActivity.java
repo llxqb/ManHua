@@ -1,5 +1,7 @@
 package com.shushan.manhua.mvp.ui.activity.main;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.BottomNavigationView;
@@ -22,6 +24,7 @@ import com.shushan.manhua.mvp.ui.fragment.bookshelf.BookShelfFragment;
 import com.shushan.manhua.mvp.ui.fragment.home.HomeFragment;
 import com.shushan.manhua.mvp.ui.fragment.mine.MineFragment;
 import com.shushan.manhua.mvp.views.MyNoScrollViewPager;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -110,8 +113,28 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 mMainBottomNavigation.setSelectedItemId(R.id.action_teacher);
             }
         }
-        showSelectManHuaTypeDialog();
+//        showSelectManHuaTypeDialog();
+        checkPermissions();
     }
+
+    /**
+     * 检查app 权限
+     */
+    @SuppressLint("CheckResult")
+    private void checkPermissions() {
+        RxPermissions mRxPermissions = new RxPermissions(this);
+        mRxPermissions.request(
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+        ).subscribe(permission -> {
+            if (permission) {
+//                reqLoginInfo();
+            } else {
+                showToast("请允许权限");
+            }
+        });
+    }
+
 
     @Override
     protected void onNewIntent(Intent intent) {

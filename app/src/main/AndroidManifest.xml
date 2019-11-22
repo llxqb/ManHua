@@ -27,8 +27,12 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
-        <activity android:name=".mvp.ui.activity.mine.ReadingSettingActivity"></activity>
-        <activity android:name=".mvp.ui.activity.mine.RuleActivity" />
+        <activity
+            android:name=".mvp.ui.activity.mine.ReadingSettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.ui.activity.mine.RuleActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".mvp.ui.activity.book.MoreCommentActivity"
             android:screenOrientation="portrait" />
@@ -79,7 +83,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".mvp.ui.activity.book.ReadActivity"
-            android:windowSoftInputMode="stateVisible|adjustResize|stateHidden" />
+            android:screenOrientation="portrait" />
+
         <activity
             android:name=".mvp.ui.activity.main.MainActivity"
             android:launchMode="singleTask"

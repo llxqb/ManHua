@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/read_layout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/read_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -179,78 +179,85 @@
     </android.support.v4.widget.NestedScrollView>
 
 
+    <!-- 编辑区域-->
+    <LinearLayout
+        android:id="@+id/send_message_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/read_bottom_ll"
+        android:background="#F3F4F7"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/dp_14"
+        android:paddingBottom="@dimen/dp_14">
+
+        <RelativeLayout
+            android:layout_width="@dimen/dp_280"
+            android:layout_height="@dimen/dp_32"
+            android:layout_marginStart="@dimen/dp_10"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:background="@drawable/bg_line_round_stroke_30"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/send_message_left_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/dp_2"
+                android:paddingStart="@dimen/dp_2"
+                android:paddingEnd="@dimen/dp_4"
+                android:src="@mipmap/barrage_icon" />
+
+            <ImageView
+                android:id="@+id/send_message_right_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/dp_3"
+                android:padding="@dimen/dp_5"
+                android:src="@mipmap/barrage_color_gray" />
+
+            <EditText
+                android:id="@+id/message_et"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@id/send_message_right_iv"
+                android:layout_toEndOf="@id/send_message_left_iv"
+                android:background="@null"
+                android:gravity="start|center_vertical"
+                android:hint="1861人在看，弹幕撩一下"
+                android:paddingStart="@dimen/dp_6"
+                android:paddingEnd="@dimen/dp_6"
+                android:textColor="@color/color_80"
+                android:textSize="@dimen/sp_14" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/send_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_13"
+            android:layout_marginTop="@dimen/dp_3"
+            android:padding="@dimen/dp_5"
+            android:text="@string/ReadActivity_send"
+            android:textColor="@color/first_text_color"
+            android:textSize="@dimen/sp_12" />
+    </LinearLayout>
+
+
     <!-- 底部布局-->
     <LinearLayout
         android:id="@+id/read_bottom_ll"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_120"
+        android:layout_height="@dimen/dp_60"
         android:layout_alignParentBottom="true"
         android:background="#F3F4F7"
         android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingBottom="@dimen/dp_20">
-
-            <RelativeLayout
-                android:id="@+id/send_message_rl"
-                android:layout_width="@dimen/dp_280"
-                android:layout_height="@dimen/dp_32"
-                android:layout_marginStart="@dimen/dp_18"
-                android:layout_marginTop="@dimen/dp_14"
-                android:background="@drawable/bg_line_round_stroke_30"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    android:id="@+id/send_message_left_iv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/dp_2"
-                    android:padding="@dimen/dp_5"
-                    android:src="@mipmap/history_delete_unchoose" />
-
-                <ImageView
-                    android:id="@+id/send_message_right_iv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/dp_3"
-                    android:padding="@dimen/dp_5"
-                    android:src="@mipmap/barrage_color_gray" />
-
-                <EditText
-                    android:id="@+id/message_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toStartOf="@id/send_message_right_iv"
-                    android:layout_toEndOf="@id/send_message_left_iv"
-                    android:background="@null"
-                    android:gravity="start"
-                    android:paddingStart="@dimen/dp_6"
-                    android:paddingEnd="@dimen/dp_6"
-                    android:text="1861人在看，弹幕撩一下"
-                    android:textColor="@color/color_80"
-                    android:textSize="@dimen/sp_14" />
-
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/send_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_12"
-                android:layout_marginTop="@dimen/dp_18"
-                android:text="@string/ReadActivity_send"
-                android:textColor="@color/first_text_color"
-                android:textSize="@dimen/sp_16" />
-        </LinearLayout>
-
 
         <include
             layout="@layout/read_bottom_layout"
@@ -259,11 +266,12 @@
 
     </LinearLayout>
 
+    <!-- 弹幕开关-->
     <LinearLayout
         android:id="@+id/barrage_ll"
         android:layout_width="@dimen/dp_60"
         android:layout_height="@dimen/dp_18"
-        android:layout_above="@id/read_bottom_ll"
+        android:layout_above="@id/send_message_ll"
         android:layout_marginStart="@dimen/dp_18"
         android:background="@drawable/read_gray_round_solid_top_5"
         android:gravity="center"
@@ -286,44 +294,26 @@
 
 
     <!-- 返回顶部-->
-    <LinearLayout
-        android:id="@+id/back_top_ll"
+    <ImageView
+        android:id="@+id/back_top_iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/read_bottom_ll"
+        android:layout_above="@id/barrage_ll"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="@dimen/dp_20"
+        android:layout_marginEnd="@dimen/dp_25"
         android:layout_marginBottom="@dimen/dp_22"
-        android:background="@drawable/round_gray_360"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/cartoon_to_top" />
-
-    </LinearLayout>
+        android:src="@mipmap/cartoon_to_top" />
 
     <!-- 加入书架-->
-    <LinearLayout
-        android:id="@+id/add_bookshelf_ll"
+    <ImageView
+        android:id="@+id/add_bookshelf_iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/back_top_ll"
+        android:layout_above="@id/back_top_iv"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="@dimen/dp_20"
+        android:layout_marginEnd="@dimen/dp_25"
         android:layout_marginBottom="@dimen/dp_10"
-        android:background="@drawable/round_gray_360"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/cartoon_add_bookshelf" />
-
-    </LinearLayout>
+        android:src="@mipmap/cartoon_add_bookshelf" />
 
 
 </RelativeLayout>

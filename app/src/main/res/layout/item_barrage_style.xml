@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginBottom="@dimen/dp_18"
+    android:gravity="center">
+
+    <RelativeLayout
+        android:id="@+id/item_barrage_style_layout"
+        android:layout_width="@dimen/dp_164"
+        android:background="@drawable/stroke_barrage_style_bg"
+        android:layout_height="@dimen/dp_64">
+
+        <ImageView
+            android:id="@+id/choose_style_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/barrage_choose_style" />
+
+        <ImageView
+            android:id="@+id/style_bg_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/barrage0" />
+    </RelativeLayout>
+
+
+</RelativeLayout>
