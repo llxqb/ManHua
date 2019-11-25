@@ -59,6 +59,7 @@ public class CommentSoftKeyPopupWindow {
 
     private void handlePopListView(View contentView) {
         RecyclerView recyclerView = contentView.findViewById(R.id.recycler_view);
+        ImageView sendMessageLeftIv = contentView.findViewById(R.id.send_message_left_iv);
         ImageView photoIv = contentView.findViewById(R.id.photo_iv);
         ImageView albumIv = contentView.findViewById(R.id.album_iv);
         TextView sendTv = contentView.findViewById(R.id.send_tv);
@@ -82,6 +83,13 @@ public class CommentSoftKeyPopupWindow {
 
                     }
                     break;
+            }
+        });
+
+        sendMessageLeftIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 
@@ -110,6 +118,8 @@ public class CommentSoftKeyPopupWindow {
 
 
     public interface CommentSoftKeyPopupWindowListener {
+
+        void switchFunctionByCommentSoftKeyBtnListener();
 
         void photoBtnListener();
 

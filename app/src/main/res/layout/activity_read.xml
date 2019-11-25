@@ -194,9 +194,9 @@
             android:layout_width="@dimen/dp_280"
             android:layout_height="@dimen/dp_32"
             android:layout_marginStart="@dimen/dp_10"
+            android:background="@drawable/bg_line_round_stroke_30"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:background="@drawable/bg_line_round_stroke_30"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -241,9 +241,11 @@
             android:id="@+id/send_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_13"
+            android:layout_marginStart="@dimen/dp_8"
             android:layout_marginTop="@dimen/dp_3"
+            android:layout_marginEnd="@dimen/dp_4"
             android:padding="@dimen/dp_5"
+            android:singleLine="true"
             android:text="@string/ReadActivity_send"
             android:textColor="@color/first_text_color"
             android:textSize="@dimen/sp_12" />
@@ -269,7 +271,7 @@
     <!-- 弹幕开关-->
     <LinearLayout
         android:id="@+id/barrage_ll"
-        android:layout_width="@dimen/dp_60"
+        android:layout_width="wrap_content"
         android:layout_height="@dimen/dp_18"
         android:layout_above="@id/send_message_ll"
         android:layout_marginStart="@dimen/dp_18"
@@ -281,12 +283,14 @@
             android:id="@+id/barrage_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_6"
             android:src="@mipmap/barrage_open" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_6"
+            android:layout_marginEnd="@dimen/dp_6"
             android:text="@string/ReadActivity_barrage"
             android:textColor="@color/first_text_color"
             android:textSize="@dimen/sp_11" />

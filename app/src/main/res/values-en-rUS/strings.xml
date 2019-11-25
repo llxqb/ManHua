@@ -204,8 +204,7 @@
     <string name="BarrageStylePopupWindow_barrage_hint">来一条弹幕吧</string>
     <string name="BarrageStylePopupWindow_comment_hint">来一条评论吧</string>
 
-    <string name="AddBarrageDialog_cancel">Batal</string>
-    <string name="AddBarrageDialog_sure">Yakin</string>
+
 
 
     <string name="SelectDialogUtil_date_title">选择日期</string>

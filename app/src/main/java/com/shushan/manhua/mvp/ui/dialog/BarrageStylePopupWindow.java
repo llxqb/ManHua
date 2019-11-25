@@ -26,6 +26,7 @@ public class BarrageStylePopupWindow {
     private BarrageStylePopupWindowListener mPopupWindowListener;
     private CustomPopWindow mCustomPopWindow;
     private List<BarrageStyleResponse> barrageStyleResponseList;
+    private int checkStyle;
 
 
     public BarrageStylePopupWindow(Activity context, List<BarrageStyleResponse> barrageStyleResponseList, BarrageStylePopupWindowListener popupWindowListener) {
@@ -62,30 +63,26 @@ public class BarrageStylePopupWindow {
                     barrageStyleResponse1.isCheck = false;
                 }
             }
+            checkStyle = position;
             barrageStyleResponse.isCheck = true;
             adapter.notifyDataSetChanged();
+
+
         });
 
-        sendMessageRightRl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mPopupWindowListener != null) {
-                    mPopupWindowListener.switchStyleLayoutBtnListener();
-                    mCustomPopWindow.dissmiss();
-                }
+        sendMessageRightRl.setOnClickListener(v -> {
+            if (mPopupWindowListener != null) {
+                mPopupWindowListener.switchStyleLayoutBtnListener(checkStyle);
+                mCustomPopWindow.dissmiss();
             }
         });
 
-        sendTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(mContext, "发送", Toast.LENGTH_SHORT).show();
-            }
-        });
+        sendTv.setOnClickListener(v -> Toast.makeText(mContext, "发送", Toast.LENGTH_SHORT).show());
     }
 
 
     public interface BarrageStylePopupWindowListener {
-        void switchStyleLayoutBtnListener();
+        void showBeansExchangeBtnListener();
+        void switchStyleLayoutBtnListener(int style);
     }
 }

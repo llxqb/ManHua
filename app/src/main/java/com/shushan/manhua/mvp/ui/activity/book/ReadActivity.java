@@ -33,6 +33,7 @@ import com.shushan.manhua.mvp.ui.activity.setting.SettingActivity;
 import com.shushan.manhua.mvp.ui.adapter.ReadingCommentAdapter;
 import com.shushan.manhua.mvp.ui.adapter.ReadingRecommendAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseActivity;
+import com.shushan.manhua.mvp.ui.dialog.AddBarrageDialog;
 import com.shushan.manhua.mvp.ui.dialog.BarrageSoftKeyPopupWindow;
 import com.shushan.manhua.mvp.ui.dialog.BarrageStylePopupWindow;
 import com.shushan.manhua.mvp.ui.dialog.CommentSoftKeyPopupWindow;
@@ -71,7 +72,7 @@ import butterknife.OnClick;
 public class ReadActivity extends BaseActivity implements ReadControl.ReadView, ReadUseCoinDialog.ReadUseCoinDialogListener, ReadBeansExchangeDialog.ReadBeansExchangeDialogListener,
         ReadOpenVipDialog.ReadOpenVipDialogListener, ReadSettingPopupWindow.ReadSettingPopupWindowListener, BarrageStylePopupWindow.BarrageStylePopupWindowListener,
         BarrageSoftKeyPopupWindow.BarrageSoftKeyPopupWindowListener, CommentSoftKeyPopupWindow.CommentSoftKeyPopupWindowListener, TakePhoto.TakeResultListener,
-        InvokeListener {
+        InvokeListener, AddBarrageDialog.AddBarrageDialogListener {
     @Inject
     ReadControl.PresenterRead mPresenter;
     @BindView(R.id.read_layout)
@@ -126,6 +127,11 @@ public class ReadActivity extends BaseActivity implements ReadControl.ReadView, 
     //选择照片的路径集合
     private ArrayList<TImage> photoList = new ArrayList<>();
     private CommentSoftKeyPopupWindow mCommentSoftKeyPopupWindow;//评论弹幕
+    /**
+     * 当前选择的弹幕样式
+     */
+    private int mBarrageStyle = 0;
+    private boolean isShowBackTopIv = false;//是否显示返回顶部图片按钮
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,29 +170,27 @@ public class ReadActivity extends BaseActivity implements ReadControl.ReadView, 
         mCommentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void initScrollView() {
-        mNestedScrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                LogUtils.e("onScrollChange()");
-//                LogUtils.e("scrollY:" + scrollY + "  Height:" + mImage.getHeight());
-                //mNestedScrollView.getChildAt(0).getMeasuredHeight()- mNestedScrollView.getMeasuredHeight()
-                if (scrollY >= mImage.getHeight()) {//设置隐藏功能键
-                    isBarrageState = false;
-                    if (mReadBottomLl.getVisibility() == View.VISIBLE) {
-                        showFunction();
-                    }
-                } else {
-                    isBarrageState = true;
+        mNestedScrollView.setOnScrollChangeListener((View.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            isShowBackTopIv = scrollY > mImage.getHeight() * 4 / 5;//大于图片的4/5 显示返回顶部按钮
+            LogUtils.e("scrollY:" + scrollY + "  Height:" + mImage.getHeight());
+            //mNestedScrollView.getChildAt(0).getMeasuredHeight()- mNestedScrollView.getMeasuredHeight()
+            if (scrollY >= mImage.getHeight()) {//设置隐藏功能键
+                isBarrageState = false;
+                if (mReadBottomLl.getVisibility() == View.VISIBLE) {
+                    showFunction();
                 }
+            } else {
+                isBarrageState = true;
             }
         });
     }
 
     @Override
     public void initData() {
-
+        mCommonRightTv.setText(getResources().getString(R.string.ReadActivity_right_title));
         for (int i = 0; i < 5; i++) {
             ReadingRecommendResponse readingRecommendResponse = new ReadingRecommendResponse();
             readingRecommendResponseList.add(readingRecommendResponse);
@@ -218,16 +222,11 @@ public class ReadActivity extends BaseActivity implements ReadControl.ReadView, 
         SoftKeyBoardListener.setListener(this, new SoftKeyBoardListener.OnSoftKeyBoardChangeListener() {
             @Override
             public void keyBoardShow(int height) {
-//                if (isInitState) {
-//                    isInitState = false;
-//                } else {
-//                }
                 hideLayout();
                 if (isBarrageState) {//弹幕状态
-                    new BarrageSoftKeyPopupWindow(ReadActivity.this, ReadActivity.this).initPopWindow(mReadLayout);
+                    showBarragePopupWindow();
                 } else {//评论状态
-                    mCommentSoftKeyPopupWindow = new CommentSoftKeyPopupWindow(ReadActivity.this, ReadActivity.this, photoList);
-                    mCommentSoftKeyPopupWindow.initPopWindow(mReadLayout);
+                    showCommentPopupWindow();
                 }
             }
 
@@ -261,6 +260,20 @@ public class ReadActivity extends BaseActivity implements ReadControl.ReadView, 
         mAddBookshelfIv.setVisibility(View.GONE);
     }
 
+    /**
+     * 显示弹幕弹框PopupWindow
+     */
+    private void showBarragePopupWindow() {
+        new BarrageSoftKeyPopupWindow(ReadActivity.this, ReadActivity.this).initPopWindow(mReadLayout);
+    }
+
+    /**
+     * 显示评论弹框PopupWindow
+     */
+    private void showCommentPopupWindow() {
+        mCommentSoftKeyPopupWindow = new CommentSoftKeyPopupWindow(ReadActivity.this, ReadActivity.this, photoList);
+        mCommentSoftKeyPopupWindow.initPopWindow(mReadLayout);
+    }
 
     /**
      * 显示去充值弹框
@@ -289,6 +302,7 @@ public class ReadActivity extends BaseActivity implements ReadControl.ReadView, 
         DialogFactory.showDialogFragment(getSupportFragmentManager(), readOpenVipDialog, ReadOpenVipDialog.TAG);
     }
 
+
     @OnClick({R.id.common_left_iv, R.id.common_right_tv, R.id.image, R.id.send_tv, R.id.bottom_directory_ll, R.id.last_chapter_iv, R.id.next_chapter_iv, R.id.barrage_ll, R.id.send_message_left_iv, R.id.send_message_right_iv,
             R.id.support_tv, R.id.add_bookshelf_tv, R.id.share_tv, R.id.last_chapter_ll, R.id.next_chapter_ll, R.id.bottom_comment_ll, R.id.bottom_share_ll, R.id.bottom_setting_ll, R.id.back_top_iv, R.id.add_bookshelf_iv})
     public void onViewClicked(View view) {
@@ -303,6 +317,7 @@ public class ReadActivity extends BaseActivity implements ReadControl.ReadView, 
                 showFunction();
                 break;
             case R.id.send_tv: //发送
+
                 break;
             case R.id.barrage_ll://设置弹幕
                 mBarrage = mSharePreferenceUtil.getBooleanData("barrage");
@@ -427,16 +442,7 @@ public class ReadActivity extends BaseActivity implements ReadControl.ReadView, 
 
 
     /**
-     * 切换显示底部样式布局或者弹框
-     */
-    @Override
-    public void switchStyleLayoutBtnListener() {
-        SoftKeyboardUtil.hideSoftKeyboard(this);
-    }
-
-
-    /**
-     * 显示自定义软键盘弹幕布局
+     * 弹幕模式：显示自定义软键盘弹幕布局
      * 切换弹幕或者评论
      */
     @Override
@@ -445,7 +451,7 @@ public class ReadActivity extends BaseActivity implements ReadControl.ReadView, 
     }
 
     /**
-     * 显示弹幕样式
+     * 弹幕模式：显示弹幕样式
      */
     @Override
     public void showStyleBtnListenerByBarrageSoftKey() {
@@ -453,11 +459,39 @@ public class ReadActivity extends BaseActivity implements ReadControl.ReadView, 
     }
 
     /**
-     * 发送消息
+     * 弹幕模式：发送消息
      */
     @Override
     public void sendMessageBtnListenerByBarrageSoftKey(String message) {
-        showToast(message);
+        showAddBarrageDialog(message);
+    }
+
+    /**
+     * 显示添加弹幕弹框
+     */
+    private void showAddBarrageDialog(String message) {
+        AddBarrageDialog addBarrageDialog = AddBarrageDialog.newInstance();
+        addBarrageDialog.setListener(this);
+        addBarrageDialog.setMessage(message);
+        addBarrageDialog.setBarrageStyle(mBarrageStyle);
+        DialogFactory.showDialogFragment(getSupportFragmentManager(), addBarrageDialog, AddBarrageDialog.TAG);
+    }
+
+    /**
+     * 发送添加弹幕
+     */
+    @Override
+    public void addBarrageBtnOkListener(String moveTvValue) {
+        showToast("弹幕值：" + moveTvValue);
+    }
+
+    /**
+     * 评论弹框 切换功能
+     * 切换功能
+     */
+    @Override
+    public void switchFunctionByCommentSoftKeyBtnListener() {
+        switchFunction();
     }
 
     @Override
@@ -502,10 +536,28 @@ public class ReadActivity extends BaseActivity implements ReadControl.ReadView, 
      * 显示弹幕样式
      */
     private void showBarrageStyle() {
-        showToast("显示弹幕样式");
         SoftKeyboardUtil.hideSoftKeyboard(this);
         showFunction();
         new BarrageStylePopupWindow(this, barrageStyleResponseList, this).initPopWindow(mReadLayout);
+    }
+
+    /**
+     * from:弹幕样式PopupWindow
+     * 显示漫豆兑换弹幕弹框
+     */
+    @Override
+    public void showBeansExchangeBtnListener() {
+        showBeansExchangeDialog();
+    }
+
+    /**
+     * from:弹幕样式PopupWindow
+     * 显示弹幕样式:确定样式按钮
+     */
+    @Override
+    public void switchStyleLayoutBtnListener(int style) {
+        mBarrageStyle = style;
+        SoftKeyboardUtil.hideSoftKeyboard(this);
     }
 
     /**
@@ -517,11 +569,15 @@ public class ReadActivity extends BaseActivity implements ReadControl.ReadView, 
             mReadBottomLl.setVisibility(View.INVISIBLE);
             mBarrageLl.setVisibility(View.INVISIBLE);
             mAddBookshelfIv.setVisibility(View.INVISIBLE);
+            mBackTopIv.setVisibility(View.INVISIBLE);
         } else {
             mSendMessageLl.setVisibility(View.VISIBLE);
             mReadBottomLl.setVisibility(View.VISIBLE);
             mBarrageLl.setVisibility(View.VISIBLE);
             mAddBookshelfIv.setVisibility(View.VISIBLE);
+            if (isShowBackTopIv) {
+                mBackTopIv.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -584,7 +640,7 @@ public class ReadActivity extends BaseActivity implements ReadControl.ReadView, 
         photoList.addAll(result.getImages());
         //传到CommentSoftKeyPopupWindow
 //        new CommentSoftKeyPopupWindow(ReadActivity.this, ReadActivity.this, photoList).initPopWindow(mReadLayout);
-        mCommentSoftKeyPopupWindow.setListData(photoList,  this);
+        mCommentSoftKeyPopupWindow.setListData(photoList, this);
 
     }
 

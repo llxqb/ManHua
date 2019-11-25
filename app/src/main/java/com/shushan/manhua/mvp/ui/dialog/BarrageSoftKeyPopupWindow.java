@@ -1,11 +1,13 @@
 package com.shushan.manhua.mvp.ui.dialog;
 
 import android.app.Activity;
+import android.content.Context;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -57,8 +59,8 @@ public class BarrageSoftKeyPopupWindow {
         sendMessageRightIv.setOnClickListener(v -> {
             if (mPopupWindowListener != null) {
                 mPopupWindowListener.showStyleBtnListenerByBarrageSoftKey();
-//                InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-//                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 mCustomPopWindow.dissmiss();
             }
         });
