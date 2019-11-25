@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerReadComponent;
 import com.shushan.manhua.di.modules.ActivityModule;
@@ -42,7 +43,6 @@ import com.shushan.manhua.mvp.ui.dialog.ReadContentsPopupWindow;
 import com.shushan.manhua.mvp.ui.dialog.ReadOpenVipDialog;
 import com.shushan.manhua.mvp.ui.dialog.ReadSettingPopupWindow;
 import com.shushan.manhua.mvp.ui.dialog.ReadUseCoinDialog;
-import com.shushan.manhua.mvp.utils.LogUtils;
 import com.shushan.manhua.mvp.utils.SoftKeyboardUtil;
 import com.shushan.manhua.mvp.views.ResizableImageView;
 
@@ -168,6 +168,16 @@ public class ReadActivity extends BaseActivity implements ReadControl.ReadView, 
         ReadingCommentAdapter mReadingCommentAdapter = new ReadingCommentAdapter(readingCommendResponseList);
         mCommentRecyclerView.setAdapter(mReadingCommentAdapter);
         mCommentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mReadingCommentAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (view.getId()) {
+                    case R.id.comment_ll:
+                        startActivitys(CommentDetailsActivity.class);
+                        break;
+                }
+            }
+        });
     }
 
 
@@ -175,7 +185,7 @@ public class ReadActivity extends BaseActivity implements ReadControl.ReadView, 
     private void initScrollView() {
         mNestedScrollView.setOnScrollChangeListener((View.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
             isShowBackTopIv = scrollY > mImage.getHeight() * 4 / 5;//大于图片的4/5 显示返回顶部按钮
-            LogUtils.e("scrollY:" + scrollY + "  Height:" + mImage.getHeight());
+//            LogUtils.e("scrollY:" + scrollY + "  Height:" + mImage.getHeight());
             //mNestedScrollView.getChildAt(0).getMeasuredHeight()- mNestedScrollView.getMeasuredHeight()
             if (scrollY >= mImage.getHeight()) {//设置隐藏功能键
                 isBarrageState = false;
@@ -190,6 +200,7 @@ public class ReadActivity extends BaseActivity implements ReadControl.ReadView, 
 
     @Override
     public void initData() {
+        mCommonRightTv.setVisibility(View.VISIBLE);
         mCommonRightTv.setText(getResources().getString(R.string.ReadActivity_right_title));
         for (int i = 0; i < 5; i++) {
             ReadingRecommendResponse readingRecommendResponse = new ReadingRecommendResponse();

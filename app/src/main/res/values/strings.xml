@@ -40,6 +40,10 @@
     <string name="ReadActivity_next_chapter">下一篇</string>
     <string name="ReadActivity_recommend_tv">其他人还在看</string>
     <string name="ReadActivity_comment_tv">评论</string>
+    <string name="ReadActivity_barrage_hint">12人正在看，弹幕撩一下~</string>
+    <string name="ReadActivity_support">赞 8990</string>
+    <string name="ReadActivity_add_bookshelf">加入书架</string>
+    <string name="ReadActivity_share">分享</string>
 
     <string name="ReadUseCoinDialog_sure">去充值</string>
 
@@ -113,6 +117,11 @@
     <string name="MemberCenterActivity_discount">会员折扣</string>
     <string name="MemberCenterActivity_barrage">会员弹幕</string>
     <string name="MemberCenterActivity_Identity">尊贵身份</string>
+    <string name="MemberCenterActivity_profit_01">会员可每日免费领取金币礼包</string>
+    <string name="MemberCenterActivity_profit_02">会员可以享受指定热门作品免费阅读</string>
+    <string name="MemberCenterActivity_profit_03">所有漫画章节会员享受折扣优惠</string>
+    <string name="MemberCenterActivity_profit_04">会员专享特殊弹幕样式</string>
+    <string name="MemberCenterActivity_profit_05">会员拥有特殊的会员身份标识，随时随地彰显尊贵身份</string>
 
     <string name="BuyAdapter_subscription">谷歌订阅</string>
 
@@ -206,6 +215,8 @@
 
     <string name="AddBarrageDialog_cancel">取消</string>
     <string name="AddBarrageDialog_sure">确定</string>
+
+    <string name="BarrageSoftKeyPopupWindow_limit_text">小于30个字符</string>
 
 
     <string name="SelectDialogUtil_date_title">选择日期</string>

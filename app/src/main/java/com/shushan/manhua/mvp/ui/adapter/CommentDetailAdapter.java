@@ -20,5 +20,6 @@ public class CommentDetailAdapter extends BaseQuickAdapter<CommentDetailResponse
 
     @Override
     protected void convert(BaseViewHolder helper, CommentDetailResponse item) {
+        helper.addOnClickListener(R.id.comment_iv).addOnClickListener(R.id.item_recommend_layout);
     }
 }

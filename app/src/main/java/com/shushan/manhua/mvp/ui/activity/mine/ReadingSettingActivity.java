@@ -27,6 +27,7 @@ public class ReadingSettingActivity extends BaseActivity {
     @Override
     protected void initContentView() {
         setContentView(R.layout.activity_reading_setting);
+        setStatusBar();
     }
 
     @Override

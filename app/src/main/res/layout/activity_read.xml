@@ -46,7 +46,7 @@
                     android:drawableTop="@mipmap/cartoon_chapter_praise_black"
                     android:drawablePadding="@dimen/dp_5"
                     android:gravity="center"
-                    android:text="赞 8990" />
+                    android:text="@string/ReadActivity_support" />
 
                 <TextView
                     android:id="@+id/add_bookshelf_tv"
@@ -56,7 +56,7 @@
                     android:drawableTop="@mipmap/cartoon_chapter_add_bookshelf"
                     android:drawablePadding="@dimen/dp_5"
                     android:gravity="center"
-                    android:text="加入书架" />
+                    android:text="@string/ReadActivity_add_bookshelf" />
 
                 <TextView
                     android:id="@+id/share_tv"
@@ -66,7 +66,7 @@
                     android:drawableTop="@mipmap/cartoon_chapter_share"
                     android:drawablePadding="@dimen/dp_5"
                     android:gravity="center"
-                    android:text="分享" />
+                    android:text="@string/ReadActivity_share" />
 
 
             </LinearLayout>
@@ -173,7 +173,7 @@
                 android:id="@+id/comment_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_12"
                 android:layout_marginBottom="@dimen/dp_20" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
@@ -229,7 +229,7 @@
                 android:layout_toEndOf="@id/send_message_left_iv"
                 android:background="@null"
                 android:gravity="start|center_vertical"
-                android:hint="1861人在看，弹幕撩一下"
+                android:hint="@string/ReadActivity_barrage_hint"
                 android:paddingStart="@dimen/dp_6"
                 android:paddingEnd="@dimen/dp_6"
                 android:textColor="@color/color_80"

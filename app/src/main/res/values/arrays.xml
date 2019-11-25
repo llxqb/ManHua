@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- 弹幕样式名称-->
-    <!--<string-array name="barrageStyleName">-->
-        <!--<item>Mode diam</item>-->
-        <!--<item>Imut</item>-->
-        <!--<item>Anak rusa</item>-->
-        <!--<item>Anjing</item>-->
-        <!--<item>Kaisar</item>-->
+    <!-- 会员权益-->
+    <!--<string-array name="vip_profit">-->
+        <!--<item>Anggota setiap harinya gratis mengambil hadiah koin</item>-->
+        <!--<item>Anggota bisa menikmati membaca gratis karya populer yang ditetapkan</item>-->
+        <!--<item>Anggota mendapatkan keuntungan dan potongan untuk seluruh chapter komik </item>-->
+        <!--<item>Model komentar langsung spesial yang bisa dinikmati untuk anggota</item>-->
+        <!--<item>Anggota akan memiliki simbol spesial dan bisa dimunculkan semau anggota</item>-->
     <!--</string-array>-->
 
 

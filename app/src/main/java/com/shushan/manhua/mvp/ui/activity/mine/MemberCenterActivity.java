@@ -56,6 +56,14 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
     @Override
     public void initView() {
         initRecyclerView();
+//        //会员权益
+//        String[] vipProfit = new String[]{getResources().getString(R.string.MemberCenterActivity_profit_01), getResources().getString(R.string.MemberCenterActivity_profit_02),
+//                getResources().getString(R.string.MemberCenterActivity_profit_03),
+//                getResources().getString(R.string.MemberCenterActivity_profit_04),
+//                getResources().getString(R.string.MemberCenterActivity_profit_05)
+//        };
+//        //会员权益
+//        int[] vipProfitIcon = new int[]{R.mipmap.koin_setiap_hari, R.mipmap.batasan_gratis, R.mipmap.potongan_untuk_anggota, R.mipmap.komentar_langsung_anggota, R.mipmap.Identitas};
     }
 
     private void initRecyclerView() {
@@ -82,19 +90,24 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
         mProfitAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             switch (position) {
                 case 0:
-                    showToast("每日漫豆");
+                    mProfitTextTv.setText(getResources().getString(R.string.MemberCenterActivity_profit_01));
+                    mProfitImgIv.setImageResource(R.mipmap.koin_setiap_hari);
                     break;
                 case 1:
-                    showToast("作品限免");
+                    mProfitTextTv.setText(getResources().getString(R.string.MemberCenterActivity_profit_02));
+                    mProfitImgIv.setImageResource(R.mipmap.batasan_gratis);
                     break;
                 case 2:
-                    showToast("会员折扣");
+                    mProfitTextTv.setText(getResources().getString(R.string.MemberCenterActivity_profit_03));
+                    mProfitImgIv.setImageResource(R.mipmap.potongan_untuk_anggota);
                     break;
                 case 3:
-                    showToast("会员弹幕");
+                    mProfitTextTv.setText(getResources().getString(R.string.MemberCenterActivity_profit_04));
+                    mProfitImgIv.setImageResource(R.mipmap.komentar_langsung_anggota);
                     break;
                 case 4:
-                    showToast("尊贵身份");
+                    mProfitTextTv.setText(getResources().getString(R.string.MemberCenterActivity_profit_05));
+                    mProfitImgIv.setImageResource(R.mipmap.my_identitas);
                     break;
             }
         });

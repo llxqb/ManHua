@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/dp_8"
-            android:src="@mipmap/history_delete_unchoose" />
+            android:src="@mipmap/comment_icon" />
 
         <EditText
             android:id="@+id/comment_et"

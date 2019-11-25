@@ -14,13 +14,13 @@
 
     <!--书架 -->
     <string name="BookShelfFragment_search_hint_tv">搜漫画</string>
-    <string name="BookShelfFragment_vip_center_tv">会员中心</string>
-    <string name="BookShelfFragment_recent_read_tv">最近阅读</string>
-    <string name="BookShelfFragment_recent_read_continue_tv">继续阅读</string>
-    <string name="BookShelfFragment_recent_read_record_tv">阅读记录</string>
-    <string name="BookShelfFragment_recommend_hint_tv">为你推荐</string>
-    <string name="BookShelfFragment_change_tv">换一批</string>
-    <string name="BookShelfAdapter_more_tv">Point I found \nMore cartoons</string>
+    <string name="BookShelfFragment_vip_center_tv">Pusat\nkeanggotaan</string>
+    <string name="BookShelfFragment_recent_read_tv">Akhir-akhir ini yang dibaca</string>
+    <string name="BookShelfFragment_recent_read_continue_tv">Lanjutkan membaca</string>
+    <string name="BookShelfFragment_recent_read_record_tv">Riwayat membaca</string>
+    <string name="BookShelfFragment_recommend_hint_tv">Rekomendasi untukmu</string>
+    <string name="BookShelfFragment_change_tv">Muat ulang</string>
+    <string name="BookShelfAdapter_more_tv">Klik aku dan temukan \nkomik lebih banyak lagi</string>
 
     <string name="LongDeleteActivity_select_title_tv">请选择</string>
     <string name="LongDeleteActivity_select_tv">已选择</string>
@@ -36,10 +36,14 @@
     <string name="ReadActivity_bottom_comment">Komentar</string>
     <string name="ReadActivity_bottom_share">Bagikan</string>
     <string name="ReadActivity_bottom_setting">Pengaturan</string>
-    <string name="ReadActivity_pre_chapter">上一篇</string>
-    <string name="ReadActivity_next_chapter">下一篇</string>
-    <string name="ReadActivity_recommend_tv">其他人还在看</string>
-    <string name="ReadActivity_comment_tv">评论</string>
+    <string name="ReadActivity_pre_chapter">Chapter selanjutnya</string>
+    <string name="ReadActivity_next_chapter">Chapter sebelumnya</string>
+    <string name="ReadActivity_recommend_tv">Yang sedang dilihat orang lain</string>
+    <string name="ReadActivity_comment_tv">Komentar</string>
+    <string name="ReadActivity_barrage_hint">komentar langsung diluncurkan</string>
+    <string name="ReadActivity_support">Suka </string>
+    <string name="ReadActivity_add_bookshelf">Masuk ke rak buku</string>
+    <string name="ReadActivity_share">Bagikan</string>
 
     <string name="ReadUseCoinDialog_sure">去充值</string>
 
@@ -113,6 +117,11 @@
     <string name="MemberCenterActivity_discount">会员折扣</string>
     <string name="MemberCenterActivity_barrage">会员弹幕</string>
     <string name="MemberCenterActivity_Identity">尊贵身份</string>
+    <string name="MemberCenterActivity_profit_01">Anggota setiap harinya gratis mengambil hadiah koin</string>
+    <string name="MemberCenterActivity_profit_02">Anggota bisa menikmati membaca gratis karya populer yang ditetapkan</string>
+    <string name="MemberCenterActivity_profit_03">Anggota mendapatkan keuntungan dan potongan untuk seluruh chapter komik</string>
+    <string name="MemberCenterActivity_profit_04">Model komentar langsung spesial yang bisa dinikmati untuk anggota</string>
+    <string name="MemberCenterActivity_profit_05">Anggota akan memiliki simbol spesial dan bisa dimunculkan semau anggota</string>
 
     <string name="BuyAdapter_subscription">谷歌订阅</string>
 
@@ -206,6 +215,8 @@
 
     <string name="AddBarrageDialog_cancel">Batal</string>
     <string name="AddBarrageDialog_sure">Yakin</string>
+
+    <string name="BarrageSoftKeyPopupWindow_limit_text">小于30个字符</string>
 
 
     <string name="SelectDialogUtil_date_title">选择日期</string>

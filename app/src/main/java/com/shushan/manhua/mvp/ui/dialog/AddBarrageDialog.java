@@ -72,12 +72,12 @@ public class AddBarrageDialog extends BaseDialogFragment {
         TextView mTextView = new TextView(getActivity());
         mTextView.setPadding(randomIntLeft, randomIntTop, randomIntRight, randomIntBottom);// 通过自定义坐标来放置你的控件 4个参数按顺序分别是左上右下
         RelativeLayout.LayoutParams flp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        flp.setMargins(randomIntLeft, randomIntTop, randomIntRight, randomIntBottom);
+        flp.setMargins(randomIntLeft + 50, randomIntTop + 50, randomIntRight - 50, randomIntBottom - 50);
         mMoveTv.setLayoutParams(flp);
         mMoveTv.setText(message);
         switch (mBarrageStyle) {
             case 0:
-                mMoveTv.setBackgroundResource(R.drawable.bg_black);
+                mMoveTv.setBackgroundResource(R.mipmap.black_bg);
                 break;
             case 1:
                 mMoveTv.setBackgroundResource(R.mipmap.barrage1_bg);

@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerCommentDetailComponent;
 import com.shushan.manhua.di.modules.ActivityModule;
@@ -46,13 +47,27 @@ public class CommentDetailsActivity extends BaseActivity implements CommentDetai
         mCommentDetailAdapter = new CommentDetailAdapter(commentDetailResponseList);
         mCommentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mCommentRecyclerView.setAdapter(mCommentDetailAdapter);
+        mCommentDetailAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                CommentDetailResponse commentDetailResponse = (CommentDetailResponse) adapter.getItem(position);
+                switch (view.getId()) {
+                    case R.id.comment_iv:
+                        //点击图片 放大查看
+                        break;
+                    case R.id.item_recommend_layout:
+                        //回复某人
+                        break;
+                }
+            }
+        });
 
     }
 
     @Override
     public void initData() {
         mCommonTitleTv.setText(getResources().getString(R.string.CommentDetailsActivity_title));
-        for (int i=0;i<10;i++){
+        for (int i = 0; i < 10; i++) {
             CommentDetailResponse commentDetailResponse = new CommentDetailResponse();
             commentDetailResponseList.add(commentDetailResponse);
         }

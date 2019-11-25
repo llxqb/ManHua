@@ -2,7 +2,9 @@ package com.shushan.manhua.mvp.ui.dialog;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.shushan.manhua.R;
+import com.shushan.manhua.mvp.utils.ToastUtils;
 
 
 /**
@@ -41,13 +44,16 @@ public class BarrageSoftKeyPopupWindow {
         handlePopListView(contentView);
     }
 
+    EditText messageEt;
 
     private void handlePopListView(View contentView) {
+
         ImageView sendMessageLeftIv = contentView.findViewById(R.id.send_message_left_iv);
         ImageView sendMessageRightIv = contentView.findViewById(R.id.send_message_right_iv);
-        EditText messageEt = contentView.findViewById(R.id.message_et);
+        messageEt = contentView.findViewById(R.id.message_et);
         messageEt.requestFocus();//获取焦点
         TextView sendTv = contentView.findViewById(R.id.send_tv);
+        messageEt.addTextChangedListener(search_text_OnChange);
         sendMessageLeftIv.setOnClickListener(v -> {
             if (mPopupWindowListener != null) {
                 mPopupWindowListener.switchStyleLayoutBtnListenerByBarrageSoftKey();
@@ -87,6 +93,31 @@ public class BarrageSoftKeyPopupWindow {
 
         void sendMessageBtnListenerByBarrageSoftKey(String message);
     }
+
+
+    public TextWatcher search_text_OnChange = new TextWatcher() {
+        private int selectionStart;
+        private int selectionEnd;
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            selectionStart = messageEt.getSelectionStart();
+            selectionEnd = messageEt.getSelectionEnd();
+            if (s.length() > 30) {
+                ToastUtils.showShort(mContext, mContext.getResources().getString(R.string.BarrageSoftKeyPopupWindow_limit_text));
+                s.delete(selectionStart - 1, selectionEnd);
+            }
+        }
+    };
 
 
 }

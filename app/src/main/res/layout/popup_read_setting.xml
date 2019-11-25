@@ -124,13 +124,14 @@
         android:id="@+id/more_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_22"
+        android:layout_marginTop="@dimen/dp_15"
+        android:layout_marginBottom="@dimen/dp_18"
         android:drawableStart="@mipmap/barrage_more_settings"
         android:drawablePadding="@dimen/dp_4"
+        android:padding="@dimen/dp_10"
         android:text="@string/ReadSettingPopupWindow_more"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="@dimen/dp_18"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/barrage_switch_hint_tv" />
 
