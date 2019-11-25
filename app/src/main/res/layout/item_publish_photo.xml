@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_publish_photo_layout"
+    android:layout_width="@dimen/dp_70"
+    android:layout_height="@dimen/dp_70">
+
+    <ImageView
+        android:id="@+id/pic_iv"
+        android:layout_width="@dimen/dp_44"
+        android:layout_height="@dimen/dp_44"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/comment_add_photo" />
+
+    <ImageView
+        android:id="@+id/delete_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:padding="@dimen/dp_6"
+        android:src="@mipmap/comment_delete_photo"
+        android:visibility="invisible" />
+</RelativeLayout>

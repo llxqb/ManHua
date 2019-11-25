@@ -1,7 +1,12 @@
 package com.shushan.manhua.mvp.ui.activity.book;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -40,6 +45,18 @@ import com.shushan.manhua.mvp.utils.LogUtils;
 import com.shushan.manhua.mvp.utils.SoftKeyboardUtil;
 import com.shushan.manhua.mvp.views.ResizableImageView;
 
+import org.devio.takephoto.app.TakePhoto;
+import org.devio.takephoto.app.TakePhotoImpl;
+import org.devio.takephoto.compress.CompressConfig;
+import org.devio.takephoto.model.InvokeParam;
+import org.devio.takephoto.model.TContextWrap;
+import org.devio.takephoto.model.TImage;
+import org.devio.takephoto.model.TResult;
+import org.devio.takephoto.permission.InvokeListener;
+import org.devio.takephoto.permission.PermissionManager;
+import org.devio.takephoto.permission.TakePhotoInvocationHandler;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +70,8 @@ import butterknife.OnClick;
  */
 public class ReadActivity extends BaseActivity implements ReadControl.ReadView, ReadUseCoinDialog.ReadUseCoinDialogListener, ReadBeansExchangeDialog.ReadBeansExchangeDialogListener,
         ReadOpenVipDialog.ReadOpenVipDialogListener, ReadSettingPopupWindow.ReadSettingPopupWindowListener, BarrageStylePopupWindow.BarrageStylePopupWindowListener,
-        BarrageSoftKeyPopupWindow.BarrageSoftKeyPopupWindowListener, CommentSoftKeyPopupWindow.CommentSoftKeyPopupWindowListener {
+        BarrageSoftKeyPopupWindow.BarrageSoftKeyPopupWindowListener, CommentSoftKeyPopupWindow.CommentSoftKeyPopupWindowListener, TakePhoto.TakeResultListener,
+        InvokeListener {
     @Inject
     ReadControl.PresenterRead mPresenter;
     @BindView(R.id.read_layout)
@@ -100,7 +118,22 @@ public class ReadActivity extends BaseActivity implements ReadControl.ReadView, 
     private Integer[] barrageStyleIcon = {R.mipmap.barrage0, R.mipmap.barrage1, R.mipmap.barrage2, R.mipmap.barrage3, R.mipmap.barrage4, R.mipmap.barrage5};
     //是否是弹幕状态否则是评论状态 false
     private boolean isBarrageState = true;
+    private TakePhoto takePhoto;
+    private InvokeParam invokeParam;
+    private Uri uri;
+    //成功取得照片
+    Bitmap bitmap;
+    //选择照片的路径集合
+    private ArrayList<TImage> photoList = new ArrayList<>();
+    private CommentSoftKeyPopupWindow mCommentSoftKeyPopupWindow;//评论弹幕
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        getTakePhoto().onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
+        File file = new File(getExternalCacheDir(), System.currentTimeMillis() + ".png");
+        uri = Uri.fromFile(file);
+    }
 
     @Override
     protected void initContentView() {
@@ -179,6 +212,7 @@ public class ReadActivity extends BaseActivity implements ReadControl.ReadView, 
         }
     }
 
+
     //监听软件盘是否弹起
     private void onKeyBoardListener() {
         SoftKeyBoardListener.setListener(this, new SoftKeyBoardListener.OnSoftKeyBoardChangeListener() {
@@ -192,7 +226,8 @@ public class ReadActivity extends BaseActivity implements ReadControl.ReadView, 
                 if (isBarrageState) {//弹幕状态
                     new BarrageSoftKeyPopupWindow(ReadActivity.this, ReadActivity.this).initPopWindow(mReadLayout);
                 } else {//评论状态
-                    new CommentSoftKeyPopupWindow(ReadActivity.this, ReadActivity.this).initPopWindow(mReadLayout);
+                    mCommentSoftKeyPopupWindow = new CommentSoftKeyPopupWindow(ReadActivity.this, ReadActivity.this, photoList);
+                    mCommentSoftKeyPopupWindow.initPopWindow(mReadLayout);
                 }
             }
 
@@ -425,6 +460,18 @@ public class ReadActivity extends BaseActivity implements ReadControl.ReadView, 
         showToast(message);
     }
 
+    @Override
+    public void photoBtnListener() {
+        //从相机获取图片(不裁剪)
+        getTakePhoto().onPickFromCapture(uri);
+    }
+
+    @Override
+    public void albumBtnListener(int maxPicNum) {
+        //从相册中获取图片（不裁剪）
+        getTakePhoto().onPickMultiple(maxPicNum);
+    }
+
     /**
      * 发送评论
      */
@@ -476,6 +523,69 @@ public class ReadActivity extends BaseActivity implements ReadControl.ReadView, 
             mBarrageLl.setVisibility(View.VISIBLE);
             mAddBookshelfIv.setVisibility(View.VISIBLE);
         }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        getTakePhoto().onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        getTakePhoto().onSaveInstanceState(outState);
+        super.onSaveInstanceState(outState);
+    }
+
+
+    @Override
+    public void takeFail(TResult result, String msg) {
+    }
+
+    @Override
+    public void takeCancel() {
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        //以下代码为处理Android6.0、7.0动态权限所需
+        PermissionManager.TPermissionType type = PermissionManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        PermissionManager.handlePermissionsResult(this, type, invokeParam, this);
+    }
+
+    @Override
+    public PermissionManager.TPermissionType invoke(InvokeParam invokeParam) {
+        PermissionManager.TPermissionType type = PermissionManager.checkPermission(TContextWrap.of(this), invokeParam.getMethod());
+        if (PermissionManager.TPermissionType.WAIT.equals(type)) {
+            this.invokeParam = invokeParam;
+        }
+        return type;
+    }
+
+    /**
+     * 获取TakePhoto实例
+     */
+    public TakePhoto getTakePhoto() {
+        if (takePhoto == null) {
+            takePhoto = (TakePhoto) TakePhotoInvocationHandler.of(this).bind(new TakePhotoImpl(this, this));
+        }
+        //设置压缩规则，最大500kb
+        takePhoto.onEnableCompress(new CompressConfig.Builder().setMaxSize(500 * 1024).setMaxPixel(800).create(), false);
+        return takePhoto;
+    }
+
+    @Override
+    public void takeSuccess(TResult result) {
+        showLoading();
+//        photoList.add(null);
+        photoList.addAll(result.getImages());
+        //传到CommentSoftKeyPopupWindow
+//        new CommentSoftKeyPopupWindow(ReadActivity.this, ReadActivity.this, photoList).initPopWindow(mReadLayout);
+        mCommentSoftKeyPopupWindow.setListData(photoList,  this);
+
     }
 
     private void initInjectData() {
