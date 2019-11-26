@@ -2,14 +2,9 @@ package com.shushan.manhua.mvp.ui.fragment.mine;
 
 import android.content.Context;
 
-import com.shushan.homework101.help.RetryWithDelay;
-import com.shushan.manhua.R;
 import com.shushan.manhua.mvp.model.MainModel;
-import com.shushan.manhua.mvp.model.ResponseData;
 
 import javax.inject.Inject;
-
-import io.reactivex.disposables.Disposable;
 
 /**
  * Created by li.liu on 2019/5/28.

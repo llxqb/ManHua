@@ -82,8 +82,10 @@ public class SelectChannelDialog extends BaseDialogFragment {
                     if (mSelectChannelDialogListener != null) {
                         mSelectChannelDialogListener.selectChannelBtnOkListener(chooseSex);
                     }
+                    closeDialog();
+                } else {
+                    showToast("Silakan pilih saluran");
                 }
-                closeDialog();
                 break;
         }
     }

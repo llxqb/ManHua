@@ -2,8 +2,10 @@ package com.shushan.manhua.mvp.ui.fragment.home;
 
 import android.content.Context;
 
-import com.shushan.homework101.help.RetryWithDelay;
 import com.shushan.manhua.R;
+import com.shushan.manhua.entity.request.HomeInfoRequest;
+import com.shushan.manhua.entity.response.HomeResponse;
+import com.shushan.manhua.help.RetryWithDelay;
 import com.shushan.manhua.mvp.model.MainModel;
 import com.shushan.manhua.mvp.model.ResponseData;
 
@@ -29,33 +31,33 @@ public class HomeFragmentPresenterImpl implements HomeFragmentControl.homeFragme
         mHomeView = homeView;
     }
 
-//    /**
-//     * 查看是否有未读消息
-//     */
-//    @Override
-//    public void onRequestUnReadInfo(TokenRequest tokenRequest) {
-//        mHomeView.showLoading(mContext.getResources().getString(R.string.loading));
-//        Disposable disposable = mHomeFragmentModel.onRequestUnReadInfo(tokenRequest).compose(mHomeView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
-//                .subscribe(this::requestUnReadInfoSuccess, throwable -> mHomeView.showErrMessage(throwable),
-//                        () -> mHomeView.dismissLoading());
-//        mHomeView.addSubscription(disposable);
-//    }
-//
-//    /**
-//     * 查看是否有未读消息成功
-//     */
-//    private void requestUnReadInfoSuccess(ResponseData responseData) {
-//        mHomeView.judgeToken(responseData.resultCode);
-//        if (responseData.resultCode == 0) {
-//            responseData.parseData(UnReadNewsResponse.class);
-//            if (responseData.parsedData != null) {
-//                UnReadNewsResponse response = (UnReadNewsResponse) responseData.parsedData;
-//                mHomeView.getUnReadInfoSuccess(response);
-//            }
-//        } else {
-//            mHomeView.showToast(responseData.errorMsg);
-//        }
-//    }
+    /**
+     * 请求首页信息
+     */
+    @Override
+    public void onRequestHomeInfo(HomeInfoRequest homeInfoRequest) {
+        mHomeView.showLoading(mContext.getResources().getString(R.string.loading));
+        Disposable disposable = mHomeFragmentModel.onRequestHomeInfo(homeInfoRequest).compose(mHomeView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
+                .subscribe(this::requestHomeInfoSuccess, throwable -> mHomeView.showErrMessage(throwable),
+                        () -> mHomeView.dismissLoading());
+        mHomeView.addSubscription(disposable);
+    }
+
+    /**
+     * 请求首页信息成功
+     */
+    private void requestHomeInfoSuccess(ResponseData responseData) {
+        mHomeView.judgeToken(responseData.resultCode);
+        if (responseData.resultCode == 0) {
+            responseData.parseData(HomeResponse.class);
+            if (responseData.parsedData != null) {
+                HomeResponse response = (HomeResponse) responseData.parsedData;
+                mHomeView.getHomeInfoSuccess(response);
+            }
+        } else {
+            mHomeView.showToast(responseData.errorMsg);
+        }
+    }
 
     @Override
     public void onCreate() {

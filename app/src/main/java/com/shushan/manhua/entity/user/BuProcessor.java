@@ -3,6 +3,7 @@ package com.shushan.manhua.entity.user;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.entity.constants.SpConstant;
 import com.shushan.manhua.mvp.utils.SharePreferenceUtil;
 
@@ -27,6 +28,19 @@ public class BuProcessor {
         return mUser != null && !TextUtils.isEmpty(mUser.token);
     }
 
+    public boolean isSetChannel() {
+        String channel =  mSharePreferenceUtil.getData(Constant.CHANNEL);
+        String bookType =  mSharePreferenceUtil.getData(Constant.BOOK_TYPE);
+        return !TextUtils.isEmpty(channel) && !TextUtils.isEmpty(bookType);
+    }
+
+    public String getChannel(){
+        return mSharePreferenceUtil.getData(Constant.CHANNEL);
+    }
+
+    public String getbookType(){
+        return mSharePreferenceUtil.getData(Constant.BOOK_TYPE);
+    }
 
     public String getToken() {
         mUser = (User) mSharePreferenceUtil.readObjData("user");
@@ -40,7 +54,6 @@ public class BuProcessor {
     public void setLoginUser(User mUser) {
         mSharePreferenceUtil.saveObjData(SpConstant.LOGIN_USER, mUser);
     }
-
 
 
     public User reSetUserData() {

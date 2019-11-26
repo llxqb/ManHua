@@ -6,10 +6,10 @@
     android:layout_marginEnd="@dimen/dp_10">
 
 
-    <com.shushan.manhua.mvp.views.ResizableImageView
+    <ImageView
         android:id="@+id/cover_iv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/dp_355"
+        android:layout_height="@dimen/dp_204"
         android:src="@mipmap/default_graph_3" />
 
     <TextView

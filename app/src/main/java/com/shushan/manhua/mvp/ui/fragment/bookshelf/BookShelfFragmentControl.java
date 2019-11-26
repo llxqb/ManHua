@@ -1,6 +1,8 @@
 package com.shushan.manhua.mvp.ui.fragment.bookshelf;
 
 
+import com.shushan.manhua.entity.request.BookShelfInfoRequest;
+import com.shushan.manhua.entity.response.BookShelfResponse;
 import com.shushan.manhua.mvp.presenter.LoadDataView;
 import com.shushan.manhua.mvp.presenter.Presenter;
 
@@ -10,19 +12,14 @@ import com.shushan.manhua.mvp.presenter.Presenter;
 
 public class BookShelfFragmentControl {
     public interface BookShelfView extends LoadDataView {
-
-//        void getMineInfoSuccess(MineInfoResponse mineInfoResponse);
+        void getBookShelfInfoSuccess(BookShelfResponse bookShelfResponse);
     }
 
     public interface BookShelfFragmentPresenter extends Presenter<BookShelfView> {
-//        /**
-//         * 查询个人信息
-//         */
-//        void onRequestPersonalInfo(TokenRequest tokenRequest);
         /**
-         * 查询我的（包含购买的服务信息）
+         * 请求书架数据
          */
-//        void onRequestMineInfo(TokenRequest tokenRequest);
+        void onRequestBookShelfInfo(BookShelfInfoRequest bookShelfInfoRequest);
 
     }
 

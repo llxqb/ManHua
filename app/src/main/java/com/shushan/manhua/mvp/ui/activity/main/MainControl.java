@@ -1,6 +1,7 @@
 package com.shushan.manhua.mvp.ui.activity.main;
 
 
+import com.shushan.manhua.entity.response.BookTypeResponse;
 import com.shushan.manhua.mvp.presenter.LoadDataView;
 import com.shushan.manhua.mvp.presenter.Presenter;
 
@@ -10,7 +11,7 @@ import com.shushan.manhua.mvp.presenter.Presenter;
 
 public class MainControl {
     public interface MainView extends LoadDataView {
-//        void getVersionUpdateSuccess(VersionUpdateResponse versionUpdateResponse);
+        void getManHuaTypeSuccess(BookTypeResponse bookTypeResponse);
     }
 
     public interface PresenterMain extends Presenter<MainView> {
@@ -19,15 +20,11 @@ public class MainControl {
 //         */
 //        void onRequestVersionUpdate(VersionUpdateRequest versionUpdateRequest);
 //
-//        /**
-//         * 上传设备信息
-//         */
-//        void uploadDeviceInfo(DeviceInfoRequest deviceInfoRequest);
-//
-//        /**
-//         * 根据融云第三方id获取用户头像和昵称
-//         */
-//        UserInfo onRequestUserInfoByRid(UserInfoByRidRequest userInfoByRidRequest);
+
+        /**
+         * 请求漫画类型
+         */
+        void onRequestManHuaType();
     }
 
 }

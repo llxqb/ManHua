@@ -3,32 +3,25 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:gravity="center">
+    android:layout_marginBottom="@dimen/dp_6"
+    android:gravity="center"
+    android:orientation="vertical">
 
 
     <RelativeLayout
         android:id="@+id/item_select_book_layout"
-        android:layout_width="@dimen/dp_110"
-        android:layout_height="@dimen/dp_110">
+        android:layout_width="@dimen/dp_104"
+        android:layout_height="@dimen/dp_104">
 
         <ImageView
             android:id="@+id/cover_iv"
-            android:layout_width="@dimen/dp_96"
-            android:layout_height="@dimen/dp_96"
+            android:layout_width="@dimen/dp_90"
+            android:layout_height="@dimen/dp_90"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:scaleType="centerCrop"
             android:src="@mipmap/reading_preference_antiquities" />
 
-        <TextView
-            android:id="@+id/type_name_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_16"
-            android:layout_marginTop="@dimen/dp_16"
-            android:text="都市"
-            android:textColor="@color/white"
-            android:textSize="@dimen/sp_16" />
 
         <ImageView
             android:id="@+id/check_iv"
@@ -38,5 +31,12 @@
             android:layout_alignParentEnd="true"
             android:src="@mipmap/gou_2" />
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/type_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_14" />
 
 </LinearLayout>

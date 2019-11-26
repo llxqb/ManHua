@@ -1,6 +1,8 @@
 package com.shushan.manhua.mvp.ui.activity.login;
 
 
+import com.shushan.manhua.entity.request.LoginRequest;
+import com.shushan.manhua.entity.response.LoginResponse;
 import com.shushan.manhua.mvp.presenter.LoadDataView;
 import com.shushan.manhua.mvp.presenter.Presenter;
 
@@ -10,22 +12,15 @@ import com.shushan.manhua.mvp.presenter.Presenter;
 
 public class LoginControl {
     public interface LoginView extends LoadDataView {
-//        void getVerifyCodeSuccess(VerifyCodeResponse verifyCodeResponse);
-//
-//        void getLoginSuccess(LoginResponse loginResponse);
+        void getLoginSuccess(LoginResponse loginResponse);
     }
 
     public interface PresenterLogin extends Presenter<LoginView> {
 
-//        /**
-//         * 获取验证码
-//         */
-//        void onRequestVerifyCode(VerifyCodeRequest verifyCodeRequest);
-//
-//        /**
-//         * 登录
-//         */
-//        void onRequestLogin(LoginRequest loginRequest);
+        /**
+         * 登录
+         */
+        void onRequestLogin(LoginRequest loginRequest);
     }
 
 }

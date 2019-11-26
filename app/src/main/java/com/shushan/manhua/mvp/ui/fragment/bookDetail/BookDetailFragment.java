@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.shushan.manhua.ManHuaApplication;
@@ -39,6 +40,8 @@ import butterknife.Unbinder;
 
 public class BookDetailFragment extends BaseFragment implements BookDetailFragmentControl.BookDetailView {
 
+    @Inject
+    BookDetailFragmentControl.BookDetailFragmentPresenter mPresenter;
     @BindView(R.id.desc_tv)
     TextView mDescTv;
     @BindView(R.id.author_tv)
@@ -53,8 +56,7 @@ public class BookDetailFragment extends BaseFragment implements BookDetailFragme
     private User mUser;
     ReadingCommentAdapter mReadingCommentAdapter;
     private List<ReadingCommendResponse> readingCommendResponseList = new ArrayList<>();
-    @Inject
-    BookDetailFragmentControl.BookDetailFragmentPresenter mPresenter;
+    private View mEmptyView;
 
     @Nullable
     @Override
@@ -70,6 +72,7 @@ public class BookDetailFragment extends BaseFragment implements BookDetailFragme
 
     @Override
     public void initView() {
+        initEmptyView();
         mUser = mBuProcessor.getUser();
         mReadingCommentAdapter = new ReadingCommentAdapter(readingCommendResponseList);
         mCommentRecyclerView.setAdapter(mReadingCommentAdapter);
@@ -89,7 +92,18 @@ public class BookDetailFragment extends BaseFragment implements BookDetailFragme
             ReadingCommendResponse readingCommendResponse = new ReadingCommendResponse();
             readingCommendResponseList.add(readingCommendResponse);
         }
+
+        //  mMineCouponAdapter.setEmptyView(mEmptyView);
     }
+
+    private void initEmptyView() {
+        mEmptyView = LayoutInflater.from(getActivity()).inflate(R.layout.empty_layout, (ViewGroup) mCommentRecyclerView.getParent(), false);
+        ImageView emptyIv = mEmptyView.findViewById(R.id.empty_iv);
+        TextView emptyTv = mEmptyView.findViewById(R.id.empty_tv);
+        emptyIv.setImageResource(R.mipmap.default_page_comment);
+        emptyTv.setText(getResources().getString(R.string.BookDetailFragment_empty_tv));
+    }
+
 
 
     @OnClick({R.id.publish_comment_tv, R.id.more_comment_tv, R.id.start_reading_tv})

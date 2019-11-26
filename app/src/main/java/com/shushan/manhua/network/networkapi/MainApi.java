@@ -1,7 +1,6 @@
 package com.shushan.manhua.network.networkapi;
 
 import io.reactivex.Observable;
-import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 
@@ -12,9 +11,19 @@ import retrofit2.http.POST;
 
 public interface MainApi {
     /**
-     * 检查版本更新
+     * 请求漫画类型
      */
-    @POST("student/version/app_version")
-    Observable<String> onRequestVersionUpdate(@Body String request);
+    @POST("cartoon/book/bookType")
+    Observable<String> onRequestManHuaType();
+    /**
+     * 请求首页信息
+     */
+    @POST("cartoon")
+    Observable<String> onRequestHomeInfo(@Body String request);
+    /**
+     * 请求我的书架信息
+     */
+    @POST("cartoon/user/bookrack")
+    Observable<String> onRequestBookShelfInfo(@Body String request);
 
 }

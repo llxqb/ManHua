@@ -10,10 +10,15 @@ import retrofit2.http.POST;
  */
 
 public interface LoginApi {
+//    /**
+//     * 检查版本更新
+//     */
+//    @POST("student/version/app_version")
+//    Observable<String> onRequestVersionUpdate(@Body String request);
     /**
-     * 检查版本更新
+     * 登录
      */
-    @POST("student/version/app_version")
-    Observable<String> onRequestVersionUpdate(@Body String request);
+    @POST("cartoon/login")
+    Observable<String> onRequestLogin(@Body String request);
 
 }

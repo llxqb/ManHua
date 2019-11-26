@@ -1,9 +1,12 @@
 package com.shushan.manhua.mvp.model;
 
 import com.google.gson.Gson;
+import com.shushan.manhua.entity.request.LoginRequest;
 import com.shushan.manhua.network.networkapi.LoginApi;
 
 import javax.inject.Inject;
+
+import io.reactivex.Observable;
 
 /**
  * Created by li.liu on 2019/9/28.
@@ -21,12 +24,9 @@ public class LoginModel {
         mGson = gson;
         mTransform = transform;
     }
-//    /**
-//     * 检查版本更新
-//     */
-//    public Observable<ResponseData> onRequestVersionUpdate(VersionUpdateRequest request) {
-//        return mLoginApi.onRequestVersionUpdate(mGson.toJson(request)).map(mTransform::transformCommon);
-//    }
+    public Observable<ResponseData> onRequestLogin(LoginRequest request) {
+        return mLoginApi.onRequestLogin(mGson.toJson(request)).map(mTransform::transformCommon);
+    }
 
 
 

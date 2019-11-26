@@ -1,4 +1,4 @@
-package com.shushan.homework101.entity;
+package com.shushan.manhua.entity;
 
 
 import com.contrarywind.interfaces.IPickerViewData;

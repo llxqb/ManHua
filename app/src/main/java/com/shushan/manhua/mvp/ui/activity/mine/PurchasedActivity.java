@@ -2,6 +2,10 @@ package com.shushan.manhua.mvp.ui.activity.mine;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.shushan.manhua.R;
@@ -29,6 +33,7 @@ public class PurchasedActivity extends BaseActivity implements PurchasedControl.
     RecyclerView mPurchasedRecyclerView;
     private PurchasedAdapter mPurchasedAdapter;
     private List<PurchasedResponse> purchasedResponseList = new ArrayList<>();
+    private View mEmptyView;
 
     @Override
     protected void initContentView() {
@@ -39,6 +44,7 @@ public class PurchasedActivity extends BaseActivity implements PurchasedControl.
 
     @Override
     public void initView() {
+        initEmptyView();
         mCommonTitleTv.setText(getResources().getString(R.string.PurchasedActivity_title));
         mPurchasedAdapter = new PurchasedAdapter(purchasedResponseList);
         mPurchasedRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -51,7 +57,17 @@ public class PurchasedActivity extends BaseActivity implements PurchasedControl.
             PurchasedResponse purchasedResponse = new PurchasedResponse();
             purchasedResponseList.add(purchasedResponse);
         }
+        //  mSentMessageAdapter.setEmptyView(mEmptyView);
     }
+
+    private void initEmptyView() {
+        mEmptyView = LayoutInflater.from(this).inflate(R.layout.empty_layout, (ViewGroup) mPurchasedRecyclerView.getParent(), false);
+        ImageView emptyIv = mEmptyView.findViewById(R.id.empty_iv);
+        TextView emptyTv = mEmptyView.findViewById(R.id.empty_tv);
+        emptyIv.setImageResource(R.mipmap.default_page_cartoon);
+        emptyTv.setText(getResources().getString(R.string.PurchasedActivity_empty_tv));
+    }
+
 
 
     @OnClick(R.id.common_left_iv)

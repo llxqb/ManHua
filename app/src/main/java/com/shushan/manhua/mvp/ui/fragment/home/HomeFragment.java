@@ -15,7 +15,7 @@ import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerHomeFragmentComponent;
 import com.shushan.manhua.di.modules.HomeFragmentModule;
 import com.shushan.manhua.di.modules.MainModule;
-import com.shushan.manhua.entity.response.BannerResponse;
+import com.shushan.manhua.entity.request.HomeInfoRequest;
 import com.shushan.manhua.entity.response.HomeResponse;
 import com.shushan.manhua.entity.user.User;
 import com.shushan.manhua.mvp.ui.adapter.BannerViewHolder;
@@ -50,8 +50,8 @@ public class HomeFragment extends BaseFragment implements HomeFragmentControl.Ho
     Unbinder unbinder;
     private User mUser;
     private HomeAdapter mHomeAdapter;
-    private List<HomeResponse> homeResponseList = new ArrayList<>();
-
+    private List<HomeResponse.BooksBean> homeResponseList = new ArrayList<>();
+    List<HomeResponse.BannerBean> bannerList = new ArrayList<>();
 
     @Nullable
     @Override
@@ -69,38 +69,42 @@ public class HomeFragment extends BaseFragment implements HomeFragmentControl.Ho
 
     @Override
     public void initView() {
-        mHomeAdapter = new HomeAdapter(homeResponseList);
+        mHomeAdapter = new HomeAdapter(homeResponseList, mImageLoaderHelper);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mHomeAdapter);
     }
 
     @Override
     public void initData() {
-        initBanner();
-        for (int i = 0; i < 3; i++) {
-            HomeResponse homeResponse = new HomeResponse();
-            List<HomeResponse.LabelBean> labelResponseList = new ArrayList<>();
-            for (int j=0;j<3;j++){
-                HomeResponse.LabelBean labelResponse = new HomeResponse.LabelBean();
-                labelResponse.name = "标签111";
-                labelResponseList.add(labelResponse);
-            }
-            homeResponse.labelBeanList = labelResponseList;
-            homeResponseList.add(homeResponse);
-        }
+        onRequestHome();
     }
 
     private void initBanner() {
         // 设置数据
         mBanner.setDelayedTime(4000);//切换时间
-        List<BannerResponse> bannerList = new ArrayList<>();
-        for (int i = 0; i < 1; i++) {
-            BannerResponse bannerResponse = new BannerResponse();
-            bannerList.add(bannerResponse);
-        }
         mBanner.setPages(bannerList, (MZHolderCreator<BannerViewHolder>) () -> new BannerViewHolder(mImageLoaderHelper));
     }
 
+    /**
+     * 请求首页数据
+     */
+    private void onRequestHome() {
+        HomeInfoRequest homeInfoRequest = new HomeInfoRequest();
+        if (mUser != null) {
+            homeInfoRequest.token = mUser.token;
+        }
+        homeInfoRequest.channel = mBuProcessor.getChannel();
+        homeInfoRequest.book_type = mBuProcessor.getbookType();
+        mPresenter.onRequestHomeInfo(homeInfoRequest);
+    }
+
+    @Override
+    public void getHomeInfoSuccess(HomeResponse homeResponse) {
+        bannerList = homeResponse.getBanner();
+        initBanner();
+        mHomeAdapter.setNewData(homeResponse.getBooks());
+
+    }
 
     private void initializeInjector() {
         DaggerHomeFragmentComponent.builder().appComponent(((ManHuaApplication) Objects.requireNonNull(getActivity()).getApplication()).getAppComponent())
@@ -114,4 +118,6 @@ public class HomeFragment extends BaseFragment implements HomeFragmentControl.Ho
         super.onDestroyView();
         unbinder.unbind();
     }
+
+
 }

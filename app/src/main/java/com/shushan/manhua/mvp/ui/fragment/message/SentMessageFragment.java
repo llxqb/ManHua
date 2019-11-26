@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.shushan.manhua.ManHuaApplication;
 import com.shushan.manhua.R;
@@ -42,6 +44,7 @@ public class SentMessageFragment extends BaseFragment implements SentMessageFrag
     Unbinder unbinder;
     private SentMessageAdapter mSentMessageAdapter;
     private List<SentMessageResponse> sentMessageResponseList = new ArrayList<>();
+    private View mEmptyView;
 
     @Nullable
     @Override
@@ -57,6 +60,7 @@ public class SentMessageFragment extends BaseFragment implements SentMessageFrag
 
     @Override
     public void initView() {
+        initEmptyView();
         mSentMessageAdapter = new SentMessageAdapter(sentMessageResponseList);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mSentMessageAdapter);
@@ -68,6 +72,15 @@ public class SentMessageFragment extends BaseFragment implements SentMessageFrag
             SentMessageResponse sentMessageResponse = new SentMessageResponse();
             sentMessageResponseList.add(sentMessageResponse);
         }
+        //  mSentMessageAdapter.setEmptyView(mEmptyView);
+    }
+
+    private void initEmptyView() {
+        mEmptyView = LayoutInflater.from(getActivity()).inflate(R.layout.empty_layout, (ViewGroup) mRecyclerView.getParent(), false);
+        ImageView emptyIv = mEmptyView.findViewById(R.id.empty_iv);
+        TextView emptyTv = mEmptyView.findViewById(R.id.empty_tv);
+        emptyIv.setImageResource(R.mipmap.default_page_information);
+        emptyTv.setText(getResources().getString(R.string.MessageActivity_empty_tv));
     }
 
 

@@ -3,7 +3,10 @@ package com.shushan.manhua.mvp.ui.activity.book;
 import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -44,6 +47,7 @@ public class ReadingHistoryActivity extends BaseActivity implements ReadingHisto
      */
     boolean isEditState = false;
     boolean isSelectState = false;//是否全选
+    private View mEmptyView;
 
     @Override
     protected void initContentView() {
@@ -54,6 +58,7 @@ public class ReadingHistoryActivity extends BaseActivity implements ReadingHisto
 
     @Override
     public void initView() {
+        initEmptyView();
         mCommonRightTv.setVisibility(View.VISIBLE);
         mCommonTitleTv.setText(getResources().getString(R.string.ReadingHistoryActivity_title));
         mCommonRightTv.setText(getResources().getString(R.string.ReadingHistoryActivity_edit));
@@ -84,6 +89,16 @@ public class ReadingHistoryActivity extends BaseActivity implements ReadingHisto
             }
             readingHistoryResponseList.add(readingHistoryResponse);
         }
+
+        //  mReadingHistoryAdapter.setEmptyView(mEmptyView);
+    }
+
+    private void initEmptyView() {
+        mEmptyView = LayoutInflater.from(this).inflate(R.layout.empty_layout, (ViewGroup) mHistoryRecordRecyclerView.getParent(), false);
+        ImageView emptyIv = mEmptyView.findViewById(R.id.empty_iv);
+        TextView emptyTv = mEmptyView.findViewById(R.id.empty_tv);
+        emptyIv.setImageResource(R.mipmap.default_page_history);
+        emptyTv.setText(getResources().getString(R.string.ReadingHistoryActivity_empty_tv));
     }
 
 

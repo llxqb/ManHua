@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -17,6 +18,7 @@ import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerBookShelfFragmentComponent;
 import com.shushan.manhua.di.modules.BookShelfFragmentModule;
 import com.shushan.manhua.di.modules.MainModule;
+import com.shushan.manhua.entity.request.BookShelfInfoRequest;
 import com.shushan.manhua.entity.response.BookShelfResponse;
 import com.shushan.manhua.entity.response.RecommendResponse;
 import com.shushan.manhua.entity.user.User;
@@ -46,6 +48,10 @@ import butterknife.Unbinder;
 
 public class BookShelfFragment extends BaseFragment implements BookShelfFragmentControl.BookShelfView {
 
+    @Inject
+    BookShelfFragmentControl.BookShelfFragmentPresenter mPresenter;
+    @BindView(R.id.last_read_layout)
+    LinearLayout mLastReadLayout;
     @BindView(R.id.recent_read_book_name_tv)
     TextView mRecentReadBookNameTv;
     @BindView(R.id.recent_read_book_to_chapter_tv)
@@ -57,11 +63,10 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
     Unbinder unbinder;
     private BookShelfAdapter mBookShelfAdapter;
     private RecommendAdapter mRecommendAdapter;
-    private List<BookShelfResponse> bookShelfResponseList = new ArrayList<>();
+    private List<BookShelfResponse.BookrackBean> bookShelfResponseList = new ArrayList<>();
     private List<RecommendResponse> recommendResponseList = new ArrayList<>();
     private User mUser;
-    @Inject
-    BookShelfFragmentControl.BookShelfFragmentPresenter mPresenter;
+    private BookShelfResponse mBookShelfResponse;
 
     @Nullable
     @Override
@@ -79,7 +84,7 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
 
     @Override
     public void initView() {
-        mBookShelfAdapter = new BookShelfAdapter(bookShelfResponseList);
+        mBookShelfAdapter = new BookShelfAdapter(bookShelfResponseList, mImageLoaderHelper);
         mBookshelfRecyclerView.setAdapter(mBookShelfAdapter);
         mBookshelfRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         mRecommendAdapter = new RecommendAdapter(recommendResponseList);
@@ -89,13 +94,10 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
             startActivitys(ReadActivity.class);//阅读页面
         });
         //长按删除
-        mBookShelfAdapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
-                BookShelfResponse bookShelfResponse = (BookShelfResponse) adapter.getItem(position);
-                LongDeleteActivity.start(getActivity(), bookShelfResponse);
-                return false;
-            }
+        mBookShelfAdapter.setOnItemLongClickListener((adapter, view, position) -> {
+            BookShelfResponse.BookrackBean bookRackBean = (BookShelfResponse.BookrackBean) adapter.getItem(position);
+            LongDeleteActivity.start(getActivity(), mBookShelfResponse);
+            return false;
         });
 
         mRecommendAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
@@ -104,28 +106,37 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
                 startActivitys(BookDetailActivity.class);
             }
         });
-
-
     }
 
     @Override
     public void initData() {
-        for (int i = 0; i < 7; i++) {
-            BookShelfResponse bookShelfResponse = new BookShelfResponse();
-            bookShelfResponse.cover = R.mipmap.book_icon;
-            bookShelfResponseList.add(bookShelfResponse);
-        }
-        BookShelfResponse bookShelfResponse = new BookShelfResponse();
-        bookShelfResponse.cover = R.mipmap.bookshelf_find_more;
-        bookShelfResponse.isMore = true;
-        bookShelfResponseList.add(bookShelfResponse);
-
-        //推荐数据
-        for (int i = 0; i < 10; i++) {
-            RecommendResponse recommendResponse = new RecommendResponse();
-            recommendResponseList.add(recommendResponse);
-        }
+//        BookShelfResponse bookShelfResponse = new BookShelfResponse();
+//        bookShelfResponse.cover = R.mipmap.bookshelf_find_more;
+//        bookShelfResponse.isMore = true;
+//        bookShelfResponseList.add(bookShelfResponse);
+        onRequestBookShelfInfo();
     }
+
+    /**
+     * 请求书架数据
+     */
+    private void onRequestBookShelfInfo() {
+        BookShelfInfoRequest bookShelfInfoRequest = new BookShelfInfoRequest();
+        bookShelfInfoRequest.token =  mBuProcessor.getToken();
+        mPresenter.onRequestBookShelfInfo(bookShelfInfoRequest);
+    }
+
+    @Override
+    public void getBookShelfInfoSuccess(BookShelfResponse bookShelfResponse) {
+        mBookShelfResponse = bookShelfResponse;
+        if (bookShelfResponse.getLast_read().isEmpty()) {
+            mLastReadLayout.setVisibility(View.GONE);
+        } else {
+            mLastReadLayout.setVisibility(View.VISIBLE);
+        }
+        mBookShelfAdapter.setNewData(bookShelfResponse.getBookrack());
+    }
+
 
     @OnClick({R.id.search_rl, R.id.vip_center_tv, R.id.continue_read_rl, R.id.read_record_ll, R.id.change_tv})
     public void onViewClicked(View view) {
@@ -160,4 +171,6 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
         super.onDestroyView();
         unbinder.unbind();
     }
+
+
 }

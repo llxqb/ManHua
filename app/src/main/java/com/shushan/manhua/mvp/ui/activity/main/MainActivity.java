@@ -9,10 +9,13 @@ import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 
+import com.google.gson.Gson;
 import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerMainComponent;
 import com.shushan.manhua.di.modules.ActivityModule;
 import com.shushan.manhua.di.modules.MainModule;
+import com.shushan.manhua.entity.constants.Constant;
+import com.shushan.manhua.entity.response.BookTypeResponse;
 import com.shushan.manhua.entity.user.User;
 import com.shushan.manhua.help.DialogFactory;
 import com.shushan.manhua.mvp.ui.activity.login.LoginActivity;
@@ -23,6 +26,7 @@ import com.shushan.manhua.mvp.ui.dialog.SelectManHuaTypeDialog;
 import com.shushan.manhua.mvp.ui.fragment.bookshelf.BookShelfFragment;
 import com.shushan.manhua.mvp.ui.fragment.home.HomeFragment;
 import com.shushan.manhua.mvp.ui.fragment.mine.MineFragment;
+import com.shushan.manhua.mvp.utils.LogUtils;
 import com.shushan.manhua.mvp.views.MyNoScrollViewPager;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
@@ -34,8 +38,10 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import io.reactivex.annotations.NonNull;
 
-public class MainActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener, MainControl.MainView {
+public class MainActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener, MainControl.MainView, SelectChannelDialog.SelectChannelDialogListener, SelectManHuaTypeDialog.SelectManHuaTypeDialogListener {
 
+    @Inject
+    MainControl.PresenterMain mPresenter;
     @BindView(R.id.main_bottom_navigation)
     BottomNavigationView mMainBottomNavigation;
     @BindView(R.id.main_viewpager)
@@ -44,9 +50,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     public static final int SWITCH_TEACHER_PAGE = 1;
     public static final int SWITCH_MINE_PAGE = 2;
 
-    User mUser;
-    @Inject
-    MainControl.PresenterMain mPresenter;
+    private User mUser;
+    private BookTypeResponse mBookTypeResponse;//选择漫画类型
 
     public static void start(Context context, int switchPage) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -58,41 +63,25 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     protected void initContentView() {
         setContentView(R.layout.activity_main);
         initInjectData();
+        mUser = mBuProcessor.getUser();
     }
 
 
     @Override
     public void initView() {
         mMainBottomNavigation.setItemIconTintList(null);
-        mUser = mBuProcessor.getUser();
-//        LogUtils.e("mUser:" + new Gson().toJson(mUser));
-//        if (!mSharePreferenceUtil.getBooleanData("first_guide")) {
-//            startActivitys(FirstGuideActivity.class);
-//            finish();
-//        } else if (!mBuProcessor.isValidLogin()) {
+        LogUtils.e("mUser:" + new Gson().toJson(mUser));
+        if (!mBuProcessor.isSetChannel()) {
+            showSelectChannelDialog();
+            onRequestManHuaType();
 //            startActivitys(LoginActivity.class);
 //            finish();
-//        } else if (!mBuProcessor.isSelectGrade()) {
-//            startActivitys(SelectGradeActivity.class);
-//            finish();
-//        } else {
-//            connectRongCloud();
-//            List<Fragment> fragments = new ArrayList<>();
-//            HomeFragment homeFragment = new HomeFragment();
-//            TeacherFragment teacherFragment = new TeacherFragment();
-//            MineFragment mineFragment = new MineFragment();
-//            fragments.add(homeFragment);
-//            fragments.add(teacherFragment);
-//            fragments.add(mineFragment);
-//            MyFragmentAdapter adapter = new MyFragmentAdapter(getSupportFragmentManager(), fragments);
-//            mMainViewpager.setOffscreenPageLimit(fragments.size());
-//            mMainViewpager.setAdapter(adapter);
-//            mMainBottomNavigation.setOnNavigationItemSelectedListener(this);
-//            onRequestVersionUpdate();
-//        }
+        } else {
+            initMainView();
+        }
+    }
 
-        startActivitys(LoginActivity.class);
-        finish();
+    private void initMainView() {
         List<Fragment> fragments = new ArrayList<>();
         HomeFragment homeFragment = new HomeFragment();
         BookShelfFragment bookShelfFragment = new BookShelfFragment();
@@ -116,8 +105,65 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             }
         }
         checkPermissions();
+
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (intent.getBooleanExtra("exitLogin", false)) {
+            mSharePreferenceUtil.setData("first_guide", true);//设置引导页为true
+            startActivitys(LoginActivity.class);
+            finish();
+        }
+    }
+
+
+    /**
+     * 请求漫画类型
+     */
+    private void onRequestManHuaType() {
+        mPresenter.onRequestManHuaType();
+    }
+
+    @Override
+    public void getManHuaTypeSuccess(BookTypeResponse bookTypeResponse) {
+        mBookTypeResponse = bookTypeResponse;
+    }
+
+    /**
+     * 第一次选择频道
+     */
+    private void showSelectChannelDialog() {
+        SelectChannelDialog selectChannelDialog = SelectChannelDialog.newInstance();
+        selectChannelDialog.setListener(this);
+        DialogFactory.showDialogFragment(this.getSupportFragmentManager(), selectChannelDialog, SelectChannelDialog.TAG);
+    }
+
+    @Override
+    public void selectChannelBtnOkListener(int sex) {
+        mSharePreferenceUtil.setData(Constant.CHANNEL, String.valueOf(sex));
         showSelectManHuaTypeDialog();
     }
+
+
+    /**
+     * 第一次选择漫画类型
+     */
+    private void showSelectManHuaTypeDialog() {
+        SelectManHuaTypeDialog selectManHuaTypeDialog = SelectManHuaTypeDialog.newInstance();
+        selectManHuaTypeDialog.setData(mBookTypeResponse.getData());
+        selectManHuaTypeDialog.setListener(this, mImageLoaderHelper);
+        DialogFactory.showDialogFragment(this.getSupportFragmentManager(), selectManHuaTypeDialog, SelectManHuaTypeDialog.TAG);
+    }
+
+    @Override
+    public void selectManHuaTypeBtnOkListener(String chooseListStr) {
+        LogUtils.e("chooseListStr:" + chooseListStr);
+        mSharePreferenceUtil.setData(Constant.BOOK_TYPE, chooseListStr);//[1,2,3]喜欢的类型
+        initMainView();
+    }
+
 
     /**
      * 检查app 权限
@@ -135,36 +181,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 showToast("请允许权限");
             }
         });
-    }
-
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        if (intent.getBooleanExtra("exitLogin", false)) {
-            mSharePreferenceUtil.setData("first_guide", true);//设置引导页为true
-            startActivitys(LoginActivity.class);
-            finish();
-        }
-    }
-
-    /**
-     * 第一次选择频道
-     */
-    private void showSelectChannelDialog() {
-        SelectChannelDialog selectChannelDialog = SelectChannelDialog.newInstance();
-//        editLabelDialog.setListener(this);
-//        editLabelDialog.setTitle(title, hintText);
-//        editLabelDialog.setName(label);
-        DialogFactory.showDialogFragment(this.getSupportFragmentManager(), selectChannelDialog, SelectChannelDialog.TAG);
-    }
-
-    /**
-     * 第一次选择漫画类型
-     */
-    private void showSelectManHuaTypeDialog() {
-        SelectManHuaTypeDialog selectManHuaTypeDialog = SelectManHuaTypeDialog.newInstance();
-        DialogFactory.showDialogFragment(this.getSupportFragmentManager(), selectManHuaTypeDialog, SelectManHuaTypeDialog.TAG);
     }
 
 

@@ -33,7 +33,7 @@ public class ReadingSettingActivity extends BaseActivity {
     RecyclerView mRecyclerView;
     @BindView(R.id.select_num_tv)
     TextView mSelectNumTv;
-    private List<BookTypeResponse> bookTypeResponseList = new ArrayList<>();
+    private List<BookTypeResponse.DataBean> bookTypeResponseList = new ArrayList<>();
 
     @Override
     protected void initContentView() {
@@ -45,11 +45,11 @@ public class ReadingSettingActivity extends BaseActivity {
     public void initView() {
         mCommonTitleTv.setText(getString(R.string.ReadingSettingActivity_title));
         List<Integer> chooseList = new ArrayList<>();//已选择的类型id
-        SelectBookTypeAdapter mSelectBookTypeAdapter = new SelectBookTypeAdapter(bookTypeResponseList);
+        SelectBookTypeAdapter mSelectBookTypeAdapter = new SelectBookTypeAdapter(bookTypeResponseList,mImageLoaderHelper);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         mRecyclerView.setAdapter(mSelectBookTypeAdapter);
         mSelectBookTypeAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-            BookTypeResponse bookTypeResponse = (BookTypeResponse) adapter.getItem(position);
+            BookTypeResponse.DataBean bookTypeResponse = (BookTypeResponse.DataBean) adapter.getItem(position);
             if (bookTypeResponse != null) {
                 if (bookTypeResponse.isCheck) {
                     bookTypeResponse.isCheck = false;
@@ -73,11 +73,6 @@ public class ReadingSettingActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        for (int i = 0; i < 6; i++) {
-            BookTypeResponse bookTypeResponse = new BookTypeResponse();
-            bookTypeResponse.isCheck = false;
-            bookTypeResponseList.add(bookTypeResponse);
-        }
     }
 
 

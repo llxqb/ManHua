@@ -40,7 +40,6 @@ public class LongDeleteActivity extends BaseActivity implements LongDeleteContro
     @BindView(R.id.select_all_tv)
     TextView mSelectAllTv;
     private BookShelfDeleteAdapter mBookShelfDeleteAdapter;
-    private List<BookShelfResponse> bookShelfResponseList = new ArrayList<>();
     /**
      * 是否全选
      * false: 全选
@@ -68,13 +67,13 @@ public class LongDeleteActivity extends BaseActivity implements LongDeleteContro
         mCommonTitleTv.setText(getResources().getString(R.string.LongDeleteActivity_select_title_tv));
         if (getIntent() != null) {
             BookShelfResponse bookShelfResponse = getIntent().getParcelableExtra("bookShelfResponse");
-            mBookShelfDeleteAdapter = new BookShelfDeleteAdapter(bookShelfResponseList);
+            mBookShelfDeleteAdapter = new BookShelfDeleteAdapter(bookShelfResponse.getBookrack());
             mRecyclerView.setAdapter(mBookShelfDeleteAdapter);
             mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
             mBookShelfDeleteAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
                 @Override
                 public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                    BookShelfResponse bookShelfResponse = (BookShelfResponse) adapter.getItem(position);
+                    BookShelfResponse.BookrackBean bookShelfResponse = (BookShelfResponse.BookrackBean) adapter.getItem(position);
                     ImageView checkIv = view.findViewById(R.id.check_iv);
                     if (bookShelfResponse != null) {
                         if (bookShelfResponse.isCheck) {
@@ -94,11 +93,6 @@ public class LongDeleteActivity extends BaseActivity implements LongDeleteContro
 
     @Override
     public void initData() {
-        for (int i = 0; i < 7; i++) {
-            BookShelfResponse bookShelfResponse = new BookShelfResponse();
-            bookShelfResponse.cover = R.mipmap.book_icon;
-            bookShelfResponseList.add(bookShelfResponse);
-        }
     }
 
 
@@ -115,15 +109,15 @@ public class LongDeleteActivity extends BaseActivity implements LongDeleteContro
                 if (isSelectAll) {
                     //全不选
                     isSelectAll = false;
-                    for (BookShelfResponse bookShelfResponse : bookShelfResponseList) {
-                        bookShelfResponse.isCheck = false;
+                    for (BookShelfResponse.BookrackBean bookrackBean : mBookShelfDeleteAdapter.getData()) {
+                        bookrackBean.isCheck = false;
                     }
                     mSelectAllTv.setText(getResources().getString(R.string.LongDeleteActivity_select_all));
                 } else {
                     //全选
                     isSelectAll = true;
-                    for (BookShelfResponse bookShelfResponse : bookShelfResponseList) {
-                        bookShelfResponse.isCheck = true;
+                    for (BookShelfResponse.BookrackBean bookrackBean : mBookShelfDeleteAdapter.getData()) {
+                        bookrackBean.isCheck = true;
                     }
                     mSelectAllTv.setText(getResources().getString(R.string.LongDeleteActivity_select_all_no));
                 }
@@ -134,8 +128,8 @@ public class LongDeleteActivity extends BaseActivity implements LongDeleteContro
                 //删除
                 List<Integer> deletePosList = new ArrayList<>();//要删除的位置id
                 for (int i = 0; i < mBookShelfDeleteAdapter.getData().size(); i++) {
-                    BookShelfResponse bookShelfResponse = mBookShelfDeleteAdapter.getData().get(i);
-                    if (bookShelfResponse.isCheck) {
+                    BookShelfResponse.BookrackBean bookrackBean = mBookShelfDeleteAdapter.getData().get(i);
+                    if (bookrackBean.isCheck) {
                         deletePosList.add(i);
                     }
                 }
@@ -149,8 +143,8 @@ public class LongDeleteActivity extends BaseActivity implements LongDeleteContro
     private int selectDeletePosNum() {
         List<Integer> deletePosList = new ArrayList<>();//要删除的位置id
         for (int i = 0; i < mBookShelfDeleteAdapter.getData().size(); i++) {
-            BookShelfResponse bookShelfResponse = mBookShelfDeleteAdapter.getData().get(i);
-            if (bookShelfResponse.isCheck) {
+            BookShelfResponse.BookrackBean bookrackBean = mBookShelfDeleteAdapter.getData().get(i);
+            if (bookrackBean.isCheck) {
                 deletePosList.add(i);
             }
         }

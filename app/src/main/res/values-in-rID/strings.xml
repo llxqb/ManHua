@@ -236,5 +236,10 @@
     <string name="SelectDialogUtil_cancel">取消</string>
     <string name="SelectDialogUtil_sure">确定</string>
 
+    <!-- 空白页-->
+    <string name="BookDetailFragment_empty_tv">sementara tidak ada komentar</string>
+    <string name="ReadingHistoryActivity_empty_tv">sementara tidak ada \nriwayat pencarian</string>
+    <string name="MessageActivity_empty_tv">sementara tidak ada informasi </string>
+    <string name="PurchasedActivity_empty_tv">ementara tidak ada informasi </string>
 
 </resources>

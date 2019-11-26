@@ -1,6 +1,8 @@
 package com.shushan.manhua.mvp.model;
 
 import com.google.gson.Gson;
+import com.shushan.manhua.entity.request.BookShelfInfoRequest;
+import com.shushan.manhua.entity.request.HomeInfoRequest;
 import com.shushan.manhua.network.networkapi.MainApi;
 
 import javax.inject.Inject;
@@ -23,12 +25,27 @@ public class MainModel {
         mGson = gson;
         mTransform = transform;
     }
-//    /**
-//     * 检查版本更新
-//     */
-//    public Observable<ResponseData> onRequestVersionUpdate(VersionUpdateRequest request) {
-//        return mMainApi.onRequestVersionUpdate(mGson.toJson(request)).map(mTransform::transformCommon);
-//    }
+    /**
+     * 请求漫画类型
+     */
+    public Observable<ResponseData> onRequestManHuaType() {
+        return mMainApi.onRequestManHuaType().map(mTransform::transformListType);
+    }
+
+    /**
+     * 请求首页信息
+     */
+    public Observable<ResponseData> onRequestHomeInfo(HomeInfoRequest request) {
+        return mMainApi.onRequestHomeInfo(new Gson().toJson(request)).map(mTransform::transformCommon);
+    }
+
+    /**
+     * 请求我的书架信息
+     */
+    public Observable<ResponseData> onRequestBookShelfInfo(BookShelfInfoRequest request) {
+        return mMainApi.onRequestBookShelfInfo(new Gson().toJson(request)).map(mTransform::transformCommon);
+    }
+
 
 
 

@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.shushan.manhua.R;
-import com.shushan.manhua.entity.response.BannerResponse;
+import com.shushan.manhua.entity.response.HomeResponse;
 import com.shushan.manhua.help.ImageLoaderHelper;
 import com.zhouwei.mzbanner.holder.MZViewHolder;
 
@@ -14,7 +14,7 @@ import com.zhouwei.mzbanner.holder.MZViewHolder;
 /**
  * banner
  */
-public class BannerViewHolder implements MZViewHolder<BannerResponse> {
+public class BannerViewHolder implements MZViewHolder<HomeResponse.BannerBean> {
     private ImageView mImageView;
     private ImageLoaderHelper mImageLoaderHelper;
 
@@ -31,7 +31,7 @@ public class BannerViewHolder implements MZViewHolder<BannerResponse> {
     }
 
     @Override
-    public void onBind(Context context, int position, BannerResponse item) {
+    public void onBind(Context context, int position, HomeResponse.BannerBean item) {
         // 数据绑定
 //        Glide.with(context).load(item.getBanner_pic()).into(mImageView);
 //        mImageLoaderHelper.displayImage(context, Constant.LOADING_DEFAULT_3, mImageView, Constant.LOADING_DEFAULT_3);

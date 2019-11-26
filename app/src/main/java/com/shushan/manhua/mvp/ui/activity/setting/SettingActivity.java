@@ -106,8 +106,11 @@ public class SettingActivity extends BaseActivity implements CommonDialog.Common
      * 退出登录
      */
     public void exitLogin() {
+        String channel = mBuProcessor.getChannel();
+        String bookType = mBuProcessor.getbookType();
         mSharePreferenceUtil.clearData();
-//        RongIM.getInstance().logout();
+        mSharePreferenceUtil.setData(Constant.CHANNEL, channel);
+        mSharePreferenceUtil.setData(Constant.BOOK_TYPE, bookType);//不重置频道 和 类型
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);//表示 不创建新的实例activity
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);//表示 移除该activity上面的activity
