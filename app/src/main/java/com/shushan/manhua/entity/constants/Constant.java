@@ -27,12 +27,10 @@ public class Constant {
     public static final int COMMON_DIALOG_STYLE_1 = 1;
     public static final int COMMON_DIALOG_STYLE_2 = 2;
 
-    /**
-     * 联系方式
-     */
-    public static final String CS_QQ = "5037334";
-    public static final String CS_WECHAT = "zuoye1001";
-    public static final String CS_PHONE = "15675858101";
+    //Google登录回调
+    public static final int GOOGLE_LOGIN = 100;
+    //facebook登录回调
+    public static final int FACEBOOK_LOGIN = 64206;
 
     /**
      * 融云客服渠道号

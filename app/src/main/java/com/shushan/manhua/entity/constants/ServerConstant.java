@@ -1,4 +1,4 @@
-package com.shushan.homework101.entity.constants;
+package com.shushan.manhua.entity.constants;
 
 public class ServerConstant {
     //融云生产环境客服id
@@ -18,4 +18,6 @@ public class ServerConstant {
      * 隐私协议
      */
     public static final String LOGIN_PROTOCOL_URL = "https://tpi.zuoye101.com/agreement";
+    //google 登录 web端 key
+    public static final String GOOGLE_LOGIN_KEY="571671959573-ltuuk8f43vcli112123afdcelgi8msqt.apps.googleusercontent.com";
 }

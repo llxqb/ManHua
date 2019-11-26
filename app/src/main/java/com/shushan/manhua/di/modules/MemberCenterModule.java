@@ -5,13 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import com.google.gson.Gson;
 import com.shushan.manhua.BuildConfig;
 import com.shushan.manhua.di.scopes.PerActivity;
-import com.shushan.manhua.mvp.model.BookModel;
 import com.shushan.manhua.mvp.model.MineModel;
 import com.shushan.manhua.mvp.model.ModelTransform;
 import com.shushan.manhua.mvp.ui.activity.mine.MemberCenterControl;
 import com.shushan.manhua.mvp.ui.activity.mine.MemberCenterPresenterImpl;
 import com.shushan.manhua.network.RetrofitUtil;
-import com.shushan.manhua.network.networkapi.BookApi;
 import com.shushan.manhua.network.networkapi.MineApi;
 
 import dagger.Module;
@@ -57,7 +55,7 @@ public class MemberCenterModule {
     MineModel provideMineModel(Gson gson, ModelTransform modelTransform) {
         return new MineModel(new RetrofitUtil.Builder()
                 .context(activity)
-                .baseUrl(BuildConfig.WORK_STU_BASE_URL)
+                .baseUrl(BuildConfig.MAN_HUA_BASE_URL)
                 .isHttps(!BuildConfig.DEBUG)
 //                .key(BuildConfig.STORE_NAME,BuildConfig.STORE_PASSWORD)
                 .isToJson(false)

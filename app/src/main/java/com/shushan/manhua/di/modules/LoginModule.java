@@ -55,7 +55,7 @@ public class LoginModule {
     LoginModel provideLoginModel(Gson gson, ModelTransform modelTransform) {
         return new LoginModel(new RetrofitUtil.Builder()
                 .context(activity)
-                .baseUrl(BuildConfig.WORK_STU_BASE_URL)
+                .baseUrl(BuildConfig.MAN_HUA_BASE_URL)
                 .isHttps(!BuildConfig.DEBUG)
 //                .key(BuildConfig.STORE_NAME,BuildConfig.STORE_PASSWORD)
                 .isToJson(false)

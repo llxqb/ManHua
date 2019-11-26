@@ -1,4 +1,4 @@
-package com.shushan.homework101.entity.constants;
+package com.shushan.manhua.entity.constants;
 
 /**
  * Activity 广播之类的

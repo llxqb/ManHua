@@ -91,6 +91,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 //            onRequestVersionUpdate();
 //        }
 
+        startActivitys(LoginActivity.class);
+        finish();
         List<Fragment> fragments = new ArrayList<>();
         HomeFragment homeFragment = new HomeFragment();
         BookShelfFragment bookShelfFragment = new BookShelfFragment();

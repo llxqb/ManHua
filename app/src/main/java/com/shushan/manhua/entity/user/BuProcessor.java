@@ -3,8 +3,7 @@ package com.shushan.manhua.entity.user;
 import android.content.Context;
 import android.text.TextUtils;
 
-
-import com.shushan.homework101.entity.constants.SpConstant;
+import com.shushan.manhua.entity.constants.SpConstant;
 import com.shushan.manhua.mvp.utils.SharePreferenceUtil;
 
 import javax.inject.Inject;

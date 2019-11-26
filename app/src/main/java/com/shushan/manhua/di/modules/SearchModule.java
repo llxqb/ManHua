@@ -8,7 +8,6 @@ import com.shushan.manhua.di.scopes.PerActivity;
 import com.shushan.manhua.mvp.model.BookModel;
 import com.shushan.manhua.mvp.model.ModelTransform;
 import com.shushan.manhua.mvp.ui.activity.book.SearchControl;
-import com.shushan.manhua.mvp.ui.activity.book.ReadPresenterImpl;
 import com.shushan.manhua.mvp.ui.activity.book.SearchPresenterImpl;
 import com.shushan.manhua.network.RetrofitUtil;
 import com.shushan.manhua.network.networkapi.BookApi;
@@ -56,7 +55,7 @@ public class SearchModule {
     BookModel provideBookModel(Gson gson, ModelTransform modelTransform) {
         return new BookModel(new RetrofitUtil.Builder()
                 .context(activity)
-                .baseUrl(BuildConfig.WORK_STU_BASE_URL)
+                .baseUrl(BuildConfig.MAN_HUA_BASE_URL)
                 .isHttps(!BuildConfig.DEBUG)
 //                .key(BuildConfig.STORE_NAME,BuildConfig.STORE_PASSWORD)
                 .isToJson(false)
