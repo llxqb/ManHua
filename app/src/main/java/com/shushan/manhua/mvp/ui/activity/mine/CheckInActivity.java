@@ -43,7 +43,7 @@ public class CheckInActivity extends BaseActivity implements CheckInControl.Chec
     private TaskAdapter mTaskAdapter;
     private List<TaskResponse> taskResponseList = new ArrayList<>();
     private RecommendAdapter mRecommendAdapter;
-    private List<RecommendResponse> recommendResponseList = new ArrayList<>();
+    private List<RecommendResponse.DataBean> recommendResponseList = new ArrayList<>();
 
     @Override
     protected void initContentView() {
@@ -64,7 +64,7 @@ public class CheckInActivity extends BaseActivity implements CheckInControl.Chec
         mTaskRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mTaskRecyclerView.setAdapter(mTaskAdapter);
         // 推荐adapter
-        mRecommendAdapter = new RecommendAdapter(recommendResponseList);
+        mRecommendAdapter = new RecommendAdapter(recommendResponseList,mImageLoaderHelper);
         mRecommendRecyclerView.setAdapter(mRecommendAdapter);
         mRecommendRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
     }
@@ -82,10 +82,10 @@ public class CheckInActivity extends BaseActivity implements CheckInControl.Chec
             taskResponseList.add(taskResponse);
         }
         //推荐数据
-        for (int i = 0; i < 6; i++) {
-            RecommendResponse recommendResponse = new RecommendResponse();
-            recommendResponseList.add(recommendResponse);
-        }
+//        for (int i = 0; i < 6; i++) {
+//            RecommendResponse recommendResponse = new RecommendResponse();
+//            recommendResponseList.add(recommendResponse);
+//        }
     }
 
 

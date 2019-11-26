@@ -25,5 +25,10 @@ public interface MainApi {
      */
     @POST("cartoon/user/bookrack")
     Observable<String> onRequestBookShelfInfo(@Body String request);
+    /**
+     * 请求我的书架信息
+     */
+    @POST("cartoon/book/nominateBook")
+    Observable<String> onRecommendInfo(@Body String request);
 
 }

@@ -15,6 +15,7 @@ import com.shushan.manhua.entity.request.LoginRequest;
 import com.shushan.manhua.entity.response.LoginResponse;
 import com.shushan.manhua.entity.user.User;
 import com.shushan.manhua.help.GoogleLoginHelper;
+import com.shushan.manhua.mvp.ui.activity.main.MainActivity;
 import com.shushan.manhua.mvp.ui.base.BaseActivity;
 import com.shushan.manhua.mvp.utils.LogUtils;
 import com.shushan.manhua.mvp.utils.StatusBarUtil;
@@ -107,7 +108,11 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
 
     @Override
     public void getLoginSuccess(LoginResponse loginResponse) {
-
+        LoginResponse.UserinfoBean userinfoBean = loginResponse.getUserinfo();
+        User user = new User(userinfoBean.getToken(), userinfoBean.getName(), userinfoBean.getHead_portrait(), userinfoBean.getVip(), userinfoBean.getVip_end_time(), userinfoBean.getChannel(), userinfoBean.getBook_type());
+        mBuProcessor.setLoginUser(user);
+        startActivitys(MainActivity.class);
+        finish();
     }
 
     private void initInjectData() {

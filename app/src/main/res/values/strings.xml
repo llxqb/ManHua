@@ -73,8 +73,9 @@
     <string name="BookDetailActivity_add_bookshelf">加入书架</string>
 
     <string name="BookDetailFragment_book_desc_hint">作品简介</string>
+    <string name="BookDetailFragment_author">作者：</string>
     <string name="BookDetailFragment_comment_num">总评论数</string>
-    <string name="BookDetailFragment_connection_num">万人已加入书架</string>
+    <string name="BookDetailFragment_connection_num">人已加入书架</string>
     <string name="BookDetailFragment_comment_hint">评论</string>
     <string name="BookDetailFragment_submit_comment">发表评论</string>
     <string name="BookDetailFragment_more_comment">查看更多评论</string>
@@ -235,6 +236,7 @@
     <string name="SelectDialogUtil_date_title">选择日期</string>
     <string name="SelectDialogUtil_cancel">取消</string>
     <string name="SelectDialogUtil_sure">确定</string>
+
 
     <!-- 空白页-->
     <string name="BookDetailFragment_empty_tv">sementara tidak ada komentar</string>

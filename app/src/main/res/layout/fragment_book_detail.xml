@@ -72,7 +72,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_6"
             android:layout_marginTop="@dimen/dp_19"
-            android:text="1111"
             android:textColor="@color/color_80"
             android:textSize="@dimen/sp_12"
             app:layout_constraintStart_toEndOf="@id/comment_num_hint_tv"

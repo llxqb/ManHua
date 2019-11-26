@@ -14,6 +14,7 @@ import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerMainComponent;
 import com.shushan.manhua.di.modules.ActivityModule;
 import com.shushan.manhua.di.modules.MainModule;
+import com.shushan.manhua.entity.constants.ActivityConstant;
 import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.entity.response.BookTypeResponse;
 import com.shushan.manhua.entity.user.User;
@@ -66,6 +67,22 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         mUser = mBuProcessor.getUser();
     }
 
+    @Override
+    public void onReceivePro(Context context, Intent intent) {
+        if (intent.getAction() != null) {
+            if (intent.getAction().equals(ActivityConstant.SWITCH_TO_HOME_PAGE)) {
+                mMainViewpager.setCurrentItem(SWITCH_HOME_PAGE);
+                mMainBottomNavigation.setSelectedItemId(R.id.action_home);
+            }
+        }
+        super.onReceivePro(context, intent);
+    }
+
+    @Override
+    public void addFilter() {
+        super.addFilter();
+        mFilter.addAction(ActivityConstant.SWITCH_TO_HOME_PAGE);
+    }
 
     @Override
     public void initView() {

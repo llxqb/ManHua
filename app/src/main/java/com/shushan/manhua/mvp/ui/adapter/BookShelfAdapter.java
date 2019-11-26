@@ -27,13 +27,15 @@ public class BookShelfAdapter extends BaseQuickAdapter<BookShelfResponse.Bookrac
     protected void convert(BaseViewHolder helper, BookShelfResponse.BookrackBean item) {
         helper.addOnClickListener(R.id.item_bookshelf_layout);
         ImageView bookIv = helper.getView(R.id.book_iv);
-        //设置圆角图片
-        mImageLoaderHelper.displayCircularImage(mContext, item.getDetail_cover(), bookIv, Constant.LOADING_DEFAULT_1);
+
         if (item.isMore) {
+            helper.setImageResource(R.id.book_iv, R.mipmap.bookshelf_find_more);
             helper.setVisible(R.id.more_tv, true);
             helper.setVisible(R.id.date_tv, false).setVisible(R.id.book_name_tv, false).setVisible(R.id.book_desc_tv, false)
                     .setVisible(R.id.support_tv, false).setVisible(R.id.comment_tv, false);
         } else {
+            //设置圆角图片
+            mImageLoaderHelper.displayCircularImage(mContext, item.getDetail_cover(), bookIv, Constant.LOADING_DEFAULT_1);
             helper.setVisible(R.id.more_tv, false);
             helper.setVisible(R.id.date_tv, true).setVisible(R.id.book_name_tv, true).setVisible(R.id.book_desc_tv, true)
                     .setVisible(R.id.support_tv, true).setVisible(R.id.comment_tv, true);

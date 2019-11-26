@@ -74,7 +74,8 @@
 
     <string name="BookDetailFragment_book_desc_hint">Ringkasan cerita</string>
     <string name="BookDetailFragment_comment_num">Total komentar</string>
-    <string name="BookDetailFragment_connection_num">39000 orang yang telah memasukkannya ke rak buku</string>
+    <string name="BookDetailFragment_author">Penulis：</string>
+    <string name="BookDetailFragment_connection_num">&#160;orang yang telah memasukkannya ke rak buku</string>
     <string name="BookDetailFragment_comment_hint">Komentar</string>
     <string name="BookDetailFragment_submit_comment">Posting komentar</string>
     <string name="BookDetailFragment_more_comment">Lihat lebih banyak ulasan</string>

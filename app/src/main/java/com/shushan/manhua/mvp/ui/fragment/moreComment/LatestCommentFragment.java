@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,14 +14,15 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.shushan.manhua.ManHuaApplication;
 import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerLatestCommentFragmentComponent;
 import com.shushan.manhua.di.modules.LatestCommentFragmentModule;
 import com.shushan.manhua.di.modules.MoreCommentModule;
-import com.shushan.manhua.entity.response.ReadingCommendResponse;
-import com.shushan.manhua.mvp.ui.activity.book.CommentDetailsActivity;
+import com.shushan.manhua.entity.CommentBean;
+import com.shushan.manhua.entity.CommentListBean;
+import com.shushan.manhua.entity.constants.Constant;
+import com.shushan.manhua.entity.request.CommentRequest;
 import com.shushan.manhua.mvp.ui.adapter.ReadingCommentAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseFragment;
 import com.shushan.manhua.mvp.ui.dialog.CommentSoftKeyPopupWindow;
@@ -67,7 +67,7 @@ public class LatestCommentFragment extends BaseFragment implements LatestComment
     RecyclerView mRecyclerView;
     Unbinder unbinder;
     private ReadingCommentAdapter mReadingCommentAdapter;
-    List<ReadingCommendResponse> readingCommendResponseList = new ArrayList<>();
+    List<CommentBean> readingCommendResponseList = new ArrayList<>();
     private TakePhoto takePhoto;
     private InvokeParam invokeParam;
     private Uri uri;
@@ -76,6 +76,19 @@ public class LatestCommentFragment extends BaseFragment implements LatestComment
     //选择照片的路径集合
     private ArrayList<TImage> photoList = new ArrayList<>();
     private CommentSoftKeyPopupWindow mCommentSoftKeyPopupWindow;
+    private int page = 1;
+    static LatestCommentFragment mLatestCommentFragment;
+
+    public static LatestCommentFragment getInstance(String bookId) {
+        if (mLatestCommentFragment == null) {
+            mLatestCommentFragment = new LatestCommentFragment();
+        }
+        Bundle bd = new Bundle();
+        bd.putString("bookId", bookId);
+        mLatestCommentFragment.setArguments(bd);
+        return mLatestCommentFragment;
+    }
+
 
     @Nullable
     @Override
@@ -94,28 +107,28 @@ public class LatestCommentFragment extends BaseFragment implements LatestComment
     public void initView() {
         File file = new File(Objects.requireNonNull(getActivity()).getExternalCacheDir(), System.currentTimeMillis() + ".png");
         uri = Uri.fromFile(file);
-        mReadingCommentAdapter = new ReadingCommentAdapter(readingCommendResponseList);
-        mRecyclerView.setAdapter(mReadingCommentAdapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mReadingCommentAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (view.getId()) {
-                    case R.id.comment_ll:
-                        startActivitys(CommentDetailsActivity.class);
-                        break;
-                }
-            }
-        });
+        if (getArguments() != null) {
+            String mBookId = getArguments().getString("bookId");
+            onRequestCommentInfo(mBookId);
+        }
+//        mReadingCommentAdapter = new ReadingCommentAdapter(readingCommendResponseList,mImageLoaderHelper);
+//        mRecyclerView.setAdapter(mReadingCommentAdapter);
+//        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        mReadingCommentAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+//            @Override
+//            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+//                switch (view.getId()) {
+//                    case R.id.comment_ll:
+//                        startActivitys(CommentDetailsActivity.class);
+//                        break;
+//                }
+//            }
+//        });
 
     }
 
     @Override
     public void initData() {
-        for (int i = 0; i < 10; i++) {
-            ReadingCommendResponse readingCommendResponse = new ReadingCommendResponse();
-            readingCommendResponseList.add(readingCommendResponse);
-        }
     }
 
     @OnClick({R.id.comment_content_rl, R.id.publish_comment_tv})
@@ -127,6 +140,22 @@ public class LatestCommentFragment extends BaseFragment implements LatestComment
             case R.id.publish_comment_tv:
                 break;
         }
+    }
+
+    private void onRequestCommentInfo(String bookId) {
+        CommentRequest commentRequest = new CommentRequest();
+        commentRequest.book_id = bookId;
+        commentRequest.type = "1";
+        commentRequest.catalogue_id = "0";
+        commentRequest.state = "0";
+        commentRequest.page = String.valueOf(page);
+        commentRequest.pagesize = String.valueOf(Constant.PAGESIZE);
+        mPresenter.onRequestCommentInfo(commentRequest);
+    }
+
+    @Override
+    public void getCommentInfoSuccess(CommentListBean commentListBean) {
+
     }
 
     /**

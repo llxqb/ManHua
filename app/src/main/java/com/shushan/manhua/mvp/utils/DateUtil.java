@@ -20,6 +20,7 @@ public class DateUtil {
     public static final String TIME_YYMMDD_CHINA = "yyyy年MM月dd日";
     public static final String TIME_YYMM = "yyyy-MM";
     public static final String TIME_YYMMDD_T_HHMMSS = "yyyy-MM-dd'T'HH:mm:ss";
+    public static final String TIME_MMDD_HHMM = "MM-dd HH:mm";
 
     /**
      * POS交易序号

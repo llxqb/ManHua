@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,14 +14,15 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.shushan.manhua.ManHuaApplication;
 import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerHotCommentFragmentComponent;
 import com.shushan.manhua.di.modules.HotCommentFragmentModule;
 import com.shushan.manhua.di.modules.MoreCommentModule;
-import com.shushan.manhua.entity.response.ReadingCommendResponse;
-import com.shushan.manhua.mvp.ui.activity.book.CommentDetailsActivity;
+import com.shushan.manhua.entity.CommentBean;
+import com.shushan.manhua.entity.CommentListBean;
+import com.shushan.manhua.entity.constants.Constant;
+import com.shushan.manhua.entity.request.CommentRequest;
 import com.shushan.manhua.mvp.ui.adapter.ReadingCommentAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseFragment;
 import com.shushan.manhua.mvp.ui.dialog.CommentSoftKeyPopupWindow;
@@ -66,7 +66,7 @@ public class HotCommentFragment extends BaseFragment implements HotCommentFragme
     RecyclerView mRecyclerView;
     Unbinder unbinder;
     private ReadingCommentAdapter mReadingCommentAdapter;
-    List<ReadingCommendResponse> readingCommendResponseList = new ArrayList<>();
+    List<CommentBean> readingCommendResponseList = new ArrayList<>();
     private TakePhoto takePhoto;
     private InvokeParam invokeParam;
     private Uri uri;
@@ -75,6 +75,19 @@ public class HotCommentFragment extends BaseFragment implements HotCommentFragme
     //选择照片的路径集合
     private ArrayList<TImage> photoList = new ArrayList<>();
     private CommentSoftKeyPopupWindow mCommentSoftKeyPopupWindow;
+    private int page = 1;
+
+    static HotCommentFragment mHotCommentFragment;
+
+    public static HotCommentFragment getInstance(String bookId) {
+        if (mHotCommentFragment == null) {
+            mHotCommentFragment = new HotCommentFragment();
+        }
+        Bundle bd = new Bundle();
+        bd.putString("bookId", bookId);
+        mHotCommentFragment.setArguments(bd);
+        return mHotCommentFragment;
+    }
 
     @Nullable
     @Override
@@ -91,27 +104,27 @@ public class HotCommentFragment extends BaseFragment implements HotCommentFragme
     public void initView() {
         File file = new File(Objects.requireNonNull(getActivity()).getExternalCacheDir(), System.currentTimeMillis() + ".png");
         uri = Uri.fromFile(file);
-        mReadingCommentAdapter = new ReadingCommentAdapter(readingCommendResponseList);
-        mRecyclerView.setAdapter(mReadingCommentAdapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mReadingCommentAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (view.getId()) {
-                    case R.id.comment_ll:
-                        startActivitys(CommentDetailsActivity.class);
-                        break;
-                }
-            }
-        });
+        if (getArguments() != null) {
+            String bookId = getArguments().getString("bookId");
+            onRequestCommentInfo(bookId);
+        }
+//        mReadingCommentAdapter = new ReadingCommentAdapter(readingCommendResponseList,mImageLoaderHelper);
+//        mRecyclerView.setAdapter(mReadingCommentAdapter);
+//        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        mReadingCommentAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+//            @Override
+//            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+//                switch (view.getId()) {
+//                    case R.id.comment_ll:
+//                        startActivitys(CommentDetailsActivity.class);
+//                        break;
+//                }
+//            }
+//        });
     }
 
     @Override
     public void initData() {
-        for (int i = 0; i < 10; i++) {
-            ReadingCommendResponse readingCommendResponse = new ReadingCommendResponse();
-            readingCommendResponseList.add(readingCommendResponse);
-        }
     }
 
     @OnClick({R.id.comment_content_rl, R.id.publish_comment_tv})
@@ -123,6 +136,23 @@ public class HotCommentFragment extends BaseFragment implements HotCommentFragme
             case R.id.publish_comment_tv:
                 break;
         }
+    }
+
+
+    private void onRequestCommentInfo(String bookId) {
+        CommentRequest commentRequest = new CommentRequest();
+        commentRequest.book_id = bookId;
+        commentRequest.type = "1";
+        commentRequest.catalogue_id = "0";
+        commentRequest.state = "1";
+        commentRequest.page = String.valueOf(page);
+        commentRequest.pagesize = String.valueOf(Constant.PAGESIZE);
+        mPresenter.onRequestCommentInfo(commentRequest);
+    }
+
+    @Override
+    public void getCommentInfoSuccess(CommentListBean commentListBean) {
+
     }
 
     /**
@@ -234,4 +264,6 @@ public class HotCommentFragment extends BaseFragment implements HotCommentFragme
         super.onDestroyView();
         unbinder.unbind();
     }
+
+
 }

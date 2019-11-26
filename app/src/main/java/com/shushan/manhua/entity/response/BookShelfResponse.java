@@ -6,8 +6,12 @@ import android.os.Parcelable;
 import java.util.List;
 
 public class BookShelfResponse implements Parcelable {
-    private List<?> last_read;
-    private List<BookrackBean> bookrack;
+    /**
+     * last_read : {}
+     * bookrack : []
+     */
+
+    private LastReadBean last_read;
 
     protected BookShelfResponse(Parcel in) {
     }
@@ -24,13 +28,18 @@ public class BookShelfResponse implements Parcelable {
         }
     };
 
-    public List<?> getLast_read() {
+    public LastReadBean getLast_read() {
         return last_read;
     }
 
-    public void setLast_read(List<?> last_read) {
+    public void setLast_read(LastReadBean last_read) {
         this.last_read = last_read;
     }
+
+    public static class LastReadBean {
+    }
+
+    private List<BookrackBean> bookrack;
 
     public List<BookrackBean> getBookrack() {
         return bookrack;
@@ -47,9 +56,11 @@ public class BookShelfResponse implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+
     }
 
-    public static class BookrackBean implements Parcelable{
+
+    public static class BookrackBean {
         /**
          * book_id : 1
          * book_name : 大国工程
@@ -71,41 +82,15 @@ public class BookShelfResponse implements Parcelable {
         private int create_time;
         private int catalogue_id;
         private String catalogue_name;
+
         /**
-         *点我显示更多
+         * 点我显示更多
          */
         public boolean isMore;
         /**
          * 长按删除，是否选择
          */
         public boolean isCheck;
-
-
-        protected BookrackBean(Parcel in) {
-            book_id = in.readInt();
-            book_name = in.readString();
-            detail_cover = in.readString();
-            comment_count = in.readInt();
-            like = in.readInt();
-            type = in.readInt();
-            create_time = in.readInt();
-            catalogue_id = in.readInt();
-            catalogue_name = in.readString();
-            isMore = in.readByte() != 0;
-            isCheck = in.readByte() != 0;
-        }
-
-        public static final Creator<BookrackBean> CREATOR = new Creator<BookrackBean>() {
-            @Override
-            public BookrackBean createFromParcel(Parcel in) {
-                return new BookrackBean(in);
-            }
-
-            @Override
-            public BookrackBean[] newArray(int size) {
-                return new BookrackBean[size];
-            }
-        };
 
         public int getBook_id() {
             return book_id;
@@ -178,29 +163,7 @@ public class BookShelfResponse implements Parcelable {
         public void setCatalogue_name(String catalogue_name) {
             this.catalogue_name = catalogue_name;
         }
-
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeInt(book_id);
-            dest.writeString(book_name);
-            dest.writeString(detail_cover);
-            dest.writeInt(comment_count);
-            dest.writeInt(like);
-            dest.writeInt(type);
-            dest.writeInt(create_time);
-            dest.writeInt(catalogue_id);
-            dest.writeString(catalogue_name);
-            dest.writeByte((byte) (isMore ? 1 : 0));
-            dest.writeByte((byte) (isCheck ? 1 : 0));
-        }
     }
-
-
 
 
 }

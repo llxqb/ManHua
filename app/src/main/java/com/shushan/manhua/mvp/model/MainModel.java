@@ -3,6 +3,7 @@ package com.shushan.manhua.mvp.model;
 import com.google.gson.Gson;
 import com.shushan.manhua.entity.request.BookShelfInfoRequest;
 import com.shushan.manhua.entity.request.HomeInfoRequest;
+import com.shushan.manhua.entity.request.RecommendRequest;
 import com.shushan.manhua.network.networkapi.MainApi;
 
 import javax.inject.Inject;
@@ -25,6 +26,7 @@ public class MainModel {
         mGson = gson;
         mTransform = transform;
     }
+
     /**
      * 请求漫画类型
      */
@@ -46,7 +48,12 @@ public class MainModel {
         return mMainApi.onRequestBookShelfInfo(new Gson().toJson(request)).map(mTransform::transformCommon);
     }
 
-
+    /**
+     * 书架请求推荐数据
+     */
+    public Observable<ResponseData> onRecommendInfo(RecommendRequest request) {
+        return mMainApi.onRecommendInfo(new Gson().toJson(request)).map(mTransform::transformListType);
+    }
 
 
 }

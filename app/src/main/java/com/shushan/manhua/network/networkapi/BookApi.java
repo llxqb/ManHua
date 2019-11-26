@@ -11,9 +11,16 @@ import retrofit2.http.POST;
 
 public interface BookApi {
     /**
-     * 检查版本更新
+     * 查询书籍详情
      */
-    @POST("student/version/app_version")
-    Observable<String> onRequestVersionUpdate(@Body String request);
+    @POST("cartoon/book/bookDetail")
+    Observable<String> onRequestBookDetailInfo(@Body String request);
+
+
+    /**
+     * 查询评论列表
+     */
+    @POST("cartoon/comment/list")
+    Observable<String> onRequestCommentInfo(@Body String request);
 
 }

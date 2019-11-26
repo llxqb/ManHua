@@ -54,4 +54,23 @@ public class DataUtils {
         }
         return dir.delete();
     }
+
+
+    /**
+     * 集合转字符串
+     */
+    public static String ListToString(List<String> list) {
+        StringBuilder sb = new StringBuilder();
+        if (list != null && !list.isEmpty()) {
+            for (int i = 0; i < list.size(); i++) {
+                if (list.get(i) == null || list.get(i).equals("")) {
+                    continue;
+                }
+                sb.append(list.get(i)).append(",");
+            }
+            return sb.toString().substring(0, sb.toString().length() - 1);
+        } else {
+            return "";
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package com.shushan.manhua.mvp.ui.fragment.bookDetail;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,7 +18,9 @@ import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerBookDetailFragmentComponent;
 import com.shushan.manhua.di.modules.BookDetailFragmentModule;
 import com.shushan.manhua.di.modules.BookDetailModule;
-import com.shushan.manhua.entity.response.ReadingCommendResponse;
+import com.shushan.manhua.entity.CommentBean;
+import com.shushan.manhua.entity.request.BookDetailRequest;
+import com.shushan.manhua.entity.response.BookDetailInfoResponse;
 import com.shushan.manhua.entity.user.User;
 import com.shushan.manhua.mvp.ui.activity.book.MoreCommentActivity;
 import com.shushan.manhua.mvp.ui.adapter.ReadingCommentAdapter;
@@ -53,10 +56,22 @@ public class BookDetailFragment extends BaseFragment implements BookDetailFragme
     @BindView(R.id.comment_recycler_view)
     RecyclerView mCommentRecyclerView;
     Unbinder unbinder;
-    private User mUser;
     ReadingCommentAdapter mReadingCommentAdapter;
-    private List<ReadingCommendResponse> readingCommendResponseList = new ArrayList<>();
+    private List<CommentBean> readingCommendResponseList = new ArrayList<>();
     private View mEmptyView;
+    private User mUser;
+    @SuppressLint("StaticFieldLeak")
+    static BookDetailFragment mBookDetailFragment;
+
+    public static BookDetailFragment getInstance(String bookId) {
+        if (mBookDetailFragment == null) {
+            mBookDetailFragment = new BookDetailFragment();
+        }
+        Bundle bd = new Bundle();
+        bd.putString("bookId", bookId);
+        mBookDetailFragment.setArguments(bd);
+        return mBookDetailFragment;
+    }
 
     @Nullable
     @Override
@@ -74,13 +89,18 @@ public class BookDetailFragment extends BaseFragment implements BookDetailFragme
     public void initView() {
         initEmptyView();
         mUser = mBuProcessor.getUser();
-        mReadingCommentAdapter = new ReadingCommentAdapter(readingCommendResponseList);
+        if (getArguments() != null) {
+            String mBookId = getArguments().getString("bookId");
+            onRequestDetailInfo(mBookId);
+        }
+        mReadingCommentAdapter = new ReadingCommentAdapter(readingCommendResponseList, mImageLoaderHelper);
         mCommentRecyclerView.setAdapter(mReadingCommentAdapter);
         mCommentRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mReadingCommentAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            CommentBean commentBean = (CommentBean) adapter.getItem(position);
             switch (view.getId()) {
                 case R.id.comment_ll:
-                    startActivitys(MoreCommentActivity.class);
+                    MoreCommentActivity.start(getActivity(),String.valueOf(commentBean.getBook_id()));
                     break;
             }
         });
@@ -88,12 +108,8 @@ public class BookDetailFragment extends BaseFragment implements BookDetailFragme
 
     @Override
     public void initData() {
-        for (int i = 0; i < 2; i++) {
-            ReadingCommendResponse readingCommendResponse = new ReadingCommendResponse();
-            readingCommendResponseList.add(readingCommendResponse);
-        }
 
-        //  mMineCouponAdapter.setEmptyView(mEmptyView);
+        //
     }
 
     private void initEmptyView() {
@@ -105,12 +121,11 @@ public class BookDetailFragment extends BaseFragment implements BookDetailFragme
     }
 
 
-
     @OnClick({R.id.publish_comment_tv, R.id.more_comment_tv, R.id.start_reading_tv})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.publish_comment_tv:
-                showToast("发表评论");
+                startActivitys(MoreCommentActivity.class);
                 break;
             case R.id.more_comment_tv:
                 startActivitys(MoreCommentActivity.class);
@@ -119,6 +134,30 @@ public class BookDetailFragment extends BaseFragment implements BookDetailFragme
                 showToast("开始阅读");
                 break;
         }
+    }
+
+    private void onRequestDetailInfo(String bookId) {
+        BookDetailRequest bookDetailRequest = new BookDetailRequest();
+        bookDetailRequest.book_id = bookId;
+        mPresenter.onRequestBookDetailInfo(bookDetailRequest);
+    }
+
+    @Override
+    public void getBookDetailInfoSuccess(BookDetailInfoResponse bookDetailInfoResponse) {
+        BookDetailInfoResponse.DetailBean detailBean = bookDetailInfoResponse.getDetail();
+        if (detailBean != null) {
+            mDescTv.setText(detailBean.getDes());
+            mAuthorTv.setText(getString(R.string.BookDetailFragment_author) + detailBean.getAuthor());
+            mCommentNumTv.setText(String.valueOf(detailBean.getComment_count()));
+            mCollectionNumTv.setText(detailBean.getCollect() + getString(R.string.BookDetailFragment_connection_num));
+        }
+        if (bookDetailInfoResponse.getComment().isEmpty()) {
+            mReadingCommentAdapter.setNewData(null);
+            mReadingCommentAdapter.setEmptyView(mEmptyView);
+        } else {
+            mReadingCommentAdapter.setNewData(bookDetailInfoResponse.getComment());
+        }
+
     }
 
     private void initializeInjector() {
@@ -134,4 +173,6 @@ public class BookDetailFragment extends BaseFragment implements BookDetailFragme
         super.onDestroyView();
         unbinder.unbind();
     }
+
+
 }

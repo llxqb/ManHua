@@ -2,9 +2,16 @@ package com.shushan.manhua.mvp.ui.fragment.bookDetail;
 
 import android.content.Context;
 
+import com.shushan.manhua.R;
+import com.shushan.manhua.entity.request.BookDetailRequest;
+import com.shushan.manhua.entity.response.BookDetailInfoResponse;
+import com.shushan.manhua.help.RetryWithDelay;
 import com.shushan.manhua.mvp.model.BookModel;
+import com.shushan.manhua.mvp.model.ResponseData;
 
 import javax.inject.Inject;
+
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by li.liu on 2019/5/28.
@@ -24,34 +31,33 @@ public class BookDetailFragmentPresenterImpl implements BookDetailFragmentContro
         mBookDetailView = view;
     }
 
+    /**
+     * 查询书籍详情
+     */
+    @Override
+    public void onRequestBookDetailInfo(BookDetailRequest bookDetailRequest) {
+        mBookDetailView.showLoading(mContext.getResources().getString(R.string.loading));
+        Disposable disposable = mBookModel.onRequestBookDetailInfo(bookDetailRequest).compose(mBookDetailView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
+                .subscribe(this::requestBookDetailInfoSuccess, throwable -> mBookDetailView.showErrMessage(throwable),
+                        () -> mBookDetailView.dismissLoading());
+        mBookDetailView.addSubscription(disposable);
+    }
 
-//    /**
-//     * 查询我的（包含购买的服务信息）
-//     */
-//    @Override
-//    public void onRequestMineInfo(TokenRequest tokenRequest) {
-//        mBookDetailView.showLoading(mContext.getResources().getString(R.string.loading));
-//        Disposable disposable = mBookModel.onRequestMineInfo(tokenRequest).compose(mBookDetailView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
-//                .subscribe(this::requestMineInfoSuccess, throwable -> mBookDetailView.showErrMessage(throwable),
-//                        () -> mBookDetailView.dismissLoading());
-//        mBookDetailView.addSubscription(disposable);
-//    }
-//
-//    /**
-//     * 查询我的（包含购买的服务信息）成功
-//     */
-//    private void requestMineInfoSuccess(ResponseData responseData) {
-//        mBookDetailView.judgeToken(responseData.resultCode);
-//        if (responseData.resultCode == 0) {
-//            responseData.parseData(MineInfoResponse.class);
-//            if (responseData.parsedData != null) {
-//                MineInfoResponse response = (MineInfoResponse) responseData.parsedData;
-//                mBookDetailView.getMineInfoSuccess(response);
-//            }
-//        } else {
-//            mBookDetailView.showToast(responseData.errorMsg);
-//        }
-//    }
+    /**
+     * 查询书籍详情 成功
+     */
+    private void requestBookDetailInfoSuccess(ResponseData responseData) {
+        mBookDetailView.judgeToken(responseData.resultCode);
+        if (responseData.resultCode == 0) {
+            responseData.parseData(BookDetailInfoResponse.class);
+            if (responseData.parsedData != null) {
+                BookDetailInfoResponse response = (BookDetailInfoResponse) responseData.parsedData;
+                mBookDetailView.getBookDetailInfoSuccess(response);
+            }
+        } else {
+            mBookDetailView.showToast(responseData.errorMsg);
+        }
+    }
 
     @Override
     public void onCreate() {
@@ -62,4 +68,6 @@ public class BookDetailFragmentPresenterImpl implements BookDetailFragmentContro
     public void onDestroy() {
         mBookDetailView = null;
     }
+
+
 }

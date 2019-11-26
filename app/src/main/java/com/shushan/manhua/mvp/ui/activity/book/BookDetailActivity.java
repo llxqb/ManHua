@@ -1,5 +1,7 @@
 package com.shushan.manhua.mvp.ui.activity.book;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -45,6 +47,13 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
     ViewPager mViewPager;
     private List<LabelResponse> labelResponseList = new ArrayList<>();
     String[] titles;
+    String bookId;
+
+    public static void start(Context context, String bookId) {
+        Intent intent = new Intent(context, BookDetailActivity.class);
+        intent.putExtra("bookId", bookId);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void initContentView() {
@@ -55,23 +64,23 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
 
     @Override
     public void initView() {
-        titles = new String[]{getResources().getString(R.string.BookDetailActivity_detail_tv), getResources().getString(R.string.BookDetailActivity_selection_tv)};
-        mViewPager.setOffscreenPageLimit(2);
-        mViewPager.setAdapter(new MyPageAdapter(getSupportFragmentManager()));
-        mXTabLayout.setupWithViewPager(mViewPager);
-        LabelAdapter mLabelAdapter = new LabelAdapter(labelResponseList);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        mLabelRecyclerView.setLayoutManager(linearLayoutManager);
-        mLabelRecyclerView.setAdapter(mLabelAdapter);
+        if(getIntent()!=null){
+            bookId = getIntent().getStringExtra("bookId");
+            titles = new String[]{getResources().getString(R.string.BookDetailActivity_detail_tv), getResources().getString(R.string.BookDetailActivity_selection_tv)};
+            mViewPager.setOffscreenPageLimit(2);
+            mViewPager.setAdapter(new MyPageAdapter(getSupportFragmentManager()));
+            mXTabLayout.setupWithViewPager(mViewPager);
+            LabelAdapter mLabelAdapter = new LabelAdapter(labelResponseList);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+            linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+            mLabelRecyclerView.setLayoutManager(linearLayoutManager);
+            mLabelRecyclerView.setAdapter(mLabelAdapter);
+        }
     }
 
     @Override
     public void initData() {
-        for (int i = 0; i < 3; i++) {
-            LabelResponse labelResponse = new LabelResponse();
-            labelResponseList.add(labelResponse);
-        }
+
     }
 
 
@@ -92,7 +101,7 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
 
         MyPageAdapter(FragmentManager fm) {
             super(fm);
-            BookDetailFragment bookDetailFragment = new BookDetailFragment();
+            BookDetailFragment bookDetailFragment = BookDetailFragment.getInstance (bookId);
             SelectionDetailFragment selectionDetailFragment = new SelectionDetailFragment();
             fragments.add(bookDetailFragment);
             fragments.add(selectionDetailFragment);

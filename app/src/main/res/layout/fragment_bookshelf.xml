@@ -24,8 +24,8 @@
                 android:layout_height="@dimen/dp_30"
                 android:layout_marginStart="@dimen/dp_15"
                 android:layout_marginTop="@dimen/dp_16"
-                android:visibility="invisible"
                 android:background="@drawable/bg_white_round_solid_30"
+                android:visibility="invisible"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -71,6 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_12"
                 android:orientation="vertical"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/search_rl">
 
@@ -163,8 +164,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/BookShelfFragment_recent_read_record_tv"
                             android:gravity="center"
+                            android:text="@string/BookShelfFragment_recent_read_record_tv"
                             android:textColor="@color/white"
                             android:textSize="@dimen/sp_12" />
 

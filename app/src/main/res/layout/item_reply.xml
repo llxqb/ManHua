@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/b_username_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="B"
+        android:textColor="#738BBC"
+        android:textSize="@dimen/sp_12" />
+
+    <TextView
+        android:id="@+id/reply_hint_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_2"
+        android:text="Balas"
+        android:textColor="@color/first_text_color"
+        android:textSize="@dimen/sp_12" />
+
+    <TextView
+        android:id="@+id/c_username_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_2"
+        android:text="C："
+        android:textColor="#738BBC"
+        android:textSize="@dimen/sp_12" />
+
+    <TextView
+        android:id="@+id/b_content_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_2"
+        android:text="可以啊"
+        android:textColor="@color/first_text_color"
+        android:textSize="@dimen/sp_12" />
+</LinearLayout>

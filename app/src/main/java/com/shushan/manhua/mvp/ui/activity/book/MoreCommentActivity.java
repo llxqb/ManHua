@@ -1,5 +1,7 @@
 package com.shushan.manhua.mvp.ui.activity.book;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -32,6 +34,14 @@ public class MoreCommentActivity extends BaseActivity implements MoreCommentCont
     @BindView(R.id.view_pager)
     ViewPager mViewPager;
     String[] titles;
+    String bookId;
+
+    public static void start(Context context, String bookId) {//漫画id
+        Intent intent = new Intent(context, MoreCommentActivity.class);
+        intent.putExtra("bookId", bookId);
+        context.startActivity(intent);
+    }
+
 
     @Override
     protected void initContentView() {
@@ -42,10 +52,13 @@ public class MoreCommentActivity extends BaseActivity implements MoreCommentCont
 
     @Override
     public void initView() {
-        titles = new String[]{getString(R.string.MoreCommentActivity_latest_tv), getResources().getString(R.string.MoreCommentActivity_hot_tv)};
-        mViewPager.setOffscreenPageLimit(2);
-        mViewPager.setAdapter(new MyPageAdapter(getSupportFragmentManager()));
-        mXTabLayout.setupWithViewPager(mViewPager);
+        if (getIntent() != null) {
+            bookId = getIntent().getStringExtra("bookId");
+            titles = new String[]{getString(R.string.MoreCommentActivity_latest_tv), getResources().getString(R.string.MoreCommentActivity_hot_tv)};
+            mViewPager.setOffscreenPageLimit(2);
+            mViewPager.setAdapter(new MyPageAdapter(getSupportFragmentManager()));
+            mXTabLayout.setupWithViewPager(mViewPager);
+        }
     }
 
     @Override
@@ -68,10 +81,11 @@ public class MoreCommentActivity extends BaseActivity implements MoreCommentCont
 
     private class MyPageAdapter extends FragmentPagerAdapter {
         private List<Fragment> fragments = new ArrayList<Fragment>();
+
         MyPageAdapter(FragmentManager fm) {
             super(fm);
-            LatestCommentFragment latestCommentFragment = new LatestCommentFragment();
-            HotCommentFragment hotCommentFragment = new HotCommentFragment();
+            LatestCommentFragment latestCommentFragment = LatestCommentFragment.getInstance(bookId);
+            HotCommentFragment hotCommentFragment = HotCommentFragment.getInstance(bookId);
             fragments.add(latestCommentFragment);
             fragments.add(hotCommentFragment);
         }

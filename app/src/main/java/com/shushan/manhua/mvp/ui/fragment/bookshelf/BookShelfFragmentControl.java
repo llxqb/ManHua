@@ -2,7 +2,9 @@ package com.shushan.manhua.mvp.ui.fragment.bookshelf;
 
 
 import com.shushan.manhua.entity.request.BookShelfInfoRequest;
+import com.shushan.manhua.entity.request.RecommendRequest;
 import com.shushan.manhua.entity.response.BookShelfResponse;
+import com.shushan.manhua.entity.response.RecommendResponse;
 import com.shushan.manhua.mvp.presenter.LoadDataView;
 import com.shushan.manhua.mvp.presenter.Presenter;
 
@@ -13,6 +15,8 @@ import com.shushan.manhua.mvp.presenter.Presenter;
 public class BookShelfFragmentControl {
     public interface BookShelfView extends LoadDataView {
         void getBookShelfInfoSuccess(BookShelfResponse bookShelfResponse);
+
+        void getRecommendInfoSuccess(RecommendResponse recommendResponse);
     }
 
     public interface BookShelfFragmentPresenter extends Presenter<BookShelfView> {
@@ -20,6 +24,10 @@ public class BookShelfFragmentControl {
          * 请求书架数据
          */
         void onRequestBookShelfInfo(BookShelfInfoRequest bookShelfInfoRequest);
+        /**
+         * 请求推荐数据
+         */
+        void onRecommendInfo(RecommendRequest recommendRequest);
 
     }
 

@@ -1,6 +1,8 @@
 package com.shushan.manhua.mvp.ui.fragment.moreComment;
 
 
+import com.shushan.manhua.entity.CommentListBean;
+import com.shushan.manhua.entity.request.CommentRequest;
 import com.shushan.manhua.mvp.presenter.LoadDataView;
 import com.shushan.manhua.mvp.presenter.Presenter;
 
@@ -11,14 +13,15 @@ import com.shushan.manhua.mvp.presenter.Presenter;
 public class HotCommentFragmentControl {
     public interface HotCommentView extends LoadDataView {
 
-//        void getHotCommentInfoSuccess(HotCommentInfoResponse HotCommentInfoResponse);
+        void getCommentInfoSuccess(CommentListBean commentListBean);
+
     }
 
     public interface HotCommentFragmentPresenter extends Presenter<HotCommentView> {
-//        /**
-//         * 查询个人信息
-//         */
-//        void onRequestPersonalInfo(TokenRequest tokenRequest);
+        /**
+         * 查询评论列表
+         */
+        void onRequestCommentInfo(CommentRequest commentRequest);
 
     }
 

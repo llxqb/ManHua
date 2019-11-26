@@ -11,7 +11,7 @@
         android:layout_marginStart="@dimen/dp_20"
         android:layout_marginEnd="@dimen/dp_20">
 
-        <ImageView
+        <com.shushan.manhua.mvp.views.CircleImageView
             android:id="@+id/avatar_iv"
             android:layout_width="@dimen/dp_34"
             android:layout_height="@dimen/dp_34"
@@ -66,13 +66,13 @@
             app:layout_constraintStart_toEndOf="@id/avatar_iv"
             app:layout_constraintTop_toBottomOf="@id/time_tv" />
 
-        <ImageView
-            android:id="@+id/comment_iv"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/pic_recycler_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_10"
             android:layout_marginTop="@dimen/dp_8"
-            android:src="@mipmap/book_icon"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/avatar_iv"
             app:layout_constraintTop_toBottomOf="@id/content_tv" />
 
@@ -88,19 +88,19 @@
             android:padding="@dimen/dp_10"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/avatar_iv"
-            app:layout_constraintTop_toBottomOf="@id/comment_iv">
+            app:layout_constraintTop_toBottomOf="@id/pic_recycler_view">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="取个名字好难：我是评论我是评论我是评论我是评论" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/look_all_comment_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_10"
-                android:text="查看全部10条回复" />
+                />
         </LinearLayout>
     </android.support.constraint.ConstraintLayout>
 

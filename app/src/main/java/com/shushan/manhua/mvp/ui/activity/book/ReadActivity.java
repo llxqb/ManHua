@@ -24,9 +24,9 @@ import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerReadComponent;
 import com.shushan.manhua.di.modules.ActivityModule;
 import com.shushan.manhua.di.modules.ReadModule;
+import com.shushan.manhua.entity.CommentBean;
 import com.shushan.manhua.entity.response.BarrageStyleResponse;
 import com.shushan.manhua.entity.response.ChapterResponse;
-import com.shushan.manhua.entity.response.ReadingCommendResponse;
 import com.shushan.manhua.entity.response.ReadingRecommendResponse;
 import com.shushan.manhua.help.DialogFactory;
 import com.shushan.manhua.listener.SoftKeyBoardListener;
@@ -114,7 +114,7 @@ public class ReadActivity extends BaseActivity implements ReadControl.ReadView, 
     RecyclerView mCommentRecyclerView;
     boolean mBarrage;//是否弹幕
     private List<ReadingRecommendResponse> readingRecommendResponseList = new ArrayList<>();//推荐list
-    private List<ReadingCommendResponse> readingCommendResponseList = new ArrayList<>();//评论
+    private List<CommentBean> readingCommendResponseList = new ArrayList<>();//评论
     private List<ChapterResponse> chapterResponseList = new ArrayList<>();//章节list
     private List<BarrageStyleResponse> barrageStyleResponseList = new ArrayList<>();//弹幕样式list
     private Integer[] barrageStyleIcon = {R.mipmap.barrage0, R.mipmap.barrage1, R.mipmap.barrage2, R.mipmap.barrage3, R.mipmap.barrage4, R.mipmap.barrage5};
@@ -166,7 +166,7 @@ public class ReadActivity extends BaseActivity implements ReadControl.ReadView, 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mRecommendRecyclerView.setLayoutManager(linearLayoutManager);
-        ReadingCommentAdapter mReadingCommentAdapter = new ReadingCommentAdapter(readingCommendResponseList);
+        ReadingCommentAdapter mReadingCommentAdapter = new ReadingCommentAdapter(readingCommendResponseList,mImageLoaderHelper);
         mCommentRecyclerView.setAdapter(mReadingCommentAdapter);
         mCommentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mReadingCommentAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
@@ -207,10 +207,10 @@ public class ReadActivity extends BaseActivity implements ReadControl.ReadView, 
             ReadingRecommendResponse readingRecommendResponse = new ReadingRecommendResponse();
             readingRecommendResponseList.add(readingRecommendResponse);
         }
-        for (int i = 0; i < 5; i++) {
-            ReadingCommendResponse readingRecommendResponse = new ReadingCommendResponse();
-            readingCommendResponseList.add(readingRecommendResponse);
-        }
+//        for (int i = 0; i < 5; i++) {
+//            ReadingCommendResponse readingRecommendResponse = new ReadingCommendResponse();
+//            readingCommendResponseList.add(readingRecommendResponse);
+//        }
         for (int i = 0; i < 20; i++) {
             ChapterResponse chapterResponse = new ChapterResponse();
             chapterResponse.title = "title" + i;

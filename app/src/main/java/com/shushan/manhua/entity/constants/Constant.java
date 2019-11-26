@@ -36,6 +36,6 @@ public class Constant {
     public static final String CHANNEL = "channel";
     public static final String BOOK_TYPE = "book_type";
 
-
+    public static final int PAGESIZE = 10;
 
 }
