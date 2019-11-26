@@ -8,10 +8,10 @@
 
     <RelativeLayout
         android:id="@+id/comment_content_rl"
-        android:layout_width="@dimen/dp_280"
+        android:layout_width="@dimen/dp_270"
         android:layout_height="@dimen/dp_32"
         android:layout_centerVertical="true"
-        android:layout_marginStart="@dimen/dp_18"
+        android:layout_marginStart="@dimen/dp_12"
         android:background="@drawable/bg_line_round_stroke_30">
 
         <ImageView
@@ -22,17 +22,18 @@
             android:layout_marginStart="@dimen/dp_8"
             android:src="@mipmap/comment_icon" />
 
-        <EditText
-            android:id="@+id/comment_et"
+        <TextView
+            android:id="@+id/comment_tv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/dp_12"
+            android:layout_marginStart="@dimen/dp_8"
             android:layout_toEndOf="@id/comment_icon_iv"
             android:background="@null"
+            android:gravity="center_vertical"
             android:hint="@string/LatestCommentFragment_comment_hint"
             android:textColor="@color/color_30"
-            android:textSize="@dimen/sp_15" />
+            android:textSize="@dimen/sp_13" />
     </RelativeLayout>
 
     <TextView
@@ -41,10 +42,13 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/dp_8"
+        android:layout_marginEnd="@dimen/dp_2"
         android:layout_toEndOf="@id/comment_content_rl"
         android:gravity="center"
         android:padding="@dimen/dp_5"
+        android:singleLine="true"
         android:text="@string/LatestCommentFragment_publish"
         android:textColor="@color/color_30"
-        android:textSize="@dimen/sp_16" />
+        android:textSize="@dimen/sp_12" />
 </RelativeLayout>

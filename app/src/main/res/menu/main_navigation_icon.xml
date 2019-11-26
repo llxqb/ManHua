@@ -4,19 +4,19 @@
     <item
         android:id="@+id/action_home"
         android:enabled="true"
-        android:icon="@mipmap/tutor"
+        android:icon="@mipmap/bottom_bar_bookcity_choose"
         android:title="@string/main_bottom_home"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_teacher"
         android:enabled="true"
-        android:icon="@mipmap/teacher_gray"
+        android:icon="@mipmap/bottom_bar_bookshelf"
         android:title="@string/main_bottom_teacher"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_mine"
         android:enabled="true"
-        android:icon="@mipmap/my_gray"
+        android:icon="@mipmap/bottom_bar_my"
         android:title="@string/main_bottom_mime"
         app:showAsAction="ifRoom" />
 </menu>

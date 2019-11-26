@@ -16,12 +16,12 @@
         app:xTabIndicatorColor="@color/color_30"
         app:xTabIndicatorHeight="@dimen/dp_4"
         app:xTabIndicatorWidth="@dimen/dp_20"
-        app:xTabMode="fixed"
+        app:xTabMode="scrollable"
         app:xTabSelectedTextColor="@color/color_30"
-        app:xTabSelectedTextSize="@dimen/sp_14"
+        app:xTabSelectedTextSize="@dimen/sp_13"
         app:xTabTextColor="@color/color_9b"
         app:xTabTextSelectedBold="true"
-        app:xTabTextSize="@dimen/sp_14" />
+        app:xTabTextSize="@dimen/sp_13" />
 
     <View
         android:layout_width="match_parent"

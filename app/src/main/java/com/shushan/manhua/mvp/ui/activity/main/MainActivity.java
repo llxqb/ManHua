@@ -113,8 +113,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 mMainBottomNavigation.setSelectedItemId(R.id.action_teacher);
             }
         }
-//        showSelectManHuaTypeDialog();
         checkPermissions();
+        showSelectManHuaTypeDialog();
     }
 
     /**
@@ -145,6 +145,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             finish();
         }
     }
+
     /**
      * 第一次选择频道
      */
@@ -171,15 +172,15 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         switch (menuItem.getItemId()) {
             case R.id.action_home:
                 //在这里替换图标
-                menuItem.setIcon(R.mipmap.tutor);
+                menuItem.setIcon(R.mipmap.bottom_bar_bookcity_choose);
                 mMainViewpager.setCurrentItem(SWITCH_HOME_PAGE, false);
                 break;
             case R.id.action_teacher:
-                menuItem.setIcon(R.mipmap.teacher);
+                menuItem.setIcon(R.mipmap.bottom_bar_bookshelf_choose);
                 mMainViewpager.setCurrentItem(SWITCH_TEACHER_PAGE, false);
                 break;
             case R.id.action_mine:
-                menuItem.setIcon(R.mipmap.my);
+                menuItem.setIcon(R.mipmap.bottom_bar_my_choose);
                 mMainViewpager.setCurrentItem(SWITCH_MINE_PAGE, false);
                 break;
         }
@@ -190,9 +191,9 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         MenuItem home = mMainBottomNavigation.getMenu().findItem(R.id.action_home);
         MenuItem mine = mMainBottomNavigation.getMenu().findItem(R.id.action_teacher);
         MenuItem more = mMainBottomNavigation.getMenu().findItem(R.id.action_mine);
-        home.setIcon(R.mipmap.tutor_gray);
-        mine.setIcon(R.mipmap.teacher_gray);
-        more.setIcon(R.mipmap.my_gray);
+        home.setIcon(R.mipmap.bottom_bar_bookcity);
+        mine.setIcon(R.mipmap.bottom_bar_bookshelf);
+        more.setIcon(R.mipmap.bottom_bar_my);
     }
 
 

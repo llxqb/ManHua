@@ -75,13 +75,13 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
     }
 
 
-    @OnClick({R.id.common_left_iv, R.id.add_bookshelf_iv})
+    @OnClick({R.id.common_left_iv, R.id.add_bookshelf_tv})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.common_left_iv:
                 finish();
                 break;
-            case R.id.add_bookshelf_iv:
+            case R.id.add_bookshelf_tv:
                 showToast("加入书架");
                 break;
         }

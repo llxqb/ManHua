@@ -22,6 +22,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
+ * 书籍评论
  * 查看更多评论
  */
 public class MoreCommentActivity extends BaseActivity implements MoreCommentControl.MoreCommentView {
@@ -41,7 +42,7 @@ public class MoreCommentActivity extends BaseActivity implements MoreCommentCont
 
     @Override
     public void initView() {
-        titles = new String[]{getResources().getString(R.string.MoreCommentActivity_latest_tv), getResources().getString(R.string.MoreCommentActivity_hot_tv)};
+        titles = new String[]{getString(R.string.MoreCommentActivity_latest_tv), getResources().getString(R.string.MoreCommentActivity_hot_tv)};
         mViewPager.setOffscreenPageLimit(2);
         mViewPager.setAdapter(new MyPageAdapter(getSupportFragmentManager()));
         mXTabLayout.setupWithViewPager(mViewPager);
@@ -52,17 +53,18 @@ public class MoreCommentActivity extends BaseActivity implements MoreCommentCont
 
     }
 
-    @OnClick({R.id.common_back_iv, R.id.comment_tv})
+    @OnClick({R.id.common_back_iv, R.id.comment_iv})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.common_back_iv:
                 finish();
                 break;
-            case R.id.comment_tv://发表评论
+            case R.id.comment_iv://发表评论
 
                 break;
         }
     }
+
 
     private class MyPageAdapter extends FragmentPagerAdapter {
         private List<Fragment> fragments = new ArrayList<Fragment>();

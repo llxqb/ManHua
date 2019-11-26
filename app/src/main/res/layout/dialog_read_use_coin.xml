@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/close_iv"
             android:layout_centerHorizontal="true"
-            android:text="应付5金币"
+            android:text="@string/ReadUseCoinDialog_title"
             android:textColor="#915AFF"
             android:textSize="@dimen/sp_18" />
 
@@ -48,7 +48,7 @@
             android:layout_marginStart="@dimen/dp_6"
             android:layout_marginTop="@dimen/dp_16"
             android:layout_toEndOf="@id/vip_icon"
-            android:text="会员价3金币"
+            android:text="@string/ReadUseCoinDialog_pay_hint"
             android:textColor="@color/first_text_color"
             android:textSize="@dimen/sp_14" />
 
@@ -59,7 +59,7 @@
             android:layout_below="@id/vip_icon"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/dp_18"
-            android:text="可用金币0"
+            android:text="@string/ReadUseCoinDialog_use_coin"
             android:textColor="@color/first_text_color"
             android:textSize="@dimen/sp_12" />
 

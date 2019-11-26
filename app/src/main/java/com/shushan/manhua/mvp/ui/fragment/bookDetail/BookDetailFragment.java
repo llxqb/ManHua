@@ -74,7 +74,13 @@ public class BookDetailFragment extends BaseFragment implements BookDetailFragme
         mReadingCommentAdapter = new ReadingCommentAdapter(readingCommendResponseList);
         mCommentRecyclerView.setAdapter(mReadingCommentAdapter);
         mCommentRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
+        mReadingCommentAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            switch (view.getId()) {
+                case R.id.comment_ll:
+                    startActivitys(MoreCommentActivity.class);
+                    break;
+            }
+        });
     }
 
     @Override

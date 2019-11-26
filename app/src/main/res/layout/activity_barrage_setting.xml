@@ -6,4 +6,264 @@
     android:layout_height="match_parent"
     tools:context=".mvp.ui.activity.book.BarrageSettingActivity">
 
+    <ImageView
+        android:id="@+id/common_left_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp_10"
+        android:src="@mipmap/down_arraw"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/BarrageSettingActivity_title"
+        android:textColor="@color/first_text_color"
+        android:textSize="@dimen/sp_16"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/right_text_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/BarrageSettingActivity_right_title"
+        android:textColor="@color/first_text_color"
+        android:textSize="@dimen/sp_16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/center_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/dp_22"
+        android:paddingTop="@dimen/dp_22"
+        android:paddingEnd="@dimen/dp_20"
+        android:paddingBottom="@dimen/dp_20"
+        app:layout_constraintTop_toBottomOf="@id/common_left_iv">
+
+
+        <TextView
+            android:id="@+id/model_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ReadSettingPopupWindow_model"
+            android:textColor="@color/color_30"
+            android:textSize="@dimen/sp_16"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_12"
+            android:gravity="end"
+            android:text="@string/ReadSettingPopupWindow_model_hint"
+            android:textColor="@color/color_80"
+            android:textSize="@dimen/sp_13"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/model_tv"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/page_turning_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_47"
+            android:text="@string/ReadSettingPopupWindow_page_turning"
+            android:textColor="@color/color_30"
+            android:textSize="@dimen/sp_16"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/model_tv" />
+
+        <ImageView
+            android:id="@+id/page_turning_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_45"
+            android:padding="@dimen/dp_10"
+            android:src="@mipmap/switch_open"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/model_tv" />
+
+        <TextView
+            android:id="@+id/page_turning_hint_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_4"
+            android:layout_marginEnd="@dimen/dp_10"
+            android:text="@string/ReadSettingPopupWindow_page_turning_hint"
+            android:textColor="@color/color_80"
+            android:textSize="@dimen/sp_10"
+            app:layout_constraintEnd_toStartOf="@id/page_turning_iv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/page_turning_tv" />
+
+
+        <TextView
+            android:id="@+id/night_model_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_32"
+            android:text="@string/ReadSettingPopupWindow_night_model"
+            android:textColor="@color/color_30"
+            android:textSize="@dimen/sp_16"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/page_turning_hint_tv" />
+
+        <ImageView
+            android:id="@+id/night_model_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_14"
+            android:padding="@dimen/dp_10"
+            android:src="@mipmap/switch_close"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/page_turning_iv" />
+
+
+        <TextView
+            android:id="@+id/barrage_switch_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_32"
+            android:text="@string/ReadSettingPopupWindow_barrage"
+            android:textColor="@color/color_30"
+            android:textSize="@dimen/sp_16"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/night_model_tv" />
+
+
+        <ImageView
+            android:id="@+id/barrage_switch_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_14"
+            android:padding="@dimen/dp_10"
+            android:src="@mipmap/switch_close"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/night_model_iv" />
+
+        <TextView
+            android:id="@+id/barrage_switch_hint_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_4"
+            android:layout_marginEnd="@dimen/dp_10"
+            android:text="@string/ReadSettingPopupWindow_barrage_hint"
+            android:textColor="@color/color_80"
+            android:textSize="@dimen/sp_10"
+            app:layout_constraintEnd_toStartOf="@id/barrage_switch_iv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/barrage_switch_tv" />
+
+    </android.support.constraint.ConstraintLayout>
+
+
+    <TextView
+        android:id="@+id/barrage_setting_hint"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_22"
+        android:layout_marginTop="@dimen/dp_50"
+        android:layout_marginEnd="@dimen/dp_22"
+        android:background="@mipmap/black_bg"
+        android:gravity="center"
+        android:text="@string/BarrageSettingActivity_hint"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/center_layout" />
+
+
+    <TextView
+        android:id="@+id/transparency_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_22"
+        android:layout_marginTop="@dimen/dp_32"
+        android:text="@string/BarrageSettingActivity_transparency"
+        android:textColor="@color/color_30"
+        android:textSize="@dimen/sp_16"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/barrage_setting_hint" />
+
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_28"
+        android:layout_marginTop="@dimen/dp_8"
+        android:layout_marginEnd="@dimen/dp_50"
+        android:max="100"
+        android:maxHeight="3.4dp"
+        android:minHeight="3.4dp"
+        android:progress="50"
+        android:progressDrawable="@drawable/bg_adjust_seek_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/transparency_hint" />
+
+
+    <TextView
+        android:id="@+id/seek_bar_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_7"
+        android:text="100%"
+        app:layout_constraintStart_toEndOf="@id/seekBar"
+        app:layout_constraintTop_toBottomOf="@id/transparency_hint" />
+
+
+    <TextView
+        android:id="@+id/play_speed_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_22"
+        android:layout_marginTop="@dimen/dp_22"
+        android:text="@string/BarrageSettingActivity_play_speed"
+        android:textColor="@color/color_30"
+        android:textSize="@dimen/sp_16"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/seekBar" />
+
+    <SeekBar
+        android:id="@+id/play_seek_bar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_12"
+        android:layout_marginTop="@dimen/dp_8"
+        android:layout_marginEnd="@dimen/dp_50"
+        android:max="100"
+        android:maxHeight="3.4dp"
+        android:minHeight="3.4dp"
+        android:progress="50"
+        android:progressDrawable="@drawable/bg_adjust_seek_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/play_speed_hint" />
+
+    <TextView
+        android:id="@+id/play_seek_bar_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_7"
+        android:text="100%"
+        app:layout_constraintStart_toEndOf="@id/play_seek_bar"
+        app:layout_constraintTop_toBottomOf="@id/play_speed_hint" />
+
+
 </android.support.constraint.ConstraintLayout>

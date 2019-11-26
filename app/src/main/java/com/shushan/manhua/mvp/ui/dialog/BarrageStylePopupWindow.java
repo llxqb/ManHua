@@ -67,22 +67,46 @@ public class BarrageStylePopupWindow {
             barrageStyleResponse.isCheck = true;
             adapter.notifyDataSetChanged();
 
+            //vip 提示开通vip   漫豆兑换提示消费漫豆
+            int userState = 2;//0 开通了  1 开通VIP 2 漫豆兑换
 
-        });
-
-        sendMessageRightRl.setOnClickListener(v -> {
-            if (mPopupWindowListener != null) {
-                mPopupWindowListener.switchStyleLayoutBtnListener(checkStyle);
-                mCustomPopWindow.dissmiss();
+            if (userState == 0) {//没有
+                if (mPopupWindowListener != null) {
+                    mPopupWindowListener.switchStyleLayoutBtnListener(checkStyle);
+                    mCustomPopWindow.dissmiss();
+                }
+            } else if (userState == 1) {
+                if (mPopupWindowListener != null) {
+                    mPopupWindowListener.hintOpenVipBtnListener();
+//                mCustomPopWindow.dissmiss();
+                }
+            } else if (userState == 2) {
+                if (mPopupWindowListener != null) {
+                    mPopupWindowListener.hintBeansExchangeBtnListener();
+//                mCustomPopWindow.dissmiss();
+                }
             }
+
         });
+
+//        sendMessageRightRl.setOnClickListener(v -> {
+//            if (mPopupWindowListener != null) {
+//                mPopupWindowListener.switchStyleLayoutBtnListener(checkStyle);
+//                mCustomPopWindow.dissmiss();
+//            }
+//        });
 
         sendTv.setOnClickListener(v -> Toast.makeText(mContext, "发送", Toast.LENGTH_SHORT).show());
     }
 
 
     public interface BarrageStylePopupWindowListener {
+        void hintOpenVipBtnListener();
+
+        void hintBeansExchangeBtnListener();
+
         void showBeansExchangeBtnListener();
+
         void switchStyleLayoutBtnListener(int style);
     }
 }

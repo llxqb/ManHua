@@ -22,14 +22,15 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
+ * 章节评论
  * 评论详情
  */
 public class CommentDetailsActivity extends BaseActivity implements CommentDetailControl.CommentDetailView {
 
     @BindView(R.id.common_title_tv)
     TextView mCommonTitleTv;
-    @BindView(R.id.comment_et)
-    EditText mCommentEt;
+    @BindView(R.id.comment_tv)
+    EditText mCommentTv;
     @BindView(R.id.comment_recycler_view)
     RecyclerView mCommentRecyclerView;
     private CommentDetailAdapter mCommentDetailAdapter;
@@ -81,7 +82,6 @@ public class CommentDetailsActivity extends BaseActivity implements CommentDetai
                 finish();
                 break;
             case R.id.publish_comment_tv:
-
                 break;
         }
     }

@@ -45,6 +45,9 @@
     <string name="ReadActivity_add_bookshelf">加入书架</string>
     <string name="ReadActivity_share">分享</string>
 
+    <string name="ReadUseCoinDialog_title">应付5金币</string>
+    <string name="ReadUseCoinDialog_pay_hint">会员价3金币</string>
+    <string name="ReadUseCoinDialog_use_coin"> Koin yang bisa digunakan</string>
     <string name="ReadUseCoinDialog_sure">去充值</string>
 
     <string name="ReadBeansExchangeDialog_title">漫豆兑换弹幕</string>
@@ -67,6 +70,7 @@
 
     <string name="BookDetailActivity_detail_tv">详情</string>
     <string name="BookDetailActivity_selection_tv">选集</string>
+    <string name="BookDetailActivity_add_bookshelf">加入书架</string>
 
     <string name="BookDetailFragment_book_desc_hint">作品简介</string>
     <string name="BookDetailFragment_comment_num">总评论数</string>
@@ -76,7 +80,10 @@
     <string name="BookDetailFragment_more_comment">查看更多评论</string>
     <string name="BookDetailFragment_start_reading">开始阅读</string>
 
-    <string name="MoreCommentActivity_comment">评论</string>
+    <string name="SelectionDetailFragment_sort_positive">正序</string>
+    <string name="SelectionDetailFragment_sort_negative">倒序</string>
+    <string name="SelectionDetailFragment_start_reading">开始阅读</string>
+
     <string name="MoreCommentActivity_latest_tv">最新</string>
     <string name="MoreCommentActivity_hot_tv">最热</string>
 
@@ -206,6 +213,7 @@
     <string name="SelectManHuaTypeDialog_title">请选择\n您喜欢的类型</string>
     <string name="SelectManHuaTypeDialog_hint">最多可选x个</string>
 
+    <string name="ReadingSettingActivity_title">阅读偏好</string>
     <string name="ReadingSettingActivity_female">女频</string>
     <string name="ReadingSettingActivity_male">男频</string>
 
@@ -217,6 +225,12 @@
     <string name="AddBarrageDialog_sure">确定</string>
 
     <string name="BarrageSoftKeyPopupWindow_limit_text">小于30个字符</string>
+
+    <string name="BarrageSettingActivity_title">更多设置</string>
+    <string name="BarrageSettingActivity_right_title">恢复默认</string>
+    <string name="BarrageSettingActivity_hint">请注意弹幕礼仪</string>
+    <string name="BarrageSettingActivity_transparency">透明度</string>
+    <string name="BarrageSettingActivity_play_speed">播放速度</string>
 
 
     <string name="SelectDialogUtil_date_title">选择日期</string>

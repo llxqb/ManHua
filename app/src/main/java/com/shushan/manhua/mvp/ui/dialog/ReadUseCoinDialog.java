@@ -53,7 +53,8 @@ public class ReadUseCoinDialog extends BaseDialogFragment {
     }
 
     private void initView() {
-
+//"Harga"+3+getString(R.string.ReadUseCoinDialog_pay_hint);//会员价
+//        getString(R.string.ReadUseCoinDialog_use_coin)+0//可用金币
     }
 
     @Override

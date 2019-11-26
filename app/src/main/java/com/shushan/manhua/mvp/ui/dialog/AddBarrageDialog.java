@@ -62,19 +62,19 @@ public class AddBarrageDialog extends BaseDialogFragment {
     }
 
     private void initView() {
+        mMoveTv.setText(message);
         //动态设置textView位置
-        int screenWidth = SystemUtils.getScreenWidth(getActivity());
+        int screenWidth = SystemUtils.getScreenWidth(Objects.requireNonNull(getActivity()));
         int screenHeight = SystemUtils.getScreenHeight(getActivity());
-        int randomIntLeft = new Random().nextInt(screenWidth);
-        int randomIntTop = new Random().nextInt(screenHeight);
+        int randomIntLeft = new Random().nextInt(screenWidth * 2 / 3);
+        int randomIntTop = new Random().nextInt(screenHeight * 4 / 5);
         int randomIntRight = new Random().nextInt(screenWidth);
         int randomIntBottom = new Random().nextInt(screenHeight);
         TextView mTextView = new TextView(getActivity());
-        mTextView.setPadding(randomIntLeft, randomIntTop, randomIntRight, randomIntBottom);// 通过自定义坐标来放置你的控件 4个参数按顺序分别是左上右下
+        mTextView.setPadding(randomIntLeft, randomIntTop + 50, randomIntRight, randomIntBottom);// 通过自定义坐标来放置你的控件 4个参数按顺序分别是左上右下
         RelativeLayout.LayoutParams flp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        flp.setMargins(randomIntLeft + 50, randomIntTop + 50, randomIntRight - 50, randomIntBottom - 50);
+        flp.setMargins(randomIntLeft, randomIntTop - 50, 0, 0);
         mMoveTv.setLayoutParams(flp);
-        mMoveTv.setText(message);
         switch (mBarrageStyle) {
             case 0:
                 mMoveTv.setBackgroundResource(R.mipmap.black_bg);

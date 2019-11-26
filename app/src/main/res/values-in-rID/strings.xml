@@ -6,9 +6,9 @@
     <string name="text_wait_try">请重试</string>
     <string name="loading">loading…</string>
 
-    <string name="main_bottom_home">书城</string>
-    <string name="main_bottom_teacher">书架</string>
-    <string name="main_bottom_mime">我的</string>
+    <string name="main_bottom_home">Beranda</string>
+    <string name="main_bottom_teacher">Rak buku</string>
+    <string name="main_bottom_mime">Saya</string>
     <string name="main_exit_app">再点一次退出应用</string>
 
 
@@ -22,11 +22,11 @@
     <string name="BookShelfFragment_change_tv">Muat ulang</string>
     <string name="BookShelfAdapter_more_tv">Klik aku dan temukan \nkomik lebih banyak lagi</string>
 
-    <string name="LongDeleteActivity_select_title_tv">请选择</string>
-    <string name="LongDeleteActivity_select_tv">已选择</string>
-    <string name="LongDeleteActivity_select_all">全选</string>
-    <string name="LongDeleteActivity_select_all_no">全不选</string>
-    <string name="LongDeleteActivity_select_delete">删除</string>
+    <string name="LongDeleteActivity_select_title_tv">Silakan pilih</string>
+    <string name="LongDeleteActivity_select_tv">telah dipilih</string>
+    <string name="LongDeleteActivity_select_all">Seluruh Episode</string>
+    <string name="LongDeleteActivity_select_all_no">Tidak dipilih</string>
+    <string name="LongDeleteActivity_select_delete">Hapus</string>
     <!--<string name="ReadActivity_add_bookshelf">加入书架</string>-->
     <!--<string name="ReadActivity_back_top">返回顶部</string>-->
     <string name="ReadActivity_right_title">Daftar Isi</string>
@@ -45,78 +45,85 @@
     <string name="ReadActivity_add_bookshelf">Masuk ke rak buku</string>
     <string name="ReadActivity_share">Bagikan</string>
 
-    <string name="ReadUseCoinDialog_sure">去充值</string>
+    <string name="ReadUseCoinDialog_title">koin yang harus dibayarkan</string>
+    <string name="ReadUseCoinDialog_pay_hint"> koin untuk anggota</string>
+    <string name="ReadUseCoinDialog_use_coin">Koin yang bisa digunakan</string>
+    <string name="ReadUseCoinDialog_sure">Isi ulang koin</string>
 
-    <string name="ReadBeansExchangeDialog_title">漫豆兑换弹幕</string>
-    <string name="ReadBeansExchangeDialog_hint">100漫豆兑换，佩戴有限期30天~</string>
-    <string name="ReadBeansExchangeDialog_sure">去充漫豆</string>
-    <string name="ReadBeansExchangeDialog_sure_hint">漫豆不足</string>
+    <string name="ReadBeansExchangeDialog_title">Koin ditukar dengan komentar langsung</string>
+    <string name="ReadBeansExchangeDialog_hint">tukar 100 koin, hanya bisa dipakai 30 hari</string>
+    <string name="ReadBeansExchangeDialog_sure">Isi ulang koin</string>
+    <string name="ReadBeansExchangeDialog_sure_hint">Koin tidak cukup</string>
 
-    <string name="ReadOpenVipDialog_title">会员专属弹幕</string>
-    <string name="ReadOpenVipDialog_hint">您还不是会员，开通会员可享会员专属弹幕气泡~</string>
-    <string name="ReadOpenVipDialog_sure">开通会员</string>
+    <string name="ReadOpenVipDialog_title">Komentar langsung ekslusif untuk anggota</string>
+    <string name="ReadOpenVipDialog_hint">kamu bukan anggota, daftar anggota dan nikmati berbagai macam komentar langsung  </string>
+    <string name="ReadOpenVipDialog_sure">Daftar anggota</string>
 
-    <string name="ReadSettingPopupWindow_model">翻页模式</string>
-    <string name="ReadSettingPopupWindow_model_hint">当前漫画仅支持上下翻页</string>
-    <string name="ReadSettingPopupWindow_page_turning">点击翻页</string>
-    <string name="ReadSettingPopupWindow_page_turning_hint">打开后可点击屏幕上下方翻页</string>
-    <string name="ReadSettingPopupWindow_night_model">夜间模式</string>
-    <string name="ReadSettingPopupWindow_barrage">弹幕开关</string>
-    <string name="ReadSettingPopupWindow_barrage_hint">不看弹幕，可能错过很多不一样的精彩哦~</string>
-    <string name="ReadSettingPopupWindow_more">更多弹幕设置</string>
+    <string name="ReadSettingPopupWindow_model">Mode balik halaman</string>
+    <string name="ReadSettingPopupWindow_model_hint">Komik ini hanya mendukung membuka halaman selanjutnya dan halaman sebelumnya</string>
+    <string name="ReadSettingPopupWindow_page_turning">Klik balik halaman</string>
+    <string name="ReadSettingPopupWindow_page_turning_hint">Setelah membuka silahkan klik halaman selanjutnya dan halaman sebelumnya di layar</string>
+    <string name="ReadSettingPopupWindow_night_model">Mode malam</string>
+    <string name="ReadSettingPopupWindow_barrage">aktif nonaktif komentar langsung</string>
+    <string name="ReadSettingPopupWindow_barrage_hint">Kalau tidak melihat komentar langsung, akan banyak hal menarik dan berbeda yang dilewatkan lho</string>
+    <string name="ReadSettingPopupWindow_more">Pengaturan lebih banyak komentar langsung</string>
 
-    <string name="BookDetailActivity_detail_tv">详情</string>
-    <string name="BookDetailActivity_selection_tv">选集</string>
+    <string name="BookDetailActivity_detail_tv">Detail</string>
+    <string name="BookDetailActivity_selection_tv">Pilih Episode</string>
+    <string name="BookDetailActivity_add_bookshelf">telah masuk rak buku</string>
 
-    <string name="BookDetailFragment_book_desc_hint">作品简介</string>
-    <string name="BookDetailFragment_comment_num">总评论数</string>
-    <string name="BookDetailFragment_connection_num">万人已加入书架</string>
-    <string name="BookDetailFragment_comment_hint">评论</string>
-    <string name="BookDetailFragment_submit_comment">发表评论</string>
-    <string name="BookDetailFragment_more_comment">查看更多评论</string>
-    <string name="BookDetailFragment_start_reading">开始阅读</string>
+    <string name="BookDetailFragment_book_desc_hint">Ringkasan cerita</string>
+    <string name="BookDetailFragment_comment_num">Total komentar</string>
+    <string name="BookDetailFragment_connection_num">39000 orang yang telah memasukkannya ke rak buku</string>
+    <string name="BookDetailFragment_comment_hint">Komentar</string>
+    <string name="BookDetailFragment_submit_comment">Posting komentar</string>
+    <string name="BookDetailFragment_more_comment">Lihat lebih banyak ulasan</string>
+    <string name="BookDetailFragment_start_reading">Mulai membaca</string>
 
-    <string name="MoreCommentActivity_comment">评论</string>
-    <string name="MoreCommentActivity_latest_tv">最新</string>
-    <string name="MoreCommentActivity_hot_tv">最热</string>
+    <string name="SelectionDetailFragment_sort_positive">Urutan positif </string>
+    <string name="SelectionDetailFragment_sort_negative">Pesanan terbalik</string>
+    <string name="SelectionDetailFragment_start_reading">Mulai membaca</string>
 
-    <string name="LatestCommentFragment_comment_hint">吐槽什么的尽管来～</string>
-    <string name="LatestCommentFragment_publish">发表</string>
+    <string name="MoreCommentActivity_latest_tv">Terbaru</string>
+    <string name="MoreCommentActivity_hot_tv">Terpopuler</string>
+
+    <string name="LatestCommentFragment_comment_hint">silahkan masukkan komentar </string>
+    <string name="LatestCommentFragment_publish">Memposting</string>
 
     <string name="CommentDetailsActivity_title">评论详情</string>
 
-    <string name="ReadingHistoryActivity_title">浏览历史</string>
-    <string name="ReadingHistoryActivity_edit">编辑</string>
-    <string name="ReadingHistoryActivity_edit_cancel">取消</string>
-    <string name="ReadingHistoryActivity_select_all">全选</string>
-    <string name="ReadingHistoryActivity_select_all_no">全不选</string>
-    <string name="ReadingHistoryActivity_delete">删除</string>
+    <string name="ReadingHistoryActivity_title">Riwayat penjelajahan</string>
+    <string name="ReadingHistoryActivity_edit">Edit</string>
+    <string name="ReadingHistoryActivity_edit_cancel">Batal</string>
+    <string name="ReadingHistoryActivity_select_all">Seluruh Episode</string>
+    <string name="ReadingHistoryActivity_select_all_no">Tidak dipilih</string>
+    <string name="ReadingHistoryActivity_delete">Hapus</string>
 
-    <string name="MineFragment_beans_tv">漫豆</string>
-    <string name="MineFragment_recharge">充值</string>
-    <string name="MineFragment_open_vip">立即开通</string>
-    <string name="MineFragment_welfare_hint_title">福利专区</string>
-    <string name="MineFragment_check_in">签到领漫豆</string>
-    <string name="MineFragment_check_in_hint">人已领</string>
-    <string name="MineFragment_check_in_vip">会员领漫豆</string>
-    <string name="MineFragment_reading_hint_title">阅读偏好</string>
-    <string name="MineFragment_reading_record">阅读记录</string>
-    <string name="MineFragment_buy_book">已购漫画</string>
-    <string name="MineFragment_other_hint_title">其它</string>
-    <string name="MineFragment_other_feedback">意见反馈</string>
+    <string name="MineFragment_beans_tv">Koin</string>
+    <string name="MineFragment_recharge">Isi ulang</string>
+    <string name="MineFragment_open_vip">Daftar\nLangsung</string>
+    <string name="MineFragment_welfare_hint_title">Area hadiah</string>
+    <string name="MineFragment_check_in">Mengambil koin</string>
+    <string name="MineFragment_check_in_hint"> orang yang mengambil</string>
+    <string name="MineFragment_check_in_vip">koin yang diambil anggota</string>
+    <string name="MineFragment_reading_hint_title">Peferensi\nmembaca</string>
+    <string name="MineFragment_reading_record">Riwayat\nmembaca</string>
+    <string name="MineFragment_buy_book">Telah membeli\nkomik</string>
+    <string name="MineFragment_other_hint_title">Lainnya</string>
+    <string name="MineFragment_other_feedback">Pendapat dan\numpan balik</string>
 
-    <string name="MemberCenterActivity_title">会员中心</string>
-    <string name="MemberCenterActivity_become_vip_hint">开通会员，享多重特权</string>
-    <string name="MemberCenterActivity_become_vip_saving_money">开通会员每月可省 $25</string>
-    <string name="MemberCenterActivity_get_beans">领取漫豆</string>
-    <string name="MemberCenterActivity_vip_profit_hint">会员权益说明</string>
-    <string name="MemberCenterActivity_pay">立即开通</string>
+    <string name="MemberCenterActivity_title">Pusat keanggotaan</string>
+    <string name="MemberCenterActivity_become_vip_hint">Daftar anggota, bisa menikmati \nbanyak hak istimewa</string>
+    <string name="MemberCenterActivity_become_vip_saving_money">Anggota setiap bulan hemat </string>
+    <string name="MemberCenterActivity_get_beans">Ambil koin</string>
+    <string name="MemberCenterActivity_vip_profit_hint">Penjelasan hak istimewa anggota</string>
+    <string name="MemberCenterActivity_pay">Daftar langsung</string>
 
-    <string name="MemberCenterActivity_beans_everyday">每日漫豆</string>
-    <string name="MemberCenterActivity_restriction">作品限免</string>
-    <string name="MemberCenterActivity_discount">会员折扣</string>
-    <string name="MemberCenterActivity_barrage">会员弹幕</string>
-    <string name="MemberCenterActivity_Identity">尊贵身份</string>
+    <string name="MemberCenterActivity_beans_everyday">Koin\nsetiap hari</string>
+    <string name="MemberCenterActivity_restriction">Batasan\ngratis</string>
+    <string name="MemberCenterActivity_discount">Potongan\nuntuk\nanggota</string>
+    <string name="MemberCenterActivity_barrage">Komentar\nlangsung\nanggota</string>
+    <string name="MemberCenterActivity_Identity">Identitas</string>
     <string name="MemberCenterActivity_profit_01">Anggota setiap harinya gratis mengambil hadiah koin</string>
     <string name="MemberCenterActivity_profit_02">Anggota bisa menikmati membaca gratis karya populer yang ditetapkan</string>
     <string name="MemberCenterActivity_profit_03">Anggota mendapatkan keuntungan dan potongan untuk seluruh chapter komik</string>
@@ -125,29 +132,29 @@
 
     <string name="BuyAdapter_subscription">谷歌订阅</string>
 
-    <string name="BuyActivity_title">充值中心</string>
-    <string name="BuyActivity_right_title">明细</string>
-    <string name="BuyActivity_beans">漫豆</string>
-    <string name="BuyActivity_Invalid_beans_detail">详情</string>
-    <string name="BuyActivity_Recharge_instructions">充值说明：</string>
-    <string name="BuyActivity_Recharge_instructions_tv">1.充值赠送的漫豆将在次月最后一天24:00到期。\n2.充值遇到问题，请联系客服。</string>
-    <string name="BuyActivity_buy">立即购买</string>
+    <string name="BuyActivity_title">Pusat Pembayaran</string>
+    <string name="BuyActivity_right_title">Detail</string>
+    <string name="BuyActivity_beans">koin</string>
+    <string name="BuyActivity_Invalid_beans_detail">Detail</string>
+    <string name="BuyActivity_Recharge_instructions">Penjelasan cara isi ulang：</string>
+    <string name="BuyActivity_Recharge_instructions_tv">Koin yang dihadiahkan untuk isi ulang terbatas di bulan \ntersebut selama satu hari sampai 24:00</string>
+    <string name="BuyActivity_buy">Pembelian</string>
 
-    <string name="TransactionDetailsActivity_RechargeRecord">充值记录</string>
-    <string name="TransactionDetailsActivity_ExpensesRecordF">消费记录</string>
+    <string name="TransactionDetailsActivity_RechargeRecord">Riwayat isi ulang</string>
+    <string name="TransactionDetailsActivity_ExpensesRecordF">Riwayat penggunaan</string>
 
     <string name="RechargeRecordAdapter_beans">漫豆</string>
 
-    <string name="BeansExpiredDialog_title">提示</string>
-    <string name="BeansExpiredDialog_hint">赠送的漫豆快到期啦！记得花掉哟~</string>
-    <string name="BeansExpiredDialog_beans">漫豆</string>
+    <string name="BeansExpiredDialog_title">Mencontohkan</string>
+    <string name="BeansExpiredDialog_hint">Hadiah koin segera berakhir!\njangan lupa segera habiskan ya</string>
+    <string name="BeansExpiredDialog_beans">koin</string>
 
-    <string name="PersonalInfoActivity_title">个人资料</string>
-    <string name="PersonalInfoActivity_right_title">保存</string>
-    <string name="PersonalInfoActivity_nick">昵称</string>
-    <string name="PersonalInfoActivity_sex">性别</string>
-    <string name="PersonalInfoActivity_birthday">生日</string>
-    <string name="PersonalInfoActivity_select">请选择</string>
+    <string name="PersonalInfoActivity_title">Informasi diri</string>
+    <string name="PersonalInfoActivity_right_title">Simpan</string>
+    <string name="PersonalInfoActivity_nick">Nama akun</string>
+    <string name="PersonalInfoActivity_sex">Kelamin</string>
+    <string name="PersonalInfoActivity_birthday">Tanggal Lahir</string>
+    <string name="PersonalInfoActivity_select">Silahkan pilih</string>
 
     <string name="EditNameDialog_nick">昵称</string>
     <string name="EditNameDialog_nick_hint">请输入你的昵称</string>
@@ -158,44 +165,44 @@
     <string name="AvatarPopupWindow_album">相册</string>
     <string name="AvatarPopupWindow_cancel">取消</string>
 
-    <string name="MessageActivity_title">我的消息</string>
-    <string name="MessageActivity_SentMessage">我发出的评论</string>
-    <string name="MessageActivity_ReceivedMessage">回复我的评论</string>
-    <string name="MessageActivity_Notice">通知</string>
+    <string name="MessageActivity_title">Informasi saya</string>
+    <string name="MessageActivity_SentMessage">Komentar yang\nsaya kirimkan</string>
+    <string name="MessageActivity_ReceivedMessage">Balasan\nkomentar saya</string>
+    <string name="MessageActivity_Notice">Pemberitahuan</string>
 
     <string name="SentMessageAdapter_delete">删除</string>
 
     <string name="ReceivedMessageAdapter_comment">回复</string>
 
-    <string name="SettingActivity_title">设置</string>
-    <string name="SettingActivity_cache">清理缓存</string>
-    <string name="SettingActivity_version_update">版本更新</string>
-    <string name="SettingActivity_protocol">用户协议</string>
-    <string name="SettingActivity_about_us">关于我们</string>
-    <string name="SettingActivity_exit_login">退出当前帐号</string>
-    <string name="SettingActivity_cache_hint">你确定要清理缓存?</string>
-    <string name="SettingActivity_exit_hint">你确定要退出吗?</string>
-    <string name="SettingActivity_cancel">取消</string>
-    <string name="SettingActivity_sure">确定</string>
+    <string name="SettingActivity_title">Pengaturan</string>
+    <string name="SettingActivity_cache">Bersihkan Cache</string>
+    <string name="SettingActivity_version_update">Update terbaru</string>
+    <string name="SettingActivity_protocol">Perjanjian Pengguna</string>
+    <string name="SettingActivity_about_us">Tentang Kami</string>
+    <string name="SettingActivity_exit_login">Keluar dari akun </string>
+    <string name="SettingActivity_cache_hint">Apakah Anda yakin untuk menghapus cache?</string>
+    <string name="SettingActivity_exit_hint">Anda yakin ingin berhenti?</string>
+    <string name="SettingActivity_cancel">Batal</string>
+    <string name="SettingActivity_sure">Yakin</string>
 
-    <string name="LoginActivity_protocol">*注册即同意《用户注册协议》</string>
+    <string name="LoginActivity_protocol">Registrasi dan setuju(Perjanjian registrasi pengguna)</string>
 
-    <string name="FeedbackActivity_title">意见反馈</string>
-    <string name="FeedbackActivity_hint">提供联系方式，工作人员将优先处理您的反馈。</string>
-    <string name="FeedbackActivity_contact_way">联系方式（选填）</string>
-    <string name="FeedbackActivity_contact_way_hint">方便我们与您联系（邮箱，电话，WhatsApp）</string>
-    <string name="FeedbackActivity_submit">提交</string>
-    <string name="FeedbackActivity_content_is_empty">反馈内容不能为空</string>
-    <string name="FeedbackActivity_content_hint">请写下您宝贵的意见和建议。</string>
-    <string name="FeedbackActivity_only_100_word">小于100字</string>
+    <string name="FeedbackActivity_title">Pendapat dan Umpan balik</string>
+    <string name="FeedbackActivity_hint">Berikan kontak informasi, Staf kami akan mengurus\nsaran anda</string>
+    <string name="FeedbackActivity_contact_way">Kontak informasi (pilih)</string>
+    <string name="FeedbackActivity_contact_way_hint">Kami bisa menghubungi anda dengan (email,telepon, Wahtsapp)</string>
+    <string name="FeedbackActivity_submit">Kirim</string>
+    <string name="FeedbackActivity_content_is_empty">Konten umpan balik tidak boleh kosong</string>
+    <string name="FeedbackActivity_content_hint">Silahkan tuliskan pendapat dan saran anda</string>
+    <string name="FeedbackActivity_only_100_word">Kurang dari 100 kata</string>
 
-    <string name="PurchasedActivity_title">已购漫画</string>
+    <string name="PurchasedActivity_title">Komik yang telah dibeli</string>
 
-    <string name="CheckInActivity_title">福利免费领</string>
-    <string name="CheckInActivity_title_right">规则</string>
-    <string name="CheckInActivity_receive">领取</string>
-    <string name="CheckInActivity_sign_in_day">已连续签到2天</string>
-    <string name="CheckInActivity_receive_beans">做任务领漫豆</string>
+    <string name="CheckInActivity_title">Hadiah gratis untuk diambil</string>
+    <string name="CheckInActivity_title_right">Aturan</string>
+    <string name="CheckInActivity_receive">Ambil</string>
+    <string name="CheckInActivity_sign_in_day">Telah diperpanjang sampai 2 hari</string>
+    <string name="CheckInActivity_receive_beans">Lakukan tugasnya dan ambil poinnya</string>
 
     <string name="SelectChannelDialog_wecome">欢迎来到xxxx</string>
     <string name="SelectChannelDialog_title">请选择\n您喜欢的频道</string>
@@ -206,8 +213,9 @@
     <string name="SelectManHuaTypeDialog_title">请选择\n您喜欢的类型</string>
     <string name="SelectManHuaTypeDialog_hint">最多可选x个</string>
 
-    <string name="ReadingSettingActivity_female">女频</string>
-    <string name="ReadingSettingActivity_male">男频</string>
+    <string name="ReadingSettingActivity_title">Preferensi membaca</string>
+    <string name="ReadingSettingActivity_female">Perempuan</string>
+    <string name="ReadingSettingActivity_male">Laki-laki</string>
 
 
     <string name="BarrageStylePopupWindow_barrage_hint">来一条弹幕吧</string>
@@ -218,6 +226,11 @@
 
     <string name="BarrageSoftKeyPopupWindow_limit_text">小于30个字符</string>
 
+    <string name="BarrageSettingActivity_title">更多设置</string>
+    <string name="BarrageSettingActivity_right_title">恢复默认</string>
+    <string name="BarrageSettingActivity_hint">Tolong perhatikan dalam bersikap dan berbahasa di komentar langsung</string>
+    <string name="BarrageSettingActivity_transparency">Tingkat kecerahan</string>
+    <string name="BarrageSettingActivity_play_speed">Kecepatan memainkan</string>
 
     <string name="SelectDialogUtil_date_title">选择日期</string>
     <string name="SelectDialogUtil_cancel">取消</string>

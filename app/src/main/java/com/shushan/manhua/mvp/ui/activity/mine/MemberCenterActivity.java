@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.shushan.manhua.R;
@@ -31,10 +32,14 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
 
     @BindView(R.id.money_tv)
     TextView mMoneyTv;
+    @BindView(R.id.no_vip_layout)
+    LinearLayout mNoVipLayout;//非VIP
+    @BindView(R.id.vip_layout)
+    LinearLayout mVipLayout;//VIP
     @BindView(R.id.avatar_iv)
     ImageView mAvatarIv;
-    @BindView(R.id.become_vip_iv)
-    ImageView mBecomeVipIv;
+    @BindView(R.id.username_tv)
+    TextView mUsernameTv;
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
     @BindView(R.id.vip_profit_recycler_view)
@@ -56,14 +61,6 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
     @Override
     public void initView() {
         initRecyclerView();
-//        //会员权益
-//        String[] vipProfit = new String[]{getResources().getString(R.string.MemberCenterActivity_profit_01), getResources().getString(R.string.MemberCenterActivity_profit_02),
-//                getResources().getString(R.string.MemberCenterActivity_profit_03),
-//                getResources().getString(R.string.MemberCenterActivity_profit_04),
-//                getResources().getString(R.string.MemberCenterActivity_profit_05)
-//        };
-//        //会员权益
-//        int[] vipProfitIcon = new int[]{R.mipmap.koin_setiap_hari, R.mipmap.batasan_gratis, R.mipmap.potongan_untuk_anggota, R.mipmap.komentar_langsung_anggota, R.mipmap.Identitas};
     }
 
     private void initRecyclerView() {
@@ -120,8 +117,7 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
             BuyResponse buyResponse = new BuyResponse();
             buyResponseList.add(buyResponse);
         }
-        String[] profitName = {getResources().getString(R.string.MemberCenterActivity_beans_everyday), getResources().getString(R.string.MemberCenterActivity_restriction), getResources().getString(R.string.MemberCenterActivity_discount)
-                , getResources().getString(R.string.MemberCenterActivity_barrage), getResources().getString(R.string.MemberCenterActivity_Identity)};
+        String[] profitName = {getResources().getString(R.string.MemberCenterActivity_beans_everyday), getResources().getString(R.string.MemberCenterActivity_restriction), getResources().getString(R.string.MemberCenterActivity_discount), getResources().getString(R.string.MemberCenterActivity_barrage), getResources().getString(R.string.MemberCenterActivity_Identity)};
         int[] profitIcon = {R.mipmap.beans2, R.mipmap.vip_free_works, R.mipmap.vip_discount, R.mipmap.vip_barrage, R.mipmap.vip_honorable_status};
         for (int i = 0; i < profitName.length; i++) {
             ProfitResponse profitResponse = new ProfitResponse();

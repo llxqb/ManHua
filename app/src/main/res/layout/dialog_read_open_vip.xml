@@ -25,8 +25,8 @@
             android:id="@+id/title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/close_iv"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp_18"
             android:text="@string/ReadOpenVipDialog_title"
             android:textColor="#915AFF"
             android:textSize="@dimen/sp_18" />

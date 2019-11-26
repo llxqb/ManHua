@@ -52,7 +52,7 @@ public class BeansExpiredDialog extends BaseDialogFragment {
     }
 
     private void initView() {
-
+        //失效  Gagal
     }
 
     @Override

@@ -84,7 +84,6 @@
         <activity
             android:name=".mvp.ui.activity.book.ReadActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".mvp.ui.activity.main.MainActivity"
             android:launchMode="singleTask"

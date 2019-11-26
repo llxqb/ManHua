@@ -21,19 +21,22 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_12"
+        android:gravity="end"
         android:text="@string/ReadSettingPopupWindow_model_hint"
         android:textColor="@color/color_80"
         android:textSize="@dimen/sp_13"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/model_tv"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/page_turning_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_32"
+        android:layout_marginTop="@dimen/dp_47"
         android:text="@string/ReadSettingPopupWindow_page_turning"
         android:textColor="@color/color_30"
         android:textSize="@dimen/sp_16"
@@ -41,27 +44,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/model_tv" />
 
-    <TextView
-        android:id="@+id/page_turning_hint_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_4"
-        android:text="@string/ReadSettingPopupWindow_page_turning_hint"
-        android:textColor="@color/color_80"
-        android:textSize="@dimen/sp_10"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/page_turning_tv" />
-
-
     <ImageView
         android:id="@+id/page_turning_iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_32"
+        android:layout_marginTop="@dimen/dp_45"
         android:padding="@dimen/dp_10"
         android:src="@mipmap/switch_open"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/model_tv" />
+
+    <TextView
+        android:id="@+id/page_turning_hint_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_4"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:text="@string/ReadSettingPopupWindow_page_turning_hint"
+        android:textColor="@color/color_80"
+        android:textSize="@dimen/sp_10"
+        app:layout_constraintEnd_toStartOf="@id/page_turning_iv"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/page_turning_tv" />
+
 
     <TextView
         android:id="@+id/night_model_tv"
@@ -98,16 +103,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/night_model_tv" />
 
-    <TextView
-        android:id="@+id/barrage_switch_hint_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_4"
-        android:text="@string/ReadSettingPopupWindow_barrage_hint"
-        android:textColor="@color/color_80"
-        android:textSize="@dimen/sp_10"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/barrage_switch_tv" />
 
     <ImageView
         android:id="@+id/barrage_switch_iv"
@@ -119,12 +114,25 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/night_model_iv" />
 
+    <TextView
+        android:id="@+id/barrage_switch_hint_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_4"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:text="@string/ReadSettingPopupWindow_barrage_hint"
+        android:textColor="@color/color_80"
+        android:textSize="@dimen/sp_10"
+        app:layout_constraintEnd_toStartOf="@id/barrage_switch_iv"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/barrage_switch_tv" />
+
 
     <TextView
         android:id="@+id/more_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_15"
+        android:layout_marginTop="@dimen/dp_20"
         android:layout_marginBottom="@dimen/dp_18"
         android:drawableStart="@mipmap/barrage_more_settings"
         android:drawablePadding="@dimen/dp_4"

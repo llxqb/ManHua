@@ -91,26 +91,61 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
 
-            <ImageView
-                android:id="@+id/become_vip_iv"
+            <!-- 非vip-->
+            <LinearLayout
+                android:id="@+id/no_vip_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_9"
+                android:orientation="horizontal"
                 android:layout_marginTop="@dimen/dp_88"
-                android:src="@mipmap/recharge_vip"
                 app:layout_constraintStart_toEndOf="@id/avatar_iv"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_9"
+                    android:src="@mipmap/recharge_vip_opening" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_10"
+                    android:text="@string/MemberCenterActivity_become_vip_hint"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_12" />
+            </LinearLayout>
+
+
+            <!-- vip-->
+            <LinearLayout
+                android:id="@+id/vip_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_10"
-                android:layout_marginTop="@dimen/dp_6"
-                android:text="@string/MemberCenterActivity_become_vip_hint"
-                android:textColor="@color/white"
-                android:textSize="@dimen/sp_12"
+                android:orientation="vertical"
+                android:visibility="gone"
                 app:layout_constraintStart_toEndOf="@id/avatar_iv"
-                app:layout_constraintTop_toBottomOf="@id/become_vip_iv" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/username_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_10"
+                    android:layout_marginTop="@dimen/dp_88"
+                    android:text="Elizabeth"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_12" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_9"
+                    android:layout_marginTop="@dimen/dp_6"
+                    android:src="@mipmap/recharge_vip" />
+
+
+            </LinearLayout>
 
 
             <TextView
@@ -177,11 +212,11 @@
 
             <TextView
                 android:id="@+id/profit_text_tv"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_14"
+                android:layout_marginStart="@dimen/dp_20"
                 android:layout_marginTop="@dimen/dp_20"
-                android:layout_marginEnd="@dimen/dp_14"
+                android:layout_marginEnd="@dimen/dp_20"
                 android:background="@mipmap/vip_text_bg"
                 android:gravity="center"
                 android:text="@string/MemberCenterActivity_profit_01"

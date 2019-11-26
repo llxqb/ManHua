@@ -30,6 +30,7 @@ import com.shushan.manhua.entity.response.ReadingCommendResponse;
 import com.shushan.manhua.entity.response.ReadingRecommendResponse;
 import com.shushan.manhua.help.DialogFactory;
 import com.shushan.manhua.listener.SoftKeyBoardListener;
+import com.shushan.manhua.mvp.ui.activity.mine.BuyActivity;
 import com.shushan.manhua.mvp.ui.activity.setting.SettingActivity;
 import com.shushan.manhua.mvp.ui.adapter.ReadingCommentAdapter;
 import com.shushan.manhua.mvp.ui.adapter.ReadingRecommendAdapter;
@@ -225,6 +226,7 @@ public class ReadActivity extends BaseActivity implements ReadControl.ReadView, 
             barrageStyleResponse.styleIcon = barrageStyleIcon[i];
             barrageStyleResponseList.add(barrageStyleResponse);
         }
+//        showRechargeDialog();
     }
 
 
@@ -287,6 +289,7 @@ public class ReadActivity extends BaseActivity implements ReadControl.ReadView, 
     }
 
     /**
+     * 默认进来阅读没漫豆
      * 显示去充值弹框
      */
     private void showRechargeDialog() {
@@ -296,21 +299,21 @@ public class ReadActivity extends BaseActivity implements ReadControl.ReadView, 
     }
 
     /**
-     * 显示漫豆兑换弹幕弹框
-     */
-    private void showBeansExchangeDialog() {
-        ReadBeansExchangeDialog readBeansExchangeDialog = ReadBeansExchangeDialog.newInstance();
-        readBeansExchangeDialog.setListener(this);
-        DialogFactory.showDialogFragment(getSupportFragmentManager(), readBeansExchangeDialog, ReadBeansExchangeDialog.TAG);
-    }
-
-    /**
      * 显示开通会员弹框
      */
     private void showOpenVipDialog() {
         ReadOpenVipDialog readOpenVipDialog = ReadOpenVipDialog.newInstance();
         readOpenVipDialog.setListener(this);
         DialogFactory.showDialogFragment(getSupportFragmentManager(), readOpenVipDialog, ReadOpenVipDialog.TAG);
+    }
+
+    /**
+     * 显示漫豆兑换弹幕弹框
+     */
+    private void showBeansExchangeDialog() {
+        ReadBeansExchangeDialog readBeansExchangeDialog = ReadBeansExchangeDialog.newInstance();
+        readBeansExchangeDialog.setListener(this);
+        DialogFactory.showDialogFragment(getSupportFragmentManager(), readBeansExchangeDialog, ReadBeansExchangeDialog.TAG);
     }
 
 
@@ -399,10 +402,11 @@ public class ReadActivity extends BaseActivity implements ReadControl.ReadView, 
 
     /**
      * 漫豆兑换弹幕弹框  去兑换
+     * 去充漫豆
      */
     @Override
     public void readBeansExchangeDialogBtnOkListener() {
-
+        startActivitys(BuyActivity.class);
     }
 
     /**
@@ -478,7 +482,7 @@ public class ReadActivity extends BaseActivity implements ReadControl.ReadView, 
     }
 
     /**
-     * 显示添加弹幕弹框
+     * 显示发送弹幕弹框
      */
     private void showAddBarrageDialog(String message) {
         AddBarrageDialog addBarrageDialog = AddBarrageDialog.newInstance();
@@ -550,6 +554,16 @@ public class ReadActivity extends BaseActivity implements ReadControl.ReadView, 
         SoftKeyboardUtil.hideSoftKeyboard(this);
         showFunction();
         new BarrageStylePopupWindow(this, barrageStyleResponseList, this).initPopWindow(mReadLayout);
+    }
+
+    @Override
+    public void hintOpenVipBtnListener() {
+        showOpenVipDialog();
+    }
+
+    @Override
+    public void hintBeansExchangeBtnListener() {
+        showBeansExchangeDialog();
     }
 
     /**
