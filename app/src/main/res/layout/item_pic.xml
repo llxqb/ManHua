@@ -2,12 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_gravity="center">
+    android:layout_marginBottom="@dimen/dp_8">
 
     <ImageView
         android:id="@+id/pic_iv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/dp_90"
+        android:layout_height="@dimen/dp_72"
+        android:scaleType="centerCrop"
         android:src="@mipmap/default_graph_1" />
 
 </LinearLayout>

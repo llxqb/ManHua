@@ -525,7 +525,7 @@ public class ReadActivity extends BaseActivity implements ReadControl.ReadView, 
      * 发送评论
      */
     @Override
-    public void CommentSendMessageBtnListener() {
+    public void CommentSendMessageBtnListener(List<TImage> tImageList, String content) {
 
     }
 
@@ -654,7 +654,7 @@ public class ReadActivity extends BaseActivity implements ReadControl.ReadView, 
             takePhoto = (TakePhoto) TakePhotoInvocationHandler.of(this).bind(new TakePhotoImpl(this, this));
         }
         //设置压缩规则，最大500kb
-        takePhoto.onEnableCompress(new CompressConfig.Builder().setMaxSize(500 * 1024).setMaxPixel(800).create(), false);
+        takePhoto.onEnableCompress(new CompressConfig.Builder().setMaxSize(500 * 1024).setMaxPixel(800).create(), true);
         return takePhoto;
     }
 

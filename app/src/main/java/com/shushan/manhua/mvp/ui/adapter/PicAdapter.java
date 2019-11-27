@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.shushan.manhua.R;
+import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.help.ImageLoaderHelper;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public class PicAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
     @Override
     protected void convert(BaseViewHolder helper, String item) {
         ImageView picIv = helper.getView(R.id.pic_iv);
-        mImageLoaderHelper.displayImage(mContext, item, picIv);
+        mImageLoaderHelper.displayImage(mContext, item, picIv, Constant.LOADING_DEFAULT_1);
 
     }
 }

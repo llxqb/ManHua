@@ -11,7 +11,7 @@ public class CommentListBean {
 
     private int error;
     private String msg;
-    private List<CommentBean> commentBeans;
+    private List<CommentBean> data;
 
     public int getError() {
         return error;
@@ -30,11 +30,11 @@ public class CommentListBean {
     }
 
     public List<CommentBean> getData() {
-        return commentBeans;
+        return data;
     }
 
     public void setData(List<CommentBean> data) {
-        this.commentBeans = data;
+        this.data = data;
     }
 
 }

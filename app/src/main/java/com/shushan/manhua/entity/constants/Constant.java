@@ -38,4 +38,7 @@ public class Constant {
 
     public static final int PAGESIZE = 10;
 
+    //recyclerView item 中某一/某些控件刷新
+    public static final String ITEM_UPDATE = "itemUpdate";
+
 }

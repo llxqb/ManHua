@@ -19,7 +19,9 @@ import com.shushan.manhua.di.components.DaggerBookDetailFragmentComponent;
 import com.shushan.manhua.di.modules.BookDetailFragmentModule;
 import com.shushan.manhua.di.modules.BookDetailModule;
 import com.shushan.manhua.entity.CommentBean;
+import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.entity.request.BookDetailRequest;
+import com.shushan.manhua.entity.request.CommentSuggestRequest;
 import com.shushan.manhua.entity.response.BookDetailInfoResponse;
 import com.shushan.manhua.entity.user.User;
 import com.shushan.manhua.mvp.ui.activity.book.MoreCommentActivity;
@@ -45,6 +47,8 @@ public class BookDetailFragment extends BaseFragment implements BookDetailFragme
 
     @Inject
     BookDetailFragmentControl.BookDetailFragmentPresenter mPresenter;
+    @SuppressLint("StaticFieldLeak")
+    static BookDetailFragment mBookDetailFragment;
     @BindView(R.id.desc_tv)
     TextView mDescTv;
     @BindView(R.id.author_tv)
@@ -60,8 +64,9 @@ public class BookDetailFragment extends BaseFragment implements BookDetailFragme
     private List<CommentBean> readingCommendResponseList = new ArrayList<>();
     private View mEmptyView;
     private User mUser;
-    @SuppressLint("StaticFieldLeak")
-    static BookDetailFragment mBookDetailFragment;
+    private String mBookId;
+    private CommentBean commentBean;
+    private int clickPos;
 
     public static BookDetailFragment getInstance(String bookId) {
         if (mBookDetailFragment == null) {
@@ -90,17 +95,21 @@ public class BookDetailFragment extends BaseFragment implements BookDetailFragme
         initEmptyView();
         mUser = mBuProcessor.getUser();
         if (getArguments() != null) {
-            String mBookId = getArguments().getString("bookId");
-            onRequestDetailInfo(mBookId);
+            mBookId = getArguments().getString("bookId");
+            onRequestDetailInfo();
         }
         mReadingCommentAdapter = new ReadingCommentAdapter(readingCommendResponseList, mImageLoaderHelper);
         mCommentRecyclerView.setAdapter(mReadingCommentAdapter);
         mCommentRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mReadingCommentAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-            CommentBean commentBean = (CommentBean) adapter.getItem(position);
+            commentBean = (CommentBean) adapter.getItem(position);
+            clickPos = position;
             switch (view.getId()) {
-                case R.id.comment_ll:
-                    MoreCommentActivity.start(getActivity(),String.valueOf(commentBean.getBook_id()));
+                case R.id.suggest_num_tv:
+                    onCommentSuggestRequest();
+                    break;
+                case R.id.item_comment_layout:
+                    MoreCommentActivity.start(getActivity(), mBookId);
                     break;
             }
         });
@@ -108,8 +117,6 @@ public class BookDetailFragment extends BaseFragment implements BookDetailFragme
 
     @Override
     public void initData() {
-
-        //
     }
 
     private void initEmptyView() {
@@ -125,10 +132,10 @@ public class BookDetailFragment extends BaseFragment implements BookDetailFragme
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.publish_comment_tv:
-                startActivitys(MoreCommentActivity.class);
+                MoreCommentActivity.start(getActivity(), mBookId);
                 break;
             case R.id.more_comment_tv:
-                startActivitys(MoreCommentActivity.class);
+                MoreCommentActivity.start(getActivity(), mBookId);
                 break;
             case R.id.start_reading_tv:
                 showToast("开始阅读");
@@ -136,20 +143,34 @@ public class BookDetailFragment extends BaseFragment implements BookDetailFragme
         }
     }
 
-    private void onRequestDetailInfo(String bookId) {
+    /**
+     * 请求漫画详情
+     */
+    private void onRequestDetailInfo() {
         BookDetailRequest bookDetailRequest = new BookDetailRequest();
-        bookDetailRequest.book_id = bookId;
+        bookDetailRequest.book_id = mBookId;
         mPresenter.onRequestBookDetailInfo(bookDetailRequest);
     }
+
+    private void onCommentSuggestRequest() {
+        CommentSuggestRequest commentSuggestRequest = new CommentSuggestRequest();
+        commentSuggestRequest.token = mBuProcessor.getToken();
+        commentSuggestRequest.relation_id = "3";
+        commentSuggestRequest.type = "3";
+        mPresenter.onCommentSuggestRequest(commentSuggestRequest);
+    }
+
 
     @Override
     public void getBookDetailInfoSuccess(BookDetailInfoResponse bookDetailInfoResponse) {
         BookDetailInfoResponse.DetailBean detailBean = bookDetailInfoResponse.getDetail();
         if (detailBean != null) {
             mDescTv.setText(detailBean.getDes());
-            mAuthorTv.setText(getString(R.string.BookDetailFragment_author) + detailBean.getAuthor());
             mCommentNumTv.setText(String.valueOf(detailBean.getComment_count()));
-            mCollectionNumTv.setText(detailBean.getCollect() + getString(R.string.BookDetailFragment_connection_num));
+            String authorValue = getString(R.string.BookDetailFragment_author) + detailBean.getAuthor();
+            String collectionValue = detailBean.getCollect() + getString(R.string.BookDetailFragment_connection_num);
+            mAuthorTv.setText(authorValue);
+            mCollectionNumTv.setText(collectionValue);
         }
         if (bookDetailInfoResponse.getComment().isEmpty()) {
             mReadingCommentAdapter.setNewData(null);
@@ -157,7 +178,13 @@ public class BookDetailFragment extends BaseFragment implements BookDetailFragme
         } else {
             mReadingCommentAdapter.setNewData(bookDetailInfoResponse.getComment());
         }
+    }
 
+    @Override
+    public void getSuggestSuccess() {
+        mReadingCommentAdapter.notifyItemChanged(clickPos, Constant.ITEM_UPDATE);
+//        commentBean.setIs_like(1);
+//        mReadingCommentAdapter.notifyDataSetChanged();
     }
 
     private void initializeInjector() {

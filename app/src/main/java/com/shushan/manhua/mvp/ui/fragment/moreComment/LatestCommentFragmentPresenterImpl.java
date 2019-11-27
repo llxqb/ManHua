@@ -6,6 +6,8 @@ import com.google.gson.Gson;
 import com.shushan.manhua.R;
 import com.shushan.manhua.entity.CommentListBean;
 import com.shushan.manhua.entity.request.CommentRequest;
+import com.shushan.manhua.entity.request.PublishCommentRequest;
+import com.shushan.manhua.entity.request.UploadImage;
 import com.shushan.manhua.help.RetryWithDelay;
 import com.shushan.manhua.mvp.model.BookModel;
 import com.shushan.manhua.mvp.model.ResponseData;
@@ -39,7 +41,7 @@ public class LatestCommentFragmentPresenterImpl implements LatestCommentFragment
     public void onRequestCommentInfo(CommentRequest commentRequest) {
         mLatestCommentView.showLoading(mContext.getResources().getString(R.string.loading));
         Disposable disposable = mBookModel.onRequestCommentInfo(commentRequest).compose(mLatestCommentView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
-                .subscribe(this::requestMineInfoSuccess, throwable -> mLatestCommentView.showErrMessage(throwable),
+                .subscribe(this::requestCommentInfoSuccess, throwable -> mLatestCommentView.showErrMessage(throwable),
                         () -> mLatestCommentView.dismissLoading());
         mLatestCommentView.addSubscription(disposable);
     }
@@ -47,7 +49,7 @@ public class LatestCommentFragmentPresenterImpl implements LatestCommentFragment
     /**
      * 查询评论列表 成功
      */
-    private void requestMineInfoSuccess(ResponseData responseData) {
+    private void requestCommentInfoSuccess(ResponseData responseData) {
         mLatestCommentView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 0) {
             CommentListBean response = new Gson().fromJson(responseData.mJsonObject.toString(), CommentListBean.class);
@@ -61,6 +63,59 @@ public class LatestCommentFragmentPresenterImpl implements LatestCommentFragment
             mLatestCommentView.showToast(responseData.errorMsg);
         }
     }
+
+    /**
+     * 上传图片
+     */
+    @Override
+    public void uploadImageRequest(UploadImage uploadPicRequest) {
+        mLatestCommentView.showLoading(mContext.getResources().getString(R.string.loading));
+        Disposable disposable = mBookModel.uploadImageRequest(uploadPicRequest).compose(mLatestCommentView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
+                .subscribe(this::uploadPicSuccess, throwable -> mLatestCommentView.showErrMessage(throwable),
+                        () -> mLatestCommentView.dismissLoading());
+        mLatestCommentView.addSubscription(disposable);
+    }
+
+    /**
+     * 上传图片 成功
+     */
+    private void uploadPicSuccess(ResponseData responseData) {
+        mLatestCommentView.judgeToken(responseData.resultCode);
+        if (responseData.resultCode == 0) {
+            mLatestCommentView.getUploadPicSuccess(responseData.result);
+        } else {
+            mLatestCommentView.showToast(responseData.errorMsg);
+        }
+    }
+
+    /**
+     * 发布评论
+     */
+    @Override
+    public void onRequestPublishComment(PublishCommentRequest publishCommentRequest) {
+        mLatestCommentView.showLoading(mContext.getResources().getString(R.string.loading));
+        Disposable disposable = mBookModel.onRequestPublishComment(publishCommentRequest).compose(mLatestCommentView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
+                .subscribe(this::requestPublishCommentSuccess, throwable -> mLatestCommentView.showErrMessage(throwable),
+                        () -> mLatestCommentView.dismissLoading());
+        mLatestCommentView.addSubscription(disposable);
+    }
+
+    /**
+     * 发布评论 成功
+     */
+    private void requestPublishCommentSuccess(ResponseData responseData) {
+        mLatestCommentView.judgeToken(responseData.resultCode);
+        if (responseData.resultCode == 0) {
+            mLatestCommentView.getPublishCommentSuccess();
+        } else {
+            mLatestCommentView.showToast(responseData.errorMsg);
+        }
+    }
+
+
+
+
+
     @Override
     public void onCreate() {
 

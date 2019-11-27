@@ -15,10 +15,12 @@ import com.shushan.manhua.R;
 import com.shushan.manhua.mvp.presenter.LoadDataView;
 import com.shushan.manhua.mvp.ui.adapter.PublishCommentPhotoAdapter;
 import com.shushan.manhua.mvp.utils.LogUtils;
+import com.shushan.manhua.mvp.utils.ToastUtils;
 
 import org.devio.takephoto.model.TImage;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -75,27 +77,29 @@ public class CommentSoftKeyPopupWindow {
             TImage tImage = (TImage) adapter.getItem(position);
             switch (view.getId()) {
                 case R.id.delete_iv:
-                    LogUtils.e("position:"+position);
+                    LogUtils.e("position:" + position);
                     adapter.remove(position);
                     break;
                 case R.id.item_publish_photo_layout:
-                    if(position==0){
+                    if (position == 0) {
 
                     }
                     break;
             }
         });
 
-        sendMessageLeftIv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+//        sendMessageLeftIv.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
 
         photoIv.setOnClickListener(v -> {
             if (mPopupWindowListener != null && publishCommentPhotoAdapter.getItemCount() < 9) {
                 mPopupWindowListener.photoBtnListener();
+            } else {
+                ToastUtils.showShort(mContext, mContext.getString(R.string.pic_max_hint));
             }
             //从相机获取图片(不裁剪)
 //            getTakePhoto().onPickFromCapture(uri);
@@ -105,13 +109,15 @@ public class CommentSoftKeyPopupWindow {
 //            getTakePhoto().onPickFromGallery();
             if (mPopupWindowListener != null && publishCommentPhotoAdapter.getItemCount() < 9) {
                 mPopupWindowListener.albumBtnListener(9 - publishCommentPhotoAdapter.getItemCount());
+            } else {
+                ToastUtils.showShort(mContext, mContext.getString(R.string.pic_max_hint));
             }
         });
 
         sendTv.setOnClickListener(v -> {
             if (mPopupWindowListener != null) {
-                mPopupWindowListener.CommentSendMessageBtnListener();
-//                mCustomPopWindow.dissmiss();
+                mPopupWindowListener.CommentSendMessageBtnListener(publishCommentPhotoAdapter.getData(), messageEt.getText().toString());//传图片  和 文字内容
+                mCustomPopWindow.dissmiss();
             }
         });
     }
@@ -125,6 +131,6 @@ public class CommentSoftKeyPopupWindow {
 
         void albumBtnListener(int maxPicNum);
 
-        void CommentSendMessageBtnListener();
+        void CommentSendMessageBtnListener(List<TImage> tImageList, String content);
     }
 }

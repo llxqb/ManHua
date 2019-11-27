@@ -243,4 +243,6 @@
     <string name="MessageActivity_empty_tv">sementara tidak ada informasi </string>
     <string name="PurchasedActivity_empty_tv">ementara tidak ada informasi </string>
 
+    <!-- 提示-->
+    <string name="pic_max_hint">Hingga 9 gambar</string>
 </resources>

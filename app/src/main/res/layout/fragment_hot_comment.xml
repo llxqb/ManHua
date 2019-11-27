@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/hot_comment_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -12,4 +13,4 @@
         android:layout_above="@id/comment_bottom_layout"
         android:layout_alignParentTop="true"
         android:layout_marginTop="@dimen/dp_10" />
-</LinearLayout>
+</RelativeLayout>

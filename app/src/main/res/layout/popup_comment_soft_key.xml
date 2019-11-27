@@ -23,7 +23,7 @@
 
         <RelativeLayout
             android:id="@+id/send_message_rl"
-            android:layout_width="@dimen/dp_280"
+            android:layout_width="@dimen/dp_270"
             android:layout_height="@dimen/dp_32"
             android:layout_marginStart="@dimen/dp_10"
             android:background="@drawable/bg_line_round_stroke_30"
@@ -48,8 +48,8 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/dp_3"
                 android:padding="@dimen/dp_5"
-                android:visibility="gone"
-                android:src="@mipmap/barrage_color_purple" />
+                android:src="@mipmap/barrage_color_purple"
+                android:visibility="gone" />
 
             <EditText
                 android:id="@+id/message_et"

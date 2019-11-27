@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.shushan.manhua.R;
 import com.shushan.manhua.entity.request.BookDetailRequest;
+import com.shushan.manhua.entity.request.CommentSuggestRequest;
 import com.shushan.manhua.entity.response.BookDetailInfoResponse;
 import com.shushan.manhua.help.RetryWithDelay;
 import com.shushan.manhua.mvp.model.BookModel;
@@ -54,6 +55,35 @@ public class BookDetailFragmentPresenterImpl implements BookDetailFragmentContro
                 BookDetailInfoResponse response = (BookDetailInfoResponse) responseData.parsedData;
                 mBookDetailView.getBookDetailInfoSuccess(response);
             }
+        } else {
+            mBookDetailView.showToast(responseData.errorMsg);
+        }
+    }
+
+    /**
+     * 评论点赞
+     */
+    @Override
+    public void onCommentSuggestRequest(CommentSuggestRequest commentSuggestRequest) {
+        mBookDetailView.showLoading(mContext.getResources().getString(R.string.loading));
+        Disposable disposable = mBookModel.onCommentSuggestRequest(commentSuggestRequest).compose(mBookDetailView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
+                .subscribe(this::commentSuggestSuccess, throwable -> mBookDetailView.showErrMessage(throwable),
+                        () -> mBookDetailView.dismissLoading());
+        mBookDetailView.addSubscription(disposable);
+    }
+
+    /**
+     * 评论点赞 成功
+     */
+    private void commentSuggestSuccess(ResponseData responseData) {
+        mBookDetailView.judgeToken(responseData.resultCode);
+        if (responseData.resultCode == 0) {
+            mBookDetailView.getSuggestSuccess();
+//            responseData.parseData(BookDetailInfoResponse.class);
+//            if (responseData.parsedData != null) {
+//                BookDetailInfoResponse response = (BookDetailInfoResponse) responseData.parsedData;
+//                mBookDetailView.getBookDetailInfoSuccess(response);
+//            }
         } else {
             mBookDetailView.showToast(responseData.errorMsg);
         }

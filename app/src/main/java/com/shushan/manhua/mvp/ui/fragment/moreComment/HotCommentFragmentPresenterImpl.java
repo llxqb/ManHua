@@ -6,6 +6,8 @@ import com.google.gson.Gson;
 import com.shushan.manhua.R;
 import com.shushan.manhua.entity.CommentListBean;
 import com.shushan.manhua.entity.request.CommentRequest;
+import com.shushan.manhua.entity.request.PublishCommentRequest;
+import com.shushan.manhua.entity.request.UploadImage;
 import com.shushan.manhua.help.RetryWithDelay;
 import com.shushan.manhua.mvp.model.BookModel;
 import com.shushan.manhua.mvp.model.ResponseData;
@@ -40,7 +42,7 @@ public class HotCommentFragmentPresenterImpl implements HotCommentFragmentContro
     public void onRequestCommentInfo(CommentRequest commentRequest) {
         mHotCommentView.showLoading(mContext.getResources().getString(R.string.loading));
         Disposable disposable = mBookModel.onRequestCommentInfo(commentRequest).compose(mHotCommentView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
-                .subscribe(this::requestMineInfoSuccess, throwable -> mHotCommentView.showErrMessage(throwable),
+                .subscribe(this::requestCommentInfoSuccess, throwable -> mHotCommentView.showErrMessage(throwable),
                         () -> mHotCommentView.dismissLoading());
         mHotCommentView.addSubscription(disposable);
     }
@@ -48,16 +50,65 @@ public class HotCommentFragmentPresenterImpl implements HotCommentFragmentContro
     /**
      * 查询评论列表 成功
      */
-    private void requestMineInfoSuccess(ResponseData responseData) {
+    private void requestCommentInfoSuccess(ResponseData responseData) {
         mHotCommentView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 0) {
             CommentListBean response = new Gson().fromJson(responseData.mJsonObject.toString(), CommentListBean.class);
             mHotCommentView.getCommentInfoSuccess(response);
+
 //            responseData.parseData(CommentBean.class);
 //            if (responseData.parsedData != null) {
 //                CommentBean response = (CommentBean) responseData.parsedData;
 //                mHotCommentView.getCommentInfoSuccess(response);
 //            }
+        } else {
+            mHotCommentView.showToast(responseData.errorMsg);
+        }
+    }
+
+    /**
+     * 上传图片
+     */
+    @Override
+    public void uploadImageRequest(UploadImage uploadPicRequest) {
+        mHotCommentView.showLoading(mContext.getResources().getString(R.string.loading));
+        Disposable disposable = mBookModel.uploadImageRequest(uploadPicRequest).compose(mHotCommentView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
+                .subscribe(this::uploadPicSuccess, throwable -> mHotCommentView.showErrMessage(throwable),
+                        () -> mHotCommentView.dismissLoading());
+        mHotCommentView.addSubscription(disposable);
+    }
+
+    /**
+     * 上传图片 成功
+     */
+    private void uploadPicSuccess(ResponseData responseData) {
+        mHotCommentView.judgeToken(responseData.resultCode);
+        if (responseData.resultCode == 0) {
+            mHotCommentView.getUploadPicSuccess(responseData.result);
+        } else {
+            mHotCommentView.showToast(responseData.errorMsg);
+        }
+    }
+
+    /**
+     * 发布评论
+     */
+    @Override
+    public void onRequestPublishComment(PublishCommentRequest publishCommentRequest) {
+        mHotCommentView.showLoading(mContext.getResources().getString(R.string.loading));
+        Disposable disposable = mBookModel.onRequestPublishComment(publishCommentRequest).compose(mHotCommentView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
+                .subscribe(this::requestPublishCommentSuccess, throwable -> mHotCommentView.showErrMessage(throwable),
+                        () -> mHotCommentView.dismissLoading());
+        mHotCommentView.addSubscription(disposable);
+    }
+
+    /**
+     * 发布评论 成功
+     */
+    private void requestPublishCommentSuccess(ResponseData responseData) {
+        mHotCommentView.judgeToken(responseData.resultCode);
+        if (responseData.resultCode == 0) {
+            mHotCommentView.getPublishCommentSuccess();
         } else {
             mHotCommentView.showToast(responseData.errorMsg);
         }
