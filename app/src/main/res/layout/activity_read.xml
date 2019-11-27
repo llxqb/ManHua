@@ -23,12 +23,18 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/pic_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <com.shushan.manhua.mvp.views.ResizableImageView
-                android:id="@+id/image"
+                android:id="@+id/resizableImageView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/introduction"
+                android:visibility="gone"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout

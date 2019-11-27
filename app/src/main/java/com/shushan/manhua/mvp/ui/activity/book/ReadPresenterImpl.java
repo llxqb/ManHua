@@ -2,9 +2,16 @@ package com.shushan.manhua.mvp.ui.activity.book;
 
 import android.content.Context;
 
+import com.shushan.manhua.R;
+import com.shushan.manhua.entity.request.ReadingRequest;
+import com.shushan.manhua.entity.response.ReadingInfoResponse;
+import com.shushan.manhua.help.RetryWithDelay;
 import com.shushan.manhua.mvp.model.BookModel;
+import com.shushan.manhua.mvp.model.ResponseData;
 
 import javax.inject.Inject;
+
+import io.reactivex.disposables.Disposable;
 
 
 /**
@@ -26,32 +33,32 @@ public class ReadPresenterImpl implements ReadControl.PresenterRead {
     }
 
 
-//    /**
-//     * 登录
-//     */
-//    @Override
-//    public void onRequestLogin(LoginRequest loginRequest) {
-//        mReadView.showLoading(mContext.getResources().getString(R.string.loading));
-//        Disposable disposable = mBookModel.onRequestLogin(loginRequest).compose(mReadView.applySchedulers()).retryWhen(new com.shushan.homework101.help.RetryWithDelay(3, 3000))
-//                .subscribe(this::requestLoginSuccess, throwable -> mReadView.showErrMessage(throwable),
-//                        () -> mReadView.dismissLoading());
-//        mReadView.addSubscription(disposable);
-//    }
-//
-//    /**
-//     * 登录成功
-//     */
-//    private void requestLoginSuccess(ResponseData responseData) {
-//        if (responseData.resultCode == 0) {
-//            responseData.parseData(LoginResponse.class);
-//            if (responseData.parsedData != null) {
-//                LoginResponse response = (LoginResponse) responseData.parsedData;
-//                mReadView.getLoginSuccess(response);
-//            }
-//        } else {
-//            mReadView.showToast(responseData.errorMsg);
-//        }
-//    }
+    /**
+     * 章节详情
+     */
+    @Override
+    public void onRequestReadingInfo(ReadingRequest readingRequest) {
+        mReadView.showLoading(mContext.getResources().getString(R.string.loading));
+        Disposable disposable = mBookModel.onRequestReadingInfo(readingRequest).compose(mReadView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
+                .subscribe(this::readingRequestSuccess, throwable -> mReadView.showErrMessage(throwable),
+                        () -> mReadView.dismissLoading());
+        mReadView.addSubscription(disposable);
+    }
+
+    /**
+     * 章节详情 成功
+     */
+    private void readingRequestSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 0) {
+            responseData.parseData(ReadingInfoResponse.class);
+            if (responseData.parsedData != null) {
+                ReadingInfoResponse response = (ReadingInfoResponse) responseData.parsedData;
+                mReadView.getReadingInfoSuccess(response);
+            }
+        } else {
+            mReadView.showToast(responseData.errorMsg);
+        }
+    }
 
 
     @Override

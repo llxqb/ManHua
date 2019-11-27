@@ -1,5 +1,6 @@
 package com.shushan.manhua.mvp.ui.activity.book;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -25,8 +26,10 @@ import com.shushan.manhua.di.components.DaggerReadComponent;
 import com.shushan.manhua.di.modules.ActivityModule;
 import com.shushan.manhua.di.modules.ReadModule;
 import com.shushan.manhua.entity.CommentBean;
+import com.shushan.manhua.entity.request.ReadingRequest;
 import com.shushan.manhua.entity.response.BarrageStyleResponse;
 import com.shushan.manhua.entity.response.ChapterResponse;
+import com.shushan.manhua.entity.response.ReadingInfoResponse;
 import com.shushan.manhua.entity.response.ReadingRecommendResponse;
 import com.shushan.manhua.help.DialogFactory;
 import com.shushan.manhua.listener.SoftKeyBoardListener;
@@ -98,8 +101,8 @@ public class ReadActivity extends BaseActivity implements ReadControl.ReadView, 
     TextView mSendTv;
     @BindView(R.id.comment_num_tv)
     TextView mCommentNumTv;
-    @BindView(R.id.image)
-    ResizableImageView mImage;
+    @BindView(R.id.resizableImageView)
+    ResizableImageView mResizableImageView;
     @BindView(R.id.add_bookshelf_iv)
     ImageView mAddBookshelfIv;
     @BindView(R.id.back_top_iv)
@@ -133,6 +136,16 @@ public class ReadActivity extends BaseActivity implements ReadControl.ReadView, 
      */
     private int mBarrageStyle = 0;
     private boolean isShowBackTopIv = false;//是否显示返回顶部图片按钮
+    private String mBookId;
+    private int mCatalogueId;//章节id
+
+    public static void start(Context context, String bookId, int catalogueId) {
+        Intent intent = new Intent(context, ReadActivity.class);
+        intent.putExtra("bookId", bookId);
+        intent.putExtra("catalogueId", catalogueId);
+        context.startActivity(intent);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,12 +174,17 @@ public class ReadActivity extends BaseActivity implements ReadControl.ReadView, 
         }
         initScrollView();
         onKeyBoardListener();
+        if (getIntent() != null) {
+            mBookId = getIntent().getStringExtra("bookId");
+            mCatalogueId = getIntent().getIntExtra("catalogueId", 1);
+            onRequestReadingInfo();
+        }
         ReadingRecommendAdapter mReadingRecommendAdapter = new ReadingRecommendAdapter(readingRecommendResponseList);
         mRecommendRecyclerView.setAdapter(mReadingRecommendAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mRecommendRecyclerView.setLayoutManager(linearLayoutManager);
-        ReadingCommentAdapter mReadingCommentAdapter = new ReadingCommentAdapter(readingCommendResponseList,mImageLoaderHelper);
+        ReadingCommentAdapter mReadingCommentAdapter = new ReadingCommentAdapter(readingCommendResponseList, mImageLoaderHelper);
         mCommentRecyclerView.setAdapter(mReadingCommentAdapter);
         mCommentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mReadingCommentAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
@@ -185,10 +203,10 @@ public class ReadActivity extends BaseActivity implements ReadControl.ReadView, 
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void initScrollView() {
         mNestedScrollView.setOnScrollChangeListener((View.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
-            isShowBackTopIv = scrollY > mImage.getHeight() * 4 / 5;//大于图片的4/5 显示返回顶部按钮
+            isShowBackTopIv = scrollY > mResizableImageView.getHeight() * 4 / 5;//大于图片的4/5 显示返回顶部按钮
 //            LogUtils.e("scrollY:" + scrollY + "  Height:" + mImage.getHeight());
             //mNestedScrollView.getChildAt(0).getMeasuredHeight()- mNestedScrollView.getMeasuredHeight()
-            if (scrollY >= mImage.getHeight()) {//设置隐藏功能键
+            if (scrollY >= mResizableImageView.getHeight()) {//设置隐藏功能键
                 isBarrageState = false;
                 if (mReadBottomLl.getVisibility() == View.VISIBLE) {
                     showFunction();
@@ -244,11 +262,28 @@ public class ReadActivity extends BaseActivity implements ReadControl.ReadView, 
             }
 
             @Override
-            public void keyBoardHide(int height) {
-//                Log.e("软键盘", "键盘隐藏 高度" + height);
+            public void keyBoardHide(int height) {//键盘隐藏 高度
                 showLayout();
             }
         });
+    }
+
+    /**
+     * 章节详情
+     */
+    private void onRequestReadingInfo() {
+        ReadingRequest readingRequest = new ReadingRequest();
+        readingRequest.token = mBuProcessor.getToken();
+        readingRequest.book_id = mBookId;
+        readingRequest.catalogue_id = "1";//String.valueOf(mCatalogueId)
+        mPresenter.onRequestReadingInfo(readingRequest);
+    }
+
+    @Override
+    public void getReadingInfoSuccess(ReadingInfoResponse readingInfoResponse) {
+        ReadingInfoResponse.CatalogueBean catalogueBean = readingInfoResponse.getCatalogue();
+//        mResizableImageView
+
     }
 
     /**

@@ -34,7 +34,6 @@ import com.shushan.manhua.mvp.ui.activity.book.ReadingHistoryActivity;
 import com.shushan.manhua.mvp.ui.adapter.BookShelfAdapter;
 import com.shushan.manhua.mvp.ui.adapter.RecommendAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseFragment;
-import com.shushan.manhua.mvp.utils.LogUtils;
 import com.shushan.manhua.mvp.utils.StatusBarUtil;
 
 import java.util.ArrayList;
@@ -112,12 +111,8 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
         mRecommendAdapter = new RecommendAdapter(recommendResponseList, mImageLoaderHelper);
         mRecommendRecyclerView.setAdapter(mRecommendAdapter);
         mRecommendRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-        mBookShelfAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-            startActivitys(ReadActivity.class);//阅读页面
-        });
         //长按删除
         mBookShelfAdapter.setOnItemLongClickListener((adapter, view, position) -> {
-            LogUtils.e("bookShelfResponse:"+new Gson().toJson(mBookShelfResponse));
             LongDeleteActivity.start(getActivity(), (ArrayList<BookShelfResponse.BookrackBean>) mBookShelfResponse.getBookrack());
             return false;
         });
@@ -126,7 +121,10 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
             if (position == adapter.getItemCount() - 1) {
                 LocalBroadcastManager.getInstance(Objects.requireNonNull(getActivity())).sendBroadcast(new Intent(ActivityConstant.SWITCH_TO_HOME_PAGE));
             } else {
-                showToast("" + position);
+                BookShelfResponse.BookrackBean bookrackBean = (BookShelfResponse.BookrackBean) adapter.getItem(position);
+                if (bookrackBean != null) {
+                    ReadActivity.start(getActivity(), String.valueOf(bookrackBean.getBook_id()), bookrackBean.getCatalogue_id());//阅读页面
+                }
             }
         });
 

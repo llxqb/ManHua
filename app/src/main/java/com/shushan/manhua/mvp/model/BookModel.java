@@ -8,6 +8,7 @@ import com.shushan.manhua.entity.request.CommentRequest;
 import com.shushan.manhua.entity.request.CommentSuggestRequest;
 import com.shushan.manhua.entity.request.DeleteBookShelfRequest;
 import com.shushan.manhua.entity.request.PublishCommentRequest;
+import com.shushan.manhua.entity.request.ReadingRequest;
 import com.shushan.manhua.entity.request.SelectionRequest;
 import com.shushan.manhua.entity.request.UploadImage;
 import com.shushan.manhua.network.networkapi.BookApi;
@@ -39,12 +40,14 @@ public class BookModel {
     public Observable<ResponseData> onRequestBookDetailInfo(BookDetailRequest request) {
         return mBookApi.onRequestBookDetailInfo(mGson.toJson(request)).map(mTransform::transformCommon);
     }
+
     /**
      * 加入书架
      */
     public Observable<ResponseData> onAddBookShelfRequest(AddBookShelfRequest request) {
         return mBookApi.onAddBookShelfRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }
+
     /**
      * 删除书架漫画
      */
@@ -79,17 +82,26 @@ public class BookModel {
     public Observable<ResponseData> uploadImageRequest(UploadImage request) {
         return mBookApi.uploadImageRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }
+
     /**
      * 发布评论
      */
     public Observable<ResponseData> onRequestPublishComment(PublishCommentRequest request) {
         return mBookApi.onRequestPublishComment(mGson.toJson(request)).map(mTransform::transformCommon);
     }
+
     /**
      * 请求漫画选集信息
      */
     public Observable<ResponseData> onRequestSelectionInfo(SelectionRequest request) {
         return mBookApi.onRequestSelectionInfo(mGson.toJson(request)).map(mTransform::transformListType);
+    }
+
+    /**
+     * 章节详情
+     */
+    public Observable<ResponseData> onRequestReadingInfo(ReadingRequest request) {
+        return mBookApi.onRequestReadingInfo(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 
 

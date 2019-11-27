@@ -64,5 +64,10 @@ public interface BookApi {
      */
     @POST("cartoon/book/anthology")
     Observable<String> onRequestSelectionInfo(@Body String request);
+    /**
+     * 请求漫画选集信息
+     */
+    @POST("cartoon/book/read")
+    Observable<String> onRequestReadingInfo(@Body String request);
 
 }

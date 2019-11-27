@@ -62,8 +62,8 @@ public class SelectionDetailFragment extends BaseFragment implements SelectionFr
     private int page = 1;
     private int sort = 0;//sort 0: 正序  1 ：逆序
     private SelectionResponse mSelectionResponse;
-   private SelectionResponse.DataBean dataBean;
-   private int clickPos;
+    private SelectionResponse.DataBean dataBean;
+    private int clickPos;
 
 
     public static SelectionDetailFragment getInstance(String bookId) {
@@ -102,7 +102,7 @@ public class SelectionDetailFragment extends BaseFragment implements SelectionFr
         mSelectionAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             dataBean = (SelectionResponse.DataBean) adapter.getItem(position);
             clickPos = position;
-            if (view.getId() == R.id.support_tv){
+            if (view.getId() == R.id.support_tv) {
                 onCommentSuggestRequest();
             }
         });
@@ -130,8 +130,8 @@ public class SelectionDetailFragment extends BaseFragment implements SelectionFr
                 initSortList();
                 break;
             case R.id.start_reading_tv:
-                //开始阅读
-                startActivitys(ReadActivity.class);
+//                BookShelfResponse.BookrackBean bookrackBean = (BookShelfResponse.BookrackBean) adapter.getItem(position);
+                ReadActivity.start(getActivity(), mBookId, 1);//阅读页面 章节默认第一章节？
                 break;
         }
     }
@@ -189,7 +189,6 @@ public class SelectionDetailFragment extends BaseFragment implements SelectionFr
     public void getSuggestSuccess() {
         mSelectionAdapter.notifyItemChanged(clickPos, dataBean.getLike());//局部刷新
     }
-
 
 
     private void initializeInjector() {
