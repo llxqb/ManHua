@@ -4,11 +4,10 @@ package com.shushan.manhua.di.components;
 import android.support.v7.app.AppCompatActivity;
 
 import com.shushan.manhua.di.modules.ActivityModule;
-import com.shushan.manhua.di.modules.LoginModule;
 import com.shushan.manhua.di.modules.ReadModule;
 import com.shushan.manhua.di.scopes.PerActivity;
 import com.shushan.manhua.mvp.ui.activity.book.ReadActivity;
-import com.shushan.manhua.mvp.ui.activity.login.LoginActivity;
+import com.shushan.manhua.mvp.ui.activity.book.ReadBaseActivity;
 
 import dagger.Component;
 
@@ -21,6 +20,7 @@ import dagger.Component;
 @Component(dependencies = AppComponent.class, modules = {ReadModule.class, ActivityModule.class})
 public interface ReadComponent extends ActivityComponent {
     //对LoginActivity进行依赖注入
+    void inject(ReadBaseActivity activity);
     void inject(ReadActivity activity);
 
     AppCompatActivity activity();

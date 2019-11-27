@@ -1,5 +1,9 @@
 package com.shushan.manhua.entity.response;
 
+import com.shushan.manhua.entity.BannerBean;
+import com.shushan.manhua.entity.CommentBean;
+import com.shushan.manhua.entity.RecommendBean;
+
 import java.util.List;
 
 public class ReadingInfoResponse {
@@ -13,7 +17,7 @@ public class ReadingInfoResponse {
      */
 
     private CatalogueBean catalogue;
-    private List<CommendBean> commend;
+    private List<RecommendBean> commend;
     private List<BannerBean> banner;
     private List<CommentBean> comment;
 
@@ -25,11 +29,11 @@ public class ReadingInfoResponse {
         this.catalogue = catalogue;
     }
 
-    public List<CommendBean> getCommend() {
+    public List<RecommendBean> getCommend() {
         return commend;
     }
 
-    public void setCommend(List<CommendBean> commend) {
+    public void setCommend(List<RecommendBean> commend) {
         this.commend = commend;
     }
 
@@ -175,231 +179,7 @@ public class ReadingInfoResponse {
         }
     }
 
-    public static class CommendBean {
-        /**
-         * book_id : 1
-         * book_name : 大国工程
-         * label : ["重生过去","畅想未来"]
-         * oblong_cover :
-         */
 
-        private int book_id;
-        private String book_name;
-        private String oblong_cover;
-        private List<String> label;
 
-        public int getBook_id() {
-            return book_id;
-        }
 
-        public void setBook_id(int book_id) {
-            this.book_id = book_id;
-        }
-
-        public String getBook_name() {
-            return book_name;
-        }
-
-        public void setBook_name(String book_name) {
-            this.book_name = book_name;
-        }
-
-        public String getOblong_cover() {
-            return oblong_cover;
-        }
-
-        public void setOblong_cover(String oblong_cover) {
-            this.oblong_cover = oblong_cover;
-        }
-
-        public List<String> getLabel() {
-            return label;
-        }
-
-        public void setLabel(List<String> label) {
-            this.label = label;
-        }
-    }
-
-    public static class BannerBean {
-        /**
-         * banner_name : 测试banner图
-         * banner_pic : http://www.baidu.com
-         * banner_cate : 1
-         * banner_url : http://www.baidu.com
-         * custom :
-         */
-
-        private String banner_name;
-        private String banner_pic;
-        private int banner_cate;
-        private String banner_url;
-        private String custom;
-
-        public String getBanner_name() {
-            return banner_name;
-        }
-
-        public void setBanner_name(String banner_name) {
-            this.banner_name = banner_name;
-        }
-
-        public String getBanner_pic() {
-            return banner_pic;
-        }
-
-        public void setBanner_pic(String banner_pic) {
-            this.banner_pic = banner_pic;
-        }
-
-        public int getBanner_cate() {
-            return banner_cate;
-        }
-
-        public void setBanner_cate(int banner_cate) {
-            this.banner_cate = banner_cate;
-        }
-
-        public String getBanner_url() {
-            return banner_url;
-        }
-
-        public void setBanner_url(String banner_url) {
-            this.banner_url = banner_url;
-        }
-
-        public String getCustom() {
-            return custom;
-        }
-
-        public void setCustom(String custom) {
-            this.custom = custom;
-        }
-    }
-
-    public static class CommentBean {
-        /**
-         * comment_id : 2
-         * user_id : 1
-         * book_id : 1
-         * content : 太好了！
-         * pics : []
-         * comment_time : 1574077027
-         * like : 1
-         * name : 测试
-         * head_portrait : http://www.baidu.com
-         * is_like : 0
-         * review : []
-         * review_count : 0
-         */
-
-        private int comment_id;
-        private int user_id;
-        private int book_id;
-        private String content;
-        private int comment_time;
-        private int like;
-        private String name;
-        private String head_portrait;
-        private int is_like;
-        private int review_count;
-        private List<?> pics;
-        private List<?> review;
-
-        public int getComment_id() {
-            return comment_id;
-        }
-
-        public void setComment_id(int comment_id) {
-            this.comment_id = comment_id;
-        }
-
-        public int getUser_id() {
-            return user_id;
-        }
-
-        public void setUser_id(int user_id) {
-            this.user_id = user_id;
-        }
-
-        public int getBook_id() {
-            return book_id;
-        }
-
-        public void setBook_id(int book_id) {
-            this.book_id = book_id;
-        }
-
-        public String getContent() {
-            return content;
-        }
-
-        public void setContent(String content) {
-            this.content = content;
-        }
-
-        public int getComment_time() {
-            return comment_time;
-        }
-
-        public void setComment_time(int comment_time) {
-            this.comment_time = comment_time;
-        }
-
-        public int getLike() {
-            return like;
-        }
-
-        public void setLike(int like) {
-            this.like = like;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getHead_portrait() {
-            return head_portrait;
-        }
-
-        public void setHead_portrait(String head_portrait) {
-            this.head_portrait = head_portrait;
-        }
-
-        public int getIs_like() {
-            return is_like;
-        }
-
-        public void setIs_like(int is_like) {
-            this.is_like = is_like;
-        }
-
-        public int getReview_count() {
-            return review_count;
-        }
-
-        public void setReview_count(int review_count) {
-            this.review_count = review_count;
-        }
-
-        public List<?> getPics() {
-            return pics;
-        }
-
-        public void setPics(List<?> pics) {
-            this.pics = pics;
-        }
-
-        public List<?> getReview() {
-            return review;
-        }
-
-        public void setReview(List<?> review) {
-            this.review = review;
-        }
-    }
 }

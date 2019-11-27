@@ -23,19 +23,24 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/pic_recycler_view"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_height="wrap_content">
 
-            <com.shushan.manhua.mvp.views.ResizableImageView
-                android:id="@+id/resizableImageView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:visibility="gone"
-                app:layout_constraintTop_toTopOf="parent" />
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/pic_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+
+            <!--<com.shushan.manhua.mvp.views.ResizableImageView-->
+            <!--android:id="@+id/resizableImageView"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:scaleType="centerCrop"-->
+            <!--android:src="@mipmap/introduction"-->
+            <!--/>-->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -136,10 +141,15 @@
             </LinearLayout>
 
             <!-- 广告位 -->
-            <!--<ImageView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content" -->
-            <!--/>-->
+            <com.zhouwei.mzbanner.MZBannerView
+                android:id="@+id/banner"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_140"
+                app:canLoop="true"
+                app:indicatorAlign="center"
+                app:layout_constraintTop_toBottomOf="@id/title"
+                app:middle_page_cover="false"
+                app:open_mz_mode="true" />
 
             <!-- 其他人还在看 -->
             <TextView

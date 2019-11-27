@@ -10,7 +10,7 @@ import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerCheckInComponent;
 import com.shushan.manhua.di.modules.ActivityModule;
 import com.shushan.manhua.di.modules.CheckInModule;
-import com.shushan.manhua.entity.response.RecommendResponse;
+import com.shushan.manhua.entity.RecommendBean;
 import com.shushan.manhua.entity.response.SignInResponse;
 import com.shushan.manhua.entity.response.TaskResponse;
 import com.shushan.manhua.mvp.ui.adapter.RecommendAdapter;
@@ -43,7 +43,7 @@ public class CheckInActivity extends BaseActivity implements CheckInControl.Chec
     private TaskAdapter mTaskAdapter;
     private List<TaskResponse> taskResponseList = new ArrayList<>();
     private RecommendAdapter mRecommendAdapter;
-    private List<RecommendResponse.DataBean> recommendResponseList = new ArrayList<>();
+    private List<RecommendBean> recommendResponseList = new ArrayList<>();
 
     @Override
     protected void initContentView() {

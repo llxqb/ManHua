@@ -12,13 +12,13 @@ import com.zhouwei.mzbanner.holder.MZViewHolder;
 
 
 /**
- * banner
+ * 阅读页面banner
  */
-public class BannerViewHolder implements MZViewHolder<BannerBean> {
+public class BannerReadingViewHolder implements MZViewHolder<BannerBean> {
     private ImageView mImageView;
     private ImageLoaderHelper mImageLoaderHelper;
 
-    public BannerViewHolder(ImageLoaderHelper imageLoaderHelper) {
+    public BannerReadingViewHolder(ImageLoaderHelper imageLoaderHelper) {
         mImageLoaderHelper = imageLoaderHelper;
     }
 

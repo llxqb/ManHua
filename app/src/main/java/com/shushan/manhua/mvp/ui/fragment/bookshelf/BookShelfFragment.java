@@ -21,6 +21,7 @@ import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerBookShelfFragmentComponent;
 import com.shushan.manhua.di.modules.BookShelfFragmentModule;
 import com.shushan.manhua.di.modules.MainModule;
+import com.shushan.manhua.entity.RecommendBean;
 import com.shushan.manhua.entity.constants.ActivityConstant;
 import com.shushan.manhua.entity.request.BookShelfInfoRequest;
 import com.shushan.manhua.entity.request.RecommendRequest;
@@ -69,7 +70,7 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
     private BookShelfAdapter mBookShelfAdapter;
     private RecommendAdapter mRecommendAdapter;
     private List<BookShelfResponse.BookrackBean> bookShelfResponseList = new ArrayList<>();
-    private List<RecommendResponse.DataBean> recommendResponseList = new ArrayList<>();
+    private List<RecommendBean> recommendResponseList = new ArrayList<>();
     private User mUser;
     private BookShelfResponse mBookShelfResponse;
 
@@ -129,7 +130,7 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
         });
 
         mRecommendAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-            RecommendResponse.DataBean dataBean = (RecommendResponse.DataBean) adapter.getItem(position);
+            RecommendBean dataBean = (RecommendBean) adapter.getItem(position);
             BookDetailActivity.start(getActivity(), String.valueOf(dataBean.getBook_id()));
         });
     }

@@ -15,6 +15,7 @@ import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerHomeFragmentComponent;
 import com.shushan.manhua.di.modules.HomeFragmentModule;
 import com.shushan.manhua.di.modules.MainModule;
+import com.shushan.manhua.entity.BannerBean;
 import com.shushan.manhua.entity.request.HomeInfoRequest;
 import com.shushan.manhua.entity.response.HomeResponse;
 import com.shushan.manhua.entity.user.User;
@@ -51,7 +52,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentControl.Ho
     private User mUser;
     private HomeAdapter mHomeAdapter;
     private List<HomeResponse.BooksBean> homeResponseList = new ArrayList<>();
-    List<HomeResponse.BannerBean> bannerList = new ArrayList<>();
+    List<BannerBean> bannerList = new ArrayList<>();
 
     @Nullable
     @Override
