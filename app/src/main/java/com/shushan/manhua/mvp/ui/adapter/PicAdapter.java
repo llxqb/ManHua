@@ -1,6 +1,7 @@
 package com.shushan.manhua.mvp.ui.adapter;
 
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -26,7 +27,9 @@ public class PicAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
     @Override
     protected void convert(BaseViewHolder helper, String item) {
         ImageView picIv = helper.getView(R.id.pic_iv);
-        mImageLoaderHelper.displayImage(mContext, item, picIv, Constant.LOADING_DEFAULT_1);
+        if(!TextUtils.isEmpty(item)){
+            mImageLoaderHelper.displayImage(mContext, item, picIv, Constant.LOADING_DEFAULT_1);
+        }
 
     }
 }

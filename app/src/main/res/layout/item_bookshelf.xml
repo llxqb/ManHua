@@ -3,8 +3,8 @@
     android:id="@+id/item_bookshelf_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_horizontal"
     android:layout_gravity="center"
+    android:gravity="center_horizontal"
     android:paddingTop="@dimen/dp_5"
     android:paddingBottom="@dimen/dp_5">
 
@@ -12,17 +12,28 @@
         android:id="@+id/book_iv"
         android:layout_width="@dimen/dp_162"
         android:layout_height="@dimen/dp_162"
-        android:src="@mipmap/book_icon" />
+        android:src="@mipmap/default_graph_1"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/book_default_iv"
+        android:layout_width="@dimen/dp_162"
+        android:layout_height="@dimen/dp_162"
+        android:src="@mipmap/bookshelf_find_more" />
 
     <TextView
         android:id="@+id/date_tv"
-        android:layout_width="@dimen/dp_42"
-        android:layout_height="@dimen/dp_18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_marginStart="@dimen/dp_8"
         android:layout_marginTop="@dimen/dp_130"
         android:background="@drawable/bg_blue1_round_solid_30"
         android:gravity="center"
+        android:paddingStart="@dimen/dp_6"
+        android:paddingTop="@dimen/dp_3"
+        android:paddingEnd="@dimen/dp_6"
+        android:paddingBottom="@dimen/dp_3"
         android:text="今天"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_11" />
@@ -75,14 +86,4 @@
         android:textColor="@color/color_80"
         android:textSize="@dimen/sp_10" />
 
-    <TextView
-        android:id="@+id/more_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/dp_100"
-        android:text="@string/BookShelfAdapter_more_tv"
-        android:textColor="#A68AE1"
-        android:textSize="@dimen/sp_12"
-        android:visibility="gone" />
 </RelativeLayout>

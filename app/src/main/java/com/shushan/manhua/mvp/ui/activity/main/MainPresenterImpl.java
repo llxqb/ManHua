@@ -4,7 +4,9 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.shushan.manhua.R;
+import com.shushan.manhua.entity.request.LoginTouristModeRequest;
 import com.shushan.manhua.entity.response.BookTypeResponse;
+import com.shushan.manhua.entity.response.LoginTouristModeResponse;
 import com.shushan.manhua.help.RetryWithDelay;
 import com.shushan.manhua.mvp.model.MainModel;
 import com.shushan.manhua.mvp.model.ResponseData;
@@ -57,6 +59,34 @@ public class MainPresenterImpl implements MainControl.PresenterMain {
 //                BookTypeResponse response = (BookTypeResponse) responseData.parsedData;
 //                mMainView.getManHuaTypeSuccess(response);
 //            }
+        } else {
+            mMainView.showToast(responseData.errorMsg);
+        }
+    }
+
+    /**
+     * 游客模式注册登陆
+     */
+    @Override
+    public void onLoginTouristModeRequest(LoginTouristModeRequest request) {
+        mMainView.showLoading(mContext.getResources().getString(R.string.loading));
+        Disposable disposable = mMainModel.onLoginTouristModeRequest(request).compose(mMainView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
+                .subscribe(this::requestLoginTouristModeSuccess, throwable -> mMainView.showErrMessage(throwable),
+                        () -> mMainView.dismissLoading());
+        mMainView.addSubscription(disposable);
+    }
+
+    /**
+     * 游客模式注册登陆 成功
+     */
+    private void requestLoginTouristModeSuccess(ResponseData responseData) {
+        mMainView.judgeToken(responseData.resultCode);
+        if (responseData.resultCode == 0) {
+            responseData.parseData(BookTypeResponse.class);
+            if (responseData.parsedData != null) {
+                LoginTouristModeResponse response = (LoginTouristModeResponse) responseData.parsedData;
+                mMainView.getLoginTouristModeSuccess(response);
+            }
         } else {
             mMainView.showToast(responseData.errorMsg);
         }

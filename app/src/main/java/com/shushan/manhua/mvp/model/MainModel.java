@@ -3,6 +3,7 @@ package com.shushan.manhua.mvp.model;
 import com.google.gson.Gson;
 import com.shushan.manhua.entity.request.BookShelfInfoRequest;
 import com.shushan.manhua.entity.request.HomeInfoRequest;
+import com.shushan.manhua.entity.request.LoginTouristModeRequest;
 import com.shushan.manhua.entity.request.RecommendRequest;
 import com.shushan.manhua.network.networkapi.MainApi;
 
@@ -32,6 +33,12 @@ public class MainModel {
      */
     public Observable<ResponseData> onRequestManHuaType() {
         return mMainApi.onRequestManHuaType().map(mTransform::transformListType);
+    }
+    /**
+     * 游客模式注册登陆
+     */
+    public Observable<ResponseData> onLoginTouristModeRequest(LoginTouristModeRequest request) {
+        return mMainApi.onLoginTouristModeRequest(new Gson().toJson(request)).map(mTransform::transformCommon);
     }
 
     /**

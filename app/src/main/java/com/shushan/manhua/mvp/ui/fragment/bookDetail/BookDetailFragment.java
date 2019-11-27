@@ -19,7 +19,6 @@ import com.shushan.manhua.di.components.DaggerBookDetailFragmentComponent;
 import com.shushan.manhua.di.modules.BookDetailFragmentModule;
 import com.shushan.manhua.di.modules.BookDetailModule;
 import com.shushan.manhua.entity.CommentBean;
-import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.entity.request.BookDetailRequest;
 import com.shushan.manhua.entity.request.CommentSuggestRequest;
 import com.shushan.manhua.entity.response.BookDetailInfoResponse;
@@ -148,18 +147,10 @@ public class BookDetailFragment extends BaseFragment implements BookDetailFragme
      */
     private void onRequestDetailInfo() {
         BookDetailRequest bookDetailRequest = new BookDetailRequest();
+        bookDetailRequest.token = mBuProcessor.getToken();
         bookDetailRequest.book_id = mBookId;
         mPresenter.onRequestBookDetailInfo(bookDetailRequest);
     }
-
-    private void onCommentSuggestRequest() {
-        CommentSuggestRequest commentSuggestRequest = new CommentSuggestRequest();
-        commentSuggestRequest.token = mBuProcessor.getToken();
-        commentSuggestRequest.relation_id = "3";
-        commentSuggestRequest.type = "3";
-        mPresenter.onCommentSuggestRequest(commentSuggestRequest);
-    }
-
 
     @Override
     public void getBookDetailInfoSuccess(BookDetailInfoResponse bookDetailInfoResponse) {
@@ -180,12 +171,25 @@ public class BookDetailFragment extends BaseFragment implements BookDetailFragme
         }
     }
 
+    /**
+     * 评论点赞
+     */
+    private void onCommentSuggestRequest() {
+        CommentSuggestRequest commentSuggestRequest = new CommentSuggestRequest();
+        commentSuggestRequest.token = mBuProcessor.getToken();
+        commentSuggestRequest.relation_id = String.valueOf(commentBean.getComment_id());
+        commentSuggestRequest.type = "3";
+        mPresenter.onCommentSuggestRequest(commentSuggestRequest);
+    }
+
     @Override
     public void getSuggestSuccess() {
-        mReadingCommentAdapter.notifyItemChanged(clickPos, Constant.ITEM_UPDATE);
-//        commentBean.setIs_like(1);
-//        mReadingCommentAdapter.notifyDataSetChanged();
+        mReadingCommentAdapter.notifyItemChanged(clickPos, commentBean.getLike());//局部刷新
     }
+
+
+
+
 
     private void initializeInjector() {
         DaggerBookDetailFragmentComponent.builder().appComponent(((ManHuaApplication) Objects.requireNonNull(getActivity()).getApplication()).getAppComponent())

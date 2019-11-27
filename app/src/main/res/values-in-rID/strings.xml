@@ -243,6 +243,10 @@
     <string name="MessageActivity_empty_tv">sementara tidak ada informasi </string>
     <string name="PurchasedActivity_empty_tv">ementara tidak ada informasi </string>
 
+
+    <string name="DateUtil_today">Hari ini</string>
+    <string name="DateUtil_yesterday">1 hari lalu</string>
+    <string name="DateUtil_before_yesterday">2 hari lalu</string>
     <!-- 提示-->
     <string name="pic_max_hint">Hingga 9 gambar</string>
 </resources>

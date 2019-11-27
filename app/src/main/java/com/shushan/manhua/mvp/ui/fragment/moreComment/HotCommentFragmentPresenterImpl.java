@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.shushan.manhua.R;
 import com.shushan.manhua.entity.CommentListBean;
 import com.shushan.manhua.entity.request.CommentRequest;
+import com.shushan.manhua.entity.request.CommentSuggestRequest;
 import com.shushan.manhua.entity.request.PublishCommentRequest;
 import com.shushan.manhua.entity.request.UploadImage;
 import com.shushan.manhua.help.RetryWithDelay;
@@ -109,6 +110,30 @@ public class HotCommentFragmentPresenterImpl implements HotCommentFragmentContro
         mHotCommentView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 0) {
             mHotCommentView.getPublishCommentSuccess();
+        } else {
+            mHotCommentView.showToast(responseData.errorMsg);
+        }
+    }
+
+    /**
+     * 评论点赞
+     */
+    @Override
+    public void onCommentSuggestRequest(CommentSuggestRequest commentSuggestRequest) {
+        mHotCommentView.showLoading(mContext.getResources().getString(R.string.loading));
+        Disposable disposable = mBookModel.onCommentSuggestRequest(commentSuggestRequest).compose(mHotCommentView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
+                .subscribe(this::commentSuggestSuccess, throwable -> mHotCommentView.showErrMessage(throwable),
+                        () -> mHotCommentView.dismissLoading());
+        mHotCommentView.addSubscription(disposable);
+    }
+
+    /**
+     * 评论点赞 成功
+     */
+    private void commentSuggestSuccess(ResponseData responseData) {
+        mHotCommentView.judgeToken(responseData.resultCode);
+        if (responseData.resultCode == 0) {
+            mHotCommentView.getSuggestSuccess();
         } else {
             mHotCommentView.showToast(responseData.errorMsg);
         }

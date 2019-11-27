@@ -1,5 +1,6 @@
 package com.shushan.manhua.mvp.ui.fragment.bookshelf;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -88,6 +89,22 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
 
 
     @Override
+    public void onReceivePro(Context context, Intent intent) {
+        if (intent.getAction() != null) {
+            if (intent.getAction().equals(ActivityConstant.UPDATE_BOOKSHELF)) {
+                onRequestBookShelfInfo();
+            }
+        }
+        super.onReceivePro(context, intent);
+    }
+
+    @Override
+    public void addFilter() {
+        super.addFilter();
+        mFilter.addAction(ActivityConstant.UPDATE_BOOKSHELF);
+    }
+
+    @Override
     public void initView() {
         mBookShelfAdapter = new BookShelfAdapter(bookShelfResponseList, mImageLoaderHelper);
         mBookshelfRecyclerView.setAdapter(mBookShelfAdapter);
@@ -100,8 +117,8 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
         });
         //长按删除
         mBookShelfAdapter.setOnItemLongClickListener((adapter, view, position) -> {
-//            BookShelfResponse.BookrackBean bookRackBean = (BookShelfResponse.BookrackBean) adapter.getItem(position);
-            LongDeleteActivity.start(getActivity(), mBookShelfResponse);
+            LogUtils.e("bookShelfResponse:"+new Gson().toJson(mBookShelfResponse));
+            LongDeleteActivity.start(getActivity(), (ArrayList<BookShelfResponse.BookrackBean>) mBookShelfResponse.getBookrack());
             return false;
         });
 
@@ -158,7 +175,6 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
     @Override
     public void getBookShelfInfoSuccess(BookShelfResponse bookShelfResponse) {
         mBookShelfResponse = bookShelfResponse;
-        LogUtils.e("getLast_read:" + new Gson().toJson(bookShelfResponse.getLast_read()));
         if (bookShelfResponse.getLast_read() == null || new Gson().toJson(bookShelfResponse.getLast_read()).equals("{}")) {
             mLastReadLayout.setVisibility(View.GONE);
         } else {
@@ -168,7 +184,6 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
         BookShelfResponse.BookrackBean bookrackBean = new BookShelfResponse.BookrackBean();
         bookrackBean.isMore = true;
         bookShelfResponseList.add(bookrackBean);
-
         mBookShelfAdapter.setNewData(bookShelfResponseList);
     }
 

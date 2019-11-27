@@ -1,6 +1,7 @@
 package com.shushan.manhua.mvp.ui.activity.book;
 
 
+import com.shushan.manhua.entity.request.AddBookShelfRequest;
 import com.shushan.manhua.mvp.presenter.LoadDataView;
 import com.shushan.manhua.mvp.presenter.Presenter;
 
@@ -10,22 +11,15 @@ import com.shushan.manhua.mvp.presenter.Presenter;
 
 public class BookDetailControl {
     public interface BookDetailView extends LoadDataView {
-//        void getVerifyCodeSuccess(VerifyCodeResponse verifyCodeResponse);
-//
-//        void getLoginSuccess(LoginResponse loginResponse);
+        void getBookShelfSuccess();
     }
 
     public interface PresenterBookDetail extends Presenter<BookDetailView> {
 
-//        /**
-//         * 获取验证码
-//         */
-//        void onRequestVerifyCode(VerifyCodeRequest verifyCodeRequest);
-//
-//        /**
-//         * 登录
-//         */
-//        void onRequestLogin(LoginRequest loginRequest);
+        /**
+         * 加入书架
+         */
+        void onAddBookShelfRequest(AddBookShelfRequest addBookShelfRequest);
     }
 
 }

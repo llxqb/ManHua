@@ -2,17 +2,20 @@ package com.shushan.manhua.mvp.ui.activity.book;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerLongDeleteComponent;
 import com.shushan.manhua.di.modules.ActivityModule;
 import com.shushan.manhua.di.modules.LongDeleteModule;
+import com.shushan.manhua.entity.constants.ActivityConstant;
+import com.shushan.manhua.entity.request.BookShelfInfoRequest;
+import com.shushan.manhua.entity.request.DeleteBookShelfRequest;
 import com.shushan.manhua.entity.response.BookShelfResponse;
 import com.shushan.manhua.mvp.ui.adapter.BookShelfDeleteAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseActivity;
@@ -31,6 +34,8 @@ import butterknife.OnClick;
  */
 public class LongDeleteActivity extends BaseActivity implements LongDeleteControl.LongDeleteView {
 
+    @Inject
+    LongDeleteControl.PresenterLongDelete mPresenter;
     @BindView(R.id.common_title_tv)
     TextView mCommonTitleTv;
     @BindView(R.id.common_right_tv)
@@ -46,12 +51,11 @@ public class LongDeleteActivity extends BaseActivity implements LongDeleteContro
      * true:全不选
      */
     private boolean isSelectAll = false;
-    @Inject
-    LongDeleteControl.PresenterLongDelete mPresenter;
+    ArrayList<BookShelfResponse.BookrackBean> mBookrackBeanList;
 
-    public static void start(Context context, BookShelfResponse bookShelfResponse) {
+    public static void start(Context context, ArrayList<BookShelfResponse.BookrackBean> bookrackBeanList) {
         Intent intent = new Intent(context, LongDeleteActivity.class);
-        intent.putExtra("bookShelfResponse", bookShelfResponse);
+        intent.putParcelableArrayListExtra("bookrackBeanList", bookrackBeanList);
         context.startActivity(intent);
     }
 
@@ -66,25 +70,25 @@ public class LongDeleteActivity extends BaseActivity implements LongDeleteContro
     public void initView() {
         mCommonTitleTv.setText(getResources().getString(R.string.LongDeleteActivity_select_title_tv));
         if (getIntent() != null) {
-            BookShelfResponse bookShelfResponse = getIntent().getParcelableExtra("bookShelfResponse");
-            mBookShelfDeleteAdapter = new BookShelfDeleteAdapter(bookShelfResponse.getBookrack());
+            mBookrackBeanList = getIntent().getParcelableArrayListExtra("bookrackBeanList");
+            if (mBookrackBeanList.size() > 1) {
+                mBookrackBeanList.remove(mBookrackBeanList.size() - 1);
+            }
+            mBookShelfDeleteAdapter = new BookShelfDeleteAdapter(mBookrackBeanList,mImageLoaderHelper);
             mRecyclerView.setAdapter(mBookShelfDeleteAdapter);
             mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-            mBookShelfDeleteAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-                @Override
-                public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                    BookShelfResponse.BookrackBean bookShelfResponse = (BookShelfResponse.BookrackBean) adapter.getItem(position);
-                    ImageView checkIv = view.findViewById(R.id.check_iv);
-                    if (bookShelfResponse != null) {
-                        if (bookShelfResponse.isCheck) {
-                            bookShelfResponse.isCheck = false;
-                            checkIv.setImageResource(R.mipmap.history_delete_unchoose);
-                        } else {
-                            bookShelfResponse.isCheck = true;
-                            checkIv.setImageResource(R.mipmap.history_delete_choose);
-                        }
-                        mCommonTitleTv.setText(getResources().getString(R.string.LongDeleteActivity_select_tv) + "(" + selectDeletePosNum() + ")");
+            mBookShelfDeleteAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+                BookShelfResponse.BookrackBean bookShelfResponse = (BookShelfResponse.BookrackBean) adapter.getItem(position);
+                ImageView checkIv = view.findViewById(R.id.check_iv);
+                if (bookShelfResponse != null) {
+                    if (bookShelfResponse.isCheck) {
+                        bookShelfResponse.isCheck = false;
+                        checkIv.setImageResource(R.mipmap.history_delete_unchoose);
+                    } else {
+                        bookShelfResponse.isCheck = true;
+                        checkIv.setImageResource(R.mipmap.history_delete_choose);
                     }
+                    mCommonTitleTv.setText(getResources().getString(R.string.LongDeleteActivity_select_tv) + "(" + selectDeletePosNum() + ")");
                 }
             });
         }
@@ -126,20 +130,64 @@ public class LongDeleteActivity extends BaseActivity implements LongDeleteContro
                 break;
             case R.id.delete_tv:
                 //删除
-                List<Integer> deletePosList = new ArrayList<>();//要删除的位置id
-                for (int i = 0; i < mBookShelfDeleteAdapter.getData().size(); i++) {
-                    BookShelfResponse.BookrackBean bookrackBean = mBookShelfDeleteAdapter.getData().get(i);
+//                List<Integer> deletePosList = new ArrayList<>();//要删除的位置id
+//                for (int i = 0; i < mBookShelfDeleteAdapter.getData().size(); i++) {
+//                    BookShelfResponse.BookrackBean bookrackBean = mBookShelfDeleteAdapter.getData().get(i);
+//                    if (bookrackBean.isCheck) {
+//                        deletePosList.add(i);
+//                    }
+//                }
+//                showToast(deletePosList.toString());
+//                LogUtils.e("deletePosList:" + deletePosList.toString());
+
+                for (BookShelfResponse.BookrackBean bookrackBean : mBookShelfDeleteAdapter.getData()) {
                     if (bookrackBean.isCheck) {
-                        deletePosList.add(i);
+//                        deletePosList.add(i);
+                        onRequestDeleteBook(String.valueOf(bookrackBean.getBook_id()));
                     }
                 }
-                showToast(deletePosList.toString());
-                LogUtils.e("deletePosList:" + deletePosList.toString());
-                //走接口删除后 走查询接口
                 break;
         }
     }
 
+    /**
+     * 删除书架漫画
+     */
+    private void onRequestDeleteBook(String bookId) {
+        DeleteBookShelfRequest deleteBookShelfRequest = new DeleteBookShelfRequest();
+        deleteBookShelfRequest.token = mBuProcessor.getToken();
+        deleteBookShelfRequest.book_id = bookId;
+        mPresenter.onRequestDeleteBook(deleteBookShelfRequest);
+    }
+
+    @Override
+    public void getDeleteBookShelfSuccess() {
+        //走接口删除后 走查询接口
+        onRequestBookShelfInfo();
+    }
+
+
+    /**
+     * 请求书架数据
+     */
+    private void onRequestBookShelfInfo() {
+        BookShelfInfoRequest bookShelfInfoRequest = new BookShelfInfoRequest();
+        bookShelfInfoRequest.token = mBuProcessor.getToken();
+        mPresenter.onRequestBookShelfInfo(bookShelfInfoRequest);
+    }
+
+
+    @Override
+    public void getBookShelfInfoSuccess(BookShelfResponse bookShelfResponse) {
+        mCommonTitleTv.setText(getResources().getString(R.string.LongDeleteActivity_select_title_tv));
+        mBookShelfDeleteAdapter.setNewData(bookShelfResponse.getBookrack());
+        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.UPDATE_BOOKSHELF));
+    }
+
+
+    /**
+     * 要删除的数量
+     */
     private int selectDeletePosNum() {
         List<Integer> deletePosList = new ArrayList<>();//要删除的位置id
         for (int i = 0; i < mBookShelfDeleteAdapter.getData().size(); i++) {
@@ -158,4 +206,6 @@ public class LongDeleteActivity extends BaseActivity implements LongDeleteContro
                 .longDeleteModule(new LongDeleteModule(this, this))
                 .activityModule(new ActivityModule(this)).build().inject(this);
     }
+
+
 }

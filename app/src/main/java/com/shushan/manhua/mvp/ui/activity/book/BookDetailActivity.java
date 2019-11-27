@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +18,8 @@ import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerBookDetailComponent;
 import com.shushan.manhua.di.modules.ActivityModule;
 import com.shushan.manhua.di.modules.BookDetailModule;
+import com.shushan.manhua.entity.constants.ActivityConstant;
+import com.shushan.manhua.entity.request.AddBookShelfRequest;
 import com.shushan.manhua.entity.response.LabelResponse;
 import com.shushan.manhua.mvp.ui.adapter.LabelAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseActivity;
@@ -27,6 +30,8 @@ import com.shushan.manhua.mvp.utils.StatusBarUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -35,6 +40,8 @@ import butterknife.OnClick;
  */
 public class BookDetailActivity extends BaseActivity implements BookDetailControl.BookDetailView {
 
+    @Inject
+    BookDetailControl.PresenterBookDetail mPresenter;
     @BindView(R.id.cover_iv)
     ImageView mCoverIv;
     @BindView(R.id.username_tv)
@@ -64,7 +71,7 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
 
     @Override
     public void initView() {
-        if(getIntent()!=null){
+        if (getIntent() != null) {
             bookId = getIntent().getStringExtra("bookId");
             titles = new String[]{getResources().getString(R.string.BookDetailActivity_detail_tv), getResources().getString(R.string.BookDetailActivity_selection_tv)};
             mViewPager.setOffscreenPageLimit(2);
@@ -91,9 +98,26 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
                 finish();
                 break;
             case R.id.add_bookshelf_tv:
-                showToast("加入书架");
+                onAddBookShelfRequest();
                 break;
         }
+    }
+
+
+    /**
+     * 加入书架
+     */
+    private void onAddBookShelfRequest() {
+        AddBookShelfRequest addBookShelfRequest = new AddBookShelfRequest();
+        addBookShelfRequest.token = mBuProcessor.getToken();
+        addBookShelfRequest.book_id = bookId;
+        mPresenter.onAddBookShelfRequest(addBookShelfRequest);
+    }
+
+    @Override
+    public void getBookShelfSuccess() {
+        showToast("add success");
+        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.UPDATE_BOOKSHELF));
     }
 
     private class MyPageAdapter extends FragmentPagerAdapter {
@@ -101,8 +125,8 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
 
         MyPageAdapter(FragmentManager fm) {
             super(fm);
-            BookDetailFragment bookDetailFragment = BookDetailFragment.getInstance (bookId);
-            SelectionDetailFragment selectionDetailFragment = new SelectionDetailFragment();
+            BookDetailFragment bookDetailFragment = BookDetailFragment.getInstance(bookId);
+            SelectionDetailFragment selectionDetailFragment = SelectionDetailFragment.getInstance(bookId);
             fragments.add(bookDetailFragment);
             fragments.add(selectionDetailFragment);
         }

@@ -1,7 +1,9 @@
 package com.shushan.manhua.mvp.ui.activity.main;
 
 
+import com.shushan.manhua.entity.request.LoginTouristModeRequest;
 import com.shushan.manhua.entity.response.BookTypeResponse;
+import com.shushan.manhua.entity.response.LoginTouristModeResponse;
 import com.shushan.manhua.mvp.presenter.LoadDataView;
 import com.shushan.manhua.mvp.presenter.Presenter;
 
@@ -12,6 +14,7 @@ import com.shushan.manhua.mvp.presenter.Presenter;
 public class MainControl {
     public interface MainView extends LoadDataView {
         void getManHuaTypeSuccess(BookTypeResponse bookTypeResponse);
+        void getLoginTouristModeSuccess(LoginTouristModeResponse loginTouristModeResponse);
     }
 
     public interface PresenterMain extends Presenter<MainView> {
@@ -25,6 +28,11 @@ public class MainControl {
          * 请求漫画类型
          */
         void onRequestManHuaType();
+
+        /**
+         * 游客模式注册登陆
+         */
+        void onLoginTouristModeRequest(LoginTouristModeRequest loginTouristModeRequest);
     }
 
 }

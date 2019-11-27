@@ -2,9 +2,15 @@ package com.shushan.manhua.mvp.ui.activity.book;
 
 import android.content.Context;
 
+import com.shushan.manhua.R;
+import com.shushan.manhua.entity.request.AddBookShelfRequest;
+import com.shushan.manhua.help.RetryWithDelay;
 import com.shushan.manhua.mvp.model.BookModel;
+import com.shushan.manhua.mvp.model.ResponseData;
 
 import javax.inject.Inject;
+
+import io.reactivex.disposables.Disposable;
 
 
 /**
@@ -26,32 +32,28 @@ public class BookDetailPresenterImpl implements BookDetailControl.PresenterBookD
     }
 
 
-//    /**
-//     * 登录
-//     */
-//    @Override
-//    public void onRequestLogin(LoginRequest loginRequest) {
-//        mBookDetailView.showLoading(mContext.getResources().getString(R.string.loading));
-//        Disposable disposable = mBookModel.onRequestLogin(loginRequest).compose(mBookDetailView.applySchedulers()).retryWhen(new com.shushan.homework101.help.RetryWithDelay(3, 3000))
-//                .subscribe(this::requestLoginSuccess, throwable -> mBookDetailView.showErrMessage(throwable),
-//                        () -> mBookDetailView.dismissLoading());
-//        mBookDetailView.addSubscription(disposable);
-//    }
-//
-//    /**
-//     * 登录成功
-//     */
-//    private void requestLoginSuccess(ResponseData responseData) {
-//        if (responseData.resultCode == 0) {
-//            responseData.parseData(LoginResponse.class);
-//            if (responseData.parsedData != null) {
-//                LoginResponse response = (LoginResponse) responseData.parsedData;
-//                mBookDetailView.getLoginSuccess(response);
-//            }
-//        } else {
-//            mBookDetailView.showToast(responseData.errorMsg);
-//        }
-//    }
+    /**
+     * 加入书架
+     */
+    @Override
+    public void onAddBookShelfRequest(AddBookShelfRequest addBookShelfRequest) {
+        mBookDetailView.showLoading(mContext.getResources().getString(R.string.loading));
+        Disposable disposable = mBookModel.onAddBookShelfRequest(addBookShelfRequest).compose(mBookDetailView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
+                .subscribe(this::requestAddBookShelfSuccess, throwable -> mBookDetailView.showErrMessage(throwable),
+                        () -> mBookDetailView.dismissLoading());
+        mBookDetailView.addSubscription(disposable);
+    }
+
+    /**
+     * 加入书架 成功
+     */
+    private void requestAddBookShelfSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 0) {
+            mBookDetailView.getBookShelfSuccess();
+        } else {
+            mBookDetailView.showToast(responseData.errorMsg);
+        }
+    }
 
 
     @Override

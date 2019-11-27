@@ -16,9 +16,10 @@ public class ActivityConstant {
      * 支付成功 更新数据
      */
     public static final String PAY_SUCCESS = "pay_success";
-//    /**
-//     * 体验券支付成功
-//     */
-//    public static final String EXPERIENCE_PAY_SUCCESS = "experience_pay_success";
+    /**
+     * 加入书架成功 刷新书架
+     */
+    public static final String UPDATE_BOOKSHELF = "update_bookshelf";
+
 
 }

@@ -21,6 +21,8 @@ import com.shushan.manhua.mvp.ui.base.BaseActivity;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -29,6 +31,8 @@ import butterknife.OnClick;
  */
 public class ReadingHistoryActivity extends BaseActivity implements ReadingHistoryControl.ReadingHistoryView {
 
+    @Inject
+    ReadingHistoryControl.PresenterReadingHistory mPresenter;
     @BindView(R.id.common_title_tv)
     TextView mCommonTitleTv;
     @BindView(R.id.common_right_tv)
@@ -169,6 +173,10 @@ public class ReadingHistoryActivity extends BaseActivity implements ReadingHisto
                 showToast(""+integerList.toString());
                 break;
         }
+    }
+
+    private void onRequestReadingHistory(){
+
     }
 
 

@@ -60,7 +60,10 @@ public class BookShelfResponse implements Parcelable {
     }
 
 
-    public static class BookrackBean {
+    public static class BookrackBean implements Parcelable{
+        public BookrackBean() {
+        }
+
         /**
          * book_id : 1
          * book_name : 大国工程
@@ -91,6 +94,32 @@ public class BookShelfResponse implements Parcelable {
          * 长按删除，是否选择
          */
         public boolean isCheck;
+
+        protected BookrackBean(Parcel in) {
+            book_id = in.readInt();
+            book_name = in.readString();
+            detail_cover = in.readString();
+            comment_count = in.readInt();
+            like = in.readInt();
+            type = in.readInt();
+            create_time = in.readInt();
+            catalogue_id = in.readInt();
+            catalogue_name = in.readString();
+            isMore = in.readByte() != 0;
+            isCheck = in.readByte() != 0;
+        }
+
+        public static final Creator<BookrackBean> CREATOR = new Creator<BookrackBean>() {
+            @Override
+            public BookrackBean createFromParcel(Parcel in) {
+                return new BookrackBean(in);
+            }
+
+            @Override
+            public BookrackBean[] newArray(int size) {
+                return new BookrackBean[size];
+            }
+        };
 
         public int getBook_id() {
             return book_id;
@@ -162,6 +191,26 @@ public class BookShelfResponse implements Parcelable {
 
         public void setCatalogue_name(String catalogue_name) {
             this.catalogue_name = catalogue_name;
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(book_id);
+            dest.writeString(book_name);
+            dest.writeString(detail_cover);
+            dest.writeInt(comment_count);
+            dest.writeInt(like);
+            dest.writeInt(type);
+            dest.writeInt(create_time);
+            dest.writeInt(catalogue_id);
+            dest.writeString(catalogue_name);
+            dest.writeByte((byte) (isMore ? 1 : 0));
+            dest.writeByte((byte) (isCheck ? 1 : 0));
         }
     }
 

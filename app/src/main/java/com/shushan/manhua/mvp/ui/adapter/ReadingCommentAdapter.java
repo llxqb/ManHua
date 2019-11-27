@@ -15,8 +15,10 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.shushan.manhua.R;
 import com.shushan.manhua.entity.CommentBean;
 import com.shushan.manhua.entity.ReplyBean;
+import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.help.ImageLoaderHelper;
 import com.shushan.manhua.mvp.utils.DateUtil;
+import com.shushan.manhua.mvp.utils.LogUtils;
 import com.shushan.manhua.mvp.views.CircleImageView;
 
 import java.util.ArrayList;
@@ -40,13 +42,13 @@ public class ReadingCommentAdapter extends BaseQuickAdapter<CommentBean, BaseVie
         if (payloads.isEmpty()) {
             onBindViewHolder(holder, position);
         } else {
-//            String payload = payloads.get(0).toString();
-//            ImageView homeLikeIv = holder.getView(R.id.home_like_iv);
-//            mImageLoaderHelper.displayImage(mContext, R.mipmap.home_like, homeLikeIv, R.mipmap.home_like);
+            int payload = (int) payloads.get(0);
+            LogUtils.e("payload:" + payload);
             TextView suggestNumTv = holder.getView(R.id.suggest_num_tv);
             Drawable drawable = mContext.getResources().getDrawable(R.mipmap.title_praise_purple);
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
             suggestNumTv.setCompoundDrawables(drawable, null, null, null);
+            suggestNumTv.setText(String.valueOf(++payload));
         }
     }
 
@@ -55,7 +57,7 @@ public class ReadingCommentAdapter extends BaseQuickAdapter<CommentBean, BaseVie
     protected void convert(BaseViewHolder helper, CommentBean item) {
         helper.addOnClickListener(R.id.suggest_num_tv).addOnClickListener(R.id.item_comment_layout);
         CircleImageView circleImageView = helper.getView(R.id.avatar_iv);
-        mImageLoaderHelper.displayImage(mContext, item.getHead_portrait(), circleImageView);
+        mImageLoaderHelper.displayImage(mContext, item.getHead_portrait(), circleImageView, Constant.LOADING_AVATOR);
         helper.setText(R.id.name_tv, item.getName());
         helper.setText(R.id.time_tv, DateUtil.getStrTime(item.getComment_time(), DateUtil.TIME_MMDD_HHMM));
         helper.setText(R.id.suggest_num_tv, String.valueOf(item.getLike()));

@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.shushan.manhua.R;
 import com.shushan.manhua.entity.CommentListBean;
 import com.shushan.manhua.entity.request.CommentRequest;
+import com.shushan.manhua.entity.request.CommentSuggestRequest;
 import com.shushan.manhua.entity.request.PublishCommentRequest;
 import com.shushan.manhua.entity.request.UploadImage;
 import com.shushan.manhua.help.RetryWithDelay;
@@ -113,7 +114,29 @@ public class LatestCommentFragmentPresenterImpl implements LatestCommentFragment
     }
 
 
+    /**
+     * 评论点赞
+     */
+    @Override
+    public void onCommentSuggestRequest(CommentSuggestRequest commentSuggestRequest) {
+        mLatestCommentView.showLoading(mContext.getResources().getString(R.string.loading));
+        Disposable disposable = mBookModel.onCommentSuggestRequest(commentSuggestRequest).compose(mLatestCommentView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
+                .subscribe(this::commentSuggestSuccess, throwable -> mLatestCommentView.showErrMessage(throwable),
+                        () -> mLatestCommentView.dismissLoading());
+        mLatestCommentView.addSubscription(disposable);
+    }
 
+    /**
+     * 评论点赞 成功
+     */
+    private void commentSuggestSuccess(ResponseData responseData) {
+        mLatestCommentView.judgeToken(responseData.resultCode);
+        if (responseData.resultCode == 0) {
+            mLatestCommentView.getSuggestSuccess();
+        } else {
+            mLatestCommentView.showToast(responseData.errorMsg);
+        }
+    }
 
 
     @Override

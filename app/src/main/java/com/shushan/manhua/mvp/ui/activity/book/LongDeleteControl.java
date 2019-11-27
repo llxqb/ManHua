@@ -1,6 +1,9 @@
 package com.shushan.manhua.mvp.ui.activity.book;
 
 
+import com.shushan.manhua.entity.request.BookShelfInfoRequest;
+import com.shushan.manhua.entity.request.DeleteBookShelfRequest;
+import com.shushan.manhua.entity.response.BookShelfResponse;
 import com.shushan.manhua.mvp.presenter.LoadDataView;
 import com.shushan.manhua.mvp.presenter.Presenter;
 
@@ -10,22 +13,21 @@ import com.shushan.manhua.mvp.presenter.Presenter;
 
 public class LongDeleteControl {
     public interface LongDeleteView extends LoadDataView {
-//        void getVerifyCodeSuccess(VerifyCodeResponse verifyCodeResponse);
-//
-//        void getLoginSuccess(LoginResponse loginResponse);
+        void getDeleteBookShelfSuccess();
+
+        void getBookShelfInfoSuccess(BookShelfResponse bookShelfResponse);
     }
 
     public interface PresenterLongDelete extends Presenter<LongDeleteView> {
 
-//        /**
-//         * 获取验证码
-//         */
-//        void onRequestVerifyCode(VerifyCodeRequest verifyCodeRequest);
-//
-//        /**
-//         * 登录
-//         */
-//        void onRequestLogin(LoginRequest loginRequest);
+        /**
+         * 删除书架漫画
+         */
+        void onRequestDeleteBook(DeleteBookShelfRequest deleteBookShelfRequest);
+        /**
+         * 查询书架漫画
+         */
+        void onRequestBookShelfInfo(BookShelfInfoRequest bookShelfInfoRequest);
     }
 
 }

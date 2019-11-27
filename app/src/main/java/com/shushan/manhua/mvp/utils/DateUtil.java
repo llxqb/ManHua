@@ -64,7 +64,7 @@ public class DateUtil {
      * 日期转换为字符串
      */
     public static String dateTranString(Date date, String pattern) {
-        SimpleDateFormat sdf = new SimpleDateFormat(pattern,Locale.CHINA);
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.CHINA);
         return sdf.format(date);
     }
 
@@ -97,7 +97,7 @@ public class DateUtil {
     }
 
     // 将字符串转为时间戳
-    public static String getTime(String user_time,String pattern) {
+    public static String getTime(String user_time, String pattern) {
         String re_time = null;
         SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.CHINA);
         Date d;
@@ -106,7 +106,7 @@ public class DateUtil {
             long l = d.getTime();
             String str = String.valueOf(l);
             re_time = str.substring(0, 10);
-        }catch (ParseException ignored) {
+        } catch (ParseException ignored) {
         }
         return re_time;
     }
@@ -156,6 +156,91 @@ public class DateUtil {
      */
     public static long getCurrentTimeInLong() {
         return System.currentTimeMillis() / 1000;
+    }
+
+    /**
+     * 得到 今天 明天 后天
+     *
+     * @return
+     */
+    public static String getTimeChinString(String time, String format) {
+        long s = timeToLong(stringTimeToFormat(time, TIME_YYMMDD), TIME_YYMMDD);
+        long now = timeToLong(getFullTime(TIME_YYMMDD), TIME_YYMMDD);
+        if (now - s == 0) {
+            return "Hari ini";
+        } else if (now - s == 1000 * 60 * 60 * 24) {
+            return "1 hari lalu";
+        } else if (now - s == 1000 * 60 * 60 * 24 * 2) {
+            return "2 hari lalu";
+        } else {
+            return "3 hari lalu";
+//            return stringTimeToFormat(time, format);
+        }
+    }
+
+    /**
+     * 得到 今天 明天 后天
+     *
+     * @return
+     */
+    public static String getTimeChinString(long s, String format) {
+        long now = timeToLong(getFullTime(TIME_YYMMDD), TIME_YYMMDD);
+        if (now - s == 0) {
+            return "Hari ini";
+        } else if (now - s == 1000 * 60 * 60 * 24) {
+            return "1 hari lalu";
+        } else if (now - s == 1000 * 60 * 60 * 24 * 2) {
+            return "2 hari lalu";
+        } else {
+            return "3 hari lalu";
+//            return stringTimeToFormat(time, format);
+        }
+    }
+
+    /**
+     * 把String类型的时间 转换为long
+     *
+     * @param time   2014-12-20 15:33:20
+     * @param format mm:ss
+     * @return
+     */
+    public static long timeToLong(String time, String format) {
+        long min = 0;
+        try {
+            min = new SimpleDateFormat(format).parse(time).getTime();
+        } catch (ParseException e) {
+
+            e.printStackTrace();
+        }
+        return min;
+    }
+
+    /**
+     * 把String类型的时间 转换为format类型的时间
+     *
+     * @param time   2014-12-20 15:33:20
+     * @param format mm:ss
+     * @return
+     */
+    public static String stringTimeToFormat(String time, String format) {
+        long time1 = timeToLong(time, TIME_YYMMDD_HHMMSS);
+
+        return longToTime(time1, format);
+    }
+
+    /**
+     * 把long类型的时间 转换为format类型的时间
+     *
+     * @param time   long
+     * @param format 2014-12-20 15:33:20
+     * @return
+     */
+    public static String longToTime(long time, String format) {
+        return new SimpleDateFormat(format).format(new Date(time));
+    }
+
+    public static String getFullTime(String format) {
+        return new SimpleDateFormat(format).format(new Date());
     }
 
 }

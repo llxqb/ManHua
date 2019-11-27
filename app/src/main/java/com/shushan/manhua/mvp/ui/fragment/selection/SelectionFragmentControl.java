@@ -1,6 +1,9 @@
 package com.shushan.manhua.mvp.ui.fragment.selection;
 
 
+import com.shushan.manhua.entity.request.CommentSuggestRequest;
+import com.shushan.manhua.entity.request.SelectionRequest;
+import com.shushan.manhua.entity.response.SelectionResponse;
 import com.shushan.manhua.mvp.presenter.LoadDataView;
 import com.shushan.manhua.mvp.presenter.Presenter;
 
@@ -11,14 +14,21 @@ import com.shushan.manhua.mvp.presenter.Presenter;
 public class SelectionFragmentControl {
     public interface SelectionView extends LoadDataView {
 
-//        void getSelectionInfoSuccess(SelectionInfoResponse SelectionInfoResponse);
+        void getSelectionInfoSuccess(SelectionResponse selectionResponse);
+
+        void getSuggestSuccess();
     }
 
     public interface SelectionFragmentPresenter extends Presenter<SelectionView> {
-//        /**
-//         * 查询个人信息
-//         */
-//        void onRequestPersonalInfo(TokenRequest tokenRequest);
+        /**
+         * 请求漫画选集信息
+         */
+        void onRequestSelectionInfo(SelectionRequest selectionRequest);
+
+        /**
+         * 评论点赞
+         */
+        void onCommentSuggestRequest(CommentSuggestRequest commentSuggestRequest);
 
     }
 

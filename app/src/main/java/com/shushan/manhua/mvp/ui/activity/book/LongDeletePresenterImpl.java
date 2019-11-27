@@ -2,9 +2,17 @@ package com.shushan.manhua.mvp.ui.activity.book;
 
 import android.content.Context;
 
+import com.shushan.manhua.R;
+import com.shushan.manhua.entity.request.BookShelfInfoRequest;
+import com.shushan.manhua.entity.request.DeleteBookShelfRequest;
+import com.shushan.manhua.entity.response.BookShelfResponse;
+import com.shushan.manhua.help.RetryWithDelay;
 import com.shushan.manhua.mvp.model.BookModel;
+import com.shushan.manhua.mvp.model.ResponseData;
 
 import javax.inject.Inject;
+
+import io.reactivex.disposables.Disposable;
 
 
 /**
@@ -26,33 +34,57 @@ public class LongDeletePresenterImpl implements LongDeleteControl.PresenterLongD
     }
 
 
-//    /**
-//     * 登录
-//     */
-//    @Override
-//    public void onRequestLogin(LoginRequest loginRequest) {
-//        mLongDeleteView.showLoading(mContext.getResources().getString(R.string.loading));
-//        Disposable disposable = mBookModel.onRequestLogin(loginRequest).compose(mLongDeleteView.applySchedulers()).retryWhen(new com.shushan.homework101.help.RetryWithDelay(3, 3000))
-//                .subscribe(this::requestLoginSuccess, throwable -> mLongDeleteView.showErrMessage(throwable),
-//                        () -> mLongDeleteView.dismissLoading());
-//        mLongDeleteView.addSubscription(disposable);
-//    }
-//
-//    /**
-//     * 登录成功
-//     */
-//    private void requestLoginSuccess(ResponseData responseData) {
-//        if (responseData.resultCode == 0) {
-//            responseData.parseData(LoginResponse.class);
-//            if (responseData.parsedData != null) {
-//                LoginResponse response = (LoginResponse) responseData.parsedData;
-//                mLongDeleteView.getLoginSuccess(response);
-//            }
-//        } else {
-//            mLongDeleteView.showToast(responseData.errorMsg);
-//        }
-//    }
+    /**
+     * 删除书架漫画
+     */
+    @Override
+    public void onRequestDeleteBook(DeleteBookShelfRequest deleteBookShelfRequest) {
+        mLongDeleteView.showLoading(mContext.getResources().getString(R.string.loading));
+        Disposable disposable = mBookModel.onRequestDeleteBook(deleteBookShelfRequest).compose(mLongDeleteView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
+                .subscribe(this::deleteBookShelfSuccess, throwable -> mLongDeleteView.showErrMessage(throwable),
+                        () -> mLongDeleteView.dismissLoading());
+        mLongDeleteView.addSubscription(disposable);
+    }
 
+    /**
+     * 删除书架漫画 成功
+     */
+    private void deleteBookShelfSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 0) {
+            mLongDeleteView.getDeleteBookShelfSuccess();
+        } else {
+            mLongDeleteView.showToast(responseData.errorMsg);
+        }
+    }
+
+
+    /**
+     * 请求我的书架数据
+     */
+    @Override
+    public void onRequestBookShelfInfo(BookShelfInfoRequest bookShelfInfoRequest) {
+        mLongDeleteView.showLoading(mContext.getResources().getString(R.string.loading));
+        Disposable disposable = mBookModel.onRequestBookShelfInfo(bookShelfInfoRequest).compose(mLongDeleteView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
+                .subscribe(this::onRequestBookShelfInfoSuccess, throwable -> mLongDeleteView.showErrMessage(throwable),
+                        () -> mLongDeleteView.dismissLoading());
+        mLongDeleteView.addSubscription(disposable);
+    }
+
+    /**
+     * 请求我的书架数据成功
+     */
+    private void onRequestBookShelfInfoSuccess(ResponseData responseData) {
+        mLongDeleteView.judgeToken(responseData.resultCode);
+        if (responseData.resultCode == 0) {
+            responseData.parseData(BookShelfResponse.class);
+            if (responseData.parsedData != null) {
+                BookShelfResponse response = (BookShelfResponse) responseData.parsedData;
+                mLongDeleteView.getBookShelfInfoSuccess(response);
+            }
+        } else {
+            mLongDeleteView.showToast(responseData.errorMsg);
+        }
+    }
 
     @Override
     public void onCreate() {

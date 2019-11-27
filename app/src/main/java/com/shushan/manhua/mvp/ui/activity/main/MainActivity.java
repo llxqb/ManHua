@@ -16,7 +16,9 @@ import com.shushan.manhua.di.modules.ActivityModule;
 import com.shushan.manhua.di.modules.MainModule;
 import com.shushan.manhua.entity.constants.ActivityConstant;
 import com.shushan.manhua.entity.constants.Constant;
+import com.shushan.manhua.entity.request.LoginTouristModeRequest;
 import com.shushan.manhua.entity.response.BookTypeResponse;
+import com.shushan.manhua.entity.response.LoginTouristModeResponse;
 import com.shushan.manhua.entity.user.User;
 import com.shushan.manhua.help.DialogFactory;
 import com.shushan.manhua.mvp.ui.activity.login.LoginActivity;
@@ -28,6 +30,7 @@ import com.shushan.manhua.mvp.ui.fragment.bookshelf.BookShelfFragment;
 import com.shushan.manhua.mvp.ui.fragment.home.HomeFragment;
 import com.shushan.manhua.mvp.ui.fragment.mine.MineFragment;
 import com.shushan.manhua.mvp.utils.LogUtils;
+import com.shushan.manhua.mvp.utils.SystemUtils;
 import com.shushan.manhua.mvp.views.MyNoScrollViewPager;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
@@ -148,6 +151,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         mBookTypeResponse = bookTypeResponse;
     }
 
+
     /**
      * 第一次选择频道
      */
@@ -178,9 +182,25 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     public void selectManHuaTypeBtnOkListener(String chooseListStr) {
         LogUtils.e("chooseListStr:" + chooseListStr);
         mSharePreferenceUtil.setData(Constant.BOOK_TYPE, chooseListStr);//[1,2,3]喜欢的类型
-        initMainView();
+        loginTouristMode();
     }
 
+    /**
+     * 进行游客模式登陆
+     */
+    private void loginTouristMode() {
+        LoginTouristModeRequest request = new LoginTouristModeRequest();
+        request.deviceId = SystemUtils.getUUID(this, mSharePreferenceUtil);
+        mPresenter.onLoginTouristModeRequest(request);
+    }
+
+    @Override
+    public void getLoginTouristModeSuccess(LoginTouristModeResponse loginTouristModeResponse) {
+        LoginTouristModeResponse.UserinfoBean userinfoBean = loginTouristModeResponse.getUserinfo();
+        User user = new User(userinfoBean.getToken(), userinfoBean.getName(), userinfoBean.getHead_portrait(), userinfoBean.getVip(), userinfoBean.getVip_end_time(), userinfoBean.getChannel(), new Gson().toJson(userinfoBean.getBook_type()));
+        mBuProcessor.setLoginUser(user);
+        initMainView();
+    }
 
     /**
      * 检查app 权限

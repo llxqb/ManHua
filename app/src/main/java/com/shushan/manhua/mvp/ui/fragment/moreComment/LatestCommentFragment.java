@@ -30,6 +30,7 @@ import com.shushan.manhua.entity.CommentListBean;
 import com.shushan.manhua.entity.constants.ActivityConstant;
 import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.entity.request.CommentRequest;
+import com.shushan.manhua.entity.request.CommentSuggestRequest;
 import com.shushan.manhua.entity.request.PublishCommentRequest;
 import com.shushan.manhua.entity.request.UploadImage;
 import com.shushan.manhua.mvp.ui.activity.book.CommentDetailsActivity;
@@ -97,6 +98,8 @@ public class LatestCommentFragment extends BaseFragment implements LatestComment
     private List<String> mPicList = new ArrayList<>();
     private String mBookId;
     private String mContent;//评论内容
+    CommentBean commentBean;
+    private int clickPos;
 
     public static LatestCommentFragment getInstance(String bookId) {
         if (mLatestCommentFragment == null) {
@@ -149,9 +152,11 @@ public class LatestCommentFragment extends BaseFragment implements LatestComment
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mReadingCommentAdapter);
         mReadingCommentAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            clickPos = position;
+            commentBean = (CommentBean) adapter.getItem(position);
             switch (view.getId()) {
                 case R.id.suggest_num_tv:
-                    showToast("点赞");
+                    onCommentSuggestRequest();
                     break;
                 case R.id.item_comment_layout:
                     startActivitys(CommentDetailsActivity.class);
@@ -250,6 +255,24 @@ public class LatestCommentFragment extends BaseFragment implements LatestComment
         //刷新页面
         LocalBroadcastManager.getInstance(Objects.requireNonNull(getActivity())).sendBroadcast(new Intent(ActivityConstant.UPDATE_COMMENT_LIST));
     }
+
+    /**
+     * 评论点赞
+     */
+    private void onCommentSuggestRequest() {
+        CommentSuggestRequest commentSuggestRequest = new CommentSuggestRequest();
+        commentSuggestRequest.token = mBuProcessor.getToken();
+        commentSuggestRequest.relation_id = String.valueOf(commentBean.getComment_id());
+        commentSuggestRequest.type = "3";
+        mPresenter.onCommentSuggestRequest(commentSuggestRequest);
+    }
+
+
+    @Override
+    public void getSuggestSuccess() {
+        mReadingCommentAdapter.notifyItemChanged(clickPos, commentBean.getLike());//局部刷新
+    }
+
 
     /**
      * 显示评论弹框PopupWindow
