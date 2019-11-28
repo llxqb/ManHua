@@ -1,36 +1,36 @@
 package com.shushan.manhua.mvp.ui.activity.book;
 
+import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.v4.content.LocalBroadcastManager;
 
-import com.shushan.manhua.entity.BannerBean;
+import com.shushan.manhua.R;
+import com.shushan.manhua.entity.constants.ActivityConstant;
+import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.entity.request.ReadingRequest;
+import com.shushan.manhua.entity.request.SelectionRequest;
 import com.shushan.manhua.entity.response.ReadingInfoResponse;
-import com.shushan.manhua.mvp.ui.adapter.BannerReadingViewHolder;
-import com.zhouwei.mzbanner.holder.MZHolderCreator;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.shushan.manhua.entity.response.SelectionResponse;
 
 /**
  * 阅读页面
  */
 public class ReadActivity extends ReadBaseActivity {
 
-    List<BannerBean> bannerList = new ArrayList<>();
-
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void initView() {
         super.initView();
         onRequestReadingInfo();
+        onRequestSelectionInfo();
+
     }
 
     @Override
     public void initData() {
         super.initData();
     }
-
 
     /**
      * 章节详情
@@ -45,17 +45,62 @@ public class ReadActivity extends ReadBaseActivity {
 
     @Override
     public void getReadingInfoSuccess(ReadingInfoResponse readingInfoResponse) {
+        mReadingInfoResponse = readingInfoResponse;
         ReadingInfoResponse.CatalogueBean catalogueBean = readingInfoResponse.getCatalogue();
         mReadingPicAdapter.setNewData(catalogueBean.getCatalogue_content());
         mReadingCommentAdapter.setNewData(readingInfoResponse.getComment());
         mRecommendAdapter.setNewData(readingInfoResponse.getCommend());
         bannerList = readingInfoResponse.getBanner();
         initBanner();
+
+        String supportValue = getString(R.string.ReadActivity_support) + " " + (mReadingInfoResponse.getCatalogue().getLike());
+        mSupportTv.setText(supportValue);
+        if (catalogueBean.getIs_like() == 0) {
+            setNoSupportState();
+        } else {
+            setSupportState();
+        }
     }
 
-    private void initBanner() {
-        // 设置数据
-        mBanner.setDelayedTime(4000);//切换时间
-        mBanner.setPages(bannerList, (MZHolderCreator<BannerReadingViewHolder>) () -> new BannerReadingViewHolder(mImageLoaderHelper));
+    /**
+     * 点赞成功
+     */
+    @Override
+    public void getSupportSuccess() {
+        String supportValue = getString(R.string.ReadActivity_support) + " " + (mReadingInfoResponse.getCatalogue().getLike() + 1);
+        mSupportTv.setText(supportValue);
+        setSupportState();
     }
+
+    /**
+     * 加入书架成功
+     */
+    @Override
+    public void getAddBookShelfSuccess() {
+        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.UPDATE_BOOKSHELF));
+    }
+
+
+    /**
+     * 请求漫画选集信息
+     */
+    private void onRequestSelectionInfo() {
+        SelectionRequest selectionRequest = new SelectionRequest();
+        selectionRequest.token = mBuProcessor.getToken();
+        selectionRequest.book_id = mBookId;
+        selectionRequest.orderby = "asc";
+        selectionRequest.page = String.valueOf(page);
+        selectionRequest.pagesize = String.valueOf(Constant.PAGESIZE);
+        mPresenter.onRequestSelectionInfo(selectionRequest);
+    }
+
+    /**
+     * 请求漫画选集信息成功
+     */
+    @Override
+    public void getSelectionInfoSuccess(SelectionResponse selectionResponse) {
+        chapterResponseList = selectionResponse.getAnthology();
+    }
+
+
 }

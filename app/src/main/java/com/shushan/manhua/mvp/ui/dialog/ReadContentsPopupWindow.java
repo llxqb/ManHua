@@ -12,9 +12,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.shushan.manhua.R;
-import com.shushan.manhua.entity.response.ChapterResponse;
+import com.shushan.manhua.entity.response.SelectionResponse;
 import com.shushan.manhua.mvp.ui.adapter.ReadingChapterAdapter;
-import com.shushan.manhua.mvp.utils.LogUtils;
 import com.shushan.manhua.mvp.utils.SystemUtils;
 
 import java.util.List;
@@ -27,9 +26,9 @@ public class ReadContentsPopupWindow {
     private Activity mContext;
     private ReadContentsPopupWindowListener mPopupWindowListener;
     private CustomPopWindow mCustomPopWindow;
-    private List<ChapterResponse> chapterResponseList;
+    private List<SelectionResponse.AnthologyBean> chapterResponseList;
 
-    public ReadContentsPopupWindow(Activity context, List<ChapterResponse> chapterResponseList) {
+    public ReadContentsPopupWindow(Activity context, List<SelectionResponse.AnthologyBean> chapterResponseList) {
         mContext = context;
 //        mPopupWindowListener = popupWindowListener;
         this.chapterResponseList = chapterResponseList;

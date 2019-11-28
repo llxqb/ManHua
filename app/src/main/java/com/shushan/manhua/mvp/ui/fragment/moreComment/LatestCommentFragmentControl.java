@@ -3,7 +3,7 @@ package com.shushan.manhua.mvp.ui.fragment.moreComment;
 
 import com.shushan.manhua.entity.CommentListBean;
 import com.shushan.manhua.entity.request.CommentRequest;
-import com.shushan.manhua.entity.request.CommentSuggestRequest;
+import com.shushan.manhua.entity.request.SupportRequest;
 import com.shushan.manhua.entity.request.PublishCommentRequest;
 import com.shushan.manhua.entity.request.UploadImage;
 import com.shushan.manhua.mvp.presenter.LoadDataView;
@@ -42,7 +42,7 @@ public class LatestCommentFragmentControl {
         /**
          * 评论点赞
          */
-        void onCommentSuggestRequest(CommentSuggestRequest commentSuggestRequest);
+        void onCommentSuggestRequest(SupportRequest commentSuggestRequest);
     }
 
 }

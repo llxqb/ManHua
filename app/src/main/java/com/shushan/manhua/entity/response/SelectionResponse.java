@@ -4,51 +4,62 @@ import java.util.List;
 
 public class SelectionResponse {
 
+
     /**
-     * error : 0
-     * msg : success
-     * data : [{"catalogue_id":1,"catalogue_name":"第一话 纪元时代","catalogue_cover":"http://www.baidu.com","create_time":1574142426,"like":3,"change_like":2,"type":1,"sort":1,"is_like":0},{"catalogue_id":2,"catalogue_name":"第二话 青铜时代","catalogue_cover":"http://www.baidu.com","create_time":1574142425,"like":5,"change_like":3,"type":1,"sort":2,"is_like":0}]
+     * anthology : [{"catalogue_id":1,"catalogue_name":"第一话 纪元时代","catalogue_cover":"http://www.baidu.com","create_time":1574142426,"like":6,"change_like":2,"type":0,"sort":1,"is_like":1},{"catalogue_id":2,"catalogue_name":"第二话 青铜时代","catalogue_cover":"http://www.baidu.com","create_time":1574142425,"like":7,"change_like":3,"type":1,"sort":2,"is_like":1}]
+     * residue_words : 0
+     * words : 0
+     * last_catalogue_id : 0
      */
 
-    private int error;
-    private String msg;
-    private List<DataBean> data;
+    private int residue_words;
+    private int words;
+    private int last_catalogue_id;
+    private List<AnthologyBean> anthology;
 
-    public int getError() {
-        return error;
+    public int getResidue_words() {
+        return residue_words;
     }
 
-    public void setError(int error) {
-        this.error = error;
+    public void setResidue_words(int residue_words) {
+        this.residue_words = residue_words;
     }
 
-    public String getMsg() {
-        return msg;
+    public int getWords() {
+        return words;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public void setWords(int words) {
+        this.words = words;
     }
 
-    public List<DataBean> getData() {
-        return data;
+    public int getLast_catalogue_id() {
+        return last_catalogue_id;
     }
 
-    public void setData(List<DataBean> data) {
-        this.data = data;
+    public void setLast_catalogue_id(int last_catalogue_id) {
+        this.last_catalogue_id = last_catalogue_id;
     }
 
-    public static class DataBean {
+    public List<AnthologyBean> getAnthology() {
+        return anthology;
+    }
+
+    public void setAnthology(List<AnthologyBean> anthology) {
+        this.anthology = anthology;
+    }
+
+    public static class AnthologyBean {
         /**
          * catalogue_id : 1
          * catalogue_name : 第一话 纪元时代
          * catalogue_cover : http://www.baidu.com
          * create_time : 1574142426
-         * like : 3
+         * like : 6
          * change_like : 2
-         * type : 1
+         * type : 0
          * sort : 1
-         * is_like : 0
+         * is_like : 1
          */
 
         private int catalogue_id;

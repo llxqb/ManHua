@@ -1,7 +1,7 @@
 package com.shushan.manhua.mvp.ui.fragment.selection;
 
 
-import com.shushan.manhua.entity.request.CommentSuggestRequest;
+import com.shushan.manhua.entity.request.SupportRequest;
 import com.shushan.manhua.entity.request.SelectionRequest;
 import com.shushan.manhua.entity.response.SelectionResponse;
 import com.shushan.manhua.mvp.presenter.LoadDataView;
@@ -28,7 +28,7 @@ public class SelectionFragmentControl {
         /**
          * 评论点赞
          */
-        void onCommentSuggestRequest(CommentSuggestRequest commentSuggestRequest);
+        void onCommentSuggestRequest(SupportRequest commentSuggestRequest);
 
     }
 

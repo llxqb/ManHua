@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.shushan.manhua.R;
 import com.shushan.manhua.entity.request.BookDetailRequest;
-import com.shushan.manhua.entity.request.CommentSuggestRequest;
+import com.shushan.manhua.entity.request.SupportRequest;
 import com.shushan.manhua.entity.response.BookDetailInfoResponse;
 import com.shushan.manhua.help.RetryWithDelay;
 import com.shushan.manhua.mvp.model.BookModel;
@@ -64,9 +64,9 @@ public class BookDetailFragmentPresenterImpl implements BookDetailFragmentContro
      * 评论点赞
      */
     @Override
-    public void onCommentSuggestRequest(CommentSuggestRequest commentSuggestRequest) {
+    public void onCommentSuggestRequest(SupportRequest commentSuggestRequest) {
         mBookDetailView.showLoading(mContext.getResources().getString(R.string.loading));
-        Disposable disposable = mBookModel.onCommentSuggestRequest(commentSuggestRequest).compose(mBookDetailView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
+        Disposable disposable = mBookModel.onSupportRequest(commentSuggestRequest).compose(mBookDetailView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
                 .subscribe(this::commentSuggestSuccess, throwable -> mBookDetailView.showErrMessage(throwable),
                         () -> mBookDetailView.dismissLoading());
         mBookDetailView.addSubscription(disposable);

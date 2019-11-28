@@ -21,11 +21,11 @@ import java.util.List;
 /**
  * 书籍选集adapter
  */
-public class SelectionAdapter extends BaseQuickAdapter<SelectionResponse.DataBean, BaseViewHolder> {
+public class SelectionAdapter extends BaseQuickAdapter<SelectionResponse.AnthologyBean, BaseViewHolder> {
 
     private ImageLoaderHelper mImageLoaderHelper;
 
-    public SelectionAdapter(@Nullable List<SelectionResponse.DataBean> data, ImageLoaderHelper imageLoaderHelper) {
+    public SelectionAdapter(@Nullable List<SelectionResponse.AnthologyBean> data, ImageLoaderHelper imageLoaderHelper) {
         super(R.layout.item_selection, data);
         mImageLoaderHelper = imageLoaderHelper;
     }
@@ -47,7 +47,7 @@ public class SelectionAdapter extends BaseQuickAdapter<SelectionResponse.DataBea
 
 
     @Override
-    protected void convert(BaseViewHolder helper, SelectionResponse.DataBean item) {
+    protected void convert(BaseViewHolder helper, SelectionResponse.AnthologyBean item) {
         helper.addOnClickListener(R.id.support_tv);
         ImageView coverIv = helper.getView(R.id.cover_iv);
         mImageLoaderHelper.displayImage(mContext, item.getCatalogue_cover(), coverIv, Constant.LOADING_DEFAULT_2);

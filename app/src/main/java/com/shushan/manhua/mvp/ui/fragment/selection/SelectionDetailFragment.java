@@ -19,7 +19,7 @@ import com.shushan.manhua.di.components.DaggerSelectionFragmentComponent;
 import com.shushan.manhua.di.modules.BookDetailModule;
 import com.shushan.manhua.di.modules.SelectionFragmentModule;
 import com.shushan.manhua.entity.constants.Constant;
-import com.shushan.manhua.entity.request.CommentSuggestRequest;
+import com.shushan.manhua.entity.request.SupportRequest;
 import com.shushan.manhua.entity.request.SelectionRequest;
 import com.shushan.manhua.entity.response.SelectionResponse;
 import com.shushan.manhua.entity.user.User;
@@ -57,12 +57,12 @@ public class SelectionDetailFragment extends BaseFragment implements SelectionFr
     Unbinder unbinder;
     private User mUser;
     private SelectionAdapter mSelectionAdapter;
-    private List<SelectionResponse.DataBean> selectionResponseList = new ArrayList<>();
+    private List<SelectionResponse.AnthologyBean> selectionResponseList = new ArrayList<>();
     private String mBookId;
     private int page = 1;
     private int sort = 0;//sort 0: 正序  1 ：逆序
     private SelectionResponse mSelectionResponse;
-    private SelectionResponse.DataBean dataBean;
+    private SelectionResponse.AnthologyBean dataBean;
     private int clickPos;
 
 
@@ -100,7 +100,7 @@ public class SelectionDetailFragment extends BaseFragment implements SelectionFr
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mSelectionAdapter);
         mSelectionAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-            dataBean = (SelectionResponse.DataBean) adapter.getItem(position);
+            dataBean = (SelectionResponse.AnthologyBean) adapter.getItem(position);
             clickPos = position;
             if (view.getId() == R.id.support_tv) {
                 onCommentSuggestRequest();
@@ -141,7 +141,7 @@ public class SelectionDetailFragment extends BaseFragment implements SelectionFr
      */
     private void initSortList() {
         if (mSelectionResponse != null) {
-            Comparator<SelectionResponse.DataBean> comparator = (dataBean1, dataBean2) -> {
+            Comparator<SelectionResponse.AnthologyBean> comparator = (dataBean1, dataBean2) -> {
                 // 按getRecommend从大到小排序
                 if (sort == 1) {
                     return dataBean2.getCatalogue_id() - dataBean1.getCatalogue_id();
@@ -150,8 +150,8 @@ public class SelectionDetailFragment extends BaseFragment implements SelectionFr
                 }
             };
             //这里就会自动根据规则进行排序
-            Collections.sort(mSelectionResponse.getData(), comparator);
-            mSelectionAdapter.setNewData(mSelectionResponse.getData());
+            Collections.sort(mSelectionResponse.getAnthology(), comparator);
+            mSelectionAdapter.setNewData(mSelectionResponse.getAnthology());
         }
     }
 
@@ -178,7 +178,7 @@ public class SelectionDetailFragment extends BaseFragment implements SelectionFr
      * 评论点赞
      */
     private void onCommentSuggestRequest() {
-        CommentSuggestRequest commentSuggestRequest = new CommentSuggestRequest();
+        SupportRequest commentSuggestRequest = new SupportRequest();
         commentSuggestRequest.token = mBuProcessor.getToken();
         commentSuggestRequest.type = "2";
         commentSuggestRequest.relation_id = String.valueOf(dataBean.getCatalogue_id());

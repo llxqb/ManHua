@@ -3,7 +3,7 @@ package com.shushan.manhua.mvp.ui.fragment.moreComment;
 
 import com.shushan.manhua.entity.CommentListBean;
 import com.shushan.manhua.entity.request.CommentRequest;
-import com.shushan.manhua.entity.request.CommentSuggestRequest;
+import com.shushan.manhua.entity.request.SupportRequest;
 import com.shushan.manhua.entity.request.PublishCommentRequest;
 import com.shushan.manhua.entity.request.UploadImage;
 import com.shushan.manhua.mvp.presenter.LoadDataView;
@@ -21,7 +21,7 @@ public class HotCommentFragmentControl {
 
         void getPublishCommentSuccess();
 
-        void getSuggestSuccess();
+        void getSupportSuccess();
     }
 
     public interface HotCommentFragmentPresenter extends Presenter<HotCommentView> {
@@ -41,7 +41,7 @@ public class HotCommentFragmentControl {
         /**
          * 评论点赞
          */
-        void onCommentSuggestRequest(CommentSuggestRequest commentSuggestRequest);
+        void onSupportRequest(SupportRequest supportRequest);
 
     }
 

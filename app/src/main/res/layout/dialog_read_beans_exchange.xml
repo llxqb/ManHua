@@ -7,8 +7,8 @@
 
 
     <RelativeLayout
-        android:layout_width="@dimen/dp_252"
-        android:layout_height="@dimen/dp_210"
+        android:layout_width="@dimen/dp_260"
+        android:layout_height="@dimen/dp_220"
         android:layout_centerInParent="true"
         android:background="@drawable/bg_white_round_solid_5">
 
@@ -26,9 +26,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginStart="@dimen/dp_10"
-            android:layout_marginTop="@dimen/dp_20"
-            android:layout_marginEnd="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_26"
+            android:gravity="center"
             android:text="@string/ReadBeansExchangeDialog_title"
             android:textColor="#00D08D"
             android:textSize="@dimen/sp_18" />
@@ -40,6 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/title_tv"
             android:layout_centerHorizontal="true"
+            android:gravity="center"
             android:layout_marginStart="@dimen/dp_10"
             android:layout_marginTop="@dimen/dp_14"
             android:layout_marginEnd="@dimen/dp_10"

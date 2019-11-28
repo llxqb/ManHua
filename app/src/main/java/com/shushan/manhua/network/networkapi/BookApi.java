@@ -35,10 +35,10 @@ public interface BookApi {
     Observable<String> onRequestBookShelfInfo(@Body String request);
 
     /**
-     * 查询书籍详情
+     * 点赞
      */
     @POST("cartoon/comment/like")
-    Observable<String> onCommentSuggestRequest(@Body String request);
+    Observable<String> onSupportRequest(@Body String request);
 
 
     /**

@@ -2,7 +2,7 @@ package com.shushan.manhua.mvp.ui.fragment.bookDetail;
 
 
 import com.shushan.manhua.entity.request.BookDetailRequest;
-import com.shushan.manhua.entity.request.CommentSuggestRequest;
+import com.shushan.manhua.entity.request.SupportRequest;
 import com.shushan.manhua.entity.response.BookDetailInfoResponse;
 import com.shushan.manhua.mvp.presenter.LoadDataView;
 import com.shushan.manhua.mvp.presenter.Presenter;
@@ -29,7 +29,7 @@ public class BookDetailFragmentControl {
         /**
          * 评论点赞
          */
-        void onCommentSuggestRequest(CommentSuggestRequest commentSuggestRequest);
+        void onCommentSuggestRequest(SupportRequest commentSuggestRequest);
 
     }
 

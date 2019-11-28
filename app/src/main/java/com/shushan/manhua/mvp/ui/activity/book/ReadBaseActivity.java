@@ -3,6 +3,7 @@ package com.shushan.manhua.mvp.ui.activity.book;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,14 +25,18 @@ import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerReadComponent;
 import com.shushan.manhua.di.modules.ActivityModule;
 import com.shushan.manhua.di.modules.ReadModule;
+import com.shushan.manhua.entity.BannerBean;
 import com.shushan.manhua.entity.CommentBean;
 import com.shushan.manhua.entity.RecommendBean;
+import com.shushan.manhua.entity.request.AddBookShelfRequest;
+import com.shushan.manhua.entity.request.SupportRequest;
 import com.shushan.manhua.entity.response.BarrageStyleResponse;
-import com.shushan.manhua.entity.response.ChapterResponse;
+import com.shushan.manhua.entity.response.ReadingInfoResponse;
+import com.shushan.manhua.entity.response.SelectionResponse;
 import com.shushan.manhua.help.DialogFactory;
 import com.shushan.manhua.listener.SoftKeyBoardListener;
 import com.shushan.manhua.mvp.ui.activity.mine.BuyActivity;
-import com.shushan.manhua.mvp.ui.activity.setting.SettingActivity;
+import com.shushan.manhua.mvp.ui.adapter.BannerReadingViewHolder;
 import com.shushan.manhua.mvp.ui.adapter.ReadingCommentAdapter;
 import com.shushan.manhua.mvp.ui.adapter.ReadingPicAdapter;
 import com.shushan.manhua.mvp.ui.adapter.RecommendAdapter;
@@ -45,8 +50,11 @@ import com.shushan.manhua.mvp.ui.dialog.ReadContentsPopupWindow;
 import com.shushan.manhua.mvp.ui.dialog.ReadOpenVipDialog;
 import com.shushan.manhua.mvp.ui.dialog.ReadSettingPopupWindow;
 import com.shushan.manhua.mvp.ui.dialog.ReadUseCoinDialog;
+import com.shushan.manhua.mvp.utils.LogUtils;
 import com.shushan.manhua.mvp.utils.SoftKeyboardUtil;
+import com.shushan.manhua.mvp.utils.SystemUtils;
 import com.zhouwei.mzbanner.MZBannerView;
+import com.zhouwei.mzbanner.holder.MZHolderCreator;
 
 import org.devio.takephoto.app.TakePhoto;
 import org.devio.takephoto.app.TakePhotoImpl;
@@ -103,8 +111,8 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     TextView mCommentNumTv;
     @BindView(R.id.pic_recycler_view)
     RecyclerView mPicRecyclerView;
-    //    @BindView(R.id.resizableImageView)
-//    ResizableImageView mResizableImageView;
+    @BindView(R.id.support_tv)
+    TextView mSupportTv;
     @BindView(R.id.add_bookshelf_iv)
     ImageView mAddBookshelfIv;
     @BindView(R.id.back_top_iv)
@@ -118,9 +126,10 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     @BindView(R.id.comment_recycler_view)
     RecyclerView mCommentRecyclerView;
     boolean mBarrage;//是否弹幕
+    List<BannerBean> bannerList = new ArrayList<>();
     private List<RecommendBean> readingRecommendResponseList = new ArrayList<>();//推荐list
     private List<CommentBean> readingCommendResponseList = new ArrayList<>();//评论
-    private List<ChapterResponse> chapterResponseList = new ArrayList<>();//章节list
+    public List<SelectionResponse.AnthologyBean> chapterResponseList = new ArrayList<>();//章节list
     private List<BarrageStyleResponse> barrageStyleResponseList = new ArrayList<>();//弹幕样式list
     private List<String> bookPicList = new ArrayList<>();//漫画章节图片
     private Integer[] barrageStyleIcon = {R.mipmap.barrage0, R.mipmap.barrage1, R.mipmap.barrage2, R.mipmap.barrage3, R.mipmap.barrage4, R.mipmap.barrage5};
@@ -140,10 +149,14 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     private int mBarrageStyle = 0;
     private boolean isShowBackTopIv = false;//是否显示返回顶部图片按钮
     public String mBookId;
-    public int mCatalogueId;//章节id
+    public int mCatalogueId;// 当前章节id
     public ReadingPicAdapter mReadingPicAdapter;//章节图片adapter
     public ReadingCommentAdapter mReadingCommentAdapter;//评价adapter
     public RecommendAdapter mRecommendAdapter;//推荐adapter
+    public ReadingInfoResponse mReadingInfoResponse;
+    public int page = 1;
+    private int picRvHeight;//图片recyclerView一页高度
+    private int currentHeight = 0;//当前高度
 
     public static void start(Context context, String bookId, int catalogueId) {
         Intent intent = new Intent(context, ReadActivity.class);
@@ -182,13 +195,13 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
         } else {
             mBarrageIv.setImageResource(R.mipmap.barrage_close);
         }
-        initScrollView();
         onKeyBoardListener();
         initAdapter();
+        initScrollView();
     }
 
     private void initAdapter() {
-        mRecommendAdapter = new RecommendAdapter(readingRecommendResponseList,mImageLoaderHelper);
+        mRecommendAdapter = new RecommendAdapter(readingRecommendResponseList, mImageLoaderHelper);
         mRecommendRecyclerView.setAdapter(mRecommendAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -205,8 +218,16 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
         });
         //图片adapter
         mReadingPicAdapter = new ReadingPicAdapter(bookPicList, mImageLoaderHelper);
-        mPicRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mPicRecyclerView.setLayoutManager(new LinearLayoutManager(this) {
+            @Override
+            public void onMeasure(RecyclerView.Recycler recycler, RecyclerView.State state, int widthSpec, int heightSpec) {
+                super.onMeasure(recycler, state, widthSpec, heightSpec);
+                picRvHeight = mPicRecyclerView.getHeight();
+//                LogUtils.e("picRvHeight:" + picRvHeight);
+            }
+        });
         mPicRecyclerView.setAdapter(mReadingPicAdapter);
+
         mReadingPicAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             SoftKeyboardUtil.hideSoftKeyboard(ReadBaseActivity.this);
             showFunction();
@@ -214,10 +235,56 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     }
 
 
+    float yDown = 0;
+    float yUp = 0;
+
+//    @Override
+//    public boolean dispatchTouchEvent(MotionEvent event) {
+//        //mViewWidth 是整个屏幕的宽度
+//        int mViewWidth = SystemUtils.getScreenWidth(ReadBaseActivity.this);
+//        int mViewHeight = SystemUtils.getScreenHeight(ReadBaseActivity.this);
+//        //就是在屏幕的一半+100和-100之间的宽度 同理高度
+//        boolean isCenterOfX = event.getX() < mViewWidth / 2 + 150
+//                && event.getX() > mViewWidth / 2 - 150;
+//        boolean isCenterOfY = event.getY() < mViewHeight / 2 + 150
+//                && event.getY() > mViewHeight / 2 - 150;
+//        boolean top = event.getY() < mViewHeight / 2 - 150;
+//        boolean bottom = event.getY() > mViewHeight / 2 + 150;
+//        boolean center = isCenterOfX && isCenterOfY;
+//        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+//            yDown = event.getY();
+//        } else if (event.getAction() == MotionEvent.ACTION_UP) {
+//            yUp = event.getY();
+//            //判断是点击还是滑动
+//            if ((yUp - yDown) <= 20 && (yUp - yDown) >= -20) { //点击
+//                //如果点击的位置是在这个方形之间
+//                //必须要点击之后手指离开才进行监听
+//                if (top) {
+//                    SoftKeyboardUtil.hideSoftKeyboard(ReadBaseActivity.this);
+//                    hideFunction();
+//                    upPageBtn();
+//                } else if (center) {
+//                    SoftKeyboardUtil.hideSoftKeyboard(ReadBaseActivity.this);
+//                    showFunction();
+//                } else if (bottom) {
+//                    SoftKeyboardUtil.hideSoftKeyboard(ReadBaseActivity.this);
+//                    hideFunction();
+//                    downPageBtn();
+//                }
+//                return true;
+//            }
+//        }
+//
+////        this.getParent().requestDisallowInterceptTouchEvent(true);
+//        return super.dispatchTouchEvent(event);
+////        return super.onTouchEvent(event);
+//    }
+
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void initScrollView() {
         mNestedScrollView.setOnScrollChangeListener((View.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            currentHeight = scrollY;
             isShowBackTopIv = scrollY > mPicRecyclerView.getHeight() * 4 / 5;//大于图片的4/5 显示返回顶部按钮
             //mNestedScrollView.getChildAt(0).getMeasuredHeight()- mNestedScrollView.getMeasuredHeight()
             if (scrollY >= mPicRecyclerView.getHeight()) {//设置隐藏功能键
@@ -235,11 +302,6 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     public void initData() {
         mCommonRightTv.setVisibility(View.VISIBLE);
         mCommonRightTv.setText(getResources().getString(R.string.ReadActivity_right_title));
-        for (int i = 0; i < 20; i++) {
-            ChapterResponse chapterResponse = new ChapterResponse();
-            chapterResponse.title = "title" + i;
-            chapterResponseList.add(chapterResponse);
-        }
         for (int i = 0; i < barrageStyleIcon.length; i++) {
             BarrageStyleResponse barrageStyleResponse = new BarrageStyleResponse();
             if (i == 0) {
@@ -341,21 +403,15 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     }
 
 
-    @OnClick({R.id.common_left_iv, R.id.common_right_tv, R.id.send_tv, R.id.bottom_directory_ll, R.id.last_chapter_iv, R.id.next_chapter_iv, R.id.barrage_ll, R.id.send_message_left_iv, R.id.send_message_right_iv,
+    @OnClick({R.id.common_left_iv, R.id.common_right_tv, R.id.bottom_directory_ll, R.id.last_chapter_iv, R.id.next_chapter_iv, R.id.barrage_ll, R.id.send_message_left_iv, R.id.send_message_right_iv,
             R.id.support_tv, R.id.add_bookshelf_tv, R.id.share_tv, R.id.last_chapter_ll, R.id.next_chapter_ll, R.id.bottom_comment_ll, R.id.bottom_share_ll, R.id.bottom_setting_ll, R.id.back_top_iv, R.id.add_bookshelf_iv})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.common_left_iv:
                 finish();
                 break;
-            case R.id.common_right_tv: //全集
-                break;
-//            case R.id.resizableImageView: //点击图片
-//                SoftKeyboardUtil.hideSoftKeyboard(this);
-//                showFunction();
-//                break;
-            case R.id.send_tv: //发送
-
+            case R.id.common_right_tv: //全集    跳到详情
+                BookDetailActivity.start(this, mBookId);
                 break;
             case R.id.barrage_ll://设置弹幕
                 mBarrage = mSharePreferenceUtil.getBooleanData("barrage");
@@ -374,8 +430,14 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
                 showBarrageStyle();
                 break;
             case R.id.support_tv://点赞
+                onRequestSupport();
                 break;
             case R.id.add_bookshelf_tv://加入书架
+                if (mReadingInfoResponse.getCatalogue().getState() == 1) {
+                    showToast("telah masuk rak buku");//已加入书架
+                } else {
+                    onAddBookShelfRequest();
+                }
                 break;
             case R.id.share_tv://分享
                 break;
@@ -390,10 +452,11 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
 
                 break;
             case R.id.bottom_directory_ll: //目录
-                new ReadContentsPopupWindow(this, chapterResponseList).initPopWindow(mReadLayout);
+                if (!chapterResponseList.isEmpty()) {
+                    new ReadContentsPopupWindow(this, chapterResponseList).initPopWindow(mReadLayout);
+                }
                 break;
             case R.id.bottom_comment_ll://评论
-
                 break;
             case R.id.bottom_share_ll://分享
                 break;
@@ -411,10 +474,36 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
                 }));
                 break;
             case R.id.add_bookshelf_iv://加入书架
-                showToast("加入书架");
+                if (mReadingInfoResponse.getCatalogue().getState() == 1) {
+                    showToast("telah masuk rak buku");//已加入书架
+                } else {
+                    onAddBookShelfRequest();
+                }
                 break;
         }
     }
+
+    /**
+     * 点赞
+     */
+    private void onRequestSupport() {
+        SupportRequest commentSuggestRequest = new SupportRequest();
+        commentSuggestRequest.token = mBuProcessor.getToken();
+        commentSuggestRequest.relation_id = String.valueOf(mCatalogueId);
+        commentSuggestRequest.type = "2";
+        mPresenter.onSupportRequest(commentSuggestRequest);
+    }
+
+    /**
+     * 加入书架
+     */
+    private void onAddBookShelfRequest() {
+        AddBookShelfRequest addBookShelfRequest = new AddBookShelfRequest();
+        addBookShelfRequest.token = mBuProcessor.getToken();
+        addBookShelfRequest.book_id = mBookId;
+        mPresenter.onAddBookShelfRequest(addBookShelfRequest);
+    }
+
 
     /**
      * 去充值弹框  去充值
@@ -440,6 +529,29 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     public void readOpenVipDialogBtnOkListener() {
 
     }
+
+    /**
+     * 屏幕向上点击
+     */
+    private void upPageBtn() {
+        currentHeight = currentHeight - SystemUtils.getScreenHeight(this) * 3 / 4;
+        LogUtils.e("currentHeight:" + currentHeight + " picRvHeight:" + picRvHeight);
+        if (currentHeight < picRvHeight && currentHeight > 0) {
+            mNestedScrollView.smoothScrollTo(0, currentHeight);
+        }
+    }
+
+    /**
+     * 屏幕向下点击
+     */
+    private void downPageBtn() {
+        currentHeight = currentHeight + SystemUtils.getScreenHeight(this) * 3 / 4;
+//        LogUtils.e("currentHeight:" + currentHeight + " picRvHeight:" + picRvHeight);
+        if (currentHeight < picRvHeight) {
+            mNestedScrollView.smoothScrollTo(0, currentHeight);
+        }
+    }
+
 
     /**
      * 点击翻页开关
@@ -476,7 +588,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
      */
     @Override
     public void clickMoreBtnListener() {
-        startActivitys(SettingActivity.class);
+        startActivitys(BarrageSettingActivity.class);
     }
 
 
@@ -610,7 +722,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     }
 
     /**
-     * 点击图片显示功能按钮
+     * 点击图片自动显示或隐藏功能按钮
      */
     private void showFunction() {
         if (mReadBottomLl.getVisibility() == View.VISIBLE) {
@@ -628,6 +740,45 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
                 mBackTopIv.setVisibility(View.VISIBLE);
             }
         }
+    }
+
+    /**
+     * 点击图片隐藏功能按钮
+     */
+    private void hideFunction() {
+        mSendMessageLl.setVisibility(View.INVISIBLE);
+        mReadBottomLl.setVisibility(View.INVISIBLE);
+        mBarrageLl.setVisibility(View.INVISIBLE);
+        mAddBookshelfIv.setVisibility(View.INVISIBLE);
+        mBackTopIv.setVisibility(View.INVISIBLE);
+    }
+
+
+    public void initBanner() {
+        // 设置数据
+        mBanner.setDelayedTime(4000);//切换时间
+        mBanner.setPages(bannerList, (MZHolderCreator<BannerReadingViewHolder>) () -> new BannerReadingViewHolder(mImageLoaderHelper));
+    }
+
+
+    /**
+     * 设置未点赞状态
+     */
+    public void setNoSupportState() {
+        mSupportTv.setTextColor(getResources().getColor(R.color.color_30));
+        Drawable drawable = getResources().getDrawable(R.mipmap.cartoon_chapter_praise_black);
+        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+        mSupportTv.setCompoundDrawables(null, drawable, null, null);
+    }
+
+    /**
+     * 设置点赞状态
+     */
+    public void setSupportState() {
+        mSupportTv.setTextColor(getResources().getColor(R.color.buy_check_color));
+        Drawable drawable = getResources().getDrawable(R.mipmap.cartoon_chapter_praise);
+        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+        mSupportTv.setCompoundDrawables(null, drawable, null, null);
     }
 
 

@@ -20,7 +20,7 @@ import com.shushan.manhua.di.modules.BookDetailFragmentModule;
 import com.shushan.manhua.di.modules.BookDetailModule;
 import com.shushan.manhua.entity.CommentBean;
 import com.shushan.manhua.entity.request.BookDetailRequest;
-import com.shushan.manhua.entity.request.CommentSuggestRequest;
+import com.shushan.manhua.entity.request.SupportRequest;
 import com.shushan.manhua.entity.response.BookDetailInfoResponse;
 import com.shushan.manhua.entity.user.User;
 import com.shushan.manhua.mvp.ui.activity.book.MoreCommentActivity;
@@ -175,7 +175,7 @@ public class BookDetailFragment extends BaseFragment implements BookDetailFragme
      * 评论点赞
      */
     private void onCommentSuggestRequest() {
-        CommentSuggestRequest commentSuggestRequest = new CommentSuggestRequest();
+        SupportRequest commentSuggestRequest = new SupportRequest();
         commentSuggestRequest.token = mBuProcessor.getToken();
         commentSuggestRequest.relation_id = String.valueOf(commentBean.getComment_id());
         commentSuggestRequest.type = "3";

@@ -6,7 +6,7 @@ import com.google.gson.Gson;
 import com.shushan.manhua.R;
 import com.shushan.manhua.entity.CommentListBean;
 import com.shushan.manhua.entity.request.CommentRequest;
-import com.shushan.manhua.entity.request.CommentSuggestRequest;
+import com.shushan.manhua.entity.request.SupportRequest;
 import com.shushan.manhua.entity.request.PublishCommentRequest;
 import com.shushan.manhua.entity.request.UploadImage;
 import com.shushan.manhua.help.RetryWithDelay;
@@ -118,9 +118,9 @@ public class LatestCommentFragmentPresenterImpl implements LatestCommentFragment
      * 评论点赞
      */
     @Override
-    public void onCommentSuggestRequest(CommentSuggestRequest commentSuggestRequest) {
+    public void onCommentSuggestRequest(SupportRequest commentSuggestRequest) {
         mLatestCommentView.showLoading(mContext.getResources().getString(R.string.loading));
-        Disposable disposable = mBookModel.onCommentSuggestRequest(commentSuggestRequest).compose(mLatestCommentView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
+        Disposable disposable = mBookModel.onSupportRequest(commentSuggestRequest).compose(mLatestCommentView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
                 .subscribe(this::commentSuggestSuccess, throwable -> mLatestCommentView.showErrMessage(throwable),
                         () -> mLatestCommentView.dismissLoading());
         mLatestCommentView.addSubscription(disposable);

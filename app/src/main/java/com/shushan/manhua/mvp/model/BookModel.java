@@ -5,7 +5,7 @@ import com.shushan.manhua.entity.request.AddBookShelfRequest;
 import com.shushan.manhua.entity.request.BookDetailRequest;
 import com.shushan.manhua.entity.request.BookShelfInfoRequest;
 import com.shushan.manhua.entity.request.CommentRequest;
-import com.shushan.manhua.entity.request.CommentSuggestRequest;
+import com.shushan.manhua.entity.request.SupportRequest;
 import com.shushan.manhua.entity.request.DeleteBookShelfRequest;
 import com.shushan.manhua.entity.request.PublishCommentRequest;
 import com.shushan.manhua.entity.request.ReadingRequest;
@@ -65,8 +65,8 @@ public class BookModel {
     /**
      * 评论点赞
      */
-    public Observable<ResponseData> onCommentSuggestRequest(CommentSuggestRequest request) {
-        return mBookApi.onCommentSuggestRequest(mGson.toJson(request)).map(mTransform::transformCommon);
+    public Observable<ResponseData> onSupportRequest(SupportRequest request) {
+        return mBookApi.onSupportRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 
     /**
@@ -94,7 +94,7 @@ public class BookModel {
      * 请求漫画选集信息
      */
     public Observable<ResponseData> onRequestSelectionInfo(SelectionRequest request) {
-        return mBookApi.onRequestSelectionInfo(mGson.toJson(request)).map(mTransform::transformListType);
+        return mBookApi.onRequestSelectionInfo(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 
     /**

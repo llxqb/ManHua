@@ -1,6 +1,6 @@
 package com.shushan.manhua.entity.request;
 
-public class CommentSuggestRequest {
+public class SupportRequest {
     public String token;
     /**
      * id=1书本 id2章节 id3书本主评论 id4章节评论 id5评论的评论id

@@ -23,24 +23,11 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <RelativeLayout
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/pic_recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/pic_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </RelativeLayout>
-
-
-            <!--<com.shushan.manhua.mvp.views.ResizableImageView-->
-            <!--android:id="@+id/resizableImageView"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:scaleType="centerCrop"-->
-            <!--android:src="@mipmap/introduction"-->
-            <!--/>-->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -57,6 +44,7 @@
                     android:drawableTop="@mipmap/cartoon_chapter_praise_black"
                     android:drawablePadding="@dimen/dp_5"
                     android:gravity="center"
+                    android:textColor="@color/color_30"
                     android:text="@string/ReadActivity_support" />
 
                 <TextView

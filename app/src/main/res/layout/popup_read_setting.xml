@@ -135,7 +135,7 @@
         android:layout_marginTop="@dimen/dp_20"
         android:layout_marginBottom="@dimen/dp_18"
         android:drawableStart="@mipmap/barrage_more_settings"
-        android:drawablePadding="@dimen/dp_4"
+        android:drawablePadding="@dimen/dp_6"
         android:padding="@dimen/dp_10"
         android:text="@string/ReadSettingPopupWindow_more"
         app:layout_constraintBottom_toBottomOf="parent"

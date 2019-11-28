@@ -33,12 +33,17 @@ public class Constant {
     public static final int FACEBOOK_LOGIN = 64206;
 
 
-    public static final String CHANNEL = "channel";
-    public static final String BOOK_TYPE = "book_type";
-
     public static final int PAGESIZE = 10;
 
     //recyclerView item 中某一/某些控件刷新
     public static final String ITEM_UPDATE = "itemUpdate";
+
+    //sp保存的字段
+    public static final String CHANNEL = "channel";
+    public static final String BOOK_TYPE = "book_type";
+    public static final String IS_BARRAGE = "barrage";//是否弹幕开关
+    public static final String IS_TURN_PAGE = "turn_page";//是否点击上下翻页
+    public static final String IS_NIGHT_MODEL = "night_model";//是否夜间模式开关
+
 
 }

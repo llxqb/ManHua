@@ -30,7 +30,7 @@ import com.shushan.manhua.entity.CommentListBean;
 import com.shushan.manhua.entity.constants.ActivityConstant;
 import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.entity.request.CommentRequest;
-import com.shushan.manhua.entity.request.CommentSuggestRequest;
+import com.shushan.manhua.entity.request.SupportRequest;
 import com.shushan.manhua.entity.request.PublishCommentRequest;
 import com.shushan.manhua.entity.request.UploadImage;
 import com.shushan.manhua.mvp.ui.activity.book.CommentDetailsActivity;
@@ -260,7 +260,7 @@ public class LatestCommentFragment extends BaseFragment implements LatestComment
      * 评论点赞
      */
     private void onCommentSuggestRequest() {
-        CommentSuggestRequest commentSuggestRequest = new CommentSuggestRequest();
+        SupportRequest commentSuggestRequest = new SupportRequest();
         commentSuggestRequest.token = mBuProcessor.getToken();
         commentSuggestRequest.relation_id = String.valueOf(commentBean.getComment_id());
         commentSuggestRequest.type = "3";
