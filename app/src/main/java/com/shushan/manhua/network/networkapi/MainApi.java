@@ -15,11 +15,19 @@ public interface MainApi {
      */
     @POST("cartoon/book/bookType")
     Observable<String> onRequestManHuaType();
+
     /**
      * 请求漫画类型
      */
     @POST("cartoon/login/visitor")
     Observable<String> onLoginTouristModeRequest(@Body String request);
+
+    /**
+     * 设置阅读偏好
+     */
+    @POST("cartoon/user/readPreference")
+    Observable<String> onReadingSettingRequest(@Body String request);
+
     /**
      * 请求首页信息
      */
@@ -31,6 +39,7 @@ public interface MainApi {
      */
     @POST("cartoon/user/bookrack")
     Observable<String> onRequestBookShelfInfo(@Body String request);
+
     /**
      * 请求我的书架信息
      */

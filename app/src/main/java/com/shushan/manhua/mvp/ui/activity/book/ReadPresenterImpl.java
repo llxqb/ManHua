@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.shushan.manhua.R;
 import com.shushan.manhua.entity.request.AddBookShelfRequest;
+import com.shushan.manhua.entity.request.ReadRecordingRequest;
 import com.shushan.manhua.entity.request.ReadingRequest;
 import com.shushan.manhua.entity.request.SelectionRequest;
 import com.shushan.manhua.entity.request.SupportRequest;
@@ -138,7 +139,34 @@ public class ReadPresenterImpl implements ReadControl.PresenterRead {
             mReadView.showToast(responseData.errorMsg);
         }
     }
-    
+    /**
+     * 上传阅读记录
+     */
+    @Override
+    public void onRequestReadRecording(ReadRecordingRequest readRecordingRequest) {
+        mReadView.showLoading(mContext.getResources().getString(R.string.loading));
+        Disposable disposable = mBookModel.onRequestReadRecording(readRecordingRequest).compose(mReadView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
+                .subscribe(this::requestReadRecordingSuccess, throwable -> mReadView.showErrMessage(throwable),
+                        () -> mReadView.dismissLoading());
+        mReadView.addSubscription(disposable);
+    }
+
+    /**
+     * 上传阅读记录 成功
+     */
+    private void requestReadRecordingSuccess(ResponseData responseData) {
+        mReadView.judgeToken(responseData.resultCode);
+        if (responseData.resultCode == 0) {
+//            responseData.parseData(SelectionResponse.class);
+//            if (responseData.parsedData != null) {
+//                SelectionResponse response = (SelectionResponse) responseData.parsedData;
+//                mReadView.getSelectionInfoSuccess(response);
+//            }
+        } else {
+            mReadView.showToast(responseData.errorMsg);
+        }
+    }
+
     
     @Override
     public void onCreate() {

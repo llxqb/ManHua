@@ -2,6 +2,7 @@ package com.shushan.manhua.mvp.model;
 
 
 import com.google.gson.Gson;
+import com.shushan.manhua.entity.request.ReadingSettingRequest;
 import com.shushan.manhua.network.networkapi.MineApi;
 
 import javax.inject.Inject;
@@ -25,12 +26,18 @@ public class MineModel {
         mTransform = transform;
     }
 
-//    /**
-//     * 更新用户个人信息
-//     */
-//    public Observable<ResponseData> onRequestUploadPersonalInfo(UploadPersonalInfoRequest request) {
-//        return mMineApi.onRequestUploadPersonalInfo(new Gson().toJson(request)).map(mTransform::transformCommon);
-//    }
+    /**
+     * 请求漫画类型
+     */
+    public Observable<ResponseData> onRequestManHuaType() {
+        return mMineApi.onRequestManHuaType().map(mTransform::transformListType);
+    }
 
+    /**
+     * 设置阅读偏好
+     */
+    public Observable<ResponseData> onReadingSettingRequest(ReadingSettingRequest request) {
+        return mMineApi.onReadingSettingRequest(new Gson().toJson(request)).map(mTransform::transformCommon);
+    }
 
 }

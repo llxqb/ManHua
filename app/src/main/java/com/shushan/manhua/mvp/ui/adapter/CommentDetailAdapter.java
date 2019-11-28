@@ -12,14 +12,15 @@ import java.util.List;
 /**
  * 阅读页面评论adapter
  */
-public class CommentDetailAdapter extends BaseQuickAdapter<CommentDetailResponse, BaseViewHolder> {
+public class CommentDetailAdapter extends BaseQuickAdapter<CommentDetailResponse.ReviewBean, BaseViewHolder> {
 
-    public CommentDetailAdapter(@Nullable List<CommentDetailResponse> data) {
+    public CommentDetailAdapter(@Nullable List<CommentDetailResponse.ReviewBean> data) {
         super(R.layout.item_recomment_detail, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, CommentDetailResponse item) {
+    protected void convert(BaseViewHolder helper, CommentDetailResponse.ReviewBean item) {
         helper.addOnClickListener(R.id.comment_iv).addOnClickListener(R.id.item_recommend_layout);
+
     }
 }

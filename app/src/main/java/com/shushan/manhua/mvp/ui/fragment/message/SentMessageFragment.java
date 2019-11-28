@@ -17,7 +17,8 @@ import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerSentMessageFragmentComponent;
 import com.shushan.manhua.di.modules.MessageModule;
 import com.shushan.manhua.di.modules.SentMessageFragmentModule;
-import com.shushan.manhua.entity.response.SentMessageResponse;
+import com.shushan.manhua.entity.request.MessageRequest;
+import com.shushan.manhua.entity.response.MessageResponse;
 import com.shushan.manhua.mvp.ui.adapter.SentMessageAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseFragment;
 
@@ -43,7 +44,7 @@ public class SentMessageFragment extends BaseFragment implements SentMessageFrag
     RecyclerView mRecyclerView;
     Unbinder unbinder;
     private SentMessageAdapter mSentMessageAdapter;
-    private List<SentMessageResponse> sentMessageResponseList = new ArrayList<>();
+    private List<MessageResponse.DataBean> sentMessageResponseList = new ArrayList<>();
     private View mEmptyView;
 
     @Nullable
@@ -68,10 +69,7 @@ public class SentMessageFragment extends BaseFragment implements SentMessageFrag
 
     @Override
     public void initData() {
-        for (int i=0;i<8;i++){
-            SentMessageResponse sentMessageResponse = new SentMessageResponse();
-            sentMessageResponseList.add(sentMessageResponse);
-        }
+        onRequestMessageInfo();
         //  mSentMessageAdapter.setEmptyView(mEmptyView);
     }
 
@@ -81,6 +79,23 @@ public class SentMessageFragment extends BaseFragment implements SentMessageFrag
         TextView emptyTv = mEmptyView.findViewById(R.id.empty_tv);
         emptyIv.setImageResource(R.mipmap.default_page_information);
         emptyTv.setText(getResources().getString(R.string.MessageActivity_empty_tv));
+    }
+
+    private void onRequestMessageInfo() {
+        MessageRequest messageRequest = new MessageRequest();
+        messageRequest.token = mBuProcessor.getToken();
+        messageRequest.type = "1";
+        mPresenter.onRequestMessageInfo(messageRequest);
+    }
+
+
+    @Override
+    public void getMessageInfoSuccess(MessageResponse messageResponse) {
+        if (messageResponse.getData().isEmpty()) {
+            mSentMessageAdapter.setEmptyView(mEmptyView);
+        } else {
+            mSentMessageAdapter.setNewData(messageResponse.getData());
+        }
     }
 
 
@@ -97,4 +112,6 @@ public class SentMessageFragment extends BaseFragment implements SentMessageFrag
         super.onDestroyView();
         unbinder.unbind();
     }
+
+
 }

@@ -73,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_10"
             android:layout_marginTop="@dimen/dp_8"
-            android:src="@mipmap/book_icon"
+            android:src="@mipmap/default_graph_1"
             app:layout_constraintStart_toEndOf="@id/avatar_iv"
             app:layout_constraintTop_toBottomOf="@id/content_tv" />
 

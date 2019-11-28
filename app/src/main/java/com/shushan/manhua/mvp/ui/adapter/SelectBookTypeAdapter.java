@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.shushan.manhua.R;
+import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.entity.response.BookTypeResponse;
 import com.shushan.manhua.help.ImageLoaderHelper;
 
@@ -31,9 +32,8 @@ public class SelectBookTypeAdapter extends BaseQuickAdapter<BookTypeResponse.Dat
         } else {
             helper.setImageResource(R.id.check_iv, R.mipmap.gou_2);
         }
-
         ImageView imageView = helper.getView(R.id.cover_iv);
-        mImageLoaderHelper.displayImage(mContext, item.getType_cover(), imageView);
+        mImageLoaderHelper.displayImage(mContext, item.getType_cover(), imageView, Constant.LOADING_DEFAULT_1);
         helper.setText(R.id.type_name_tv, item.getType_name());
     }
 }

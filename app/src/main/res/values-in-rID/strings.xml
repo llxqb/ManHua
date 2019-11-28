@@ -219,8 +219,8 @@
     <string name="ReadingSettingActivity_male">Laki-laki</string>
 
 
-    <string name="BarrageStylePopupWindow_barrage_hint">来一条弹幕吧</string>
-    <string name="BarrageStylePopupWindow_comment_hint">来一条评论吧</string>
+    <string name="BarrageStylePopupWindow_barrage_hint">Lepaskan rentetan</string>
+    <string name="BarrageStylePopupWindow_comment_hint">Posting komentar</string>
 
     <string name="AddBarrageDialog_cancel">Batal</string>
     <string name="AddBarrageDialog_sure">Yakin</string>

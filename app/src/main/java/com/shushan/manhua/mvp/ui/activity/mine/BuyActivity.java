@@ -19,6 +19,8 @@ import com.shushan.manhua.mvp.utils.StatusBarUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -27,6 +29,8 @@ import butterknife.OnClick;
  */
 public class BuyActivity extends BaseActivity implements BuyControl.BuyView {
 
+    @Inject
+    BuyControl.PresenterBuy mPresenter;
     @BindView(R.id.beans_num_tv)
     TextView mBeansNumTv;
     @BindView(R.id.beans_num_hint_tv)

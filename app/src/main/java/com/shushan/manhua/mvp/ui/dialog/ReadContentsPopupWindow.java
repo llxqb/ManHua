@@ -13,10 +13,9 @@ import android.widget.TextView;
 
 import com.shushan.manhua.R;
 import com.shushan.manhua.entity.response.SelectionResponse;
+import com.shushan.manhua.help.ImageLoaderHelper;
 import com.shushan.manhua.mvp.ui.adapter.ReadingChapterAdapter;
 import com.shushan.manhua.mvp.utils.SystemUtils;
-
-import java.util.List;
 
 
 /**
@@ -26,12 +25,14 @@ public class ReadContentsPopupWindow {
     private Activity mContext;
     private ReadContentsPopupWindowListener mPopupWindowListener;
     private CustomPopWindow mCustomPopWindow;
-    private List<SelectionResponse.AnthologyBean> chapterResponseList;
+    private SelectionResponse mSelectionResponse;
+    private ImageLoaderHelper mImageLoaderHelper;
 
-    public ReadContentsPopupWindow(Activity context, List<SelectionResponse.AnthologyBean> chapterResponseList) {
+    public ReadContentsPopupWindow(Activity context, SelectionResponse selectionResponse, ImageLoaderHelper imageLoaderHelper) {
         mContext = context;
 //        mPopupWindowListener = popupWindowListener;
-        this.chapterResponseList = chapterResponseList;
+        this.mSelectionResponse = selectionResponse;
+        mImageLoaderHelper = imageLoaderHelper;
     }
 
     public void initPopWindow(View view) {
@@ -55,18 +56,20 @@ public class ReadContentsPopupWindow {
         ImageView preChapterIv = contentView.findViewById(R.id.pre_chapter_iv);
         ImageView nextChapterIv = contentView.findViewById(R.id.next_chapter_iv);
         TextView bookNumTv = contentView.findViewById(R.id.book_num_tv);
-        ReadingChapterAdapter readingChapterAdapter = new ReadingChapterAdapter(chapterResponseList);
+        ReadingChapterAdapter readingChapterAdapter = new ReadingChapterAdapter(mSelectionResponse.getAnthology(), mImageLoaderHelper);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(readingChapterAdapter);
 //        bookNumTv.setText("");
-
+//        Total 20 chapter,10 chapter belum dibaca
+        String totalValue = "Total " + mSelectionResponse.getWords() + " chapter," + mSelectionResponse.getResidue_words() + " chapter belum dibaca";
+        bookNumTv.setText(totalValue);
         mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 //正在拖动
-                smoothMoveToPosition(recyclerView, progress * chapterResponseList.size() / 100);
+                smoothMoveToPosition(recyclerView, progress * mSelectionResponse.getAnthology().size() / 100);
             }
 
             @Override
@@ -85,7 +88,7 @@ public class ReadContentsPopupWindow {
             mSeekBar.setProgress(0);
         });
         nextChapterIv.setOnClickListener(v -> {
-            smoothMoveToPosition(recyclerView, chapterResponseList.size());
+            smoothMoveToPosition(recyclerView, mSelectionResponse.getAnthology().size());
             mSeekBar.setProgress(100);
         });
 

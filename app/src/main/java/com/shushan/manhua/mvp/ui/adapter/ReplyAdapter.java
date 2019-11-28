@@ -26,6 +26,7 @@ public class ReplyAdapter extends BaseQuickAdapter<ReplyBean, BaseViewHolder> {
 
     @Override
     protected void convert(BaseViewHolder helper, ReplyBean item) {
+        helper.addOnClickListener(R.id.item_reply_layout);
         helper.setText(R.id.b_username_tv, item.user_B_name + ":");
         TextView replyHintTv = helper.getView(R.id.reply_hint_tv);
         TextView cUsernameTv = helper.getView(R.id.c_username_tv);

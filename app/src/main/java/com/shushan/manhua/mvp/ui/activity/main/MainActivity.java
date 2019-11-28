@@ -17,6 +17,7 @@ import com.shushan.manhua.di.modules.MainModule;
 import com.shushan.manhua.entity.constants.ActivityConstant;
 import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.entity.request.LoginTouristModeRequest;
+import com.shushan.manhua.entity.request.ReadingSettingRequest;
 import com.shushan.manhua.entity.response.BookTypeResponse;
 import com.shushan.manhua.entity.response.LoginTouristModeResponse;
 import com.shushan.manhua.entity.user.User;
@@ -174,7 +175,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     private void showSelectManHuaTypeDialog() {
         SelectManHuaTypeDialog selectManHuaTypeDialog = SelectManHuaTypeDialog.newInstance();
         selectManHuaTypeDialog.setData(mBookTypeResponse.getData());
-        selectManHuaTypeDialog.setListener(this, mImageLoaderHelper);
+        selectManHuaTypeDialog.setListener(this, mImageLoaderHelper,this);
         DialogFactory.showDialogFragment(this.getSupportFragmentManager(), selectManHuaTypeDialog, SelectManHuaTypeDialog.TAG);
     }
 
@@ -200,7 +201,20 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         User user = new User(userinfoBean.getToken(), userinfoBean.getName(), userinfoBean.getHead_portrait(), userinfoBean.getVip(), userinfoBean.getVip_end_time(), userinfoBean.getChannel(), new Gson().toJson(userinfoBean.getBook_type()));
         mBuProcessor.setLoginUser(user);
         initMainView();
+        onReadingSettingRequest();
     }
+
+    /**
+     * 设置阅读偏好
+     */
+    private void onReadingSettingRequest() {
+        ReadingSettingRequest readingSettingRequest = new ReadingSettingRequest();
+        readingSettingRequest.token = mBuProcessor.getToken();
+        readingSettingRequest.channel = mBuProcessor.getChannel();
+        readingSettingRequest.book_type = mBuProcessor.getbookType();
+        mPresenter.onReadingSettingRequest(readingSettingRequest);
+    }
+
 
     /**
      * 检查app 权限

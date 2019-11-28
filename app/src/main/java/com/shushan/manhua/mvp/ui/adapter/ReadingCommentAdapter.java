@@ -17,6 +17,8 @@ import com.shushan.manhua.entity.CommentBean;
 import com.shushan.manhua.entity.ReplyBean;
 import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.help.ImageLoaderHelper;
+import com.shushan.manhua.mvp.ui.activity.book.CommentDetailsActivity;
+import com.shushan.manhua.mvp.ui.activity.book.LookPhotoActivity;
 import com.shushan.manhua.mvp.utils.DateUtil;
 import com.shushan.manhua.mvp.utils.LogUtils;
 import com.shushan.manhua.mvp.views.CircleImageView;
@@ -55,7 +57,7 @@ public class ReadingCommentAdapter extends BaseQuickAdapter<CommentBean, BaseVie
 
     @Override
     protected void convert(BaseViewHolder helper, CommentBean item) {
-        helper.addOnClickListener(R.id.suggest_num_tv).addOnClickListener(R.id.item_comment_layout);
+        helper.addOnClickListener(R.id.suggest_num_tv).addOnClickListener(R.id.content_tv).addOnClickListener(R.id.item_comment_layout);
         CircleImageView circleImageView = helper.getView(R.id.avatar_iv);
         mImageLoaderHelper.displayImage(mContext, item.getHead_portrait(), circleImageView, Constant.LOADING_AVATOR);
         helper.setText(R.id.name_tv, item.getName());
@@ -84,14 +86,10 @@ public class ReadingCommentAdapter extends BaseQuickAdapter<CommentBean, BaseVie
 
         //发表评论的图片
         RecyclerView picRecyclerView = helper.getView(R.id.pic_recycler_view);
-//        if (new Gson().toJson(item.getPics()).equals("[]")) {
-//            picRecyclerView.setVisibility(View.GONE);
-//        } else {
-//            picRecyclerView.setVisibility(View.VISIBLE);
-//        }
         PicAdapter picAdapter = new PicAdapter(item.getPics(), mImageLoaderHelper);
         picRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
         picRecyclerView.setAdapter(picAdapter);
+        picAdapter.setOnItemChildClickListener((adapter, view, position) -> LookPhotoActivity.start(mContext, (String) adapter.getItem(position)));
 
         List<ReplyBean> replyBeanList = new ArrayList<>();
         for (CommentBean.ReviewBean reviewBean : item.getReview()) {
@@ -106,6 +104,9 @@ public class ReadingCommentAdapter extends BaseQuickAdapter<CommentBean, BaseVie
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         recyclerView.setAdapter(replyAdapter);
 
+        replyAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            CommentDetailsActivity.start(mContext, String.valueOf(item.getComment_id()));//评论详情
+        });
         //Lihat semua 10 balasan 查看全部10条回复
         TextView lookAllCommentTv = helper.getView(R.id.look_all_comment_tv);
         helper.setText(R.id.look_all_comment_tv, "Lihat semua " + item.getReview_count() + " balasan");

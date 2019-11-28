@@ -17,7 +17,8 @@ import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerNoticeMessageFragmentComponent;
 import com.shushan.manhua.di.modules.MessageModule;
 import com.shushan.manhua.di.modules.NoticeMessageFragmentModule;
-import com.shushan.manhua.entity.response.NoticeMessageResponse;
+import com.shushan.manhua.entity.request.MessageRequest;
+import com.shushan.manhua.entity.response.MessageResponse;
 import com.shushan.manhua.mvp.ui.adapter.NoticeMessageAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseFragment;
 
@@ -43,7 +44,7 @@ public class NoticeMessageFragment extends BaseFragment implements NoticeMessage
     RecyclerView mRecyclerView;
     Unbinder unbinder;
     private NoticeMessageAdapter mNoticeMessageAdapter;
-    private List<NoticeMessageResponse> noticeMessageResponseList = new ArrayList<>();
+    private List<MessageResponse.DataBean> noticeMessageResponseList = new ArrayList<>();
     private View mEmptyView;
 
     @Nullable
@@ -68,12 +69,27 @@ public class NoticeMessageFragment extends BaseFragment implements NoticeMessage
 
     @Override
     public void initData() {
-        for (int i = 0; i < 4; i++) {
-            NoticeMessageResponse noticeMessageResponse = new NoticeMessageResponse();
-            noticeMessageResponseList.add(noticeMessageResponse);
-        }
-        //  mSentMessageAdapter.setEmptyView(mEmptyView);
+        onRequestMessageInfo();
     }
+
+
+    private void onRequestMessageInfo() {
+        MessageRequest messageRequest = new MessageRequest();
+        messageRequest.token = mBuProcessor.getToken();
+        messageRequest.type = "3";
+        mPresenter.onRequestMessageInfo(messageRequest);
+    }
+
+
+    @Override
+    public void getMessageInfoSuccess(MessageResponse messageResponse) {
+        if (messageResponse.getData().isEmpty()) {
+            mNoticeMessageAdapter.setEmptyView(mEmptyView);
+        } else {
+            mNoticeMessageAdapter.setNewData(messageResponse.getData());
+        }
+    }
+
 
     private void initEmptyView() {
         mEmptyView = LayoutInflater.from(getActivity()).inflate(R.layout.empty_layout, (ViewGroup) mRecyclerView.getParent(), false);

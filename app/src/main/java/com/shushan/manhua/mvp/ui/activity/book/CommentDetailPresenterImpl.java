@@ -2,9 +2,16 @@ package com.shushan.manhua.mvp.ui.activity.book;
 
 import android.content.Context;
 
+import com.shushan.manhua.R;
+import com.shushan.manhua.entity.request.CommentDetailRequest;
+import com.shushan.manhua.entity.response.CommentDetailResponse;
+import com.shushan.manhua.help.RetryWithDelay;
 import com.shushan.manhua.mvp.model.BookModel;
+import com.shushan.manhua.mvp.model.ResponseData;
 
 import javax.inject.Inject;
+
+import io.reactivex.disposables.Disposable;
 
 
 /**
@@ -26,32 +33,32 @@ public class CommentDetailPresenterImpl implements CommentDetailControl.Presente
     }
 
 
-//    /**
-//     * 登录
-//     */
-//    @Override
-//    public void onRequestLogin(LoginRequest loginRequest) {
-//        mCommentDetailView.showLoading(mContext.getResources().getString(R.string.loading));
-//        Disposable disposable = mBookModel.onRequestLogin(loginRequest).compose(mCommentDetailView.applySchedulers()).retryWhen(new com.shushan.homework101.help.RetryWithDelay(3, 3000))
-//                .subscribe(this::requestLoginSuccess, throwable -> mCommentDetailView.showErrMessage(throwable),
-//                        () -> mCommentDetailView.dismissLoading());
-//        mCommentDetailView.addSubscription(disposable);
-//    }
-//
-//    /**
-//     * 登录成功
-//     */
-//    private void requestLoginSuccess(ResponseData responseData) {
-//        if (responseData.resultCode == 0) {
-//            responseData.parseData(LoginResponse.class);
-//            if (responseData.parsedData != null) {
-//                LoginResponse response = (LoginResponse) responseData.parsedData;
-//                mCommentDetailView.getLoginSuccess(response);
-//            }
-//        } else {
-//            mCommentDetailView.showToast(responseData.errorMsg);
-//        }
-//    }
+    /**
+     * 评论详情
+     */
+    @Override
+    public void onRequestCommentDetail(CommentDetailRequest commentDetailRequest) {
+        mCommentDetailView.showLoading(mContext.getResources().getString(R.string.loading));
+        Disposable disposable = mBookModel.onRequestCommentDetail(commentDetailRequest).compose(mCommentDetailView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
+                .subscribe(this::requestCommentDetailSuccess, throwable -> mCommentDetailView.showErrMessage(throwable),
+                        () -> mCommentDetailView.dismissLoading());
+        mCommentDetailView.addSubscription(disposable);
+    }
+
+    /**
+     * 评论详情 成功
+     */
+    private void requestCommentDetailSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 0) {
+            responseData.parseData(CommentDetailResponse.class);
+            if (responseData.parsedData != null) {
+                CommentDetailResponse response = (CommentDetailResponse) responseData.parsedData;
+                mCommentDetailView.getCommentDetailSuccess(response);
+            }
+        } else {
+            mCommentDetailView.showToast(responseData.errorMsg);
+        }
+    }
 
 
     @Override

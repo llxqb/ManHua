@@ -8,8 +8,8 @@
 
     <include layout="@layout/common_toolbar" />
 
-    <LinearLayout
-        android:id="@+id/channel_female_ll"
+    <RelativeLayout
+        android:id="@+id/channel_female_rl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_73"
@@ -25,17 +25,26 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/reading_preference_female" />
 
+        <ImageView
+            android:id="@+id/mask_female_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:src="@mipmap/mask" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/channel_female_iv"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/dp_6"
             android:text="@string/ReadingSettingActivity_female"
             android:textColor="#FF4F73" />
-    </LinearLayout>
+    </RelativeLayout>
 
 
-    <LinearLayout
-        android:id="@+id/channel_male_ll"
+    <RelativeLayout
+        android:id="@+id/channel_male_rl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_27"
@@ -51,20 +60,30 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/reading_preference_male" />
 
+        <ImageView
+            android:id="@+id/mask_male_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:src="@mipmap/mask" />
+
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/channel_male_iv"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/dp_6"
             android:text="@string/ReadingSettingActivity_male"
             android:textColor="#FF4F73" />
-    </LinearLayout>
+    </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_38"
-        app:layout_constraintTop_toBottomOf="@id/channel_female_ll" />
+        app:layout_constraintTop_toBottomOf="@id/channel_female_rl" />
 
     <TextView
         android:id="@+id/select_num_tv"
@@ -92,7 +111,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
 
 
 </android.support.constraint.ConstraintLayout>

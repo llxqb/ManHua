@@ -3,8 +3,9 @@ package com.shushan.manhua.mvp.ui.fragment.moreComment;
 
 import com.shushan.manhua.entity.CommentListBean;
 import com.shushan.manhua.entity.request.CommentRequest;
-import com.shushan.manhua.entity.request.SupportRequest;
 import com.shushan.manhua.entity.request.PublishCommentRequest;
+import com.shushan.manhua.entity.request.PublishCommentUserRequest;
+import com.shushan.manhua.entity.request.SupportRequest;
 import com.shushan.manhua.entity.request.UploadImage;
 import com.shushan.manhua.mvp.presenter.LoadDataView;
 import com.shushan.manhua.mvp.presenter.Presenter;
@@ -43,6 +44,10 @@ public class LatestCommentFragmentControl {
          * 评论点赞
          */
         void onCommentSuggestRequest(SupportRequest commentSuggestRequest);
+        /**
+         * 评论用户评论
+         */
+        void onPublishCommentUser(PublishCommentUserRequest publishCommentUserRequest);
     }
 
 }

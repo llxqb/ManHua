@@ -8,6 +8,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import com.shushan.manhua.R;
 import com.shushan.manhua.entity.constants.ActivityConstant;
 import com.shushan.manhua.entity.constants.Constant;
+import com.shushan.manhua.entity.request.ReadRecordingRequest;
 import com.shushan.manhua.entity.request.ReadingRequest;
 import com.shushan.manhua.entity.request.SelectionRequest;
 import com.shushan.manhua.entity.response.ReadingInfoResponse;
@@ -52,7 +53,6 @@ public class ReadActivity extends ReadBaseActivity {
         mRecommendAdapter.setNewData(readingInfoResponse.getCommend());
         bannerList = readingInfoResponse.getBanner();
         initBanner();
-
         String supportValue = getString(R.string.ReadActivity_support) + " " + (mReadingInfoResponse.getCatalogue().getLike());
         mSupportTv.setText(supportValue);
         if (catalogueBean.getIs_like() == 0) {
@@ -60,6 +60,24 @@ public class ReadActivity extends ReadBaseActivity {
         } else {
             setSupportState();
         }
+        //是否免费
+        if (readingInfoResponse.getCatalogue().getType() != 0) {
+
+        }
+
+    }
+
+    /**
+     * 上传阅读记录
+     */
+    private void onRequestReadRecording() {
+        ReadRecordingRequest readRecordingRequest = new ReadRecordingRequest();
+        readRecordingRequest.token = mBuProcessor.getToken();
+        readRecordingRequest.book_id = mBookId;
+        readRecordingRequest.catalogue_id = String.valueOf(mCatalogueId);
+        readRecordingRequest.type = String.valueOf(mReadingInfoResponse.getCatalogue().getType());
+//        readRecordingRequest.bean =  TODO VIP he fei VIP
+        mPresenter.onRequestReadRecording(readRecordingRequest);
     }
 
     /**
@@ -99,7 +117,7 @@ public class ReadActivity extends ReadBaseActivity {
      */
     @Override
     public void getSelectionInfoSuccess(SelectionResponse selectionResponse) {
-        chapterResponseList = selectionResponse.getAnthology();
+        mSelectionResponse = selectionResponse;
     }
 
 

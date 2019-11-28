@@ -11,9 +11,15 @@ import retrofit2.http.POST;
 
 public interface MineApi {
     /**
-     * 检查版本更新
+     * 请求漫画类型
      */
-    @POST("student/version/app_version")
-    Observable<String> onRequestVersionUpdate(@Body String request);
+    @POST("cartoon/book/bookType")
+    Observable<String> onRequestManHuaType();
+
+    /**
+     * 设置阅读偏好
+     */
+    @POST("cartoon/user/readPreference")
+    Observable<String> onReadingSettingRequest(@Body String request);
 
 }

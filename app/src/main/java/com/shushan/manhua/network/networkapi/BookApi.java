@@ -40,6 +40,12 @@ public interface BookApi {
     @POST("cartoon/comment/like")
     Observable<String> onSupportRequest(@Body String request);
 
+    /**
+     * 评论用户评论
+     */
+    @POST("cartoon/comment/review")
+    Observable<String> onPublishCommentUser(@Body String request);
+
 
     /**
      * 查询评论列表
@@ -64,10 +70,23 @@ public interface BookApi {
      */
     @POST("cartoon/book/anthology")
     Observable<String> onRequestSelectionInfo(@Body String request);
+
     /**
      * 请求漫画选集信息
      */
     @POST("cartoon/book/read")
     Observable<String> onRequestReadingInfo(@Body String request);
+
+    /**
+     * 上传阅读记录
+     */
+    @POST("cartoon/book/history")
+    Observable<String> onRequestReadRecording(@Body String request);
+
+    /**
+     * 评论详情
+     */
+    @POST("cartoon/comment/detail")
+    Observable<String> onRequestCommentDetail(@Body String request);
 
 }

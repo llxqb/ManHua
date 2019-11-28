@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.shushan.manhua.R;
@@ -30,13 +31,15 @@ public class CommentSoftKeyPopupWindow {
     private Activity mContext;
     private CommentSoftKeyPopupWindowListener mPopupWindowListener;
     private CustomPopWindow mCustomPopWindow;
-    private ArrayList<TImage> publishCommentPhotoResponseList = new ArrayList<>();
+    private ArrayList<TImage> publishCommentPhotoResponseList;
     private PublishCommentPhotoAdapter publishCommentPhotoAdapter;
+    String mEditHintContent;//编辑框提示内容
 
-    public CommentSoftKeyPopupWindow(Activity context, CommentSoftKeyPopupWindowListener popupWindowListener, ArrayList<TImage> publishCommentPhotoResponseList) {
+    public CommentSoftKeyPopupWindow(Activity context, CommentSoftKeyPopupWindowListener popupWindowListener, ArrayList<TImage> publishCommentPhotoResponseList, String editHintContent) {
         mContext = context;
         mPopupWindowListener = popupWindowListener;
         this.publishCommentPhotoResponseList = publishCommentPhotoResponseList;
+        mEditHintContent = editHintContent;
     }
 
     public void setListData(ArrayList<TImage> publishCommentPhotoResponseList, LoadDataView loadDataView) {
@@ -66,7 +69,14 @@ public class CommentSoftKeyPopupWindow {
         ImageView albumIv = contentView.findViewById(R.id.album_iv);
         TextView sendTv = contentView.findViewById(R.id.send_tv);
         EditText messageEt = contentView.findViewById(R.id.message_et);
+        LinearLayout bottomLayout = contentView.findViewById(R.id.bottom_layout);
         messageEt.requestFocus();//获取焦点
+        messageEt.setHint(mEditHintContent);
+        if (mEditHintContent.contains("@")) {//回复不用显示图片
+            bottomLayout.setVisibility(View.GONE);
+        } else {
+            bottomLayout.setVisibility(View.VISIBLE);
+        }
 
         publishCommentPhotoAdapter = new PublishCommentPhotoAdapter(publishCommentPhotoResponseList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
@@ -116,7 +126,11 @@ public class CommentSoftKeyPopupWindow {
 
         sendTv.setOnClickListener(v -> {
             if (mPopupWindowListener != null) {
-                mPopupWindowListener.CommentSendMessageBtnListener(publishCommentPhotoAdapter.getData(), messageEt.getText().toString());//传图片  和 文字内容
+                if (mEditHintContent.contains("@")) {//回复
+                    mPopupWindowListener.ReplyCommentBtnListener(messageEt.getText().toString());//回复不传图片
+                } else {
+                    mPopupWindowListener.CommentSendMessageBtnListener(publishCommentPhotoAdapter.getData(), messageEt.getText().toString());//传图片  和 文字内容
+                }
                 mCustomPopWindow.dissmiss();
             }
         });
@@ -132,5 +146,7 @@ public class CommentSoftKeyPopupWindow {
         void albumBtnListener(int maxPicNum);
 
         void CommentSendMessageBtnListener(List<TImage> tImageList, String content);
+
+        void ReplyCommentBtnListener(String content);
     }
 }

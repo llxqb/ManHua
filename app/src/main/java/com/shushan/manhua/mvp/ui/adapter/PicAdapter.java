@@ -26,6 +26,7 @@ public class PicAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 
     @Override
     protected void convert(BaseViewHolder helper, String item) {
+        helper.addOnClickListener(R.id.pic_iv);
         ImageView picIv = helper.getView(R.id.pic_iv);
         if(!TextUtils.isEmpty(item)){
             mImageLoaderHelper.displayImage(mContext, item, picIv, Constant.LOADING_DEFAULT_1);

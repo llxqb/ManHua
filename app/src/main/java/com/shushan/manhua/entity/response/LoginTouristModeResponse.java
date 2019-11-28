@@ -1,10 +1,9 @@
 package com.shushan.manhua.entity.response;
 
-import java.util.List;
-
 public class LoginTouristModeResponse {
+
     /**
-     * userinfo : {"name":"","head_portrait":"","token":"2542988fa41152fee956b5d4facf8b06","vip":0,"vip_end_time":0,"channel":0,"book_type":[],"type":0}
+     * userinfo : {"name":"立刘","head_portrait":"https://img.pulaukomik.com/cover/20191126/5ddce6620baca.jpg","token":"c84da116c100013f10822ea7f36ff456","vip":0,"vip_end_time":0,"channel":1,"book_type":"[1, 2, 6]","type":0}
      */
 
     private UserinfoBean userinfo;
@@ -19,13 +18,13 @@ public class LoginTouristModeResponse {
 
     public static class UserinfoBean {
         /**
-         * name :
-         * head_portrait :
-         * token : 2542988fa41152fee956b5d4facf8b06
+         * name : 立刘
+         * head_portrait : https://img.pulaukomik.com/cover/20191126/5ddce6620baca.jpg
+         * token : c84da116c100013f10822ea7f36ff456
          * vip : 0
          * vip_end_time : 0
-         * channel : 0
-         * book_type : []
+         * channel : 1
+         * book_type : [1, 2, 6]
          * type : 0
          */
 
@@ -35,8 +34,8 @@ public class LoginTouristModeResponse {
         private int vip;
         private int vip_end_time;
         private int channel;
+        private String book_type;
         private int type;
-        private List<?> book_type;
 
         public String getName() {
             return name;
@@ -86,20 +85,20 @@ public class LoginTouristModeResponse {
             this.channel = channel;
         }
 
+        public String getBook_type() {
+            return book_type;
+        }
+
+        public void setBook_type(String book_type) {
+            this.book_type = book_type;
+        }
+
         public int getType() {
             return type;
         }
 
         public void setType(int type) {
             this.type = type;
-        }
-
-        public List<?> getBook_type() {
-            return book_type;
-        }
-
-        public void setBook_type(List<?> book_type) {
-            this.book_type = book_type;
         }
     }
 }

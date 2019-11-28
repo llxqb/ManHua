@@ -129,7 +129,6 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     List<BannerBean> bannerList = new ArrayList<>();
     private List<RecommendBean> readingRecommendResponseList = new ArrayList<>();//推荐list
     private List<CommentBean> readingCommendResponseList = new ArrayList<>();//评论
-    public List<SelectionResponse.AnthologyBean> chapterResponseList = new ArrayList<>();//章节list
     private List<BarrageStyleResponse> barrageStyleResponseList = new ArrayList<>();//弹幕样式list
     private List<String> bookPicList = new ArrayList<>();//漫画章节图片
     private Integer[] barrageStyleIcon = {R.mipmap.barrage0, R.mipmap.barrage1, R.mipmap.barrage2, R.mipmap.barrage3, R.mipmap.barrage4, R.mipmap.barrage5};
@@ -154,6 +153,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     public ReadingCommentAdapter mReadingCommentAdapter;//评价adapter
     public RecommendAdapter mRecommendAdapter;//推荐adapter
     public ReadingInfoResponse mReadingInfoResponse;
+    public SelectionResponse mSelectionResponse;
     public int page = 1;
     private int picRvHeight;//图片recyclerView一页高度
     private int currentHeight = 0;//当前高度
@@ -210,9 +210,10 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
         mCommentRecyclerView.setAdapter(mReadingCommentAdapter);
         mCommentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mReadingCommentAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            CommentBean commentBean = (CommentBean) adapter.getItem(position);
             switch (view.getId()) {
                 case R.id.comment_ll:
-                    startActivitys(CommentDetailsActivity.class);
+                    CommentDetailsActivity.start(this, String.valueOf(commentBean.getComment_id()));
                     break;
             }
         });
@@ -325,7 +326,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
                 if (isBarrageState) {//弹幕状态
                     showBarragePopupWindow();
                 } else {//评论状态
-                    showCommentPopupWindow();
+                    showCommentPopupWindow(getString(R.string.BarrageStylePopupWindow_comment_hint));
                 }
             }
 
@@ -369,8 +370,8 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     /**
      * 显示评论弹框PopupWindow
      */
-    private void showCommentPopupWindow() {
-        mCommentSoftKeyPopupWindow = new CommentSoftKeyPopupWindow(this, this, photoList);
+    private void showCommentPopupWindow(String editHintContent) {
+        mCommentSoftKeyPopupWindow = new CommentSoftKeyPopupWindow(this, this, photoList, editHintContent);
         mCommentSoftKeyPopupWindow.initPopWindow(mReadLayout);
     }
 
@@ -452,8 +453,8 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
 
                 break;
             case R.id.bottom_directory_ll: //目录
-                if (!chapterResponseList.isEmpty()) {
-                    new ReadContentsPopupWindow(this, chapterResponseList).initPopWindow(mReadLayout);
+                if (mSelectionResponse != null) {
+                    new ReadContentsPopupWindow(this, mSelectionResponse, mImageLoaderHelper).initPopWindow(mReadLayout);
                 }
                 break;
             case R.id.bottom_comment_ll://评论
@@ -662,6 +663,14 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
      */
     @Override
     public void CommentSendMessageBtnListener(List<TImage> tImageList, String content) {
+
+    }
+
+    /**
+     * 回复评论
+     */
+    @Override
+    public void ReplyCommentBtnListener(String content) {
 
     }
 

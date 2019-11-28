@@ -2,9 +2,17 @@ package com.shushan.manhua.mvp.ui.fragment.message;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
+import com.shushan.manhua.R;
+import com.shushan.manhua.entity.request.MessageRequest;
+import com.shushan.manhua.entity.response.MessageResponse;
+import com.shushan.manhua.help.RetryWithDelay;
+import com.shushan.manhua.mvp.model.ResponseData;
 import com.shushan.manhua.mvp.model.UserModel;
 
 import javax.inject.Inject;
+
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by li.liu on 2019/5/28.
@@ -25,33 +33,30 @@ public class ReceivedMessageFragmentPresenterImpl implements ReceivedMessageFrag
     }
 
 
-//    /**
-//     * 查询我的（包含购买的服务信息）
-//     */
-//    @Override
-//    public void onRequestMineInfo(TokenRequest tokenRequest) {
-//        mReceivedMessageView.showLoading(mContext.getResources().getString(R.string.loading));
-//        Disposable disposable = mUserModel.onRequestMineInfo(tokenRequest).compose(mReceivedMessageView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
-//                .subscribe(this::requestMineInfoSuccess, throwable -> mReceivedMessageView.showErrMessage(throwable),
-//                        () -> mReceivedMessageView.dismissLoading());
-//        mReceivedMessageView.addSubscription(disposable);
-//    }
-//
-//    /**
-//     * 查询我的（包含购买的服务信息）成功
-//     */
-//    private void requestMineInfoSuccess(ResponseData responseData) {
-//        mReceivedMessageView.judgeToken(responseData.resultCode);
-//        if (responseData.resultCode == 0) {
-//            responseData.parseData(MineInfoResponse.class);
-//            if (responseData.parsedData != null) {
-//                MineInfoResponse response = (MineInfoResponse) responseData.parsedData;
-//                mReceivedMessageView.getMineInfoSuccess(response);
-//            }
-//        } else {
-//            mReceivedMessageView.showToast(responseData.errorMsg);
-//        }
-//    }
+    /**
+     * 请求消息列表
+     */
+    @Override
+    public void onRequestMessageInfo(MessageRequest messageRequest) {
+        mReceivedMessageView.showLoading(mContext.getResources().getString(R.string.loading));
+        Disposable disposable = mUserModel.onRequestMessageInfo(messageRequest).compose(mReceivedMessageView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
+                .subscribe(this::requestRequestMessageSuccess, throwable -> mReceivedMessageView.showErrMessage(throwable),
+                        () -> mReceivedMessageView.dismissLoading());
+        mReceivedMessageView.addSubscription(disposable);
+    }
+
+    /**
+     * 请求消息列表 成功
+     */
+    private void requestRequestMessageSuccess(ResponseData responseData) {
+        mReceivedMessageView.judgeToken(responseData.resultCode);
+        if (responseData.resultCode == 0) {
+            MessageResponse response = new Gson().fromJson(responseData.mJsonObject.toString(), MessageResponse.class);
+            mReceivedMessageView.getMessageInfoSuccess(response);
+        } else {
+            mReceivedMessageView.showToast(responseData.errorMsg);
+        }
+    }
 
     @Override
     public void onCreate() {

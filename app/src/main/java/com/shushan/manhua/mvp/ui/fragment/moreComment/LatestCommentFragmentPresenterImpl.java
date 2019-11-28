@@ -6,8 +6,9 @@ import com.google.gson.Gson;
 import com.shushan.manhua.R;
 import com.shushan.manhua.entity.CommentListBean;
 import com.shushan.manhua.entity.request.CommentRequest;
-import com.shushan.manhua.entity.request.SupportRequest;
 import com.shushan.manhua.entity.request.PublishCommentRequest;
+import com.shushan.manhua.entity.request.PublishCommentUserRequest;
+import com.shushan.manhua.entity.request.SupportRequest;
 import com.shushan.manhua.entity.request.UploadImage;
 import com.shushan.manhua.help.RetryWithDelay;
 import com.shushan.manhua.mvp.model.BookModel;
@@ -133,6 +134,29 @@ public class LatestCommentFragmentPresenterImpl implements LatestCommentFragment
         mLatestCommentView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 0) {
             mLatestCommentView.getSuggestSuccess();
+        } else {
+            mLatestCommentView.showToast(responseData.errorMsg);
+        }
+    }
+    /**
+     * 评论用户评论
+     */
+    @Override
+    public void onPublishCommentUser(PublishCommentUserRequest publishCommentUserRequest) {
+        mLatestCommentView.showLoading(mContext.getResources().getString(R.string.loading));
+        Disposable disposable = mBookModel.onPublishCommentUser(publishCommentUserRequest).compose(mLatestCommentView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
+                .subscribe(this::publishCommentUserSuccess, throwable -> mLatestCommentView.showErrMessage(throwable),
+                        () -> mLatestCommentView.dismissLoading());
+        mLatestCommentView.addSubscription(disposable);
+    }
+
+    /**
+     * 评论用户评论 成功
+     */
+    private void publishCommentUserSuccess(ResponseData responseData) {
+        mLatestCommentView.judgeToken(responseData.resultCode);
+        if (responseData.resultCode == 0) {
+//            mLatestCommentView.getSuggestSuccess();
         } else {
             mLatestCommentView.showToast(responseData.errorMsg);
         }

@@ -3,8 +3,9 @@ package com.shushan.manhua.mvp.ui.fragment.moreComment;
 
 import com.shushan.manhua.entity.CommentListBean;
 import com.shushan.manhua.entity.request.CommentRequest;
-import com.shushan.manhua.entity.request.SupportRequest;
 import com.shushan.manhua.entity.request.PublishCommentRequest;
+import com.shushan.manhua.entity.request.PublishCommentUserRequest;
+import com.shushan.manhua.entity.request.SupportRequest;
 import com.shushan.manhua.entity.request.UploadImage;
 import com.shushan.manhua.mvp.presenter.LoadDataView;
 import com.shushan.manhua.mvp.presenter.Presenter;
@@ -34,14 +35,21 @@ public class HotCommentFragmentControl {
          * 上传图片
          */
         void uploadImageRequest(UploadImage uploadPicRequest);
+
         /**
          * 发布评论
          */
         void onRequestPublishComment(PublishCommentRequest publishCommentRequest);
+
         /**
          * 评论点赞
          */
         void onSupportRequest(SupportRequest supportRequest);
+
+        /**
+         * 评论用户评论
+         */
+        void onPublishCommentUser(PublishCommentUserRequest publishCommentUserRequest);
 
     }
 

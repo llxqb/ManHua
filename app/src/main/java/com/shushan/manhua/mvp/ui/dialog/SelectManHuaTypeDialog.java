@@ -1,5 +1,6 @@
 package com.shushan.manhua.mvp.ui.dialog;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.shushan.manhua.R;
 import com.shushan.manhua.entity.response.BookTypeResponse;
@@ -43,10 +45,12 @@ public class SelectManHuaTypeDialog extends BaseDialogFragment {
     private SelectBookTypeAdapter mSelectBookTypeAdapter;
     private List<BookTypeResponse.DataBean> bookTypeResponseList = new ArrayList<>();
     private ImageLoaderHelper mImageLoaderHelper;
+    private Context mContext;
 
-    public void setListener(SelectManHuaTypeDialogListener selectManHuaTypeDialogListener, ImageLoaderHelper imageLoaderHelper) {
+    public void setListener(SelectManHuaTypeDialogListener selectManHuaTypeDialogListener, ImageLoaderHelper imageLoaderHelper, Context context) {
         this.mSelectManHuaTypeDialogListener = selectManHuaTypeDialogListener;
         mImageLoaderHelper = imageLoaderHelper;
+        mContext = context;
     }
 
     public void setData(List<BookTypeResponse.DataBean> dataBeanList) {
@@ -86,16 +90,19 @@ public class SelectManHuaTypeDialog extends BaseDialogFragment {
                             chooseList.remove(i);
                         }
                     }
+                    mSelectNumTv.setText(chooseList.size() + "/3");
+                    adapter.notifyDataSetChanged();
                 } else {
                     if (chooseList.size() < 3) {
                         dataBean.isCheck = true;
                         chooseList.add(position);
+                        mSelectNumTv.setText(chooseList.size() + "/3");
+                        adapter.notifyDataSetChanged();
+                    } else {
+                        Toast.makeText(mContext, "Pilih hingga tiga jenis", Toast.LENGTH_SHORT).show();
                     }
                 }
-
             }
-            mSelectNumTv.setText(chooseList.size() + "/3");
-            adapter.notifyDataSetChanged();
         });
     }
 

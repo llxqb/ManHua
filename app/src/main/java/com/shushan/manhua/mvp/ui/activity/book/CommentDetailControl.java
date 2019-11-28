@@ -1,6 +1,8 @@
 package com.shushan.manhua.mvp.ui.activity.book;
 
 
+import com.shushan.manhua.entity.request.CommentDetailRequest;
+import com.shushan.manhua.entity.response.CommentDetailResponse;
 import com.shushan.manhua.mvp.presenter.LoadDataView;
 import com.shushan.manhua.mvp.presenter.Presenter;
 
@@ -10,22 +12,15 @@ import com.shushan.manhua.mvp.presenter.Presenter;
 
 public class CommentDetailControl {
     public interface CommentDetailView extends LoadDataView {
-//        void getVerifyCodeSuccess(VerifyCodeResponse verifyCodeResponse);
-//
-//        void getLoginSuccess(LoginResponse loginResponse);
+        void getCommentDetailSuccess(CommentDetailResponse commentDetailResponse);
     }
 
     public interface PresenterCommentDetail extends Presenter<CommentDetailView> {
+        /**
+         * 评论详情
+         */
+        void onRequestCommentDetail(CommentDetailRequest commentDetailRequest);
 
-//        /**
-//         * 获取验证码
-//         */
-//        void onRequestVerifyCode(VerifyCodeRequest verifyCodeRequest);
-//
-//        /**
-//         * 登录
-//         */
-//        void onRequestLogin(LoginRequest loginRequest);
     }
 
 }

@@ -30,10 +30,10 @@ import com.shushan.manhua.entity.CommentListBean;
 import com.shushan.manhua.entity.constants.ActivityConstant;
 import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.entity.request.CommentRequest;
-import com.shushan.manhua.entity.request.SupportRequest;
 import com.shushan.manhua.entity.request.PublishCommentRequest;
+import com.shushan.manhua.entity.request.PublishCommentUserRequest;
+import com.shushan.manhua.entity.request.SupportRequest;
 import com.shushan.manhua.entity.request.UploadImage;
-import com.shushan.manhua.mvp.ui.activity.book.CommentDetailsActivity;
 import com.shushan.manhua.mvp.ui.adapter.ReadingCommentAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseFragment;
 import com.shushan.manhua.mvp.ui.dialog.CommentSoftKeyPopupWindow;
@@ -155,8 +155,11 @@ public class HotCommentFragment extends BaseFragment implements HotCommentFragme
                 case R.id.suggest_num_tv:
                     onCommentSuggestRequest();
                     break;
+                case R.id.content_tv:
+                    showCommentPopupWindow("@" + commentBean.getName());
+                    break;
                 case R.id.item_comment_layout:
-                    startActivitys(CommentDetailsActivity.class);
+                    showCommentPopupWindow("@" + commentBean.getName());
                     break;
             }
         });
@@ -170,9 +173,10 @@ public class HotCommentFragment extends BaseFragment implements HotCommentFragme
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.comment_content_rl:
-                showCommentPopupWindow();
+                showCommentPopupWindow(getString(R.string.BarrageStylePopupWindow_comment_hint));
                 break;
             case R.id.publish_comment_tv:
+                showCommentPopupWindow(getString(R.string.BarrageStylePopupWindow_comment_hint));
                 break;
         }
     }
@@ -181,8 +185,8 @@ public class HotCommentFragment extends BaseFragment implements HotCommentFragme
     /**
      * 显示评论弹框PopupWindow
      */
-    private void showCommentPopupWindow() {
-        mCommentSoftKeyPopupWindow = new CommentSoftKeyPopupWindow(getActivity(), this, photoList);
+    private void showCommentPopupWindow(String editHintContent) {
+        mCommentSoftKeyPopupWindow = new CommentSoftKeyPopupWindow(getActivity(), this, photoList,editHintContent);
         mCommentSoftKeyPopupWindow.initPopWindow(mHotCommentLayout);
     }
 
@@ -221,6 +225,28 @@ public class HotCommentFragment extends BaseFragment implements HotCommentFragme
         } else {
             publishComment();
         }
+    }
+
+    /**
+     * 回复评论
+     */
+    @Override
+    public void ReplyCommentBtnListener(String content) {
+        mContent = content;
+        onPublishCommentUser();
+    }
+
+    /**
+     * 评论用户评论
+     */
+    private void onPublishCommentUser() {
+        PublishCommentUserRequest request = new PublishCommentUserRequest();
+        request.token = mBuProcessor.getToken();
+        request.comment_id = String.valueOf(commentBean.getComment_id());
+        request.comment = mContent;
+        request.be_user_id = String.valueOf(commentBean.getUser_id());
+        request.reply_id = String.valueOf(commentBean.getComment_id());
+        mPresenter.onPublishCommentUser(request);
     }
 
     /**

@@ -2,9 +2,17 @@ package com.shushan.manhua.mvp.ui.fragment.message;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
+import com.shushan.manhua.R;
+import com.shushan.manhua.entity.request.MessageRequest;
+import com.shushan.manhua.entity.response.MessageResponse;
+import com.shushan.manhua.help.RetryWithDelay;
+import com.shushan.manhua.mvp.model.ResponseData;
 import com.shushan.manhua.mvp.model.UserModel;
 
 import javax.inject.Inject;
+
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by li.liu on 2019/5/28.
@@ -25,34 +33,32 @@ public class NoticeMessageFragmentPresenterImpl implements NoticeMessageFragment
     }
 
 
-//    /**
-//     * 查询我的（包含购买的服务信息）
-//     */
-//    @Override
-//    public void onRequestMineInfo(TokenRequest tokenRequest) {
-//        mNoticeMessageView.showLoading(mContext.getResources().getString(R.string.loading));
-//        Disposable disposable = mUserModel.onRequestMineInfo(tokenRequest).compose(mNoticeMessageView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
-//                .subscribe(this::requestMineInfoSuccess, throwable -> mNoticeMessageView.showErrMessage(throwable),
-//                        () -> mNoticeMessageView.dismissLoading());
-//        mNoticeMessageView.addSubscription(disposable);
-//    }
-//
-//    /**
-//     * 查询我的（包含购买的服务信息）成功
-//     */
-//    private void requestMineInfoSuccess(ResponseData responseData) {
-//        mNoticeMessageView.judgeToken(responseData.resultCode);
-//        if (responseData.resultCode == 0) {
-//            responseData.parseData(MineInfoResponse.class);
-//            if (responseData.parsedData != null) {
-//                MineInfoResponse response = (MineInfoResponse) responseData.parsedData;
-//                mNoticeMessageView.getMineInfoSuccess(response);
-//            }
-//        } else {
-//            mNoticeMessageView.showToast(responseData.errorMsg);
-//        }
-//    }
+    /**
+     * 请求消息列表
+     */
+    @Override
+    public void onRequestMessageInfo(MessageRequest messageRequest) {
+        mNoticeMessageView.showLoading(mContext.getResources().getString(R.string.loading));
+        Disposable disposable = mUserModel.onRequestMessageInfo(messageRequest).compose(mNoticeMessageView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
+                .subscribe(this::requestRequestMessageSuccess, throwable -> mNoticeMessageView.showErrMessage(throwable),
+                        () -> mNoticeMessageView.dismissLoading());
+        mNoticeMessageView.addSubscription(disposable);
+    }
 
+    /**
+     * 请求消息列表 成功
+     */
+    private void requestRequestMessageSuccess(ResponseData responseData) {
+        mNoticeMessageView.judgeToken(responseData.resultCode);
+        if (responseData.resultCode == 0) {
+            MessageResponse response = new Gson().fromJson(responseData.mJsonObject.toString(), MessageResponse.class);
+            mNoticeMessageView.getMessageInfoSuccess(response);
+        } else {
+            mNoticeMessageView.showToast(responseData.errorMsg);
+        }
+    }
+    
+    
     @Override
     public void onCreate() {
 

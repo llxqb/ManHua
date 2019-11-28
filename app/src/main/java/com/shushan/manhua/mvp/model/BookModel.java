@@ -4,7 +4,10 @@ import com.google.gson.Gson;
 import com.shushan.manhua.entity.request.AddBookShelfRequest;
 import com.shushan.manhua.entity.request.BookDetailRequest;
 import com.shushan.manhua.entity.request.BookShelfInfoRequest;
+import com.shushan.manhua.entity.request.CommentDetailRequest;
 import com.shushan.manhua.entity.request.CommentRequest;
+import com.shushan.manhua.entity.request.PublishCommentUserRequest;
+import com.shushan.manhua.entity.request.ReadRecordingRequest;
 import com.shushan.manhua.entity.request.SupportRequest;
 import com.shushan.manhua.entity.request.DeleteBookShelfRequest;
 import com.shushan.manhua.entity.request.PublishCommentRequest;
@@ -68,6 +71,12 @@ public class BookModel {
     public Observable<ResponseData> onSupportRequest(SupportRequest request) {
         return mBookApi.onSupportRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }
+    /**
+     * 评论用户评论
+     */
+    public Observable<ResponseData> onPublishCommentUser(PublishCommentUserRequest request) {
+        return mBookApi.onPublishCommentUser(mGson.toJson(request)).map(mTransform::transformCommon);
+    }
 
     /**
      * 查询评论列表
@@ -102,6 +111,19 @@ public class BookModel {
      */
     public Observable<ResponseData> onRequestReadingInfo(ReadingRequest request) {
         return mBookApi.onRequestReadingInfo(mGson.toJson(request)).map(mTransform::transformCommon);
+    }
+
+    /**
+     * 上传阅读记录
+     */
+    public Observable<ResponseData> onRequestReadRecording(ReadRecordingRequest request) {
+        return mBookApi.onRequestReadRecording(mGson.toJson(request)).map(mTransform::transformCommon);
+    }
+    /**
+     * 评论详情
+     */
+    public Observable<ResponseData> onRequestCommentDetail(CommentDetailRequest request) {
+        return mBookApi.onRequestCommentDetail(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 
 

@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.shushan.manhua.R;
 import com.shushan.manhua.entity.CommentListBean;
 import com.shushan.manhua.entity.request.CommentRequest;
+import com.shushan.manhua.entity.request.PublishCommentUserRequest;
 import com.shushan.manhua.entity.request.SupportRequest;
 import com.shushan.manhua.entity.request.PublishCommentRequest;
 import com.shushan.manhua.entity.request.UploadImage;
@@ -125,6 +126,11 @@ public class HotCommentFragmentPresenterImpl implements HotCommentFragmentContro
                 .subscribe(this::commentSuggestSuccess, throwable -> mHotCommentView.showErrMessage(throwable),
                         () -> mHotCommentView.dismissLoading());
         mHotCommentView.addSubscription(disposable);
+    }
+
+    @Override
+    public void onPublishCommentUser(PublishCommentUserRequest publishCommentUserRequest) {
+
     }
 
     /**

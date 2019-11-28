@@ -11,9 +11,9 @@ import retrofit2.http.POST;
 
 public interface UserApi {
     /**
-     * 检查版本更新
+     * 请求消息列表
      */
-    @POST("student/version/app_version")
-    Observable<String> onRequestVersionUpdate(@Body String request);
+    @POST("cartoon/comment/commentLog")
+    Observable<String> onRequestMessageInfo(@Body String request);
 
 }
