@@ -55,6 +55,12 @@ public class BuProcessor {
         mSharePreferenceUtil.saveObjData(SpConstant.LOGIN_USER, mUser);
     }
 
+    /**
+     * 获取登录模式 1 是游客模式 2 是登录模式
+     */
+    public int getLoginModel(){
+       return mSharePreferenceUtil.getIntData(Constant.LOGIN_MODEL);
+    }
 
     public User reSetUserData() {
         // 恢复用户相关

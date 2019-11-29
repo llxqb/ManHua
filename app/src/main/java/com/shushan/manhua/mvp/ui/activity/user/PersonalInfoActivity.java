@@ -259,6 +259,7 @@ public class PersonalInfoActivity extends BaseActivity implements PersonalInfoCo
     public void getUpdatePersonalInfoSuccess() {
         showToast("更新成功");
         LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.UPDATE_PERSONAL_INFO));
+        finish();
     }
 
 

@@ -51,10 +51,17 @@ public interface MineApi {
      */
     @POST("cartoon/user/buyCatalogue")
     Observable<String> onRequestPurchasedBook(@Body String request);
+
     /**
      * 提交辅导反馈
      */
     @POST("cartoon/user/feedback")
     Observable<String> onSubmitFeedbackRequest(@Body String request);
+
+    /**
+     * 请求会员中心
+     */
+    @POST("cartoon/user/center")
+    Observable<String> onRequestMemberCenter(@Body String request);
 
 }

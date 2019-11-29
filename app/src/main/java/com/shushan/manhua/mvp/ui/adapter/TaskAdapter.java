@@ -2,6 +2,7 @@ package com.shushan.manhua.mvp.ui.adapter;
 
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -40,6 +41,8 @@ public class TaskAdapter extends BaseQuickAdapter<SignDataResponse.QuestBean, Ba
     @Override
     protected void convert(BaseViewHolder helper, SignDataResponse.QuestBean item) {
         helper.addOnClickListener(R.id.state_value_tv);
+        ImageView imageView = helper.getView(R.id.icon_iv);
+        mImageLoaderHelper.displayImage(mContext, item.getIcon(), imageView, R.mipmap.beans_task_read);
         helper.setText(R.id.task_name_tv, item.getQuest_name());
         TextView taskFinishHintTv = helper.getView(R.id.task_finish_hint_tv);
         if (item.getNum() != 0) {

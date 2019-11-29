@@ -30,6 +30,7 @@ import com.shushan.manhua.entity.response.MineInfoResponse;
 import com.shushan.manhua.entity.response.MineReadingResponse;
 import com.shushan.manhua.entity.user.User;
 import com.shushan.manhua.mvp.ui.activity.book.ReadingHistoryActivity;
+import com.shushan.manhua.mvp.ui.activity.login.LoginActivity;
 import com.shushan.manhua.mvp.ui.activity.mine.BuyActivity;
 import com.shushan.manhua.mvp.ui.activity.mine.CheckInActivity;
 import com.shushan.manhua.mvp.ui.activity.mine.FeedbackActivity;
@@ -70,6 +71,8 @@ public class MineFragment extends BaseFragment implements MineFragmentControl.Mi
     SwipeRefreshLayout mSwipeLy;
     @BindView(R.id.avatar_iv)
     CircleImageView mAvatarIv;
+    @BindView(R.id.tourist_login_in)
+    TextView mTouristLoginIn;
     @BindView(R.id.username_tv)
     TextView mUsernameTv;
     @BindView(R.id.vip_icon)
@@ -92,7 +95,7 @@ public class MineFragment extends BaseFragment implements MineFragmentControl.Mi
     RecyclerView mReadingRecyclerView;
     Unbinder unbinder;
     private User mUser;
-
+    private int mLoginModel;//1 是游客模式 2 是登录模式
 
     @Nullable
     @Override
@@ -111,6 +114,8 @@ public class MineFragment extends BaseFragment implements MineFragmentControl.Mi
         if (intent.getAction() != null) {
             if (intent.getAction().equals(ActivityConstant.UPDATE_PERSONAL_INFO)) {
                 onRequestMineInfo();
+            } else if (intent.getAction().equals(ActivityConstant.LOGIN_SUCCESS_UPDATE_DATA)) {
+                onRequestMineInfo();
             }
         }
         super.onReceivePro(context, intent);
@@ -120,6 +125,7 @@ public class MineFragment extends BaseFragment implements MineFragmentControl.Mi
     public void addFilter() {
         super.addFilter();
         mFilter.addAction(ActivityConstant.UPDATE_PERSONAL_INFO);
+        mFilter.addAction(ActivityConstant.LOGIN_SUCCESS_UPDATE_DATA);
     }
 
 
@@ -133,6 +139,7 @@ public class MineFragment extends BaseFragment implements MineFragmentControl.Mi
     @Override
     public void initData() {
         onRequestMineInfo();
+        mLoginModel = mBuProcessor.getLoginModel();
     }
 
     private void initRecyclerView() {
@@ -165,7 +172,7 @@ public class MineFragment extends BaseFragment implements MineFragmentControl.Mi
         });
     }
 
-    @OnClick({R.id.avatar_iv, R.id.setting_iv, R.id.message_ll, R.id.recharge_tv, R.id.vip_icon, R.id.become_vip_tv, R.id.check_in_beans_ll, R.id.vip_check_in_beans_ll, R.id.feedback_tv})
+    @OnClick({R.id.avatar_iv, R.id.setting_iv, R.id.message_ll, R.id.recharge_tv, R.id.vip_icon, R.id.tourist_login_in, R.id.become_vip_tv, R.id.check_in_beans_ll, R.id.vip_check_in_beans_ll, R.id.feedback_tv})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.avatar_iv:
@@ -179,6 +186,9 @@ public class MineFragment extends BaseFragment implements MineFragmentControl.Mi
                 break;
             case R.id.recharge_tv://充值中心
                 startActivitys(BuyActivity.class);
+                break;
+            case R.id.tourist_login_in://账号登录
+                startActivitys(LoginActivity.class);
                 break;
             case R.id.vip_icon://立即开通
             case R.id.become_vip_tv://立即开通
@@ -214,6 +224,11 @@ public class MineFragment extends BaseFragment implements MineFragmentControl.Mi
     public void getMineInfoSuccess(MineInfoResponse mineInfoResponse) {
         if (mSwipeLy.isRefreshing()) {
             mSwipeLy.setRefreshing(false);
+        }
+        if (mLoginModel == 1) {
+            mTouristLoginIn.setVisibility(View.VISIBLE);
+        } else {
+            mTouristLoginIn.setVisibility(View.GONE);
         }
         MineInfoResponse.UserinfoBean userinfoBean = mineInfoResponse.getUserinfo();
         if (mineInfoResponse.getUnread_message() == 0) {  //未读消息

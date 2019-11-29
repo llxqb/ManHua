@@ -32,6 +32,7 @@ import com.shushan.manhua.mvp.ui.fragment.home.HomeFragment;
 import com.shushan.manhua.mvp.ui.fragment.mine.MineFragment;
 import com.shushan.manhua.mvp.utils.LogUtils;
 import com.shushan.manhua.mvp.utils.SystemUtils;
+import com.shushan.manhua.mvp.utils.UserUtil;
 import com.shushan.manhua.mvp.views.MyNoScrollViewPager;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
@@ -95,8 +96,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         if (!mBuProcessor.isSetChannel()) {
             showSelectChannelDialog();
             onRequestManHuaType();
-//            startActivitys(LoginActivity.class);
-//            finish();
+        } else if (mBuProcessor.getToken() == null) {
+            loginTouristMode();
         } else {
             initMainView();
         }
@@ -126,7 +127,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             }
         }
         checkPermissions();
-
     }
 
     @Override
@@ -198,8 +198,10 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     @Override
     public void getLoginTouristModeSuccess(LoginTouristModeResponse loginTouristModeResponse) {
         LogUtils.e("loginTouristModeResponse" + new Gson().toJson(loginTouristModeResponse));
+        mSharePreferenceUtil.setData(Constant.LOGIN_MODEL, 1);
         LoginTouristModeResponse.UserinfoBean userinfoBean = loginTouristModeResponse.getUserinfo();
-        User user = new User(userinfoBean.getToken(), userinfoBean.getName(), userinfoBean.getHead_portrait(), userinfoBean.getVip(), userinfoBean.getVip_end_time(), userinfoBean.getChannel(), new Gson().toJson(userinfoBean.getBook_type()));
+//(userinfoBean.getToken(), userinfoBean.getName(), userinfoBean.getHead_portrait(), userinfoBean.getVip(), userinfoBean.getVip_end_time(), userinfoBean.getChannel(), new Gson().toJson(userinfoBean.getBook_type())
+        User user = UserUtil.tranLoginUser(userinfoBean);
         mBuProcessor.setLoginUser(user);
         initMainView();
         onReadingSettingRequest();

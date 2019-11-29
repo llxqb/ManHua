@@ -9,18 +9,6 @@ import java.io.Serializable;
  */
 
 public class User implements Serializable {
-    public User() {
-    }
-
-    public User(String token, String name, String avatar, int vip, int vip_end_time, int channel, String bookType) {
-        this.token = token;
-        this.name = name;
-        this.avatar = avatar;
-        this.vip = vip;
-        this.vip_end_time = vip_end_time;
-        this.channel = channel;
-        this.bookType = bookType;
-    }
 
     public String token;
     public String name;
@@ -33,5 +21,10 @@ public class User implements Serializable {
      * 漫豆数量
      */
     public int bean;
+    /**
+     * true ：游客模式登录
+     * false: 账号登录
+     */
+    public boolean isTouristMode;
 
 }

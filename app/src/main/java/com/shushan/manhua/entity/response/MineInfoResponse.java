@@ -1,13 +1,12 @@
 package com.shushan.manhua.entity.response;
 
-import java.util.List;
-
 public class MineInfoResponse {
+
 
     /**
      * unread_message : 0
-     * userinfo : {"id":12,"name":"立刘","head_portrait":"https://img.pulaukomik.com/cover/20191129/5de0b05a5e3fb.jpg","sex":0,"birthday":0,"token":"1c958f7915df413ff4a4452c20c7abdc","deviceId":"00000000-3512-abd9-3512-abd900000000","platform":"android","type":1,"bean":0,"valid_bean":0,"vip":0,"vip_end_time":0,"last_month_bean":0,"channel":1,"book_type":[1,2,4]}
-     * sign_count : 1
+     * userinfo : {"id":3,"name":"立刘","head_portrait":"https://img.pulaukomik.com/cover/20191126/5ddce6620baca.jpg","sex":0,"birthday":0,"token":"e90e10bc4b4747b3476010ebb8226a8c","deviceId":"00000000-3512-abd9-3512-abd900000000","platform":"android","type":0,"bean":0,"valid_bean":13,"vip":0,"vip_end_time":0,"last_month_bean":0,"channel":1,"book_type":{}}
+     * sign_count : 2
      * vip_get_count : 0
      */
 
@@ -50,22 +49,22 @@ public class MineInfoResponse {
 
     public static class UserinfoBean {
         /**
-         * id : 12
+         * id : 3
          * name : 立刘
-         * head_portrait : https://img.pulaukomik.com/cover/20191129/5de0b05a5e3fb.jpg
+         * head_portrait : https://img.pulaukomik.com/cover/20191126/5ddce6620baca.jpg
          * sex : 0
          * birthday : 0
-         * token : 1c958f7915df413ff4a4452c20c7abdc
+         * token : e90e10bc4b4747b3476010ebb8226a8c
          * deviceId : 00000000-3512-abd9-3512-abd900000000
          * platform : android
-         * type : 1
+         * type : 0
          * bean : 0
-         * valid_bean : 0
+         * valid_bean : 13
          * vip : 0
          * vip_end_time : 0
          * last_month_bean : 0
          * channel : 1
-         * book_type : [1,2,4]
+         * book_type : {}
          */
 
         private int id;
@@ -83,7 +82,7 @@ public class MineInfoResponse {
         private int vip_end_time;
         private int last_month_bean;
         private int channel;
-        private List<Integer> book_type;
+        private BookTypeBean book_type;
 
         public int getId() {
             return id;
@@ -205,12 +204,15 @@ public class MineInfoResponse {
             this.channel = channel;
         }
 
-        public List<Integer> getBook_type() {
+        public BookTypeBean getBook_type() {
             return book_type;
         }
 
-        public void setBook_type(List<Integer> book_type) {
+        public void setBook_type(BookTypeBean book_type) {
             this.book_type = book_type;
+        }
+
+        public static class BookTypeBean {
         }
     }
 }

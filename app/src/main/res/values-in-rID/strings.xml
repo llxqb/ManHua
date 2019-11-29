@@ -115,7 +115,7 @@
 
     <string name="MemberCenterActivity_title">Pusat keanggotaan</string>
     <string name="MemberCenterActivity_become_vip_hint">Daftar anggota, bisa menikmati \nbanyak hak istimewa</string>
-    <string name="MemberCenterActivity_become_vip_saving_money">Anggota setiap bulan hemat </string>
+    <string name="MemberCenterActivity_become_vip_saving_money">Anggota setiap bulan hemat $25 </string>
     <string name="MemberCenterActivity_get_beans">Ambil koin</string>
     <string name="MemberCenterActivity_vip_profit_hint">Penjelasan hak istimewa anggota</string>
     <string name="MemberCenterActivity_pay">Daftar langsung</string>

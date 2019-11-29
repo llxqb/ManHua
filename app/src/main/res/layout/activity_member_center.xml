@@ -80,7 +80,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
 
-            <ImageView
+            <com.shushan.manhua.mvp.views.CircleImageView
                 android:id="@+id/avatar_iv"
                 android:layout_width="@dimen/dp_43"
                 android:layout_height="@dimen/dp_43"

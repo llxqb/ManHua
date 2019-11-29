@@ -28,6 +28,11 @@ public class ActivityConstant {
      * 更新个人基本信息  刷新我的
      */
     public static final String UPDATE_PERSONAL_INFO = "update_personal_info";
+    /**
+     * 进行登录后更新数据
+     * 更新main
+     */
+    public static final String LOGIN_SUCCESS_UPDATE_DATA ="login_success_update_data";
 
 
 }

@@ -12,15 +12,20 @@ import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerMemberCenterComponent;
 import com.shushan.manhua.di.modules.ActivityModule;
 import com.shushan.manhua.di.modules.MemberCenterModule;
-import com.shushan.manhua.entity.response.BuyResponse;
+import com.shushan.manhua.entity.constants.Constant;
+import com.shushan.manhua.entity.request.MemberCenterRequest;
+import com.shushan.manhua.entity.response.MemberCenterResponse;
 import com.shushan.manhua.entity.response.ProfitResponse;
 import com.shushan.manhua.mvp.ui.adapter.BuyAdapter;
 import com.shushan.manhua.mvp.ui.adapter.ProfitAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseActivity;
 import com.shushan.manhua.mvp.utils.StatusBarUtil;
+import com.shushan.manhua.mvp.views.CircleImageView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -30,6 +35,8 @@ import butterknife.OnClick;
  */
 public class MemberCenterActivity extends BaseActivity implements MemberCenterControl.MemberCenterView {
 
+    @Inject
+    MemberCenterControl.PresenterMemberCenter mPresenter;
     @BindView(R.id.money_tv)
     TextView mMoneyTv;
     @BindView(R.id.no_vip_layout)
@@ -37,19 +44,21 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
     @BindView(R.id.vip_layout)
     LinearLayout mVipLayout;//VIP
     @BindView(R.id.avatar_iv)
-    ImageView mAvatarIv;
+    CircleImageView mAvatarIv;
     @BindView(R.id.username_tv)
     TextView mUsernameTv;
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
     @BindView(R.id.vip_profit_recycler_view)
-    RecyclerView mVipProfitRecyclerView;
+    RecyclerView mVipProfitRecyclerView;//VIP权益
     @BindView(R.id.profit_text_tv)
     TextView mProfitTextTv;
     @BindView(R.id.profit_img_iv)
     ImageView mProfitImgIv;
-    private List<BuyResponse> buyResponseList = new ArrayList<>();
+    private List<MemberCenterResponse.VipinfoBean> buyResponseList = new ArrayList<>();
     private List<ProfitResponse> profitResponseList = new ArrayList<>();
+    private BuyAdapter mBuyAdapter;
+    private MemberCenterResponse mMemberCenterResponse;
 
     @Override
     protected void initContentView() {
@@ -61,24 +70,25 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
     @Override
     public void initView() {
         initRecyclerView();
+        onRequestMemberCenter();
     }
 
     private void initRecyclerView() {
-        BuyAdapter mBuyAdapter = new BuyAdapter(buyResponseList);
+        mBuyAdapter = new BuyAdapter(buyResponseList);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         mRecyclerView.setAdapter(mBuyAdapter);
-        mBuyAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-            BuyResponse buyResponse = (BuyResponse) adapter.getItem(position);
-            for (BuyResponse buyResponse1 : buyResponseList) {
-                if (buyResponse1.isCheck) {
-                    buyResponse1.isCheck = false;
-                }
-            }
-            if (buyResponse != null) {
-                buyResponse.isCheck = true;
-            }
-            adapter.notifyDataSetChanged();
-        });
+//        mBuyAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+//            BuyResponse buyResponse = (BuyResponse) adapter.getItem(position);
+//            for (BuyResponse buyResponse1 : buyResponseList) {
+//                if (buyResponse1.isCheck) {
+//                    buyResponse1.isCheck = false;
+//                }
+//            }
+//            if (buyResponse != null) {
+//                buyResponse.isCheck = true;
+//            }
+//            adapter.notifyDataSetChanged();
+//        });
         ProfitAdapter mProfitAdapter = new ProfitAdapter(profitResponseList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -113,10 +123,6 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
 
     @Override
     public void initData() {
-        for (int i = 0; i < 4; i++) {
-            BuyResponse buyResponse = new BuyResponse();
-            buyResponseList.add(buyResponse);
-        }
         String[] profitName = {getResources().getString(R.string.MemberCenterActivity_beans_everyday), getResources().getString(R.string.MemberCenterActivity_restriction), getResources().getString(R.string.MemberCenterActivity_discount), getResources().getString(R.string.MemberCenterActivity_barrage), getResources().getString(R.string.MemberCenterActivity_Identity)};
         int[] profitIcon = {R.mipmap.beans2, R.mipmap.vip_free_works, R.mipmap.vip_discount, R.mipmap.vip_barrage, R.mipmap.vip_honorable_status};
         for (int i = 0; i < profitName.length; i++) {
@@ -132,11 +138,52 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.pay_tv:
+
                 break;
             case R.id.common_back_iv:
                 break;
-            case R.id.get_beans_tv:
+            case R.id.get_beans_tv: //领取漫豆
+                if (mMemberCenterResponse != null) {
+                    if (mMemberCenterResponse.getUserinfo().getVip() == 0) {
+                        //提示开通会员领取
+                    } else {
+                        //领取漫豆
+                    }
+                }
                 break;
+        }
+    }
+
+
+    /**
+     * 请求会员中心数据
+     */
+    private void onRequestMemberCenter() {
+        MemberCenterRequest memberCenterRequest = new MemberCenterRequest();
+        memberCenterRequest.token = mBuProcessor.getToken();
+        mPresenter.onRequestMemberCenter(memberCenterRequest);
+    }
+
+    @Override
+    public void getMemberCenterResponse(MemberCenterResponse memberCenterResponse) {
+        mMemberCenterResponse = memberCenterResponse;
+        MemberCenterResponse.UserinfoBean userinfoBean = memberCenterResponse.getUserinfo();
+        setUserDate(userinfoBean);
+        mBuyAdapter.setNewData(memberCenterResponse.getVipinfo());
+    }
+
+    private void setUserDate(MemberCenterResponse.UserinfoBean userinfoBean) {
+        if (userinfoBean != null) {
+            mImageLoaderHelper.displayImage(this, userinfoBean.getHead_portrait(), mAvatarIv, Constant.LOADING_AVATOR);
+//            if (userinfoBean.getVip() == 0) {//是否是VIP
+//                mVipIcon.setImageResource(R.mipmap.vip_gray);
+//                mNotVipLayout.setVisibility(View.VISIBLE);
+//                mTopIv.setImageResource(R.mipmap.my_background);
+//            } else {
+//                mVipIcon.setImageResource(R.mipmap.recharge_vip);
+//                mNotVipLayout.setVisibility(View.GONE);
+//                mTopIv.setImageResource(R.mipmap.my_background2);
+//            }
         }
     }
 

@@ -2,6 +2,7 @@ package com.shushan.manhua.mvp.model;
 
 
 import com.google.gson.Gson;
+import com.shushan.manhua.entity.request.MemberCenterRequest;
 import com.shushan.manhua.entity.request.PurchasedBookRequest;
 import com.shushan.manhua.entity.request.ReadingSettingRequest;
 import com.shushan.manhua.entity.request.ReceiveTaskRequest;
@@ -86,6 +87,13 @@ public class MineModel {
      */
     public Observable<ResponseData> onSubmitFeedbackRequest(SubmitFeedbackRequest request) {
         return mMineApi.onSubmitFeedbackRequest(new Gson().toJson(request)).map(mTransform::transformListType);
+    }
+
+    /**
+     * 请求会员中心
+     */
+    public Observable<ResponseData> onRequestMemberCenter(MemberCenterRequest request) {
+        return mMineApi.onRequestMemberCenter(new Gson().toJson(request)).map(mTransform::transformCommon);
     }
 
 }

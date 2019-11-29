@@ -1,6 +1,7 @@
 package com.shushan.manhua.mvp.ui.activity.login;
 
 import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 
 import com.google.android.gms.auth.api.Auth;
@@ -10,6 +11,7 @@ import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerLoginComponent;
 import com.shushan.manhua.di.modules.ActivityModule;
 import com.shushan.manhua.di.modules.LoginModule;
+import com.shushan.manhua.entity.constants.ActivityConstant;
 import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.entity.request.LoginRequest;
 import com.shushan.manhua.entity.response.LoginResponse;
@@ -108,9 +110,13 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
 
     @Override
     public void getLoginSuccess(LoginResponse loginResponse) {
+        mSharePreferenceUtil.setData(Constant.LOGIN_MODEL, 2);
         LoginResponse.UserinfoBean userinfoBean = loginResponse.getUserinfo();
-        User user = new User(userinfoBean.getToken(), userinfoBean.getName(), userinfoBean.getHead_portrait(), userinfoBean.getVip(), userinfoBean.getVip_end_time(), userinfoBean.getChannel(), userinfoBean.getBook_type());
+        User user = new User();
+        user.token = userinfoBean.getToken();
         mBuProcessor.setLoginUser(user);
+        //刷新main数据
+        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.LOGIN_SUCCESS_UPDATE_DATA));
         startActivitys(MainActivity.class);
         finish();
     }
