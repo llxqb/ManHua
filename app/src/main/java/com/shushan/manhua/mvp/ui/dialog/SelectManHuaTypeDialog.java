@@ -91,13 +91,13 @@ public class SelectManHuaTypeDialog extends BaseDialogFragment {
                         }
                     }
                     mSelectNumTv.setText(chooseList.size() + "/3");
-                    adapter.notifyDataSetChanged();
+                    adapter.notifyItemChanged(position, false);//局部刷新
                 } else {
                     if (chooseList.size() < 3) {
                         dataBean.isCheck = true;
                         chooseList.add(position);
                         mSelectNumTv.setText(chooseList.size() + "/3");
-                        adapter.notifyDataSetChanged();
+                        adapter.notifyItemChanged(position, true);//局部刷新
                     } else {
                         Toast.makeText(mContext, "Pilih hingga tiga jenis", Toast.LENGTH_SHORT).show();
                     }

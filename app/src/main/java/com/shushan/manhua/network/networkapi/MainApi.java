@@ -41,7 +41,7 @@ public interface MainApi {
     Observable<String> onRequestBookShelfInfo(@Body String request);
 
     /**
-     * 请求我的书架信息
+     * 请求推荐书籍信息
      */
     @POST("cartoon/book/nominateBook")
     Observable<String> onRecommendInfo(@Body String request);

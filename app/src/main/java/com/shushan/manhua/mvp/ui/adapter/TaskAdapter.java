@@ -1,25 +1,64 @@
 package com.shushan.manhua.mvp.ui.adapter;
 
 import android.support.annotation.Nullable;
+import android.view.View;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.shushan.manhua.R;
-import com.shushan.manhua.entity.response.TaskResponse;
+import com.shushan.manhua.entity.response.SignDataResponse;
+import com.shushan.manhua.help.ImageLoaderHelper;
 
 import java.util.List;
 
 /**
  * 任务adapter
  */
-public class TaskAdapter extends BaseQuickAdapter<TaskResponse, BaseViewHolder> {
+public class TaskAdapter extends BaseQuickAdapter<SignDataResponse.QuestBean, BaseViewHolder> {
 
-    public TaskAdapter(@Nullable List<TaskResponse> data) {
+    private ImageLoaderHelper mImageLoaderHelper;
+
+    public TaskAdapter(@Nullable List<SignDataResponse.QuestBean> data, ImageLoaderHelper imageLoaderHelper) {
         super(R.layout.item_task, data);
+        mImageLoaderHelper = imageLoaderHelper;
     }
 
-    @Override
-    protected void convert(BaseViewHolder helper, TaskResponse item) {
+//    @Override
+//    public void onBindViewHolder(@NonNull BaseViewHolder holder, int position, @NonNull List payloads) {
+//        if (payloads.isEmpty()) {
+//            onBindViewHolder(holder, position);
+//        } else {
+//            TextView stateValueTv = holder.getView(R.id.state_value_tv);
+//            stateValueTv.setBackgroundResource(R.mipmap.beans_completed);
+//            stateValueTv.setTextColor(mContext.getResources().getColor(R.color.buy_no_check_color));
+//            stateValueTv.setText("Selesai");
+//        }
+//    }
 
+
+    @Override
+    protected void convert(BaseViewHolder helper, SignDataResponse.QuestBean item) {
+        helper.addOnClickListener(R.id.state_value_tv);
+        helper.setText(R.id.task_name_tv, item.getQuest_name());
+        TextView taskFinishHintTv = helper.getView(R.id.task_finish_hint_tv);
+        if (item.getNum() != 0) {
+            taskFinishHintTv.setVisibility(View.VISIBLE);
+        } else {
+            taskFinishHintTv.setVisibility(View.GONE);
+        }
+        helper.setText(R.id.task_finish_hint_tv, "Total hari ini " + item.getNum() + " chapter");
+        //1未完成 2已完成未领取 3已完成
+        if (item.getStatus() == 1) {
+            helper.setBackgroundRes(R.id.state_value_tv, R.mipmap.beans_incomplete);
+            helper.setText(R.id.state_value_tv, "+" + item.getBean() + mContext.getString(R.string.MineFragment_beans_tv));
+        } else if (item.getStatus() == 2) {
+            helper.setBackgroundRes(R.id.state_value_tv, R.mipmap.beans_receive);
+            helper.setText(R.id.state_value_tv, "ambil " + item.getBean() + mContext.getString(R.string.MineFragment_beans_tv));
+        } else {
+            helper.setBackgroundRes(R.id.state_value_tv, R.mipmap.beans_completed);
+            helper.setText(R.id.state_value_tv, "Selesai");
+            helper.setTextColor(R.id.state_value_tv, mContext.getResources().getColor(R.color.buy_no_check_color));
+        }
     }
 }

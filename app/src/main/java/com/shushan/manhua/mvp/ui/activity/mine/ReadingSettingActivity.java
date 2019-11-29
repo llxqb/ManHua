@@ -1,5 +1,7 @@
 package com.shushan.manhua.mvp.ui.activity.mine;
 
+import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -10,6 +12,8 @@ import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerReadingSettingComponent;
 import com.shushan.manhua.di.modules.ActivityModule;
 import com.shushan.manhua.di.modules.ReadingSettingModule;
+import com.shushan.manhua.entity.constants.ActivityConstant;
+import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.entity.request.ReadingSettingRequest;
 import com.shushan.manhua.entity.response.BookTypeResponse;
 import com.shushan.manhua.mvp.ui.adapter.SelectBookTypeAdapter;
@@ -74,13 +78,13 @@ public class ReadingSettingActivity extends BaseActivity implements ReadingSetti
                         }
                     }
                     mSelectNumTv.setText(chooseList.size() + "/3");
-                    adapter.notifyDataSetChanged();
+                    adapter.notifyItemChanged(position, false);//局部刷新
                 } else {
                     if (chooseList.size() < 3) {
                         bookTypeResponse.isCheck = true;
                         chooseList.add(position);
                         mSelectNumTv.setText(chooseList.size() + "/3");
-                        adapter.notifyDataSetChanged();
+                        adapter.notifyItemChanged(position, true);//局部刷新
                     } else {
                         showToast("Pilih hingga tiga jenis");
                     }
@@ -132,13 +136,6 @@ public class ReadingSettingActivity extends BaseActivity implements ReadingSetti
         mSelectBookTypeAdapter.setNewData(bookTypeResponse.getData());
     }
 
-    @Override
-    public void getReadingSettingSuccess() {
-        showToast("success");
-        finish();
-        //更新首页数据
-    }
-
     /**
      * 设置阅读偏好
      */
@@ -148,6 +145,16 @@ public class ReadingSettingActivity extends BaseActivity implements ReadingSetti
         readingSettingRequest.channel = String.valueOf(sex);
         readingSettingRequest.book_type = mChooseList.toString();
         mPresenter.onReadingSettingRequest(readingSettingRequest);
+    }
+
+    @Override
+    public void getReadingSettingSuccess() {
+        showToast("success");
+        finish();
+        mSharePreferenceUtil.setData(Constant.CHANNEL, String.valueOf(sex));
+        mSharePreferenceUtil.setData(Constant.BOOK_TYPE, mChooseList.toString());//[1,2,3]喜欢的类型
+        //更新首页数据 更新书架推荐数据
+        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.UPDATE_RECOMMEND_BOOK));
     }
 
     private void initInjectData() {

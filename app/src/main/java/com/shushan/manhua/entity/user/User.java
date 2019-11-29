@@ -26,5 +26,9 @@ public class User implements Serializable {
     public int vip_end_time;
     public int channel;
     public String bookType;
+    /**
+     * 漫豆数量
+     */
+    public int bean;
 
 }

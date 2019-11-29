@@ -93,6 +93,9 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
         if (intent.getAction() != null) {
             if (intent.getAction().equals(ActivityConstant.UPDATE_BOOKSHELF)) {
                 onRequestBookShelfInfo();
+            } else if (intent.getAction().equals(ActivityConstant.UPDATE_RECOMMEND_BOOK)) {
+                //更新推荐数据
+                onRecommendInfo();
             }
         }
         super.onReceivePro(context, intent);
@@ -102,6 +105,7 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
     public void addFilter() {
         super.addFilter();
         mFilter.addAction(ActivityConstant.UPDATE_BOOKSHELF);
+        mFilter.addAction(ActivityConstant.UPDATE_RECOMMEND_BOOK);
     }
 
     @Override

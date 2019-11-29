@@ -20,6 +20,10 @@ public class ActivityConstant {
      * 加入书架成功 刷新书架
      */
     public static final String UPDATE_BOOKSHELF = "update_bookshelf";
+    /**
+     * 更换阅读设置偏好 ，更新推荐类别
+     */
+    public static final String UPDATE_RECOMMEND_BOOK = "update_recommend_book";
 
 
 }

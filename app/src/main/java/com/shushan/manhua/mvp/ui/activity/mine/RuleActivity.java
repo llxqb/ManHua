@@ -19,6 +19,7 @@ public class RuleActivity extends BaseActivity {
     @Override
     protected void initContentView() {
         setContentView(R.layout.activity_rule);
+        setStatusBar();
     }
 
     @Override

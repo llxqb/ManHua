@@ -22,4 +22,28 @@ public interface MineApi {
     @POST("cartoon/user/readPreference")
     Observable<String> onReadingSettingRequest(@Body String request);
 
+    /**
+     * 请求签到数据
+     */
+    @POST("cartoon/sign")
+    Observable<String> onRequestSignData(@Body String request);
+
+    /**
+     * 请求推荐书籍信息
+     */
+    @POST("cartoon/book/nominateBook")
+    Observable<String> onRecommendInfo(@Body String request);
+
+    /**
+     * 请求推荐书籍信息
+     */
+    @POST("cartoon/sign/checkin")
+    Observable<String> onRequestSign(@Body String request);
+
+    /**
+     * 领取任务
+     */
+    @POST("cartoon/sign/getquest")
+    Observable<String> onRequestReceiveTask(@Body String request);
+
 }

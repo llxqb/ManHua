@@ -1,5 +1,6 @@
 package com.shushan.manhua.mvp.ui.adapter;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.widget.ImageView;
 
@@ -9,6 +10,7 @@ import com.shushan.manhua.R;
 import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.entity.response.BookTypeResponse;
 import com.shushan.manhua.help.ImageLoaderHelper;
+import com.shushan.manhua.mvp.utils.LogUtils;
 
 import java.util.List;
 
@@ -22,6 +24,22 @@ public class SelectBookTypeAdapter extends BaseQuickAdapter<BookTypeResponse.Dat
     public SelectBookTypeAdapter(@Nullable List<BookTypeResponse.DataBean> data, ImageLoaderHelper imageLoaderHelper) {
         super(R.layout.item_select_book_type, data);
         mImageLoaderHelper = imageLoaderHelper;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull BaseViewHolder holder, int position, @NonNull List payloads) {
+        if (payloads.isEmpty()) {
+            onBindViewHolder(holder, position);
+        } else {
+            boolean payload = (boolean) payloads.get(0);
+            LogUtils.e("payload:" + payload);
+            ImageView checkIv = holder.getView(R.id.check_iv);
+            if (payload) {
+                checkIv.setImageResource(R.mipmap.history_delete_choose);
+            } else {
+                checkIv.setImageResource(R.mipmap.gou_2);
+            }
+        }
     }
 
     @Override

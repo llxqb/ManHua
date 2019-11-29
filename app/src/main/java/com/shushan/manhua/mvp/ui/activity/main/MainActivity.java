@@ -175,7 +175,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     private void showSelectManHuaTypeDialog() {
         SelectManHuaTypeDialog selectManHuaTypeDialog = SelectManHuaTypeDialog.newInstance();
         selectManHuaTypeDialog.setData(mBookTypeResponse.getData());
-        selectManHuaTypeDialog.setListener(this, mImageLoaderHelper,this);
+        selectManHuaTypeDialog.setListener(this, mImageLoaderHelper, this);
         DialogFactory.showDialogFragment(this.getSupportFragmentManager(), selectManHuaTypeDialog, SelectManHuaTypeDialog.TAG);
     }
 
@@ -197,6 +197,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
     @Override
     public void getLoginTouristModeSuccess(LoginTouristModeResponse loginTouristModeResponse) {
+        LogUtils.e("loginTouristModeResponse" + new Gson().toJson(loginTouristModeResponse));
         LoginTouristModeResponse.UserinfoBean userinfoBean = loginTouristModeResponse.getUserinfo();
         User user = new User(userinfoBean.getToken(), userinfoBean.getName(), userinfoBean.getHead_portrait(), userinfoBean.getVip(), userinfoBean.getVip_end_time(), userinfoBean.getChannel(), new Gson().toJson(userinfoBean.getBook_type()));
         mBuProcessor.setLoginUser(user);
