@@ -11,7 +11,8 @@
     <string name="main_bottom_mime">我的</string>
     <string name="main_exit_app">再点一次退出应用</string>
 
-
+    <string name="facebook_app_id">486323411986591</string>
+    <string name="fb_login_protocol_scheme">fb486323411986591</string>
     <!--书架 -->
     <string name="BookShelfFragment_search_hint_tv">搜漫画</string>
     <string name="BookShelfFragment_vip_center_tv">会员中心</string>

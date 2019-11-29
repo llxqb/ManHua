@@ -2,27 +2,23 @@ package com.shushan.manhua.entity.response;
 
 import java.util.List;
 
-public class MineInfoResponse {
-
-
+public class MemberCenterResponse {
     /**
-     * unread_message : 0
-     * userinfo : {"id":3,"name":"立刘","head_portrait":"https://img.pulaukomik.com/cover/20191126/5ddce6620baca.jpg","sex":0,"birthday":0,"token":"90e9d52f0dfc91b6a70c188e4ace1159","deviceId":"00000000-3512-abd9-3512-abd900000000","platform":"android","type":0,"bean":0,"valid_bean":13,"vip":0,"vip_end_time":0,"last_month_bean":0,"channel":1,"book_type":[]}
-     * sign_count : 2
-     * vip_get_count : 0
+     * vipget_state : 0
+     * userinfo : {"id":13,"name":"llxqb","head_portrait":"https://img.pulaukomik.com/book/20191129/5de0d1245d997.png","sex":2,"birthday":1567137600,"token":"6fa0aa72af45199d3f7ca8859e13e87c","deviceId":"00000000-3512-abd9-3512-abd900000000","platform":"android","type":1,"bean":0,"valid_bean":10,"vip":0,"vip_end_time":0,"last_month_bean":0,"channel":1,"book_type":[1,2,4]}
+     * vipinfo : [{"vipinfo_id":1,"name":"谷歌订阅/App Store订阅","original_price":"29.99","price":"9.99","bean":200,"indate":30,"type":1},{"vipinfo_id":2,"name":"1个月","original_price":"29.99","price":"9.99","bean":200,"indate":30,"type":2},{"vipinfo_id":3,"name":"3个月","original_price":"89.99","price":"49.99","bean":2000,"indate":90,"type":2},{"vipinfo_id":4,"name":"12个月","original_price":"199.99","price":"99.99","bean":10000,"indate":365,"type":2}]
      */
 
-    private int unread_message;
+    private int vipget_state;
     private UserinfoBean userinfo;
-    private int sign_count;
-    private int vip_get_count;
+    private List<VipinfoBean> vipinfo;
 
-    public int getUnread_message() {
-        return unread_message;
+    public int getVipget_state() {
+        return vipget_state;
     }
 
-    public void setUnread_message(int unread_message) {
-        this.unread_message = unread_message;
+    public void setVipget_state(int vipget_state) {
+        this.vipget_state = vipget_state;
     }
 
     public UserinfoBean getUserinfo() {
@@ -33,40 +29,32 @@ public class MineInfoResponse {
         this.userinfo = userinfo;
     }
 
-    public int getSign_count() {
-        return sign_count;
+    public List<VipinfoBean> getVipinfo() {
+        return vipinfo;
     }
 
-    public void setSign_count(int sign_count) {
-        this.sign_count = sign_count;
-    }
-
-    public int getVip_get_count() {
-        return vip_get_count;
-    }
-
-    public void setVip_get_count(int vip_get_count) {
-        this.vip_get_count = vip_get_count;
+    public void setVipinfo(List<VipinfoBean> vipinfo) {
+        this.vipinfo = vipinfo;
     }
 
     public static class UserinfoBean {
         /**
-         * id : 3
-         * name : 立刘
-         * head_portrait : https://img.pulaukomik.com/cover/20191126/5ddce6620baca.jpg
-         * sex : 0
-         * birthday : 0
-         * token : 90e9d52f0dfc91b6a70c188e4ace1159
+         * id : 13
+         * name : llxqb
+         * head_portrait : https://img.pulaukomik.com/book/20191129/5de0d1245d997.png
+         * sex : 2
+         * birthday : 1567137600
+         * token : 6fa0aa72af45199d3f7ca8859e13e87c
          * deviceId : 00000000-3512-abd9-3512-abd900000000
          * platform : android
-         * type : 0
+         * type : 1
          * bean : 0
-         * valid_bean : 13
+         * valid_bean : 10
          * vip : 0
          * vip_end_time : 0
          * last_month_bean : 0
          * channel : 1
-         * book_type : []
+         * book_type : [1,2,4]
          */
 
         private int id;
@@ -84,7 +72,7 @@ public class MineInfoResponse {
         private int vip_end_time;
         private int last_month_bean;
         private int channel;
-        private List<String> book_type;
+        private List<Integer> book_type;
 
         public int getId() {
             return id;
@@ -206,12 +194,88 @@ public class MineInfoResponse {
             this.channel = channel;
         }
 
-        public List<String> getBook_type() {
+        public List<Integer> getBook_type() {
             return book_type;
         }
 
-        public void setBook_type(List<String> book_type) {
+        public void setBook_type(List<Integer> book_type) {
             this.book_type = book_type;
+        }
+    }
+
+    public static class VipinfoBean {
+        /**
+         * vipinfo_id : 1
+         * name : 谷歌订阅/App Store订阅
+         * original_price : 29.99
+         * price : 9.99
+         * bean : 200
+         * indate : 30
+         * type : 1
+         */
+
+        private int vipinfo_id;
+        private String name;
+        private String original_price;
+        private String price;
+        private int bean;
+        private int indate;
+        private int type;
+
+        public int getVipinfo_id() {
+            return vipinfo_id;
+        }
+
+        public void setVipinfo_id(int vipinfo_id) {
+            this.vipinfo_id = vipinfo_id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getOriginal_price() {
+            return original_price;
+        }
+
+        public void setOriginal_price(String original_price) {
+            this.original_price = original_price;
+        }
+
+        public String getPrice() {
+            return price;
+        }
+
+        public void setPrice(String price) {
+            this.price = price;
+        }
+
+        public int getBean() {
+            return bean;
+        }
+
+        public void setBean(int bean) {
+            this.bean = bean;
+        }
+
+        public int getIndate() {
+            return indate;
+        }
+
+        public void setIndate(int indate) {
+            this.indate = indate;
+        }
+
+        public int getType() {
+            return type;
+        }
+
+        public void setType(int type) {
+            this.type = type;
         }
     }
 }

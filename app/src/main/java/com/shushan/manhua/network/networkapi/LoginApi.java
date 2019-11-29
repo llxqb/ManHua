@@ -20,5 +20,10 @@ public interface LoginApi {
      */
     @POST("cartoon/login")
     Observable<String> onRequestLogin(@Body String request);
+    /**
+     * facebook登录
+     */
+    @POST("cartoon/login/facebook")
+    Observable<String> onRequestLoginFacebook(@Body String request);
 
 }

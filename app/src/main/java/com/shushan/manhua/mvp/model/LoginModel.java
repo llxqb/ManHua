@@ -1,6 +1,7 @@
 package com.shushan.manhua.mvp.model;
 
 import com.google.gson.Gson;
+import com.shushan.manhua.entity.request.FacebookLoginRequest;
 import com.shushan.manhua.entity.request.LoginRequest;
 import com.shushan.manhua.network.networkapi.LoginApi;
 
@@ -28,6 +29,11 @@ public class LoginModel {
         return mLoginApi.onRequestLogin(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 
-
+    /**
+     * facebook登录
+     */
+    public Observable<ResponseData> onRequestLoginFacebook(FacebookLoginRequest request) {
+        return mLoginApi.onRequestLoginFacebook(mGson.toJson(request)).map(mTransform::transformCommon);
+    }
 
 }

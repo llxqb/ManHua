@@ -13,13 +13,14 @@ import com.shushan.manhua.di.modules.ActivityModule;
 import com.shushan.manhua.di.modules.LoginModule;
 import com.shushan.manhua.entity.constants.ActivityConstant;
 import com.shushan.manhua.entity.constants.Constant;
+import com.shushan.manhua.entity.request.FacebookLoginRequest;
 import com.shushan.manhua.entity.request.LoginRequest;
 import com.shushan.manhua.entity.response.LoginResponse;
 import com.shushan.manhua.entity.user.User;
+import com.shushan.manhua.help.FacebookLoginHelper;
 import com.shushan.manhua.help.GoogleLoginHelper;
 import com.shushan.manhua.mvp.ui.activity.main.MainActivity;
 import com.shushan.manhua.mvp.ui.base.BaseActivity;
-import com.shushan.manhua.mvp.utils.LogUtils;
 import com.shushan.manhua.mvp.utils.StatusBarUtil;
 import com.shushan.manhua.mvp.utils.SystemUtils;
 
@@ -32,6 +33,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
     @Inject
     LoginControl.PresenterLogin mPresenterLogin;
     private User mUser;
+    private FacebookLoginHelper faceBookLoginManager;
 
     @Override
     protected void initContentView() {
@@ -43,14 +45,13 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
 
     @Override
     public void initView() {
-
+        initFaceBookLogin();
     }
 
     @Override
     public void initData() {
 
     }
-
 
     @OnClick({R.id.login_google_tv, R.id.login_facebook_tv, R.id.protocol_tv})
     public void onViewClicked(View view) {
@@ -60,6 +61,8 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
                 GoogleLoginHelper.googleLogin(this);
                 break;
             case R.id.login_facebook_tv:
+                //facebook登录
+                faceBookLoginManager.faceBookLogin(this);
                 break;
             case R.id.protocol_tv:
                 break;
@@ -77,9 +80,9 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
             handleSignInResult(result);
         } else {
             //facebook回调  64206
-//            if (faceBookLoginManager != null) {
-//                faceBookLoginManager.mFaceBookCallBack.onActivityResult(requestCode, resultCode, data);
-//            }
+            if (faceBookLoginManager != null) {
+                faceBookLoginManager.mFaceBookCallBack.onActivityResult(requestCode, resultCode, data);
+            }
         }
     }
 
@@ -87,7 +90,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
     private void handleSignInResult(GoogleSignInResult result) {
         dismissLoading();
 //        Log.e("ddd", "handleSignInResult----" + new Gson().toJson(result));
-        LogUtils.e("success:" + result.isSuccess());
+//        LogUtils.e("success:" + result.isSuccess());
         if (result != null && result.isSuccess()) {
             GoogleSignInAccount account = result.getSignInAccount();
             //登录后台系统
@@ -110,16 +113,67 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
 
     @Override
     public void getLoginSuccess(LoginResponse loginResponse) {
-        mSharePreferenceUtil.setData(Constant.LOGIN_MODEL, 2);
-        LoginResponse.UserinfoBean userinfoBean = loginResponse.getUserinfo();
-        User user = new User();
-        user.token = userinfoBean.getToken();
-        mBuProcessor.setLoginUser(user);
-        //刷新main数据
-        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.LOGIN_SUCCESS_UPDATE_DATA));
-        startActivitys(MainActivity.class);
-        finish();
+        GoogleLoginHelper.exitGoogleLogin();//执行退出登录  符合当前登录逻辑
+        loginSuccess(loginResponse.getUserinfo());
     }
+
+    private void initFaceBookLogin() {
+        faceBookLoginManager = new FacebookLoginHelper(result -> {
+            //登录成功
+            FacebookLoginRequest facebookLoginRequest = new FacebookLoginRequest();
+            if (result != null) {
+//                showToast("facebook-token:" + result.getAccessToken().getToken());
+                facebookLoginRequest.access_token = result.getAccessToken().getToken();
+            }
+            facebookLoginRequest.from = Constant.FROM;
+            facebookLoginRequest.deviceId = SystemUtils.getUUID(LoginActivity.this, mSharePreferenceUtil);
+            facebookLoginRequest.channel = mBuProcessor.getChannel();
+            facebookLoginRequest.book_type = mBuProcessor.getbookType();
+            mPresenterLogin.onRequestLoginFacebook(facebookLoginRequest);
+
+        });
+        faceBookLoginManager.initFaceBook(getApplicationContext());
+    }
+
+    @Override
+    public void facebookLoginSuccess(LoginResponse loginResponse) {
+        if (faceBookLoginManager != null) {
+            faceBookLoginManager.faceBookLoginOut();
+        }
+        loginSuccess(loginResponse.getUserinfo());
+    }
+
+    private void loginSuccess(LoginResponse.UserinfoBean userinfoBean) {
+        mSharePreferenceUtil.setData(Constant.LOGIN_MODEL, 2);
+        if (userinfoBean != null) {
+            User user = new User();
+            user.token = userinfoBean.getToken();
+            mBuProcessor.setLoginUser(user);
+            //刷新main数据
+            LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.LOGIN_SUCCESS_UPDATE_DATA));
+            startActivitys(MainActivity.class);
+            finish();
+        }
+    }
+
+//    /**
+//     * 检查app 权限
+//     */
+//    @SuppressLint("CheckResult")
+//    private void checkPermissions(String token) {
+//        RxPermissions mRxPermissions = new RxPermissions(this);
+//        mRxPermissions.request(
+//                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//                Manifest.permission.READ_EXTERNAL_STORAGE
+//        ).subscribe(permission -> {
+//            if (permission) {
+//                reqPersonalInfo(token);
+//            } else {
+//                showToast(getResources().getString(R.string.login_open_permission));
+//            }
+//        });
+//    }
+
 
     private void initInjectData() {
         DaggerLoginComponent.builder().appComponent(getAppComponent())

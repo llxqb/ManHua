@@ -3,6 +3,7 @@ package com.shushan.manhua.mvp.ui.activity.login;
 import android.content.Context;
 
 import com.shushan.manhua.R;
+import com.shushan.manhua.entity.request.FacebookLoginRequest;
 import com.shushan.manhua.entity.request.LoginRequest;
 import com.shushan.manhua.entity.response.LoginResponse;
 import com.shushan.manhua.help.RetryWithDelay;
@@ -54,6 +55,30 @@ public class LoginPresenterImpl implements LoginControl.PresenterLogin {
             if (responseData.parsedData != null) {
                 LoginResponse response = (LoginResponse) responseData.parsedData;
                 mLoginView.getLoginSuccess(response);
+            }
+        } else {
+            mLoginView.showToast(responseData.errorMsg);
+        }
+    }
+
+    /**
+     * facebook登录
+     */
+    @Override
+    public void onRequestLoginFacebook(FacebookLoginRequest request) {
+        mLoginView.showLoading(mContext.getResources().getString(R.string.loading));
+        Disposable disposable = mLoginModel.onRequestLoginFacebook(request).compose(mLoginView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
+                .subscribe(this::requestFacebookDataSuccess, throwable -> mLoginView.showErrMessage(throwable),
+                        () -> mLoginView.dismissLoading());
+        mLoginView.addSubscription(disposable);
+    }
+
+    private void requestFacebookDataSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 0) {
+            responseData.parseData(LoginResponse.class);
+            if (responseData.parsedData != null) {
+                LoginResponse response = (LoginResponse) responseData.parsedData;
+                mLoginView.facebookLoginSuccess(response);
             }
         } else {
             mLoginView.showToast(responseData.errorMsg);
