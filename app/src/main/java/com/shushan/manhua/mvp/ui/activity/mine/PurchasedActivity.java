@@ -12,12 +12,16 @@ import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerPurchasedComponent;
 import com.shushan.manhua.di.modules.ActivityModule;
 import com.shushan.manhua.di.modules.PurchasedModule;
+import com.shushan.manhua.entity.constants.Constant;
+import com.shushan.manhua.entity.request.PurchasedBookRequest;
 import com.shushan.manhua.entity.response.PurchasedResponse;
 import com.shushan.manhua.mvp.ui.adapter.PurchasedAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -27,13 +31,16 @@ import butterknife.OnClick;
  */
 public class PurchasedActivity extends BaseActivity implements PurchasedControl.PurchasedView {
 
+    @Inject
+    PurchasedControl.PresenterPurchased mPresenter;
     @BindView(R.id.common_title_tv)
     TextView mCommonTitleTv;
     @BindView(R.id.purchased_recycler_view)
     RecyclerView mPurchasedRecyclerView;
     private PurchasedAdapter mPurchasedAdapter;
-    private List<PurchasedResponse> purchasedResponseList = new ArrayList<>();
+    private List<PurchasedResponse.DataBean> purchasedResponseList = new ArrayList<>();
     private View mEmptyView;
+    private int page = 1;
 
     @Override
     protected void initContentView() {
@@ -46,18 +53,41 @@ public class PurchasedActivity extends BaseActivity implements PurchasedControl.
     public void initView() {
         initEmptyView();
         mCommonTitleTv.setText(getResources().getString(R.string.PurchasedActivity_title));
-        mPurchasedAdapter = new PurchasedAdapter(purchasedResponseList);
+        mPurchasedAdapter = new PurchasedAdapter(purchasedResponseList, mImageLoaderHelper);
         mPurchasedRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mPurchasedRecyclerView.setAdapter(mPurchasedAdapter);
     }
 
     @Override
     public void initData() {
-        for (int i = 0; i < 10; i++) {
-            PurchasedResponse purchasedResponse = new PurchasedResponse();
-            purchasedResponseList.add(purchasedResponse);
+        onRequestPurchasedBook();
+    }
+
+
+    @OnClick(R.id.common_left_iv)
+    public void onViewClicked() {
+        finish();
+    }
+
+
+    /**
+     * 已购漫画
+     */
+    private void onRequestPurchasedBook() {
+        PurchasedBookRequest purchasedBookRequest = new PurchasedBookRequest();
+        purchasedBookRequest.token = mBuProcessor.getToken();
+        purchasedBookRequest.page = String.valueOf(page);
+        purchasedBookRequest.pagesize = String.valueOf(Constant.PAGESIZE);
+        mPresenter.onRequestPurchasedBook(purchasedBookRequest);
+    }
+
+    @Override
+    public void getPurchasedBookSuccess(PurchasedResponse purchasedResponse) {
+        if (purchasedResponse.getData().isEmpty()) {
+            mPurchasedAdapter.setEmptyView(mEmptyView);
+        } else {
+            mPurchasedAdapter.setNewData(purchasedResponse.getData());
         }
-        //  mSentMessageAdapter.setEmptyView(mEmptyView);
     }
 
     private void initEmptyView() {
@@ -68,16 +98,11 @@ public class PurchasedActivity extends BaseActivity implements PurchasedControl.
         emptyTv.setText(getResources().getString(R.string.PurchasedActivity_empty_tv));
     }
 
-
-
-    @OnClick(R.id.common_left_iv)
-    public void onViewClicked() {
-        finish();
-    }
-
     private void initInjectData() {
         DaggerPurchasedComponent.builder().appComponent(getAppComponent())
                 .purchasedModule(new PurchasedModule(this, this))
                 .activityModule(new ActivityModule(this)).build().inject(this);
     }
+
+
 }

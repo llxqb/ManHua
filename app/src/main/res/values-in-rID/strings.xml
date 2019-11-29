@@ -156,15 +156,23 @@
     <string name="PersonalInfoActivity_sex">Kelamin</string>
     <string name="PersonalInfoActivity_birthday">Tanggal Lahir</string>
     <string name="PersonalInfoActivity_select">Silahkan pilih</string>
+    <string name="PersonalInfoActivity_sex_hint">Tetapkan jenis kelamin</string>
+    <string name="PersonalInfoActivity_sex_man">Laki-laki</string>
+    <string name="PersonalInfoActivity_sex_female">Perempuan</string>
 
-    <string name="EditNameDialog_nick">昵称</string>
-    <string name="EditNameDialog_nick_hint">请输入你的昵称</string>
-    <string name="EditNameDialog_cancel">取消</string>
-    <string name="EditNameDialog_sure">确定</string>
+    <string name="EditNameDialog_nick">Nama akun</string>
+    <string name="EditNameDialog_nick_hint">Isi nama panggilan</string>
+    <string name="EditNameDialog_cancel">Batalkan</string>
+    <string name="EditNameDialog_sure">Oke</string>
 
-    <string name="AvatarPopupWindow_photo">拍照</string>
-    <string name="AvatarPopupWindow_album">相册</string>
-    <string name="AvatarPopupWindow_cancel">取消</string>
+    <string name="EditSexDialog_name">Kelamin</string>
+    <string name="EditSexDialog_hint">Silakan pilih jenis kelamin Anda</string>
+    <string name="EditSexDialog_cancel">Batalkan</string>
+    <string name="EditSexDialog_sure">Oke</string>
+
+    <string name="AvatarPopupWindow_photo">Ambil gambar</string>
+    <string name="AvatarPopupWindow_album">Album foto</string>
+    <string name="AvatarPopupWindow_cancel">Batalkan</string>
 
     <string name="MessageActivity_title">Informasi saya</string>
     <string name="MessageActivity_SentMessage">Komentar yang\nsaya kirimkan</string>
@@ -233,9 +241,9 @@
     <string name="BarrageSettingActivity_transparency">Tingkat kecerahan</string>
     <string name="BarrageSettingActivity_play_speed">Kecepatan memainkan</string>
 
-    <string name="SelectDialogUtil_date_title">选择日期</string>
-    <string name="SelectDialogUtil_cancel">取消</string>
-    <string name="SelectDialogUtil_sure">确定</string>
+    <string name="SelectDialogUtil_date_title">Pilih tanggal</string>
+    <string name="SelectDialogUtil_cancel">Batalkan</string>
+    <string name="SelectDialogUtil_sure">Oke</string>
 
     <!-- 空白页-->
     <string name="BookDetailFragment_empty_tv">sementara tidak ada komentar</string>

@@ -12,7 +12,7 @@
         android:layout_width="@dimen/dp_133"
         android:layout_height="@dimen/dp_80"
         android:scaleType="centerCrop"
-        android:src="@mipmap/book_icon" />
+        android:src="@mipmap/default_graph_2" />
 
     <TextView
         android:id="@+id/book_name_tv"

@@ -1,8 +1,12 @@
 package com.shushan.manhua.mvp.ui.fragment.mine;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,11 +17,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.shushan.manhua.ManHuaApplication;
 import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerMineFragmentComponent;
 import com.shushan.manhua.di.modules.MainModule;
 import com.shushan.manhua.di.modules.MineFragmentModule;
+import com.shushan.manhua.entity.constants.ActivityConstant;
+import com.shushan.manhua.entity.constants.Constant;
+import com.shushan.manhua.entity.request.MineRequest;
+import com.shushan.manhua.entity.response.MineInfoResponse;
 import com.shushan.manhua.entity.response.MineReadingResponse;
 import com.shushan.manhua.entity.user.User;
 import com.shushan.manhua.mvp.ui.activity.book.ReadingHistoryActivity;
@@ -32,8 +41,11 @@ import com.shushan.manhua.mvp.ui.activity.user.MessageActivity;
 import com.shushan.manhua.mvp.ui.activity.user.PersonalInfoActivity;
 import com.shushan.manhua.mvp.ui.adapter.MineReadingAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseFragment;
+import com.shushan.manhua.mvp.utils.LogUtils;
 import com.shushan.manhua.mvp.utils.StatusBarUtil;
+import com.shushan.manhua.mvp.utils.UserUtil;
 import com.shushan.manhua.mvp.views.CircleImageView;
+import com.shushan.manhua.mvp.views.ResizableImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,8 +62,12 @@ import butterknife.Unbinder;
  * 我的
  */
 
-public class MineFragment extends BaseFragment implements MineFragmentControl.MineView {
+public class MineFragment extends BaseFragment implements MineFragmentControl.MineView, SwipeRefreshLayout.OnRefreshListener {
 
+    @Inject
+    MineFragmentControl.MineFragmentPresenter mPresenter;
+    @BindView(R.id.swipe_ly)
+    SwipeRefreshLayout mSwipeLy;
     @BindView(R.id.avatar_iv)
     CircleImageView mAvatarIv;
     @BindView(R.id.username_tv)
@@ -64,6 +80,10 @@ public class MineFragment extends BaseFragment implements MineFragmentControl.Mi
     LinearLayout mMessageLl;
     @BindView(R.id.beans_num_tv)
     TextView mBeansNumTv;
+    @BindView(R.id.not_vip_layout)
+    ConstraintLayout mNotVipLayout;
+    @BindView(R.id.top_iv)
+    ResizableImageView mTopIv;
     @BindView(R.id.check_in_num_tv)
     TextView mCheckInNumTv;
     @BindView(R.id.vip_check_in_num_tv)
@@ -73,9 +93,6 @@ public class MineFragment extends BaseFragment implements MineFragmentControl.Mi
     Unbinder unbinder;
     private User mUser;
 
-
-    @Inject
-    MineFragmentControl.MineFragmentPresenter mPresenter;
 
     @Nullable
     @Override
@@ -89,18 +106,36 @@ public class MineFragment extends BaseFragment implements MineFragmentControl.Mi
         return view;
     }
 
+    @Override
+    public void onReceivePro(Context context, Intent intent) {
+        if (intent.getAction() != null) {
+            if (intent.getAction().equals(ActivityConstant.UPDATE_PERSONAL_INFO)) {
+                onRequestMineInfo();
+            }
+        }
+        super.onReceivePro(context, intent);
+    }
+
+    @Override
+    public void addFilter() {
+        super.addFilter();
+        mFilter.addAction(ActivityConstant.UPDATE_PERSONAL_INFO);
+    }
+
 
     @Override
     public void initView() {
-        mUser = mBuProcessor.getUser();
+        mSwipeLy.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
+        mSwipeLy.setOnRefreshListener(this);
+        initRecyclerView();
     }
 
     @Override
     public void initData() {
-        initRecycler();
+        onRequestMineInfo();
     }
 
-    private void initRecycler() {
+    private void initRecyclerView() {
         List<MineReadingResponse> mineReadingResponseList = new ArrayList<>();
         String[] readName = {getResources().getString(R.string.MineFragment_reading_hint_title), getResources().getString(R.string.MineFragment_reading_record), getResources().getString(R.string.MineFragment_buy_book)};
         int[] readIcon = {R.mipmap.my_reading_preference, R.mipmap.my_reading_record, R.mipmap.my_purchased_comics};
@@ -161,6 +196,55 @@ public class MineFragment extends BaseFragment implements MineFragmentControl.Mi
         }
     }
 
+    @Override
+    public void onRefresh() {
+        onRequestMineInfo();
+    }
+
+    /**
+     * 请求我的
+     */
+    private void onRequestMineInfo() {
+        MineRequest mineRequest = new MineRequest();
+        mineRequest.token = mBuProcessor.getToken();
+        mPresenter.onRequestMineInfo(mineRequest);
+    }
+
+    @Override
+    public void getMineInfoSuccess(MineInfoResponse mineInfoResponse) {
+        if (mSwipeLy.isRefreshing()) {
+            mSwipeLy.setRefreshing(false);
+        }
+        MineInfoResponse.UserinfoBean userinfoBean = mineInfoResponse.getUserinfo();
+        if (mineInfoResponse.getUnread_message() == 0) {  //未读消息
+            mMessageReadTv.setVisibility(View.GONE);
+        } else {
+            mMessageReadTv.setVisibility(View.VISIBLE);
+        }
+        setData(userinfoBean);
+    }
+
+    private void setData(MineInfoResponse.UserinfoBean userinfoBean) {
+        if (userinfoBean != null) {
+            User user = UserUtil.tranLoginUser(userinfoBean);
+            mBuProcessor.setLoginUser(user);
+            mUser = mBuProcessor.getUser();
+            LogUtils.e("Mine: mUser:" + new Gson().toJson(mUser));
+            mImageLoaderHelper.displayImage(getActivity(), userinfoBean.getHead_portrait(), mAvatarIv, Constant.LOADING_AVATOR);
+            mUsernameTv.setText(userinfoBean.getName());
+            if (userinfoBean.getVip() == 0) {//是否是VIP
+                mVipIcon.setImageResource(R.mipmap.vip_gray);
+                mNotVipLayout.setVisibility(View.VISIBLE);
+                mTopIv.setImageResource(R.mipmap.my_background);
+            } else {
+                mVipIcon.setImageResource(R.mipmap.recharge_vip);
+                mNotVipLayout.setVisibility(View.GONE);
+                mTopIv.setImageResource(R.mipmap.my_background2);
+            }
+            mBeansNumTv.setText(String.valueOf(userinfoBean.getBean()));
+        }
+    }
+
     private void initializeInjector() {
         DaggerMineFragmentComponent.builder().appComponent(((ManHuaApplication) Objects.requireNonNull(getActivity()).getApplication()).getAppComponent())
                 .mainModule(new MainModule((AppCompatActivity) getActivity()))
@@ -174,5 +258,6 @@ public class MineFragment extends BaseFragment implements MineFragmentControl.Mi
         super.onDestroyView();
         unbinder.unbind();
     }
+
 
 }

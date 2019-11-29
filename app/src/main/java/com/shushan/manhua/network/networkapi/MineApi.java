@@ -46,4 +46,15 @@ public interface MineApi {
     @POST("cartoon/sign/getquest")
     Observable<String> onRequestReceiveTask(@Body String request);
 
+    /**
+     * 已购漫画
+     */
+    @POST("cartoon/user/buyCatalogue")
+    Observable<String> onRequestPurchasedBook(@Body String request);
+    /**
+     * 提交辅导反馈
+     */
+    @POST("cartoon/user/feedback")
+    Observable<String> onSubmitFeedbackRequest(@Body String request);
+
 }

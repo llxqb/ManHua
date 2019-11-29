@@ -9,6 +9,9 @@ import java.io.Serializable;
  */
 
 public class User implements Serializable {
+    public User() {
+    }
+
     public User(String token, String name, String avatar, int vip, int vip_end_time, int channel, String bookType) {
         this.token = token;
         this.name = name;

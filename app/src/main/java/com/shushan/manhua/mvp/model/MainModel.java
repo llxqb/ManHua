@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.shushan.manhua.entity.request.BookShelfInfoRequest;
 import com.shushan.manhua.entity.request.HomeInfoRequest;
 import com.shushan.manhua.entity.request.LoginTouristModeRequest;
+import com.shushan.manhua.entity.request.MineRequest;
 import com.shushan.manhua.entity.request.ReadingSettingRequest;
 import com.shushan.manhua.entity.request.RecommendRequest;
 import com.shushan.manhua.network.networkapi.MainApi;
@@ -67,6 +68,12 @@ public class MainModel {
      */
     public Observable<ResponseData> onRecommendInfo(RecommendRequest request) {
         return mMainApi.onRecommendInfo(new Gson().toJson(request)).map(mTransform::transformListType);
+    }
+    /**
+     * 查询我的
+     */
+    public Observable<ResponseData> onRequestMineInfo(MineRequest request) {
+        return mMainApi.onRequestMineInfo(new Gson().toJson(request)).map(mTransform::transformCommon);
     }
 
 

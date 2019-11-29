@@ -46,4 +46,10 @@ public interface MainApi {
     @POST("cartoon/book/nominateBook")
     Observable<String> onRecommendInfo(@Body String request);
 
+    /**
+     * 查询我的
+     */
+    @POST("cartoon/user")
+    Observable<String> onRequestMineInfo(@Body String request);
+
 }

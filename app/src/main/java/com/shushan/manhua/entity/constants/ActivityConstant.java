@@ -24,6 +24,10 @@ public class ActivityConstant {
      * 更换阅读设置偏好 ，更新推荐类别
      */
     public static final String UPDATE_RECOMMEND_BOOK = "update_recommend_book";
+    /**
+     * 更新个人基本信息  刷新我的
+     */
+    public static final String UPDATE_PERSONAL_INFO = "update_personal_info";
 
 
 }

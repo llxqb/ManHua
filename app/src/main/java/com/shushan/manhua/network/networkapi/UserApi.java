@@ -16,4 +16,21 @@ public interface UserApi {
     @POST("cartoon/comment/commentLog")
     Observable<String> onRequestMessageInfo(@Body String request);
 
+    /**
+     * 请求消息列表
+     */
+    @POST("cartoon/user/userInfo")
+    Observable<String> onRequestPersonalInfo(@Body String request);
+
+    /**
+     * 上传图片
+     */
+    @POST("cartoon/upload")
+    Observable<String> uploadImageRequest(@Body String request);
+
+    /**
+     * 更新个人基本信息
+     */
+    @POST("cartoon/user/setUserInfo")
+    Observable<String> updatePersonalInfoRequest(@Body String request);
 }

@@ -2,6 +2,9 @@ package com.shushan.manhua.mvp.model;
 
 import com.google.gson.Gson;
 import com.shushan.manhua.entity.request.MessageRequest;
+import com.shushan.manhua.entity.request.PersonalInfoRequest;
+import com.shushan.manhua.entity.request.UpdatePersonalInfoRequest;
+import com.shushan.manhua.entity.request.UploadImage;
 import com.shushan.manhua.network.networkapi.UserApi;
 
 import javax.inject.Inject;
@@ -24,11 +27,33 @@ public class UserModel {
         mGson = gson;
         mTransform = transform;
     }
+
     /**
      * 请求消息列表
      */
     public Observable<ResponseData> onRequestMessageInfo(MessageRequest request) {
-        return mUserApi.onRequestMessageInfo(mGson.toJson(request)).map(mTransform::transformListType);
+        return mUserApi.onRequestMessageInfo(mGson.toJson(request)).map(mTransform::transformCommon);
+    }
+
+    /**
+     * 查询个人基本信息
+     */
+    public Observable<ResponseData> onRequestPersonalInfo(PersonalInfoRequest request) {
+        return mUserApi.onRequestPersonalInfo(mGson.toJson(request)).map(mTransform::transformListType);
+    }
+
+    /**
+     * 上传图片
+     */
+    public Observable<ResponseData> uploadImageRequest(UploadImage request) {
+        return mUserApi.uploadImageRequest(mGson.toJson(request)).map(mTransform::transformCommon);
+    }
+
+    /**
+     * 更新个人基本信息
+     */
+    public Observable<ResponseData> updatePersonalInfoRequest(UpdatePersonalInfoRequest request) {
+        return mUserApi.updatePersonalInfoRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 
 }

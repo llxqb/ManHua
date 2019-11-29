@@ -2,9 +2,16 @@ package com.shushan.manhua.mvp.ui.fragment.mine;
 
 import android.content.Context;
 
+import com.shushan.manhua.R;
+import com.shushan.manhua.entity.request.MineRequest;
+import com.shushan.manhua.entity.response.MineInfoResponse;
+import com.shushan.manhua.help.RetryWithDelay;
 import com.shushan.manhua.mvp.model.MainModel;
+import com.shushan.manhua.mvp.model.ResponseData;
 
 import javax.inject.Inject;
+
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by li.liu on 2019/5/28.
@@ -25,33 +32,33 @@ public class MineFragmentPresenterImpl implements MineFragmentControl.MineFragme
     }
 
 
-//    /**
-//     * 查询我的（包含购买的服务信息）
-//     */
-//    @Override
-//    public void onRequestMineInfo(TokenRequest tokenRequest) {
-//        mMineView.showLoading(mContext.getResources().getString(R.string.loading));
-//        Disposable disposable = mMainModel.onRequestMineInfo(tokenRequest).compose(mMineView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
-//                .subscribe(this::requestMineInfoSuccess, throwable -> mMineView.showErrMessage(throwable),
-//                        () -> mMineView.dismissLoading());
-//        mMineView.addSubscription(disposable);
-//    }
-//
-//    /**
-//     * 查询我的（包含购买的服务信息）成功
-//     */
-//    private void requestMineInfoSuccess(ResponseData responseData) {
-//        mMineView.judgeToken(responseData.resultCode);
-//        if (responseData.resultCode == 0) {
-//            responseData.parseData(MineInfoResponse.class);
-//            if (responseData.parsedData != null) {
-//                MineInfoResponse response = (MineInfoResponse) responseData.parsedData;
-//                mMineView.getMineInfoSuccess(response);
-//            }
-//        } else {
-//            mMineView.showToast(responseData.errorMsg);
-//        }
-//    }
+    /**
+     * 查询我的
+     */
+    @Override
+    public void onRequestMineInfo(MineRequest mineRequest) {
+        mMineView.showLoading(mContext.getResources().getString(R.string.loading));
+        Disposable disposable = mMainModel.onRequestMineInfo(mineRequest).compose(mMineView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
+                .subscribe(this::requestMineInfoSuccess, throwable -> mMineView.showErrMessage(throwable),
+                        () -> mMineView.dismissLoading());
+        mMineView.addSubscription(disposable);
+    }
+
+    /**
+     * 查询我的 成功
+     */
+    private void requestMineInfoSuccess(ResponseData responseData) {
+        mMineView.judgeToken(responseData.resultCode);
+        if (responseData.resultCode == 0) {
+            responseData.parseData(MineInfoResponse.class);
+            if (responseData.parsedData != null) {
+                MineInfoResponse response = (MineInfoResponse) responseData.parsedData;
+                mMineView.getMineInfoSuccess(response);
+            }
+        } else {
+            mMineView.showToast(responseData.errorMsg);
+        }
+    }
 
     @Override
     public void onCreate() {

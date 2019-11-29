@@ -52,7 +52,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <ImageView
+    <com.shushan.manhua.mvp.views.CircleImageView
         android:id="@+id/avatar_iv"
         android:layout_width="@dimen/dp_90"
         android:layout_height="@dimen/dp_90"
@@ -92,10 +92,10 @@
                 android:layout_marginEnd="@dimen/dp_20"
                 android:drawableEnd="@mipmap/arrow_gray"
                 android:drawablePadding="@dimen/dp_8"
-                android:gravity="center"
+                android:gravity="center_vertical|end"
+                android:hint="@string/PersonalInfoActivity_select"
                 android:paddingStart="@dimen/dp_10"
                 android:paddingEnd="@dimen/dp_1"
-                android:text="苏曼曼"
                 android:textColor="@color/color_30"
                 android:textSize="@dimen/sp_16" />
         </RelativeLayout>
@@ -119,11 +119,16 @@
             <TextView
                 android:id="@+id/sex_tv"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="@dimen/dp_36"
-                android:text="男"
+                android:gravity="center"
+                android:paddingStart="@dimen/dp_10"
+                android:paddingEnd="@dimen/dp_1"
+                android:drawableEnd="@mipmap/arrow_gray"
+                android:drawablePadding="@dimen/dp_8"
+                android:layout_marginEnd="@dimen/dp_20"
+                android:hint="@string/PersonalInfoActivity_select"
                 android:textColor="@color/color_30"
                 android:textSize="@dimen/sp_16" />
         </RelativeLayout>

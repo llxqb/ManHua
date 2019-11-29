@@ -28,7 +28,7 @@ public class SelectDialogUtil {
      * 条件选择器,选择文字
      * 选择科目
      */
-    public void selectSubject(String title, List<String> stringList) {
+    public void selectText(String title, List<String> stringList) {
         OptionsPickerView pvOptions = new OptionsPickerBuilder(mContext, (options1, option2, options3, v) -> {
             //返回的分别是三个级别的选中位置
             String tx = stringList.get(options1);
@@ -40,6 +40,8 @@ public class SelectDialogUtil {
                 .setTitleColor(mContext.getResources().getColor(R.color.color999))//标题文字颜色
                 .setSubmitColor(mContext.getResources().getColor(R.color.color_blue_btn))//确定按钮文字颜色
                 .setCancelColor(mContext.getResources().getColor(R.color.first_text_color))//取消按钮文字颜色
+                .setCancelText(mContext.getString(R.string.SelectDialogUtil_cancel))
+                .setSubmitText(mContext.getString(R.string.SelectDialogUtil_sure))
                 .build();
         pvOptions.setPicker(stringList);
         pvOptions.show();
@@ -55,9 +57,7 @@ public class SelectDialogUtil {
             if (mSelectPickerListener != null) {
                 mSelectPickerListener.getSelectDate(date);
             }
-//            mSelectDateTv.setText(DateUtil.dateTranString(date, "yyyy年MM月dd日"));
-        })
-                .setTitleText(mContext.getResources().getString(R.string.SelectDialogUtil_date_title))//标题文字
+        }).setTitleText(mContext.getResources().getString(R.string.SelectDialogUtil_date_title))//标题文字
                 .setTitleColor(mContext.getResources().getColor(R.color.color999))//标题文字颜色
                 .setSubmitColor(mContext.getResources().getColor(R.color.color_blue_btn))//确定按钮文字颜色
                 .setCancelColor(mContext.getResources().getColor(R.color.first_text_color))//取消按钮文字颜色

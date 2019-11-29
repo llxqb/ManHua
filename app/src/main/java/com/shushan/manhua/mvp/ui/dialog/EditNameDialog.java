@@ -21,7 +21,7 @@ import butterknife.Unbinder;
 
 
 /**
- * 支付dialog
+ * 编辑姓名dialog
  *
  * @author li.liu
  */

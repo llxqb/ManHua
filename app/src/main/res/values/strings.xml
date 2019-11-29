@@ -156,11 +156,19 @@
     <string name="PersonalInfoActivity_sex">性别</string>
     <string name="PersonalInfoActivity_birthday">生日</string>
     <string name="PersonalInfoActivity_select">请选择</string>
+    <string name="PersonalInfoActivity_sex_hint">选择性别</string>
+    <string name="PersonalInfoActivity_sex_man">男</string>
+    <string name="PersonalInfoActivity_sex_female">女</string>
 
     <string name="EditNameDialog_nick">昵称</string>
     <string name="EditNameDialog_nick_hint">请输入你的昵称</string>
     <string name="EditNameDialog_cancel">取消</string>
     <string name="EditNameDialog_sure">确定</string>
+
+    <string name="EditSexDialog_name">性别</string>
+    <string name="EditSexDialog_hint">请选择你的性别</string>
+    <string name="EditSexDialog_cancel">取消</string>
+    <string name="EditSexDialog_sure">确定</string>
 
     <string name="AvatarPopupWindow_photo">拍照</string>
     <string name="AvatarPopupWindow_album">相册</string>

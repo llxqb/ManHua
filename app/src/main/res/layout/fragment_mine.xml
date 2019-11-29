@@ -1,322 +1,337 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swipe_ly"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.constraint.ConstraintLayout
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/dp_10">
+        android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/top_iv"
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/my_background"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:paddingBottom="@dimen/dp_10">
 
-        <com.shushan.manhua.mvp.views.CircleImageView
-            android:id="@+id/avatar_iv"
-            android:layout_width="@dimen/dp_58"
-            android:layout_height="@dimen/dp_58"
-            android:layout_marginStart="@dimen/dp_22"
-            android:layout_marginTop="@dimen/dp_38"
-            android:src="@mipmap/default_head"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <com.shushan.manhua.mvp.views.ResizableImageView
+                android:id="@+id/top_iv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/my_background"
+                app:layout_constraintTop_toTopOf="parent" />
 
-
-        <TextView
-            android:id="@+id/username_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_11"
-            android:layout_marginTop="@dimen/dp_40"
-            android:text="Cripple"
-            android:textColor="@color/color_30"
-            android:textSize="@dimen/sp_18"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/avatar_iv"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/vip_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_11"
-            android:layout_marginTop="@dimen/dp_8"
-            android:src="@mipmap/recharge_vip"
-            app:layout_constraintStart_toEndOf="@id/avatar_iv"
-            app:layout_constraintTop_toBottomOf="@id/username_tv" />
+            <com.shushan.manhua.mvp.views.CircleImageView
+                android:id="@+id/avatar_iv"
+                android:layout_width="@dimen/dp_58"
+                android:layout_height="@dimen/dp_58"
+                android:layout_marginStart="@dimen/dp_22"
+                android:layout_marginTop="@dimen/dp_38"
+                android:src="@mipmap/default_head"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
-        <ImageView
-            android:id="@+id/setting_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_30"
-            android:paddingStart="@dimen/dp_2"
-            android:paddingTop="@dimen/dp_10"
-            android:paddingEnd="@dimen/dp_22"
-            android:paddingBottom="@dimen/dp_10"
-            android:src="@mipmap/my_install"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <LinearLayout
-            android:id="@+id/message_ll"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="@dimen/dp_10"
-            app:layout_constraintEnd_toStartOf="@id/setting_iv"
-            app:layout_constraintTop_toTopOf="parent">
+            <TextView
+                android:id="@+id/username_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_11"
+                android:layout_marginTop="@dimen/dp_40"
+                android:text="Cripple"
+                android:textColor="@color/color_30"
+                android:textSize="@dimen/sp_18"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/avatar_iv"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/message_iv"
+                android:id="@+id/vip_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_11"
+                android:layout_marginTop="@dimen/dp_8"
+                android:src="@mipmap/recharge_vip"
+                app:layout_constraintStart_toEndOf="@id/avatar_iv"
+                app:layout_constraintTop_toBottomOf="@id/username_tv" />
+
+
+            <ImageView
+                android:id="@+id/setting_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_30"
-                android:src="@mipmap/my_notices" />
-
-            <TextView
-                android:id="@+id/message_read_tv"
-                android:layout_width="@dimen/dp_8"
-                android:layout_height="@dimen/dp_8"
-                android:layout_marginStart="@dimen/dp_m_1"
-                android:layout_marginTop="@dimen/dp_26"
-                android:background="@drawable/bg_round_red_360" />
-        </LinearLayout>
-
-
-        <View
-            android:id="@+id/line1"
-            android:layout_width="@dimen/dp_1"
-            android:layout_height="@dimen/dp_25"
-            android:layout_marginTop="@dimen/dp_35"
-            android:background="@color/color_30"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/vip_icon" />
-
-        <LinearLayout
-            android:id="@+id/beans_num_ll"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_25"
-            android:gravity="center"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toStartOf="@id/line1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/vip_icon">
-
-            <TextView
-                android:id="@+id/beans_num_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="252"
-                android:textColor="@color/color_30"
-                android:textSize="@dimen/sp_26"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_8"
-                android:text="@string/MineFragment_beans_tv"
-                android:textColor="@color/color_30"
-                android:textSize="@dimen/sp_14" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/recharge_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_30"
-            android:drawableStart="@mipmap/my_recharge"
-            android:drawablePadding="@dimen/dp_6"
-            android:gravity="center"
-            android:text="@string/MineFragment_recharge"
-            android:textColor="@color/color_30"
-            android:textSize="@dimen/sp_14"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/line1"
-            app:layout_constraintTop_toBottomOf="@id/vip_icon" />
-
-
-        <ImageView
-            android:id="@+id/become_vip_hint"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_41"
-            android:layout_marginTop="@dimen/dp_45"
-            android:src="@mipmap/recharge_vip_photo"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/beans_num_ll" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_38"
-            android:layout_marginTop="@dimen/dp_10"
-            android:text="bisa menikmati banyak hak istimewa"
-            android:textColor="#E1C277"
-            android:textSize="@dimen/sp_12"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/become_vip_hint" />
-
-        <TextView
-            android:id="@+id/become_vip_tv"
-            android:layout_width="@dimen/dp_88"
-            android:layout_height="@dimen/dp_36"
-            android:layout_marginTop="@dimen/dp_44"
-            android:layout_marginEnd="@dimen/dp_23"
-            android:background="@drawable/gradient_become_vip_bg"
-            android:gravity="center"
-            android:text="@string/MineFragment_open_vip"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recharge_tv" />
-
-        <!-- 福利专区-->
-        <TextView
-            android:id="@+id/welfare_title_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_22"
-            android:layout_marginTop="@dimen/dp_19"
-            android:text="@string/MineFragment_welfare_hint_title"
-            android:textColor="@color/color_30"
-            android:textSize="@dimen/sp_17"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/top_iv" />
-
-
-        <LinearLayout
-            android:id="@+id/check_in_layout"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_78"
-            android:layout_marginTop="@dimen/dp_14"
-            android:orientation="horizontal"
-            android:paddingStart="@dimen/dp_24"
-            android:paddingEnd="@dimen/dp_24"
-            app:layout_constraintTop_toBottomOf="@id/welfare_title_tv">
+                android:paddingStart="@dimen/dp_2"
+                android:paddingTop="@dimen/dp_10"
+                android:paddingEnd="@dimen/dp_22"
+                android:paddingBottom="@dimen/dp_10"
+                android:src="@mipmap/my_install"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
-                android:id="@+id/check_in_beans_ll"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@mipmap/my_daily_attendance_beans"
-                android:orientation="vertical">
+                android:id="@+id/message_ll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/dp_10"
+                app:layout_constraintEnd_toStartOf="@id/setting_iv"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
+                <ImageView
+                    android:id="@+id/message_iv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp_12"
-                    android:layout_marginTop="@dimen/dp_14"
-                    android:text="@string/MineFragment_check_in"
-                    android:textColor="#2E78FF"
-                    android:textSize="@dimen/sp_15" />
+                    android:layout_marginTop="@dimen/dp_30"
+                    android:src="@mipmap/my_notices" />
 
                 <TextView
-                    android:id="@+id/check_in_num_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp_12"
-                    android:layout_marginTop="@dimen/dp_7"
-                    android:text="@string/MineFragment_check_in_hint"
-                    android:textColor="#2E78FF"
-                    android:textSize="@dimen/sp_12" />
+                    android:id="@+id/message_read_tv"
+                    android:layout_width="@dimen/dp_8"
+                    android:layout_height="@dimen/dp_8"
+                    android:layout_marginStart="@dimen/dp_m_1"
+                    android:layout_marginTop="@dimen/dp_26"
+                    android:background="@drawable/bg_round_red_360" />
             </LinearLayout>
+
+
+            <View
+                android:id="@+id/line1"
+                android:layout_width="@dimen/dp_1"
+                android:layout_height="@dimen/dp_25"
+                android:layout_marginTop="@dimen/dp_35"
+                android:background="@color/color_30"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/vip_icon" />
 
             <LinearLayout
-                android:id="@+id/vip_check_in_beans_ll"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/dp_19"
-                android:layout_weight="1"
-                android:background="@mipmap/my_vip_beans"
-                android:orientation="vertical">
+                android:id="@+id/beans_num_ll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_25"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toStartOf="@id/line1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/vip_icon">
+
+                <TextView
+                    android:id="@+id/beans_num_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="252"
+                    android:textColor="@color/color_30"
+                    android:textSize="@dimen/sp_26"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp_12"
-                    android:layout_marginTop="@dimen/dp_14"
-                    android:text="@string/MineFragment_check_in_vip"
-                    android:textColor="#FF7600"
-                    android:textSize="@dimen/sp_15" />
-
-                <TextView
-                    android:id="@+id/vip_check_in_num_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp_12"
-                    android:layout_marginTop="@dimen/dp_7"
-                    android:text="@string/MineFragment_check_in_hint"
-                    android:textColor="#FF7600"
-                    android:textSize="@dimen/sp_12" />
-
+                    android:layout_marginStart="@dimen/dp_8"
+                    android:text="@string/MineFragment_beans_tv"
+                    android:textColor="@color/color_30"
+                    android:textSize="@dimen/sp_14" />
             </LinearLayout>
-        </LinearLayout>
 
-        <TextView
-            android:id="@+id/reading_title_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_22"
-            android:layout_marginTop="@dimen/dp_30"
-            android:text="@string/MineFragment_reading_hint_title"
-            android:textColor="@color/color_30"
-            android:textSize="@dimen/sp_17"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/check_in_layout" />
-
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/reading_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_22"
-            android:layout_marginTop="@dimen/dp_18"
-            android:layout_marginEnd="@dimen/dp_20"
-            app:layout_constraintTop_toBottomOf="@id/reading_title_tv" />
-
-        <TextView
-            android:id="@+id/other_title_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_22"
-            android:layout_marginTop="@dimen/dp_30"
-            android:text="@string/MineFragment_other_hint_title"
-            android:textColor="@color/color_30"
-            android:textSize="@dimen/sp_17"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/reading_recycler_view" />
-
-        <TextView
-            android:id="@+id/feedback_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_18"
-            android:layout_marginTop="@dimen/dp_18"
-            android:layout_marginEnd="@dimen/dp_22"
-            android:background="@drawable/ripple_write_bg"
-            android:drawableTop="@mipmap/my_feedback"
-            android:drawablePadding="@dimen/dp_7"
-            android:padding="@dimen/dp_6"
-            android:text="@string/MineFragment_other_feedback"
-            android:textColor="@color/color_30"
-            android:textSize="@dimen/sp_11"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/other_title_tv" />
-
-    </android.support.constraint.ConstraintLayout>
+            <TextView
+                android:id="@+id/recharge_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_24"
+                android:drawableStart="@mipmap/my_recharge"
+                android:drawablePadding="@dimen/dp_6"
+                android:gravity="center"
+                android:padding="@dimen/dp_6"
+                android:text="@string/MineFragment_recharge"
+                android:textColor="@color/color_30"
+                android:textSize="@dimen/sp_14"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/line1"
+                app:layout_constraintTop_toBottomOf="@id/vip_icon" />
 
 
-</android.support.v4.widget.NestedScrollView>
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/not_vip_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_41"
+                android:layout_marginTop="@dimen/dp_45"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/beans_num_ll">
+
+                <ImageView
+                    android:id="@+id/become_vip_hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/recharge_vip_photo"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:text="bisa menikmati banyak hak istimewa"
+                    android:textColor="#E1C277"
+                    android:textSize="@dimen/sp_12"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/become_vip_hint" />
+
+                <TextView
+                    android:id="@+id/become_vip_tv"
+                    android:layout_width="@dimen/dp_88"
+                    android:layout_height="@dimen/dp_36"
+                    android:layout_marginTop="@dimen/dp_6"
+                    android:layout_marginEnd="@dimen/dp_23"
+                    android:background="@drawable/gradient_become_vip_bg"
+                    android:gravity="center"
+                    android:text="@string/MineFragment_open_vip"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <!-- 福利专区-->
+            <TextView
+                android:id="@+id/welfare_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_22"
+                android:layout_marginTop="@dimen/dp_19"
+                android:text="@string/MineFragment_welfare_hint_title"
+                android:textColor="@color/color_30"
+                android:textSize="@dimen/sp_17"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/top_iv" />
+
+
+            <LinearLayout
+                android:id="@+id/check_in_layout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_78"
+                android:layout_marginTop="@dimen/dp_14"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/dp_24"
+                android:paddingEnd="@dimen/dp_24"
+                app:layout_constraintTop_toBottomOf="@id/welfare_title_tv">
+
+                <LinearLayout
+                    android:id="@+id/check_in_beans_ll"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@mipmap/my_daily_attendance_beans"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_12"
+                        android:layout_marginTop="@dimen/dp_12"
+                        android:text="@string/MineFragment_check_in"
+                        android:textColor="#2E78FF"
+                        android:textSize="@dimen/sp_15" />
+
+                    <TextView
+                        android:id="@+id/check_in_num_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_12"
+                        android:layout_marginTop="@dimen/dp_7"
+                        android:text="@string/MineFragment_check_in_hint"
+                        android:textColor="#2E78FF"
+                        android:textSize="@dimen/sp_12" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/vip_check_in_beans_ll"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/dp_19"
+                    android:layout_weight="1"
+                    android:background="@mipmap/my_vip_beans"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_12"
+                        android:layout_marginTop="@dimen/dp_12"
+                        android:text="@string/MineFragment_check_in_vip"
+                        android:textColor="#FF7600"
+                        android:textSize="@dimen/sp_15" />
+
+                    <TextView
+                        android:id="@+id/vip_check_in_num_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_12"
+                        android:layout_marginTop="@dimen/dp_7"
+                        android:text="@string/MineFragment_check_in_hint"
+                        android:textColor="#FF7600"
+                        android:textSize="@dimen/sp_12" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/reading_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_22"
+                android:layout_marginTop="@dimen/dp_30"
+                android:text="@string/MineFragment_reading_hint_title"
+                android:textColor="@color/color_30"
+                android:textSize="@dimen/sp_17"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/check_in_layout" />
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/reading_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_22"
+                android:layout_marginTop="@dimen/dp_18"
+                android:layout_marginEnd="@dimen/dp_20"
+                app:layout_constraintTop_toBottomOf="@id/reading_title_tv" />
+
+            <TextView
+                android:id="@+id/other_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_22"
+                android:layout_marginTop="@dimen/dp_30"
+                android:text="@string/MineFragment_other_hint_title"
+                android:textColor="@color/color_30"
+                android:textSize="@dimen/sp_17"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/reading_recycler_view" />
+
+            <TextView
+                android:id="@+id/feedback_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_18"
+                android:layout_marginTop="@dimen/dp_18"
+                android:layout_marginEnd="@dimen/dp_22"
+                android:background="@drawable/ripple_write_bg"
+                android:drawableTop="@mipmap/my_feedback"
+                android:drawablePadding="@dimen/dp_7"
+                android:padding="@dimen/dp_6"
+                android:text="@string/MineFragment_other_feedback"
+                android:textColor="@color/color_30"
+                android:textSize="@dimen/sp_11"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/other_title_tv" />
+
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+
+</android.support.v4.widget.SwipeRefreshLayout>

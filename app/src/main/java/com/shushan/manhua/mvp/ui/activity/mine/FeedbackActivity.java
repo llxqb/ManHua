@@ -11,7 +11,10 @@ import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerFeedbackComponent;
 import com.shushan.manhua.di.modules.ActivityModule;
 import com.shushan.manhua.di.modules.FeedbackModule;
+import com.shushan.manhua.entity.request.SubmitFeedbackRequest;
 import com.shushan.manhua.mvp.ui.base.BaseActivity;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -21,6 +24,8 @@ import butterknife.OnClick;
  */
 public class FeedbackActivity extends BaseActivity implements FeedbackControl.FeedbackView {
 
+    @Inject
+    FeedbackControl.PresenterFeedback mPresenter;
     @BindView(R.id.common_title_tv)
     TextView mCommonTitleTv;
     @BindView(R.id.content_et)
@@ -57,6 +62,7 @@ public class FeedbackActivity extends BaseActivity implements FeedbackControl.Fe
             case R.id.submit_tv:
                 if (verification()) {
                     //提交
+                    onSubmitFeedbackRequest();
                 }
                 break;
         }
@@ -70,6 +76,21 @@ public class FeedbackActivity extends BaseActivity implements FeedbackControl.Fe
         return true;
     }
 
+    /**
+     * 提交辅导反馈
+     */
+    private void onSubmitFeedbackRequest() {
+        SubmitFeedbackRequest submitFeedbackRequest = new SubmitFeedbackRequest();
+        submitFeedbackRequest.token = mBuProcessor.getToken();
+        submitFeedbackRequest.contact = mContactWayTv.getText().toString();
+        submitFeedbackRequest.content = mContentEt.getText().toString();
+        mPresenter.onSubmitFeedbackRequest(submitFeedbackRequest);
+    }
+
+    @Override
+    public void getSubmitFeedbackSuccess() {
+        finish();
+    }
 
 
     public TextWatcher search_text_OnChange = new TextWatcher() {

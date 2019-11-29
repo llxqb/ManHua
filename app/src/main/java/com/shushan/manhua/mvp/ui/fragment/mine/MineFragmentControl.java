@@ -1,6 +1,8 @@
 package com.shushan.manhua.mvp.ui.fragment.mine;
 
 
+import com.shushan.manhua.entity.request.MineRequest;
+import com.shushan.manhua.entity.response.MineInfoResponse;
 import com.shushan.manhua.mvp.presenter.LoadDataView;
 import com.shushan.manhua.mvp.presenter.Presenter;
 
@@ -11,18 +13,14 @@ import com.shushan.manhua.mvp.presenter.Presenter;
 public class MineFragmentControl {
     public interface MineView extends LoadDataView {
 
-//        void getMineInfoSuccess(MineInfoResponse mineInfoResponse);
+        void getMineInfoSuccess(MineInfoResponse mineInfoResponse);
     }
 
     public interface MineFragmentPresenter extends Presenter<MineView> {
-//        /**
-//         * 查询个人信息
-//         */
-//        void onRequestPersonalInfo(TokenRequest tokenRequest);
         /**
-         * 查询我的（包含购买的服务信息）
+         * 查询我的
          */
-//        void onRequestMineInfo(TokenRequest tokenRequest);
+        void onRequestMineInfo(MineRequest mineRequest);
 
     }
 

@@ -136,7 +136,8 @@ dependencies {
     implementation project(':mzbanner')
 
     //时间日期选择控件
-    implementation 'com.contrarywind:Android-PickerView:4.1.8'
+//    implementation 'com.contrarywind:Android-PickerView:4.1.8'
+    implementation project(':pickerview')
 
     //自定义TabLayout
     implementation 'com.androidkun:XTabLayout:1.1.4'
@@ -146,6 +147,8 @@ dependencies {
     implementation 'com.google.android.gms:play-services-base:16.0.1'
     implementation 'com.google.firebase:firebase-core:16.0.4'
 
+    //facebook sdk
+    implementation 'com.facebook.android:facebook-android-sdk:4.42.0'
 //    implementation 'com.facebook.android:facebook-android-sdk:5.1.1'
 //    implementation 'com.facebook.android:facebook-share:5.1.1'
 //    implementation 'com.facebook.android:audience-network-sdk:5.4.1'
