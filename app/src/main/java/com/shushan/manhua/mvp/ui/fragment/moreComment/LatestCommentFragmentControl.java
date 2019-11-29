@@ -21,6 +21,7 @@ public class LatestCommentFragmentControl {
         void getUploadPicSuccess(String picPath);
 
         void getPublishCommentSuccess();
+
         void getSuggestSuccess();
     }
 
@@ -40,10 +41,12 @@ public class LatestCommentFragmentControl {
          * 发布评论
          */
         void onRequestPublishComment(PublishCommentRequest publishCommentRequest);
+
         /**
          * 评论点赞
          */
         void onCommentSuggestRequest(SupportRequest commentSuggestRequest);
+
         /**
          * 评论用户评论
          */

@@ -128,11 +128,6 @@ public class HotCommentFragmentPresenterImpl implements HotCommentFragmentContro
         mHotCommentView.addSubscription(disposable);
     }
 
-    @Override
-    public void onPublishCommentUser(PublishCommentUserRequest publishCommentUserRequest) {
-
-    }
-
     /**
      * 评论点赞 成功
      */
@@ -145,6 +140,31 @@ public class HotCommentFragmentPresenterImpl implements HotCommentFragmentContro
         }
     }
 
+
+    /**
+     * 评论用户评论
+     */
+    @Override
+    public void onPublishCommentUser(PublishCommentUserRequest publishCommentUserRequest) {
+        mHotCommentView.showLoading(mContext.getResources().getString(R.string.loading));
+        Disposable disposable = mBookModel.onPublishCommentUser(publishCommentUserRequest).compose(mHotCommentView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
+                .subscribe(this::publishCommentUserSuccess, throwable -> mHotCommentView.showErrMessage(throwable),
+                        () -> mHotCommentView.dismissLoading());
+        mHotCommentView.addSubscription(disposable);
+    }
+
+    /**
+     * 评论用户评论 成功
+     */
+    private void publishCommentUserSuccess(ResponseData responseData) {
+        mHotCommentView.judgeToken(responseData.resultCode);
+        if (responseData.resultCode == 0) {
+//            mHotCommentView.getSuggestSuccess();
+        } else {
+            mHotCommentView.showToast(responseData.errorMsg);
+        }
+    }
+    
     @Override
     public void onCreate() {
 

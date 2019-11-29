@@ -1,6 +1,7 @@
 package com.shushan.manhua.entity.request;
 
 public class CommentRequest {
+    public String token;
     /**
      * 漫画id
      */

@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/comment_detail_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".mvp.ui.activity.book.CommentDetailsActivity">
@@ -11,11 +12,97 @@
 
     <include layout="@layout/comment_bottom_layout" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/comment_recycler_view"
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/user_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_above="@id/comment_bottom_layout"
-        android:layout_below="@id/common_toolbar_layout" />
+        android:layout_below="@id/common_toolbar_layout">
+
+        <com.shushan.manhua.mvp.views.CircleImageView
+            android:id="@+id/avatar_iv"
+            android:layout_width="@dimen/dp_34"
+            android:layout_height="@dimen/dp_34"
+            android:layout_marginStart="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_18"
+            android:src="@mipmap/default_head"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_18"
+            android:text="漫画情报局"
+            android:textColor="#262626"
+            android:textSize="@dimen/sp_13"
+            app:layout_constraintStart_toEndOf="@id/avatar_iv"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/suggest_num_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_8"
+            android:layout_marginEnd="@dimen/dp_12"
+            android:drawableStart="@mipmap/title_praise_gray"
+            android:drawablePadding="@dimen/dp_4"
+            android:padding="@dimen/dp_10"
+            android:text="233"
+            android:textColor="@color/color_80"
+            android:textSize="@dimen/sp_11"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_4"
+            android:text="09:22"
+            android:textColor="@color/color_80"
+            android:textSize="@dimen/sp_11"
+            app:layout_constraintStart_toEndOf="@id/avatar_iv"
+            app:layout_constraintTop_toBottomOf="@id/name_tv" />
+
+        <TextView
+            android:id="@+id/content_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_8"
+            android:text="这漫画真的挺有意思的啊！"
+            android:textColor="@color/first_text_color"
+            android:textSize="@dimen/sp_14"
+            app:layout_constraintStart_toEndOf="@id/avatar_iv"
+            app:layout_constraintTop_toBottomOf="@id/time_tv" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/pic_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_66"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginEnd="@dimen/dp_18"
+            app:layout_constraintTop_toBottomOf="@id/content_tv" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/comment_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/dp_8"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/avatar_iv"
+            app:layout_constraintTop_toBottomOf="@id/pic_recycler_view" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
 
 </RelativeLayout>

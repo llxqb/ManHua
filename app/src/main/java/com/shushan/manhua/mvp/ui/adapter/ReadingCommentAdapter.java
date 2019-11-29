@@ -57,7 +57,7 @@ public class ReadingCommentAdapter extends BaseQuickAdapter<CommentBean, BaseVie
 
     @Override
     protected void convert(BaseViewHolder helper, CommentBean item) {
-        helper.addOnClickListener(R.id.suggest_num_tv).addOnClickListener(R.id.content_tv).addOnClickListener(R.id.item_comment_layout);
+        helper.addOnClickListener(R.id.suggest_num_tv).addOnClickListener(R.id.content_tv).addOnClickListener(R.id.comment_ll).addOnClickListener(R.id.item_comment_layout);
         CircleImageView circleImageView = helper.getView(R.id.avatar_iv);
         mImageLoaderHelper.displayImage(mContext, item.getHead_portrait(), circleImageView, Constant.LOADING_AVATOR);
         helper.setText(R.id.name_tv, item.getName());
@@ -105,6 +105,9 @@ public class ReadingCommentAdapter extends BaseQuickAdapter<CommentBean, BaseVie
         recyclerView.setAdapter(replyAdapter);
 
         replyAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            CommentDetailsActivity.start(mContext, String.valueOf(item.getComment_id()));//评论详情
+        });
+        helper.getView(R.id.comment_ll).setOnClickListener(v -> {
             CommentDetailsActivity.start(mContext, String.valueOf(item.getComment_id()));//评论详情
         });
         //Lihat semua 10 balasan 查看全部10条回复

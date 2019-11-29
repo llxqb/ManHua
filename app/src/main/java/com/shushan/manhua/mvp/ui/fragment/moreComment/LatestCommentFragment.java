@@ -186,6 +186,7 @@ public class LatestCommentFragment extends BaseFragment implements LatestComment
 
     private void onRequestCommentInfo() {
         CommentRequest commentRequest = new CommentRequest();
+        commentRequest.token = mBuProcessor.getToken();
         commentRequest.book_id = mBookId;
         commentRequest.type = "1";//1为漫画评论
         commentRequest.catalogue_id = "0";//0表示评价漫画

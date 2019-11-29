@@ -4,19 +4,20 @@ import java.util.List;
 
 public class CommentDetailResponse {
 
+
     /**
-     * comment_id : 7
+     * comment_id : 8
      * user_id : 10
      * book_id : 1
-     * content : Mjmj should
-     * pics : []
-     * comment_time : 1574908974
+     * content : Dydy app
+     * pics : ["https://img.pulaukomik.com/comment/20191128/5ddf348409b3b.png"]
+     * comment_time : 1574909250
      * like : 0
      * name : ruzhi shu
      * type : 1
      * head_portrait : https://img.pulaukomik.com/cover/20191127/5dde3ccc6e141.jpg
      * is_like : 0
-     * review : [{"review_id":8,"comment_id":7,"content":"22222","pics":[],"review_time":1574934511,"user_id":3,"be_user_id":10,"user_name":"立刘","user_head_portrait":"https://img.pulaukomik.com/cover/20191126/5ddce6620baca.jpg","be_user_name":"ruzhi shu","be_user_head_portrait":"https://img.pulaukomik.com/cover/20191127/5dde3ccc6e141.jpg","like":0,"is_like":0}]
+     * review : [{"review_id":4,"comment_id":8,"content":"@测试：yikes","pics":[],"review_time":1574910736,"user_id":10,"be_user_id":10,"user_name":"ruzhi shu","user_head_portrait":"https://img.pulaukomik.com/cover/20191127/5dde3ccc6e141.jpg","be_user_name":"ruzhi shu","be_user_head_portrait":"https://img.pulaukomik.com/cover/20191127/5dde3ccc6e141.jpg","like":0,"is_like":0},{"review_id":3,"comment_id":8,"content":"Ggghhuh","pics":[],"review_time":1574910121,"user_id":10,"be_user_id":10,"user_name":"ruzhi shu","user_head_portrait":"https://img.pulaukomik.com/cover/20191127/5dde3ccc6e141.jpg","be_user_name":"ruzhi shu","be_user_head_portrait":"https://img.pulaukomik.com/cover/20191127/5dde3ccc6e141.jpg","like":0,"is_like":0},{"review_id":2,"comment_id":8,"content":"app crashes","pics":[],"review_time":1574909927,"user_id":10,"be_user_id":10,"user_name":"ruzhi shu","user_head_portrait":"https://img.pulaukomik.com/cover/20191127/5dde3ccc6e141.jpg","be_user_name":"ruzhi shu","be_user_head_portrait":"https://img.pulaukomik.com/cover/20191127/5dde3ccc6e141.jpg","like":0,"is_like":0}]
      */
 
     private int comment_id;
@@ -29,7 +30,7 @@ public class CommentDetailResponse {
     private int type;
     private String head_portrait;
     private int is_like;
-    private List<?> pics;
+    private List<String> pics;
     private List<ReviewBean> review;
 
     public int getComment_id() {
@@ -112,11 +113,11 @@ public class CommentDetailResponse {
         this.is_like = is_like;
     }
 
-    public List<?> getPics() {
+    public List<String> getPics() {
         return pics;
     }
 
-    public void setPics(List<?> pics) {
+    public void setPics(List<String> pics) {
         this.pics = pics;
     }
 
@@ -130,15 +131,15 @@ public class CommentDetailResponse {
 
     public static class ReviewBean {
         /**
-         * review_id : 8
-         * comment_id : 7
-         * content : 22222
+         * review_id : 4
+         * comment_id : 8
+         * content : @测试：yikes
          * pics : []
-         * review_time : 1574934511
-         * user_id : 3
+         * review_time : 1574910736
+         * user_id : 10
          * be_user_id : 10
-         * user_name : 立刘
-         * user_head_portrait : https://img.pulaukomik.com/cover/20191126/5ddce6620baca.jpg
+         * user_name : ruzhi shu
+         * user_head_portrait : https://img.pulaukomik.com/cover/20191127/5dde3ccc6e141.jpg
          * be_user_name : ruzhi shu
          * be_user_head_portrait : https://img.pulaukomik.com/cover/20191127/5dde3ccc6e141.jpg
          * like : 0
@@ -157,7 +158,7 @@ public class CommentDetailResponse {
         private String be_user_head_portrait;
         private int like;
         private int is_like;
-        private List<?> pics;
+        private List<String> pics;
 
         public int getReview_id() {
             return review_id;
@@ -255,11 +256,11 @@ public class CommentDetailResponse {
             this.is_like = is_like;
         }
 
-        public List<?> getPics() {
+        public List<String> getPics() {
             return pics;
         }
 
-        public void setPics(List<?> pics) {
+        public void setPics(List<String> pics) {
             this.pics = pics;
         }
     }

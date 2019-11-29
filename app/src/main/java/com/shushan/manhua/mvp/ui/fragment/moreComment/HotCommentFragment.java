@@ -97,7 +97,7 @@ public class HotCommentFragment extends BaseFragment implements HotCommentFragme
     private List<String> mPicList = new ArrayList<>();
     private String mBookId;
     private String mContent;//评论内容
-    CommentBean commentBean;
+    CommentBean mCommentBean;
     private int clickPos;
 
     public static HotCommentFragment getInstance(String bookId) {
@@ -150,16 +150,16 @@ public class HotCommentFragment extends BaseFragment implements HotCommentFragme
         mRecyclerView.setAdapter(mReadingCommentAdapter);
         mReadingCommentAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             clickPos = position;
-            commentBean = (CommentBean) adapter.getItem(position);
+            mCommentBean = (CommentBean) adapter.getItem(position);
             switch (view.getId()) {
                 case R.id.suggest_num_tv:
                     onCommentSuggestRequest();
                     break;
                 case R.id.content_tv:
-                    showCommentPopupWindow("@" + commentBean.getName());
+                    showCommentPopupWindow("@" + mCommentBean.getName());
                     break;
                 case R.id.item_comment_layout:
-                    showCommentPopupWindow("@" + commentBean.getName());
+                    showCommentPopupWindow("@" + mCommentBean.getName());
                     break;
             }
         });
@@ -196,6 +196,7 @@ public class HotCommentFragment extends BaseFragment implements HotCommentFragme
      */
     private void onRequestCommentInfo() {
         CommentRequest commentRequest = new CommentRequest();
+        commentRequest.token = mBuProcessor.getToken();
         commentRequest.book_id = mBookId;
         commentRequest.type = "1";//1为漫画评论
         commentRequest.catalogue_id = "0";//0表示评价漫画
@@ -242,10 +243,10 @@ public class HotCommentFragment extends BaseFragment implements HotCommentFragme
     private void onPublishCommentUser() {
         PublishCommentUserRequest request = new PublishCommentUserRequest();
         request.token = mBuProcessor.getToken();
-        request.comment_id = String.valueOf(commentBean.getComment_id());
+        request.comment_id = String.valueOf(mCommentBean.getComment_id());
         request.comment = mContent;
-        request.be_user_id = String.valueOf(commentBean.getUser_id());
-        request.reply_id = String.valueOf(commentBean.getComment_id());
+        request.be_user_id = String.valueOf(mCommentBean.getUser_id());
+        request.reply_id = String.valueOf(mCommentBean.getComment_id());
         mPresenter.onPublishCommentUser(request);
     }
 
@@ -296,7 +297,7 @@ public class HotCommentFragment extends BaseFragment implements HotCommentFragme
     private void onCommentSuggestRequest() {
         SupportRequest commentSuggestRequest = new SupportRequest();
         commentSuggestRequest.token = mBuProcessor.getToken();
-        commentSuggestRequest.relation_id = String.valueOf(commentBean.getComment_id());
+        commentSuggestRequest.relation_id = String.valueOf(mCommentBean.getComment_id());
         commentSuggestRequest.type = "3";
         mPresenter.onSupportRequest(commentSuggestRequest);
     }
@@ -304,7 +305,7 @@ public class HotCommentFragment extends BaseFragment implements HotCommentFragme
 
     @Override
     public void getSupportSuccess() {
-        mReadingCommentAdapter.notifyItemChanged(clickPos, commentBean.getLike());//局部刷新
+        mReadingCommentAdapter.notifyItemChanged(clickPos, mCommentBean.getLike());//局部刷新
     }
 
     @Override

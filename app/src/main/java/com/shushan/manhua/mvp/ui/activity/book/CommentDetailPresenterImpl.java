@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.shushan.manhua.R;
 import com.shushan.manhua.entity.request.CommentDetailRequest;
+import com.shushan.manhua.entity.request.PublishCommentUserRequest;
+import com.shushan.manhua.entity.request.SupportRequest;
 import com.shushan.manhua.entity.response.CommentDetailResponse;
 import com.shushan.manhua.help.RetryWithDelay;
 import com.shushan.manhua.mvp.model.BookModel;
@@ -60,6 +62,57 @@ public class CommentDetailPresenterImpl implements CommentDetailControl.Presente
         }
     }
 
+
+    /**
+     * 评论点赞
+     */
+    @Override
+    public void onSupportRequest(SupportRequest commentSuggestRequest) {
+        mCommentDetailView.showLoading(mContext.getResources().getString(R.string.loading));
+        Disposable disposable = mBookModel.onSupportRequest(commentSuggestRequest).compose(mCommentDetailView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
+                .subscribe(this::commentSuggestSuccess, throwable -> mCommentDetailView.showErrMessage(throwable),
+                        () -> mCommentDetailView.dismissLoading());
+        mCommentDetailView.addSubscription(disposable);
+    }
+
+
+    /**
+     * 评论点赞 成功
+     */
+    private void commentSuggestSuccess(ResponseData responseData) {
+        mCommentDetailView.judgeToken(responseData.resultCode);
+        if (responseData.resultCode == 0) {
+            mCommentDetailView.getSupportSuccess();
+        } else {
+            mCommentDetailView.showToast(responseData.errorMsg);
+        }
+    }
+
+    /**
+     * 评论用户评论
+     */
+    @Override
+    public void onPublishCommentUser(PublishCommentUserRequest publishCommentUserRequest) {
+        mCommentDetailView.showLoading(mContext.getResources().getString(R.string.loading));
+        Disposable disposable = mBookModel.onPublishCommentUser(publishCommentUserRequest).compose(mCommentDetailView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
+                .subscribe(this::publishCommentUserSuccess, throwable -> mCommentDetailView.showErrMessage(throwable),
+                        () -> mCommentDetailView.dismissLoading());
+        mCommentDetailView.addSubscription(disposable);
+    }
+
+    /**
+     * 评论用户评论 成功
+     */
+    private void publishCommentUserSuccess(ResponseData responseData) {
+        mCommentDetailView.judgeToken(responseData.resultCode);
+        if (responseData.resultCode == 0) {
+            mCommentDetailView.getCommentUserSuccess();
+        } else {
+            mCommentDetailView.showToast(responseData.errorMsg);
+        }
+    }
+
+    
 
     @Override
     public void onCreate() {
