@@ -39,7 +39,7 @@ public class UserModel {
      * 查询个人基本信息
      */
     public Observable<ResponseData> onRequestPersonalInfo(PersonalInfoRequest request) {
-        return mUserApi.onRequestPersonalInfo(mGson.toJson(request)).map(mTransform::transformListType);
+        return mUserApi.onRequestPersonalInfo(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 
     /**

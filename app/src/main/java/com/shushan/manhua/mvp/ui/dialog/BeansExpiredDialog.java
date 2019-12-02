@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.shushan.manhua.R;
 import com.shushan.manhua.help.DialogFactory;
+import com.shushan.manhua.mvp.utils.DateUtil;
 
 import java.util.Objects;
 
@@ -30,14 +31,14 @@ public class BeansExpiredDialog extends BaseDialogFragment {
     TextView mExpiredDateTv;
     @BindView(R.id.beans_num_tv)
     TextView mBeansNumTv;
-    private String mDate;
+    private int mDate;
     private String mExpiredBeansNum;
 
     public static BeansExpiredDialog newInstance() {
         return new BeansExpiredDialog();
     }
 
-    public void setData(String date, String expiredBeansNum) {
+    public void setData(int date, String expiredBeansNum) {
         mDate = date;
         mExpiredBeansNum = expiredBeansNum;
     }
@@ -53,6 +54,8 @@ public class BeansExpiredDialog extends BaseDialogFragment {
 
     private void initView() {
         //失效  Gagal
+        mExpiredDateTv.setText(DateUtil.getStrTime(mDate,"MM-dd HH:mm")+" Gagal");
+        mBeansNumTv.setText(mExpiredBeansNum);
     }
 
     @Override

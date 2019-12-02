@@ -5,11 +5,14 @@ import com.google.gson.Gson;
 import com.shushan.manhua.entity.request.MemberCenterRequest;
 import com.shushan.manhua.entity.request.PurchasedBookRequest;
 import com.shushan.manhua.entity.request.ReadingSettingRequest;
+import com.shushan.manhua.entity.request.ReceiovedBeanByVipRequest;
 import com.shushan.manhua.entity.request.ReceiveTaskRequest;
+import com.shushan.manhua.entity.request.RechargeRecordRequest;
 import com.shushan.manhua.entity.request.RecommendRequest;
 import com.shushan.manhua.entity.request.SignDataRequest;
 import com.shushan.manhua.entity.request.SignRequest;
 import com.shushan.manhua.entity.request.SubmitFeedbackRequest;
+import com.shushan.manhua.entity.request.VoucherCenterRequest;
 import com.shushan.manhua.network.networkapi.MineApi;
 
 import javax.inject.Inject;
@@ -94,6 +97,24 @@ public class MineModel {
      */
     public Observable<ResponseData> onRequestMemberCenter(MemberCenterRequest request) {
         return mMineApi.onRequestMemberCenter(new Gson().toJson(request)).map(mTransform::transformCommon);
+    }
+    /**
+     * VIP每日领取漫豆
+     */
+    public Observable<ResponseData> onRequestReceivedBeanByVip(ReceiovedBeanByVipRequest request) {
+        return mMineApi.onRequestReceivedBeanByVip(new Gson().toJson(request)).map(mTransform::transformCommon);
+    }
+    /**
+     * 充值中心
+     */
+    public Observable<ResponseData> onRequestVoucherCenter(VoucherCenterRequest request) {
+        return mMineApi.onRequestVoucherCenter(new Gson().toJson(request)).map(mTransform::transformCommon);
+    }
+    /**
+     * 充值记录/消费记录
+     */
+    public Observable<ResponseData> onRequestRechargeRecord(RechargeRecordRequest request) {
+        return mMineApi.onRequestRechargeRecord(new Gson().toJson(request)).map(mTransform::transformListType);
     }
 
 }

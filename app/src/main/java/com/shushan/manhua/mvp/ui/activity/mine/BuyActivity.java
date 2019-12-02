@@ -9,11 +9,14 @@ import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerBuyComponent;
 import com.shushan.manhua.di.modules.ActivityModule;
 import com.shushan.manhua.di.modules.BuyModule;
-import com.shushan.manhua.entity.response.BuyBeansResponse;
+import com.shushan.manhua.entity.constants.VoucherCenterResponse;
+import com.shushan.manhua.entity.request.VoucherCenterRequest;
+import com.shushan.manhua.entity.user.User;
 import com.shushan.manhua.help.DialogFactory;
 import com.shushan.manhua.mvp.ui.adapter.BuyBeansAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseActivity;
 import com.shushan.manhua.mvp.ui.dialog.BeansExpiredDialog;
+import com.shushan.manhua.mvp.utils.DateUtil;
 import com.shushan.manhua.mvp.utils.StatusBarUtil;
 
 import java.util.ArrayList;
@@ -40,29 +43,40 @@ public class BuyActivity extends BaseActivity implements BuyControl.BuyView {
     @BindView(R.id.money_tv)
     TextView mMoneyTv;
     private BuyBeansAdapter mBuyBeansAdapter;
-    private List<BuyBeansResponse> buyBeansResponseList = new ArrayList<>();
+    private List<VoucherCenterResponse.BeaninfoBean> buyBeansResponseList = new ArrayList<>();
+    private User mUser;
+    private VoucherCenterResponse mVoucherCenterResponse;
 
     @Override
     protected void initContentView() {
         setContentView(R.layout.activity_buy);
         StatusBarUtil.setTransparentForImageView(this, null);
         initInjectData();
+        mUser = mBuProcessor.getUser();
     }
 
     @Override
     public void initView() {
+//        if(mUser.bean){
+//        }
+        initAdapter();
+    }
+
+    private void initAdapter() {
         mBuyBeansAdapter = new BuyBeansAdapter(buyBeansResponseList);
         mBuyBeansRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         mBuyBeansRecyclerView.setAdapter(mBuyBeansAdapter);
         mBuyBeansAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-            BuyBeansResponse buyBeansResponse = (BuyBeansResponse) adapter.getItem(position);
-            for (BuyBeansResponse buyBeansResponse1 : buyBeansResponseList) {
-                if (buyBeansResponse1.isCheck) {
-                    buyBeansResponse1.isCheck = false;
+            VoucherCenterResponse.BeaninfoBean beaninfoBean = (VoucherCenterResponse.BeaninfoBean) adapter.getItem(position);
+            for (VoucherCenterResponse.BeaninfoBean beaninfoBean1 : buyBeansResponseList) {
+                if (beaninfoBean1.isCheck) {
+                    beaninfoBean1.isCheck = false;
                 }
             }
-            if (buyBeansResponse != null) {
-                buyBeansResponse.isCheck = true;
+            if (beaninfoBean != null) {
+                beaninfoBean.isCheck = true;
+                String moneyValue = "$ " + beaninfoBean.getPrice();
+                mMoneyTv.setText(moneyValue);
             }
             adapter.notifyDataSetChanged();
         });
@@ -70,11 +84,8 @@ public class BuyActivity extends BaseActivity implements BuyControl.BuyView {
 
     @Override
     public void initData() {
-        for (int i = 0; i < 6; i++) {
-            BuyBeansResponse buyBeansResponse = new BuyBeansResponse();
-            buyBeansResponseList.add(buyBeansResponse);
-        }
-        showBeansExpiredDialog();
+        onRequestData();
+
     }
 
 
@@ -88,6 +99,7 @@ public class BuyActivity extends BaseActivity implements BuyControl.BuyView {
                 startActivitys(TransactionDetailsActivity.class);
                 break;
             case R.id.invalid_beans_detail_tv://详情
+                showBeansExpiredDialog();
                 break;
             case R.id.buy_tv://立即购买
 
@@ -96,10 +108,41 @@ public class BuyActivity extends BaseActivity implements BuyControl.BuyView {
     }
 
     /**
+     * 充值中心
+     */
+    private void onRequestData() {
+        VoucherCenterRequest voucherCenterRequest = new VoucherCenterRequest();
+        voucherCenterRequest.token = mBuProcessor.getToken();
+        mPresenter.onRequestVoucherCenter(voucherCenterRequest);
+    }
+
+    @Override
+    public void getVoucherCenterSuccess(VoucherCenterResponse voucherCenterResponse) {
+        mVoucherCenterResponse = voucherCenterResponse;
+        buyBeansResponseList = voucherCenterResponse.getBeaninfo();
+        for (int i = 0; i < buyBeansResponseList.size(); i++) {
+            if (i == 0) {
+                VoucherCenterResponse.BeaninfoBean beaninfoBean = buyBeansResponseList.get(i);
+                beaninfoBean.isCheck = true;
+                String moneyValue = "$ " + beaninfoBean.getPrice();
+                mMoneyTv.setText(moneyValue);
+            }
+        }
+        mBuyBeansAdapter.setNewData(voucherCenterResponse.getBeaninfo());
+        mBeansNumTv.setText(String.valueOf(voucherCenterResponse.getBean()));
+        String expireBeanValue = voucherCenterResponse.getExpire_bean() + " koin, setelah " + DateUtil.getStrTime(voucherCenterResponse.getExpire_time(), "dd") + " hari gagal";
+        mBeansNumHintTv.setText(expireBeanValue);
+
+    }
+
+    /**
      * 显示未使用的漫豆快要过期弹框
      */
     private void showBeansExpiredDialog() {
         BeansExpiredDialog beansExpiredDialog = BeansExpiredDialog.newInstance();
+        if (mVoucherCenterResponse != null) {
+            beansExpiredDialog.setData(mVoucherCenterResponse.getExpire_time(), String.valueOf(mVoucherCenterResponse.getExpire_bean()));
+        }
         DialogFactory.showDialogFragment(getSupportFragmentManager(), beansExpiredDialog, BeansExpiredDialog.TAG);
     }
 
@@ -108,4 +151,6 @@ public class BuyActivity extends BaseActivity implements BuyControl.BuyView {
                 .buyModule(new BuyModule(this, this))
                 .activityModule(new ActivityModule(this)).build().inject(this);
     }
+
+
 }

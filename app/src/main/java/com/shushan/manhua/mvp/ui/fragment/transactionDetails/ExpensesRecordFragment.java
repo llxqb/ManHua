@@ -15,7 +15,10 @@ import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerExpensesRecordFragmentComponent;
 import com.shushan.manhua.di.modules.ExpensesRecordFragmentModule;
 import com.shushan.manhua.di.modules.TransactionDetailsModule;
+import com.shushan.manhua.entity.constants.Constant;
+import com.shushan.manhua.entity.request.RechargeRecordRequest;
 import com.shushan.manhua.entity.response.ExpensesRecordResponse;
+import com.shushan.manhua.entity.response.RechargeRecordResponse;
 import com.shushan.manhua.entity.user.User;
 import com.shushan.manhua.mvp.ui.adapter.ExpensesRecordAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseFragment;
@@ -44,6 +47,7 @@ public class ExpensesRecordFragment extends BaseFragment implements ExpensesReco
     private User mUser;
     private ExpensesRecordAdapter mExpensesRecordAdapter;
     private List<ExpensesRecordResponse> expensesRecordResponseList = new ArrayList<>();
+    private int page = 1;
 
     @Nullable
     @Override
@@ -68,12 +72,28 @@ public class ExpensesRecordFragment extends BaseFragment implements ExpensesReco
 
     @Override
     public void initData() {
-        for (int i=0;i<8;i++){
-            ExpensesRecordResponse expensesRecordResponse = new ExpensesRecordResponse();
-            expensesRecordResponseList.add(expensesRecordResponse);
-        }
+        onRequestRechargeRecord();
     }
 
+    /**
+     * 消费记录
+     */
+    private void onRequestRechargeRecord() {
+        RechargeRecordRequest rechargeRecordRequest = new RechargeRecordRequest();
+        rechargeRecordRequest.token = mBuProcessor.getToken();
+        rechargeRecordRequest.label = "2"; //1充值记录2消费记录
+        rechargeRecordRequest.page = String.valueOf(page);
+        rechargeRecordRequest.pagesize = String.valueOf(Constant.PAGESIZE);
+        mPresenter.onRequestRechargeRecord(rechargeRecordRequest);
+    }
+
+    /**
+     * 消费记录 成功
+     */
+    @Override
+    public void getRechargeRecordSuccess(RechargeRecordResponse rechargeRecordResponse) {
+
+    }
 
     private void initializeInjector() {
         DaggerExpensesRecordFragmentComponent.builder().appComponent(((ManHuaApplication) Objects.requireNonNull(getActivity()).getApplication()).getAppComponent())

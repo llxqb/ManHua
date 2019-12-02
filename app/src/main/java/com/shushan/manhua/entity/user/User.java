@@ -13,6 +13,9 @@ public class User implements Serializable {
     public String token;
     public String name;
     public String avatar;
+    /**
+     * 0 非VIP 1 VIP
+     */
     public int vip;
     public int vip_end_time;
     public int channel;

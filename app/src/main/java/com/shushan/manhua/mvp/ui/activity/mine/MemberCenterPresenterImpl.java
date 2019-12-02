@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.shushan.manhua.R;
 import com.shushan.manhua.entity.request.MemberCenterRequest;
+import com.shushan.manhua.entity.request.ReceiovedBeanByVipRequest;
 import com.shushan.manhua.entity.response.MemberCenterResponse;
 import com.shushan.manhua.help.RetryWithDelay;
 import com.shushan.manhua.mvp.model.MineModel;
@@ -55,6 +56,28 @@ public class MemberCenterPresenterImpl implements MemberCenterControl.PresenterM
                 MemberCenterResponse response = (MemberCenterResponse) responseData.parsedData;
                 mMemberCenterView.getMemberCenterResponse(response);
             }
+        } else {
+            mMemberCenterView.showToast(responseData.errorMsg);
+        }
+    }
+    /**
+     * VIP每日领取漫豆
+     */
+    @Override
+    public void onRequestReceivedBeanByVip(ReceiovedBeanByVipRequest receiovedBeanByVipRequest) {
+        mMemberCenterView.showLoading(mContext.getResources().getString(R.string.loading));
+        Disposable disposable = mMineModel.onRequestReceivedBeanByVip(receiovedBeanByVipRequest).compose(mMemberCenterView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
+                .subscribe(this::receivedBeanByVipRequestSuccess, throwable -> mMemberCenterView.showErrMessage(throwable),
+                        () -> mMemberCenterView.dismissLoading());
+        mMemberCenterView.addSubscription(disposable);
+    }
+
+    /**
+     * VIP每日领取漫豆 成功
+     */
+    private void receivedBeanByVipRequestSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 0) {
+            mMemberCenterView.getReceivedBeanByVipSuccess();
         } else {
             mMemberCenterView.showToast(responseData.errorMsg);
         }

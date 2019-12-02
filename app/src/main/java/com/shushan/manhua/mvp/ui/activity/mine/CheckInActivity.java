@@ -132,6 +132,7 @@ public class CheckInActivity extends BaseActivity implements CheckInControl.Chec
     @Override
     public void getSignDataSuccess(SignDataResponse signDataResponse) {
         mSignDataResponse = signDataResponse;
+        mSignInDayTv.setText(getString(R.string.CheckInActivity_sign_in_day) + mSignDataResponse.getContinuous_day() + "hari");
         for (int i = 0; i < signDataResponse.getContinuous_day(); i++) {
             SignDataResponse.SignBean signBean = signDataResponse.getSign().get(i);
             signBean.isSign = true;

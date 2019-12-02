@@ -14,8 +14,10 @@ import com.shushan.manhua.di.modules.ActivityModule;
 import com.shushan.manhua.di.modules.MemberCenterModule;
 import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.entity.request.MemberCenterRequest;
+import com.shushan.manhua.entity.request.ReceiovedBeanByVipRequest;
 import com.shushan.manhua.entity.response.MemberCenterResponse;
 import com.shushan.manhua.entity.response.ProfitResponse;
+import com.shushan.manhua.entity.user.User;
 import com.shushan.manhua.mvp.ui.adapter.BuyAdapter;
 import com.shushan.manhua.mvp.ui.adapter.ProfitAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseActivity;
@@ -47,6 +49,8 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
     CircleImageView mAvatarIv;
     @BindView(R.id.username_tv)
     TextView mUsernameTv;
+    @BindView(R.id.get_beans_tv)
+    TextView mGetBeansTv;
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
     @BindView(R.id.vip_profit_recycler_view)
@@ -59,16 +63,25 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
     private List<ProfitResponse> profitResponseList = new ArrayList<>();
     private BuyAdapter mBuyAdapter;
     private MemberCenterResponse mMemberCenterResponse;
+    private User mUser;
 
     @Override
     protected void initContentView() {
         setContentView(R.layout.activity_member_center);
         StatusBarUtil.setTransparentForImageView(this, null);
         initInjectData();
+        mUser = mBuProcessor.getUser();
     }
 
     @Override
     public void initView() {
+        if (mUser.vip == 0) {
+            mVipLayout.setVisibility(View.GONE);
+            mNoVipLayout.setVisibility(View.VISIBLE);
+        } else {
+            mVipLayout.setVisibility(View.VISIBLE);
+            mNoVipLayout.setVisibility(View.GONE);
+        }
         initRecyclerView();
         onRequestMemberCenter();
     }
@@ -77,18 +90,20 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
         mBuyAdapter = new BuyAdapter(buyResponseList);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         mRecyclerView.setAdapter(mBuyAdapter);
-//        mBuyAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-//            BuyResponse buyResponse = (BuyResponse) adapter.getItem(position);
-//            for (BuyResponse buyResponse1 : buyResponseList) {
-//                if (buyResponse1.isCheck) {
-//                    buyResponse1.isCheck = false;
-//                }
-//            }
-//            if (buyResponse != null) {
-//                buyResponse.isCheck = true;
-//            }
-//            adapter.notifyDataSetChanged();
-//        });
+        mBuyAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            MemberCenterResponse.VipinfoBean vipinfoBean = (MemberCenterResponse.VipinfoBean) adapter.getItem(position);
+            for (MemberCenterResponse.VipinfoBean vipinfoBean1 : buyResponseList) {
+                if (vipinfoBean1.isCheck) {
+                    vipinfoBean1.isCheck = false;
+                }
+            }
+            if (vipinfoBean != null) {
+                vipinfoBean.isCheck = true;
+                String money = "$ " + vipinfoBean.getPrice();
+                mMoneyTv.setText(money);
+            }
+            adapter.notifyDataSetChanged();
+        });
         ProfitAdapter mProfitAdapter = new ProfitAdapter(profitResponseList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -141,14 +156,15 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
 
                 break;
             case R.id.common_back_iv:
+                finish();
                 break;
             case R.id.get_beans_tv: //领取漫豆
-                if (mMemberCenterResponse != null) {
-                    if (mMemberCenterResponse.getUserinfo().getVip() == 0) {
-                        //提示开通会员领取
-                    } else {
-                        //领取漫豆
-                    }
+                if (mUser.vip == 0) {
+                    //提示开通会员领取
+                    showToast("Gratis untuk anggota");
+                } else {
+                    //会员领取漫豆
+                    onRequestReceivedBeanByVip();
                 }
                 break;
         }
@@ -167,10 +183,29 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
     @Override
     public void getMemberCenterResponse(MemberCenterResponse memberCenterResponse) {
         mMemberCenterResponse = memberCenterResponse;
+        buyResponseList = memberCenterResponse.getVipinfo();
         MemberCenterResponse.UserinfoBean userinfoBean = memberCenterResponse.getUserinfo();
         setUserDate(userinfoBean);
+        for (int i = 0; i < memberCenterResponse.getVipinfo().size(); i++) {
+            MemberCenterResponse.VipinfoBean vipinfoBean = memberCenterResponse.getVipinfo().get(i);
+            if (i == 0) {
+                vipinfoBean.isCheck = true;
+            }
+        }
         mBuyAdapter.setNewData(memberCenterResponse.getVipinfo());
+        if (memberCenterResponse.getVipinfo().size() > 0) {
+            String money = "$ " + memberCenterResponse.getVipinfo().get(0).getPrice();
+            mMoneyTv.setText(money);
+        }
+        if (memberCenterResponse.getVipget_state() == 0) {//0未领取1已领取
+            mGetBeansTv.setText(getString(R.string.MemberCenterActivity_get_beans));
+            mGetBeansTv.setBackgroundResource(R.drawable.gradient_get_beans_bg);
+        } else {
+            mGetBeansTv.setText(getString(R.string.MemberCenterActivity_get_beans_ed));
+            mGetBeansTv.setBackgroundResource(R.drawable.bg_gray_round_solid_20);
+        }
     }
+
 
     private void setUserDate(MemberCenterResponse.UserinfoBean userinfoBean) {
         if (userinfoBean != null) {
@@ -186,6 +221,22 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
 //            }
         }
     }
+
+    /**
+     * VIP每日领取漫豆
+     */
+    private void onRequestReceivedBeanByVip() {
+        ReceiovedBeanByVipRequest receiovedBeanByVipRequest = new ReceiovedBeanByVipRequest();
+        receiovedBeanByVipRequest.token = mBuProcessor.getToken();
+        mPresenter.onRequestReceivedBeanByVip(receiovedBeanByVipRequest);
+    }
+
+
+    @Override
+    public void getReceivedBeanByVipSuccess() {
+
+    }
+
 
     private void initInjectData() {
         DaggerMemberCenterComponent.builder().appComponent(getAppComponent())

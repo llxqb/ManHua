@@ -10,7 +10,8 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:background="@drawable/bg_white_round_solid_5"
-        android:minHeight="@dimen/dp_165">
+        android:minHeight="@dimen/dp_165"
+        android:paddingBottom="@dimen/dp_12">
 
 
         <TextView
@@ -63,21 +64,23 @@
 
             <TextView
                 android:id="@+id/beans_num_tv"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/dp_60"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="@dimen/dp_7"
-                android:layout_marginEnd="@dimen/dp_24"
-                android:text="1000"
+                android:layout_marginEnd="@dimen/dp_10"
+                android:gravity="center"
+                android:text="0"
                 android:textColor="#FF9100"
                 android:textSize="@dimen/sp_22" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/dp_60"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/beans_num_tv"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="@dimen/dp_38"
+                android:layout_marginEnd="@dimen/dp_10"
+                android:gravity="center"
                 android:text="@string/BeansExpiredDialog_beans"
                 android:textColor="#FF9100"
                 android:textSize="@dimen/sp_11" />

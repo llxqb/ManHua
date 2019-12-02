@@ -118,6 +118,7 @@
     <string name="MemberCenterActivity_become_vip_hint">开通会员，享多重特权</string>
     <string name="MemberCenterActivity_become_vip_saving_money">开通会员每月可省 $25</string>
     <string name="MemberCenterActivity_get_beans">领取漫豆</string>
+    <string name="MemberCenterActivity_get_beans_ed">已领取</string>
     <string name="MemberCenterActivity_vip_profit_hint">会员权益说明</string>
     <string name="MemberCenterActivity_pay">立即开通</string>
 
@@ -211,7 +212,7 @@
     <string name="CheckInActivity_title">福利免费领</string>
     <string name="CheckInActivity_title_right">规则</string>
     <string name="CheckInActivity_receive">领取</string>
-    <string name="CheckInActivity_sign_in_day">已连续签到2天</string>
+    <string name="CheckInActivity_sign_in_day">已连续签到</string>
     <string name="CheckInActivity_receive_beans">做任务领漫豆</string>
 
     <string name="SelectChannelDialog_wecome">欢迎来到xxxx</string>

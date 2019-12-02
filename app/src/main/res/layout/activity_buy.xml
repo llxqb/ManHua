@@ -93,7 +93,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_16"
-                android:text="252"
+                android:text="0"
                 android:textColor="@color/white"
                 android:textSize="@dimen/sp_44"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -124,7 +124,6 @@
                     android:id="@+id/beans_num_hint_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="其中100漫豆 3天后失效"
                     android:textColor="@color/white"
                     android:textSize="@dimen/sp_12" />
 

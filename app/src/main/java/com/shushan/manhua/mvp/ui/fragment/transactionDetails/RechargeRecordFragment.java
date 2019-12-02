@@ -15,6 +15,8 @@ import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerRechargeRecordFragmentComponent;
 import com.shushan.manhua.di.modules.RechargeRecordFragmentModule;
 import com.shushan.manhua.di.modules.TransactionDetailsModule;
+import com.shushan.manhua.entity.constants.Constant;
+import com.shushan.manhua.entity.request.RechargeRecordRequest;
 import com.shushan.manhua.entity.response.RechargeRecordResponse;
 import com.shushan.manhua.entity.user.User;
 import com.shushan.manhua.mvp.ui.adapter.RechargeRecordAdapter;
@@ -44,6 +46,7 @@ public class RechargeRecordFragment extends BaseFragment implements RechargeReco
     private User mUser;
     private RechargeRecordAdapter mRechargeRecordAdapter;
     private List<RechargeRecordResponse> rechargeRecordResponseList = new ArrayList<>();
+    private int page = 1;
 
     @Nullable
     @Override
@@ -67,10 +70,27 @@ public class RechargeRecordFragment extends BaseFragment implements RechargeReco
 
     @Override
     public void initData() {
-        for (int i=0;i<10;i++){
-            RechargeRecordResponse rechargeRecordResponse = new RechargeRecordResponse();
-            rechargeRecordResponseList.add(rechargeRecordResponse);
-        }
+        onRequestRechargeRecord();
+    }
+
+    /**
+     * 充值记录
+     */
+    private void onRequestRechargeRecord() {
+        RechargeRecordRequest rechargeRecordRequest = new RechargeRecordRequest();
+        rechargeRecordRequest.token = mBuProcessor.getToken();
+        rechargeRecordRequest.label = "1"; //1充值记录2消费记录
+        rechargeRecordRequest.page = String.valueOf(page);
+        rechargeRecordRequest.pagesize = String.valueOf(Constant.PAGESIZE);
+        mPresenter.onRequestRechargeRecord(rechargeRecordRequest);
+    }
+
+    /**
+     * 充值记录 成功
+     */
+    @Override
+    public void getRechargeRecordSuccess(RechargeRecordResponse rechargeRecordResponse) {
+
     }
 
 
@@ -87,4 +107,6 @@ public class RechargeRecordFragment extends BaseFragment implements RechargeReco
         super.onDestroyView();
         unbinder.unbind();
     }
+
+
 }

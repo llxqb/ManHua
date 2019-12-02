@@ -148,6 +148,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
         if (userinfoBean != null) {
             User user = new User();
             user.token = userinfoBean.getToken();
+            user.vip = userinfoBean.getVip();
             mBuProcessor.setLoginUser(user);
             //刷新main数据
             LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.LOGIN_SUCCESS_UPDATE_DATA));

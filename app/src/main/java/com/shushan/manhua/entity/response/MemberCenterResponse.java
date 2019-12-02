@@ -4,7 +4,7 @@ import java.util.List;
 
 public class MemberCenterResponse {
     /**
-     * vipget_state : 0
+     * vipget_state : 0  0未领取1已领取
      * userinfo : {"id":13,"name":"llxqb","head_portrait":"https://img.pulaukomik.com/book/20191129/5de0d1245d997.png","sex":2,"birthday":1567137600,"token":"6fa0aa72af45199d3f7ca8859e13e87c","deviceId":"00000000-3512-abd9-3512-abd900000000","platform":"android","type":1,"bean":0,"valid_bean":10,"vip":0,"vip_end_time":0,"last_month_bean":0,"channel":1,"book_type":[1,2,4]}
      * vipinfo : [{"vipinfo_id":1,"name":"谷歌订阅/App Store订阅","original_price":"29.99","price":"9.99","bean":200,"indate":30,"type":1},{"vipinfo_id":2,"name":"1个月","original_price":"29.99","price":"9.99","bean":200,"indate":30,"type":2},{"vipinfo_id":3,"name":"3个月","original_price":"89.99","price":"49.99","bean":2000,"indate":90,"type":2},{"vipinfo_id":4,"name":"12个月","original_price":"199.99","price":"99.99","bean":10000,"indate":365,"type":2}]
      */
@@ -210,8 +210,8 @@ public class MemberCenterResponse {
          * original_price : 29.99
          * price : 9.99
          * bean : 200
-         * indate : 30
-         * type : 1
+         * indate : 30  有效天数
+         * type : 1  1谷歌订阅2非订阅
          */
 
         private int vipinfo_id;
@@ -221,6 +221,7 @@ public class MemberCenterResponse {
         private int bean;
         private int indate;
         private int type;
+        public boolean isCheck;
 
         public int getVipinfo_id() {
             return vipinfo_id;

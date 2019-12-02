@@ -64,4 +64,22 @@ public interface MineApi {
     @POST("cartoon/user/center")
     Observable<String> onRequestMemberCenter(@Body String request);
 
+    /**
+     * VIP每日领取漫豆
+     */
+    @POST("cartoon/user/vipGetBean")
+    Observable<String> onRequestReceivedBeanByVip(@Body String request);
+
+    /**
+     * 充值中心
+     */
+    @POST("cartoon/user/voucherCenter")
+    Observable<String> onRequestVoucherCenter(@Body String request);
+
+    /**
+     * 充值记录/消费记录
+     */
+    @POST("cartoon/user/dealLog")
+    Observable<String> onRequestRechargeRecord(@Body String request);
+
 }

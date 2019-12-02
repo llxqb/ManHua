@@ -1,6 +1,8 @@
 package com.shushan.manhua.mvp.ui.fragment.transactionDetails;
 
 
+import com.shushan.manhua.entity.request.RechargeRecordRequest;
+import com.shushan.manhua.entity.response.RechargeRecordResponse;
 import com.shushan.manhua.mvp.presenter.LoadDataView;
 import com.shushan.manhua.mvp.presenter.Presenter;
 
@@ -10,10 +12,14 @@ import com.shushan.manhua.mvp.presenter.Presenter;
 
 public class ExpensesRecordFragmentControl {
     public interface ExpensesRecordView extends LoadDataView {
+        void getRechargeRecordSuccess(RechargeRecordResponse rechargeRecordResponse);
     }
 
     public interface ExpensesRecordFragmentPresenter extends Presenter<ExpensesRecordView> {
-
+        /**
+         * 消费记录
+         */
+        void onRequestRechargeRecord(RechargeRecordRequest rechargeRecordRequest);
     }
 
 }

@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_11"
                 android:layout_marginTop="@dimen/dp_8"
-                android:src="@mipmap/recharge_vip"
+                android:src="@mipmap/vip_gray"
                 app:layout_constraintStart_toEndOf="@id/avatar_iv"
                 app:layout_constraintTop_toBottomOf="@id/username_tv" />
 
