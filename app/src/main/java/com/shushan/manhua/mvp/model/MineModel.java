@@ -2,6 +2,7 @@ package com.shushan.manhua.mvp.model;
 
 
 import com.google.gson.Gson;
+import com.shushan.manhua.entity.request.CreateOrderRequest;
 import com.shushan.manhua.entity.request.MemberCenterRequest;
 import com.shushan.manhua.entity.request.PurchasedBookRequest;
 import com.shushan.manhua.entity.request.ReadingSettingRequest;
@@ -98,18 +99,27 @@ public class MineModel {
     public Observable<ResponseData> onRequestMemberCenter(MemberCenterRequest request) {
         return mMineApi.onRequestMemberCenter(new Gson().toJson(request)).map(mTransform::transformCommon);
     }
+
     /**
      * VIP每日领取漫豆
      */
     public Observable<ResponseData> onRequestReceivedBeanByVip(ReceiovedBeanByVipRequest request) {
         return mMineApi.onRequestReceivedBeanByVip(new Gson().toJson(request)).map(mTransform::transformCommon);
     }
+
     /**
      * 充值中心
      */
     public Observable<ResponseData> onRequestVoucherCenter(VoucherCenterRequest request) {
         return mMineApi.onRequestVoucherCenter(new Gson().toJson(request)).map(mTransform::transformCommon);
     }
+    /**
+     * 创建订单
+     */
+    public Observable<ResponseData> onRequestCreateOrder(CreateOrderRequest request) {
+        return mMineApi.onRequestCreateOrder(mGson.toJson(request)).map(mTransform::transformCommon);
+    }
+
     /**
      * 充值记录/消费记录
      */

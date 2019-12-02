@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">漫画</string>
+    <string name="app_name">Pulau komik</string>
     <!--&#160;表示空格      一个汉字宽度的空格：&#12288;  或者\u3000-->
     <!--app相关 -->
     <string name="text_check_internet">请检查网络连接</string>

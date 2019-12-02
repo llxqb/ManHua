@@ -49,5 +49,8 @@ public class Constant {
      */
     public static final String LOGIN_MODEL = "login_model";
 
+    //发起google支付
+    public static final int GOOGLE_PAY_REQ = 10001;
+
 
 }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Pulaukomik</string>
+    <string name="app_name">Pulau komik</string>
     <!--&#160;表示空格      一个汉字宽度的空格：&#12288;  或者\u3000-->
     <!--app相关 -->
     <string name="text_check_internet">请检查网络连接</string>
@@ -247,6 +247,7 @@
     <string name="SelectDialogUtil_cancel">Batalkan</string>
     <string name="SelectDialogUtil_sure">Oke</string>
 
+
     <!-- 空白页-->
     <string name="BookDetailFragment_empty_tv">sementara tidak ada komentar</string>
     <string name="ReadingHistoryActivity_empty_tv">sementara tidak ada \nriwayat pencarian</string>
@@ -259,4 +260,12 @@
     <string name="DateUtil_before_yesterday">2 hari lalu</string>
     <!-- 提示-->
     <string name="pic_max_hint">Hingga 9 gambar</string>
+
+    <string name="google_payment">Pembayaran Google</string><!--google支付 -->
+    <string name="ahdi_payment">Pembayaran AHDI</string><!--AHDI支付 -->
+    <string name="uniPin_payment">Pembayaran UniPin</string><!--UniPin支付 -->
+    <string name="payment_fail">Pembelian gagal</string><!--购买失败 -->
+    <string name="Payment">Pembayaran</string>
+    <string name="money">$</string>
+    <string name="money_yn">Rp</string>
 </resources>

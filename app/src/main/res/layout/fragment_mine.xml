@@ -138,7 +138,7 @@
                     android:id="@+id/beans_num_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="252"
+                    android:text="0"
                     android:textColor="@color/color_30"
                     android:textSize="@dimen/sp_26"
                     android:textStyle="bold" />
@@ -148,6 +148,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_8"
                     android:text="@string/MineFragment_beans_tv"
+                    android:paddingTop="@dimen/dp_2"
                     android:textColor="@color/color_30"
                     android:textSize="@dimen/sp_14" />
             </LinearLayout>

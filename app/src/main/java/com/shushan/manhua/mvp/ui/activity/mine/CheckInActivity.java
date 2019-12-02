@@ -1,5 +1,7 @@
 package com.shushan.manhua.mvp.ui.activity.mine;
 
+import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +14,7 @@ import com.shushan.manhua.di.components.DaggerCheckInComponent;
 import com.shushan.manhua.di.modules.ActivityModule;
 import com.shushan.manhua.di.modules.CheckInModule;
 import com.shushan.manhua.entity.RecommendBean;
+import com.shushan.manhua.entity.constants.ActivityConstant;
 import com.shushan.manhua.entity.request.ReceiveTaskRequest;
 import com.shushan.manhua.entity.request.RecommendRequest;
 import com.shushan.manhua.entity.request.SignDataRequest;
@@ -175,6 +178,7 @@ public class CheckInActivity extends BaseActivity implements CheckInControl.Chec
         int bean = mSignDataResponse.getSign().get(mSignDataResponse.getContinuous_day()).getBean();
         mUser.bean = mUser.bean + bean;
         mBuProcessor.setLoginUser(mUser);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.UPDATE_PERSONAL_INFO));
     }
 
     /**

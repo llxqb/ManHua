@@ -4,7 +4,9 @@ import android.content.Context;
 
 import com.shushan.manhua.R;
 import com.shushan.manhua.entity.constants.VoucherCenterResponse;
+import com.shushan.manhua.entity.request.CreateOrderRequest;
 import com.shushan.manhua.entity.request.VoucherCenterRequest;
+import com.shushan.manhua.entity.response.CreateOrderResponse;
 import com.shushan.manhua.help.RetryWithDelay;
 import com.shushan.manhua.mvp.model.MineModel;
 import com.shushan.manhua.mvp.model.ResponseData;
@@ -60,6 +62,32 @@ public class BuyPresenterImpl implements BuyControl.PresenterBuy {
         }
     }
 
+
+    /**
+     * 创建订单
+     */
+    @Override
+    public void onRequestCreateOrder(CreateOrderRequest createOrderRequest) {
+        mBuyView.showLoading(mContext.getResources().getString(R.string.loading));
+        Disposable disposable = mMineModel.onRequestCreateOrder(createOrderRequest).compose(mBuyView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
+                .subscribe(this::createOrderSuccess, throwable -> mBuyView.showErrMessage(throwable),
+                        () -> mBuyView.dismissLoading());
+        mBuyView.addSubscription(disposable);
+    }
+
+
+    private void createOrderSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 0) {
+            responseData.parseData(CreateOrderResponse.class);
+            if (responseData.parsedData != null) {
+                CreateOrderResponse response = (CreateOrderResponse) responseData.parsedData;
+                mBuyView.getCreateOrderGoogleSuccess(response);
+            }
+        } else {
+            mBuyView.showLoading(responseData.errorMsg);
+        }
+    }
+    
 
     @Override
     public void onCreate() {

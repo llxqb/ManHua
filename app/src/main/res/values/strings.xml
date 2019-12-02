@@ -261,5 +261,13 @@
     <!-- 提示-->
     <string name="pic_max_hint">Hingga 9 gambar</string>
 
+    <string name="google_payment">Google payment</string><!--google支付 -->
+    <string name="ahdi_payment">AHDI payment</string><!--AHDI支付 -->
+    <string name="uniPin_payment">UniPin payment</string><!--UniPin支付 -->
+    <string name="payment_fail">transaction failed</string><!--交易失败 -->
+    <string name="Payment" >Payment</string>
+    <string name="money" translatable="false">$</string>
+    <string name="money_yn" translatable="false">Rp</string>
+
 
 </resources>

@@ -77,6 +77,12 @@ public interface MineApi {
     Observable<String> onRequestVoucherCenter(@Body String request);
 
     /**
+     * 创建订单
+     */
+    @POST("cartoon/order")
+    Observable<String> onRequestCreateOrder(@Body String request);
+
+    /**
      * 充值记录/消费记录
      */
     @POST("cartoon/user/dealLog")
