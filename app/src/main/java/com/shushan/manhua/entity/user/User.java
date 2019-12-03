@@ -29,5 +29,9 @@ public class User implements Serializable {
      * false: 账号登录
      */
     public boolean isTouristMode;
+    /**
+     * 选择的弹幕样式
+     */
+    public int barrageStyle;
 
 }

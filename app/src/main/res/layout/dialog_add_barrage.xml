@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/dp_60"
-        android:background="@drawable/bg_black"
+        android:background="@mipmap/black_bg"
         android:gravity="center"
         android:maxLength="30"
         android:textColor="@color/white"

@@ -4,13 +4,19 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.LocalBroadcastManager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.shushan.manhua.R;
 import com.shushan.manhua.entity.constants.ActivityConstant;
 import com.shushan.manhua.entity.constants.Constant;
+import com.shushan.manhua.entity.request.BarrageListRequest;
 import com.shushan.manhua.entity.request.ReadRecordingRequest;
 import com.shushan.manhua.entity.request.ReadingRequest;
 import com.shushan.manhua.entity.request.SelectionRequest;
+import com.shushan.manhua.entity.response.BarrageListResponse;
 import com.shushan.manhua.entity.response.ReadingInfoResponse;
 import com.shushan.manhua.entity.response.SelectionResponse;
 
@@ -19,13 +25,15 @@ import com.shushan.manhua.entity.response.SelectionResponse;
  */
 public class ReadActivity extends ReadBaseActivity {
 
+    BarrageListResponse mBarrageListResponse;//弹幕集合
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void initView() {
         super.initView();
         onRequestReadingInfo();
         onRequestSelectionInfo();
-
+        onRequestBarrageList();
     }
 
     @Override
@@ -62,6 +70,7 @@ public class ReadActivity extends ReadBaseActivity {
         }
         //是否免费
         if (readingInfoResponse.getCatalogue().getType() != 0) {
+            //
 
         }
 
@@ -120,4 +129,48 @@ public class ReadActivity extends ReadBaseActivity {
         mSelectionResponse = selectionResponse;
     }
 
+
+    /**
+     * 兑换弹幕样式成功
+     */
+    @Override
+    public void getExchangeBarrageStyleSuccess() {
+        showBarrageStyle();
+    }
+
+    /**
+     * 请求弹幕列表
+     */
+    private void onRequestBarrageList() {
+        BarrageListRequest barrageListRequest = new BarrageListRequest();
+        barrageListRequest.token = mBuProcessor.getToken();
+        barrageListRequest.book_id = mBookId;
+        barrageListRequest.catalogue_id = String.valueOf(mCatalogueId);
+        mPresenter.getBarrageListRequest(barrageListRequest);
+    }
+
+    /**
+     * 获取弹幕列表成功
+     */
+    @Override
+    public void getBarrageListSuccess(BarrageListResponse barrageListResponse) {
+        mBarrageListResponse = barrageListResponse;
+//        addView();
+    }
+
+    /**
+     * 增加弹幕view
+     */
+    public void addView() {
+        for (int i = 0; i < 3; i++) {
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            LayoutInflater inflater = LayoutInflater.from(this);
+            View view = inflater.inflate(R.layout.text_view, null);
+            TextView textView = view.findViewById(R.id.text_tv);
+            textView.setText("我是弹幕我是弹幕");
+            layoutParams.setMargins(200, 200 + 50 * i, 0, 0);
+            textView.setLayoutParams(layoutParams);
+            mReadLayout.addView(view);  // 调用一个参数的addView方法
+        }
+    }
 }

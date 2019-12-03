@@ -28,7 +28,6 @@ public class BarrageStylePopupWindow {
     private BarrageStylePopupWindowListener mPopupWindowListener;
     private CustomPopWindow mCustomPopWindow;
     private List<BarrageStyleResponse> barrageStyleResponseList;
-    private int checkStyle;
     private BuProcessor mBuProcessor;
     private User mUser;
 
@@ -37,6 +36,12 @@ public class BarrageStylePopupWindow {
         mPopupWindowListener = popupWindowListener;
         mBuProcessor = buProcessor;
         this.barrageStyleResponseList = barrageStyleResponseList;
+    }
+
+    public void setDismiss() {
+        if (mCustomPopWindow != null) {
+            mCustomPopWindow.getPopupWindow().dismiss();
+        }
     }
 
     public void initPopWindow(View view) {
@@ -71,7 +76,6 @@ public class BarrageStylePopupWindow {
                     barrageStyleResponse1.isCheck = false;
                 }
             }
-            checkStyle = position;
             //vip 提示开通vip   漫豆兑换提示消费漫豆
             if (barrageStyleResponse != null) {
                 if (barrageStyleResponse.styleType == 0) {//0 免费  1 ： vip兑换   2 ：漫豆兑换
@@ -80,7 +84,7 @@ public class BarrageStylePopupWindow {
                 } else if (barrageStyleResponse.styleType == 1) {//vip兑换
                     if (mUser.vip == 0) {
                         if (mPopupWindowListener != null) {
-                            mPopupWindowListener.hintOpenVipBtnListener();
+                            mPopupWindowListener.hintOpenVipBtnListener(position);
                         }
                     } else {
 //                        if (mPopupWindowListener != null) {
@@ -91,7 +95,7 @@ public class BarrageStylePopupWindow {
                     }
                 } else {//漫豆兑换
                     if (mPopupWindowListener != null) {
-                        mPopupWindowListener.showBeansExchangeBtnListener();
+                        mPopupWindowListener.showBeansExchangeBtnListener(position);
                     }
                 }
             }
@@ -114,15 +118,15 @@ public class BarrageStylePopupWindow {
 
 
     public interface BarrageStylePopupWindowListener {
-        void hintOpenVipBtnListener();//成为VIP
+        void hintOpenVipBtnListener(int barrageStyle);//成为VIP 弹框
 
-        void showBeansExchangeBtnListener();//显示漫豆兑换弹幕弹框
+        void showBeansExchangeBtnListener(int barrageStyle);//显示漫豆兑换弹幕弹框
 
-        void hintBeansExchangeBtnListener();//隐藏
+//        void hintBeansExchangeBtnListener();//隐藏
+//
+//        void switchStyleLayoutBtnListener(int style);
 
-        void switchStyleLayoutBtnListener(int style);
-
-        void showPublishBarrageBtnListener();
+        void showPublishBarrageBtnListener();//发送弹幕
     }
 
 }

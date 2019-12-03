@@ -27,11 +27,11 @@ import com.shushan.manhua.entity.request.BookShelfInfoRequest;
 import com.shushan.manhua.entity.request.RecommendRequest;
 import com.shushan.manhua.entity.response.BookShelfResponse;
 import com.shushan.manhua.entity.response.RecommendResponse;
-import com.shushan.manhua.entity.user.User;
 import com.shushan.manhua.mvp.ui.activity.book.BookDetailActivity;
 import com.shushan.manhua.mvp.ui.activity.book.LongDeleteActivity;
 import com.shushan.manhua.mvp.ui.activity.book.ReadActivity;
 import com.shushan.manhua.mvp.ui.activity.book.ReadingHistoryActivity;
+import com.shushan.manhua.mvp.ui.activity.login.LoginActivity;
 import com.shushan.manhua.mvp.ui.activity.mine.MemberCenterActivity;
 import com.shushan.manhua.mvp.ui.adapter.BookShelfAdapter;
 import com.shushan.manhua.mvp.ui.adapter.RecommendAdapter;
@@ -67,13 +67,17 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
     RecyclerView mBookshelfRecyclerView;
     @BindView(R.id.recommend_recycler_view)
     RecyclerView mRecommendRecyclerView;
+    @BindView(R.id.shelf_layout)
+    LinearLayout mShelfLayout;
+    @BindView(R.id.shelf_empty_layout)
+    LinearLayout mShelfEmptyLayout;
     Unbinder unbinder;
     private BookShelfAdapter mBookShelfAdapter;
     private RecommendAdapter mRecommendAdapter;
     private List<BookShelfResponse.BookrackBean> bookShelfResponseList = new ArrayList<>();
     private List<RecommendBean> recommendResponseList = new ArrayList<>();
-    private User mUser;
     private BookShelfResponse mBookShelfResponse;
+    private int mLoginModel;//1 是游客模式 2 是登录模式
 
     @Nullable
     @Override
@@ -82,7 +86,6 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
         StatusBarUtil.setTransparentForImageViewInFragment(getActivity(), null);
         unbinder = ButterKnife.bind(this, view);
         initializeInjector();
-        mUser = mBuProcessor.getUser();
         initView();
         initData();
         return view;
@@ -97,6 +100,11 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
             } else if (intent.getAction().equals(ActivityConstant.UPDATE_RECOMMEND_BOOK)) {
                 //更新推荐数据
                 onRecommendInfo();
+            } else if (intent.getAction().equals(ActivityConstant.LOGIN_SUCCESS_UPDATE_DATA)) {
+                mShelfLayout.setVisibility(View.VISIBLE);
+                mShelfEmptyLayout.setVisibility(View.GONE);
+                onRequestBookShelfInfo();
+                onRecommendInfo();
             }
         }
         super.onReceivePro(context, intent);
@@ -107,10 +115,26 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
         super.addFilter();
         mFilter.addAction(ActivityConstant.UPDATE_BOOKSHELF);
         mFilter.addAction(ActivityConstant.UPDATE_RECOMMEND_BOOK);
+        mFilter.addAction(ActivityConstant.LOGIN_SUCCESS_UPDATE_DATA);
     }
 
     @Override
     public void initView() {
+        initAdapter();
+        mLoginModel = mBuProcessor.getLoginModel();
+        if (mLoginModel != 2) {
+            mShelfLayout.setVisibility(View.GONE);
+            mShelfEmptyLayout.setVisibility(View.VISIBLE);
+        } else {
+            mShelfLayout.setVisibility(View.VISIBLE);
+            mShelfEmptyLayout.setVisibility(View.GONE);
+            onRequestBookShelfInfo();
+            onRecommendInfo();
+        }
+
+    }
+
+    private void initAdapter() {
         mBookShelfAdapter = new BookShelfAdapter(bookShelfResponseList, mImageLoaderHelper);
         mBookshelfRecyclerView.setAdapter(mBookShelfAdapter);
         mBookshelfRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
@@ -142,11 +166,10 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
 
     @Override
     public void initData() {
-        onRequestBookShelfInfo();
-        onRecommendInfo();
+
     }
 
-    @OnClick({R.id.search_rl, R.id.vip_center_tv, R.id.continue_read_rl, R.id.read_record_ll, R.id.change_tv})
+    @OnClick({R.id.search_rl, R.id.vip_center_tv, R.id.continue_read_rl, R.id.read_record_ll, R.id.change_tv, R.id.login_in_tv})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.search_rl:
@@ -163,6 +186,9 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
                 break;
             case R.id.change_tv:
                 showToast("换一批");
+                break;
+            case R.id.login_in_tv://登录
+                startActivitys(LoginActivity.class);
                 break;
         }
     }

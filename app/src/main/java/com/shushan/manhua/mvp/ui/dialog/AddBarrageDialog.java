@@ -105,8 +105,12 @@ public class AddBarrageDialog extends BaseDialogFragment {
                 break;
             case R.id.sure_tv:
                 String moveTvValue = mMoveTv.getText().toString();
+                int[] lv2 = {0, 0};
+                mMoveTv.getLocationInWindow(lv2);
+                int width = lv2[0]; // 此控件左上角坐标;
+                int height = lv2[1];
                 if (dialogBtnListener != null) {
-                    dialogBtnListener.addBarrageBtnOkListener(moveTvValue);
+                    dialogBtnListener.addBarrageBtnOkListener(moveTvValue, width, height);
                 }
                 closeEditNameDialog();
                 break;
@@ -115,7 +119,7 @@ public class AddBarrageDialog extends BaseDialogFragment {
 
 
     public interface AddBarrageDialogListener {
-        void addBarrageBtnOkListener(String moveTvValue);
+        void addBarrageBtnOkListener(String moveTvValue, int width, int height);
     }
 
     public void closeEditNameDialog() {

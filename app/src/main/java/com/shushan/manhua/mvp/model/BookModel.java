@@ -2,12 +2,15 @@ package com.shushan.manhua.mvp.model;
 
 import com.google.gson.Gson;
 import com.shushan.manhua.entity.request.AddBookShelfRequest;
+import com.shushan.manhua.entity.request.BarrageListRequest;
 import com.shushan.manhua.entity.request.BookDetailRequest;
 import com.shushan.manhua.entity.request.BookShelfInfoRequest;
 import com.shushan.manhua.entity.request.CommentDetailRequest;
 import com.shushan.manhua.entity.request.CommentRequest;
+import com.shushan.manhua.entity.request.ExchangeBarrageStyleRequest;
 import com.shushan.manhua.entity.request.PublishCommentUserRequest;
 import com.shushan.manhua.entity.request.ReadRecordingRequest;
+import com.shushan.manhua.entity.request.SendBarrageRequest;
 import com.shushan.manhua.entity.request.SupportRequest;
 import com.shushan.manhua.entity.request.DeleteBookShelfRequest;
 import com.shushan.manhua.entity.request.PublishCommentRequest;
@@ -71,6 +74,7 @@ public class BookModel {
     public Observable<ResponseData> onSupportRequest(SupportRequest request) {
         return mBookApi.onSupportRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }
+
     /**
      * 评论用户评论
      */
@@ -119,6 +123,28 @@ public class BookModel {
     public Observable<ResponseData> onRequestReadRecording(ReadRecordingRequest request) {
         return mBookApi.onRequestReadRecording(mGson.toJson(request)).map(mTransform::transformCommon);
     }
+
+    /**
+     * 发送弹幕
+     */
+    public Observable<ResponseData> sendBarrageRequest(SendBarrageRequest request) {
+        return mBookApi.sendBarrageRequest(mGson.toJson(request)).map(mTransform::transformCommon);
+    }
+
+    /**
+     * 兑换弹幕样式
+     */
+    public Observable<ResponseData> exchangeBarrageStyleRequest(ExchangeBarrageStyleRequest request) {
+        return mBookApi.exchangeBarrageStyleRequest(mGson.toJson(request)).map(mTransform::transformCommon);
+    }
+
+    /**
+     * 获取弹幕列表
+     */
+    public Observable<ResponseData> getBarrageListRequest(BarrageListRequest request) {
+        return mBookApi.getBarrageListRequest(mGson.toJson(request)).map(mTransform::transformListType);
+    }
+
     /**
      * 评论详情
      */

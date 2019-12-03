@@ -179,6 +179,7 @@
 
         <!--漫画 -->
         <LinearLayout
+            android:id="@+id/shelf_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_m_20"
@@ -195,6 +196,7 @@
 
             <!--为你推荐 -->
             <RelativeLayout
+                android:id="@+id/recommend_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_50">
@@ -236,6 +238,9 @@
                 android:layout_marginTop="@dimen/dp_10"
                 android:layout_marginEnd="@dimen/dp_5" />
         </LinearLayout>
+
+
+        <include layout="@layout/shelf_empty_layout" />
     </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>

@@ -59,7 +59,6 @@ public class BarrageSoftKeyPopupWindow {
         messageEt.addTextChangedListener(search_text_OnChange);
 
         mCustomPopWindow.getPopupWindow().setOnDismissListener(() -> {
-//                LogUtils.e("onDismiss()");
             if (mPopupWindowListener != null) {
                 mCustomPopWindow.dissmiss();
                 mPopupWindowListener.dismissBtnListenerByBarrageSoftKey();

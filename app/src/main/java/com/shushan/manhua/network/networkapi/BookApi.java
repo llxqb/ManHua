@@ -84,6 +84,24 @@ public interface BookApi {
     Observable<String> onRequestReadRecording(@Body String request);
 
     /**
+     * 发送弹幕
+     */
+    @POST("cartoon/book/hairBarrage")
+    Observable<String> sendBarrageRequest(@Body String request);
+
+    /**
+     * 兑换弹幕样式
+     */
+    @POST("cartoon/book/exchangeStyle")
+    Observable<String> exchangeBarrageStyleRequest(@Body String request);
+
+    /**
+     * 获取弹幕列表
+     */
+    @POST("cartoon/book/barrage")
+    Observable<String> getBarrageListRequest(@Body String request);
+
+    /**
      * 评论详情
      */
     @POST("cartoon/comment/detail")

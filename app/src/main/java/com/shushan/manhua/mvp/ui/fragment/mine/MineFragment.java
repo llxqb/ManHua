@@ -198,11 +198,12 @@ public class MineFragment extends BaseFragment implements MineFragmentControl.Mi
                 }
                 break;
             case R.id.recharge_tv://充值中心
-                if (mLoginModel != 2) {
-                    toLogin();
-                } else {
-                    startActivitys(BuyActivity.class);
-                }
+                startActivitys(BuyActivity.class);
+//                if (mLoginModel != 2) {
+//                    toLogin();
+//                } else {
+//
+//                }
                 break;
             case R.id.tourist_login_in://账号登录
                 startActivitys(LoginActivity.class);

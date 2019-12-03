@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 
@@ -135,6 +136,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         if (intent.getBooleanExtra("exitLogin", false)) {
             mSharePreferenceUtil.setData("first_guide", true);//设置引导页为true
             startActivitys(LoginActivity.class);
+            LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.LOGIN_SUCCESS_UPDATE_DATA));
 //            finish();
         }
     }

@@ -28,6 +28,8 @@ import com.shushan.manhua.entity.BannerBean;
 import com.shushan.manhua.entity.CommentBean;
 import com.shushan.manhua.entity.RecommendBean;
 import com.shushan.manhua.entity.request.AddBookShelfRequest;
+import com.shushan.manhua.entity.request.ExchangeBarrageStyleRequest;
+import com.shushan.manhua.entity.request.SendBarrageRequest;
 import com.shushan.manhua.entity.request.SupportRequest;
 import com.shushan.manhua.entity.response.BarrageStyleResponse;
 import com.shushan.manhua.entity.response.ReadingInfoResponse;
@@ -159,7 +161,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     public SelectionResponse mSelectionResponse;
     public int page = 1;
     private int picRvHeight;//图片recyclerView一页高度
-    private int currentHeight = 0;//当前高度
+    private int mCurrentHeight = 0;//当前高度
     private User mUser;
 
     public static void start(Context context, String bookId, int catalogueId) {
@@ -290,8 +292,11 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void initScrollView() {
         mNestedScrollView.setOnScrollChangeListener((View.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
-            currentHeight = scrollY;
-            isShowBackTopIv = scrollY > mPicRecyclerView.getHeight() * 4 / 5;//大于图片的4/5 显示返回顶部按钮
+            if (scrollY < oldScrollY) {//往上滑
+                isShowBackTopIv = true;
+            }
+            mCurrentHeight = scrollY;
+//            isShowBackTopIv = scrollY > mPicRecyclerView.getHeight() * 4 / 5;//大于图片的4/5 显示返回顶部按钮   往上滑显示返回顶部按钮
             //mNestedScrollView.getChildAt(0).getMeasuredHeight()- mNestedScrollView.getMeasuredHeight()
             if (scrollY >= mPicRecyclerView.getHeight()) {//设置隐藏功能键
                 isBarrageState = false;
@@ -308,18 +313,19 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     public void initData() {
         mCommonRightTv.setVisibility(View.VISIBLE);
         mCommonRightTv.setText(getResources().getString(R.string.ReadActivity_right_title));
-        for (int i = 0; i < barrageStyleIcon.length; i++) {
-            BarrageStyleResponse barrageStyleResponse = new BarrageStyleResponse();
-            if (i == 0) {
-                barrageStyleResponse.isCheck = true;
-            } else {
-                barrageStyleResponse.isCheck = false;
-            }
-            barrageStyleResponse.styleIcon = barrageStyleIcon[i];
-            barrageStyleResponse.styleType = barrageStyleType[i];
-            barrageStyleResponseList.add(barrageStyleResponse);
-        }
-//        showRechargeDialog();
+//        for (int i = 0; i < barrageStyleIcon.length; i++) {
+//            BarrageStyleResponse barrageStyleResponse = new BarrageStyleResponse();
+//            if (i == 0) {
+//                barrageStyleResponse.isCheck = true;
+//            } else {
+//                barrageStyleResponse.isCheck = false;
+//            }
+//            barrageStyleResponse.styleIcon = barrageStyleIcon[i];
+//            barrageStyleResponse.styleType = barrageStyleType[i];
+//            barrageStyleResponseList.add(barrageStyleResponse);
+//        }
+
+
     }
 
 
@@ -328,7 +334,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
         SoftKeyBoardListener.setListener(this, new SoftKeyBoardListener.OnSoftKeyBoardChangeListener() {
             @Override
             public void keyBoardShow(int height) {
-                LogUtils.e("onKeyBoardListener()");
+//                LogUtils.e("onKeyBoardListener()");
                 hideLayout();
                 if (barrageSoftKeyPopupWindow == null) {
                     if (isBarrageState) {//弹幕状态
@@ -545,7 +551,18 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
             startActivitys(BuyActivity.class);
         } else {
             //兑换
+            exchangeBarrageStyleRequest();
         }
+    }
+
+    /**
+     * 兑换弹幕样式
+     */
+    private void exchangeBarrageStyleRequest() {
+        ExchangeBarrageStyleRequest request = new ExchangeBarrageStyleRequest();
+        request.token = mBuProcessor.getToken();
+        request.style_id = String.valueOf(mBarrageStyle);
+        mPresenter.exchangeBarrageStyleRequest(request);
     }
 
     /**
@@ -560,10 +577,10 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
      * 屏幕向上点击
      */
     private void upPageBtn() {
-        currentHeight = currentHeight - SystemUtils.getScreenHeight(this) * 3 / 4;
-        LogUtils.e("currentHeight:" + currentHeight + " picRvHeight:" + picRvHeight);
-        if (currentHeight < picRvHeight && currentHeight > 0) {
-            mNestedScrollView.smoothScrollTo(0, currentHeight);
+        mCurrentHeight = mCurrentHeight - SystemUtils.getScreenHeight(this) * 3 / 4;
+        LogUtils.e("mCurrentHeight:" + mCurrentHeight + " picRvHeight:" + picRvHeight);
+        if (mCurrentHeight < picRvHeight && mCurrentHeight > 0) {
+            mNestedScrollView.smoothScrollTo(0, mCurrentHeight);
         }
     }
 
@@ -571,10 +588,10 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
      * 屏幕向下点击
      */
     private void downPageBtn() {
-        currentHeight = currentHeight + SystemUtils.getScreenHeight(this) * 3 / 4;
-//        LogUtils.e("currentHeight:" + currentHeight + " picRvHeight:" + picRvHeight);
-        if (currentHeight < picRvHeight) {
-            mNestedScrollView.smoothScrollTo(0, currentHeight);
+        mCurrentHeight = mCurrentHeight + SystemUtils.getScreenHeight(this) * 3 / 4;
+//        LogUtils.e("mCurrentHeight:" + mCurrentHeight + " picRvHeight:" + picRvHeight);
+        if (mCurrentHeight < picRvHeight) {
+            mNestedScrollView.smoothScrollTo(0, mCurrentHeight);
         }
     }
 
@@ -650,12 +667,12 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
      */
     @Override
     public void dismissBtnListenerByBarrageSoftKey() {
-        LogUtils.e("dismissBtnListenerByBarrageSoftKey()");
         barrageSoftKeyPopupWindow = null;
     }
 
     /**
      * 显示发送弹幕弹框
+     * 记录当前X Y轴坐标
      */
     private void showAddBarrageDialog(String message) {
         AddBarrageDialog addBarrageDialog = AddBarrageDialog.newInstance();
@@ -669,8 +686,37 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
      * 发送添加弹幕
      */
     @Override
-    public void addBarrageBtnOkListener(String moveTvValue) {
-        showToast("弹幕值：" + moveTvValue);
+    public void addBarrageBtnOkListener(String moveTvValue, int width, int height) {
+        LogUtils.e("X:" + width + "  Y:" + height);
+        sendBarrageRequest(moveTvValue, width, height);
+    }
+
+    /**
+     * 发送弹幕
+     */
+    private void sendBarrageRequest(String barrageValue, int width, int height) {
+        SendBarrageRequest sendBarrageRequest = new SendBarrageRequest();
+        sendBarrageRequest.token = mBuProcessor.getToken();
+        sendBarrageRequest.book_id = mBookId;
+        sendBarrageRequest.catalogue_id = String.valueOf(mCatalogueId);
+        sendBarrageRequest.barrage_content = barrageValue;
+        sendBarrageRequest.style_id = String.valueOf(mBarrageStyle);
+        sendBarrageRequest.xcoord = String.valueOf(width);
+        sendBarrageRequest.ycoord = mCurrentHeight + String.valueOf(height);
+        if (mUser.vip == 0) {
+            sendBarrageRequest.bean = "5";//非会员5 漫豆
+        } else {
+            sendBarrageRequest.bean = "3";//会员3 漫豆
+        }
+        mPresenter.sendBarrageRequest(sendBarrageRequest);
+    }
+
+    /**
+     * 发送弹幕成功
+     */
+    @Override
+    public void getSendBarrageSuccess() {
+        showToast("发送成功");
     }
 
     /**
@@ -728,44 +774,53 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
         }
     }
 
+    BarrageStylePopupWindow barrageStylePopupWindow;
+
     /**
      * 显示弹幕样式
      */
-    private void showBarrageStyle() {
+    public void showBarrageStyle() {
         SoftKeyboardUtil.hideSoftKeyboard(this);
         showFunction();
-        new BarrageStylePopupWindow(this, barrageStyleResponseList, mBuProcessor, this).initPopWindow(mReadLayout);
+        if (barrageStylePopupWindow != null) {
+            barrageStylePopupWindow.setDismiss();
+            barrageStylePopupWindow = null;
+        }
+        barrageStylePopupWindow = new BarrageStylePopupWindow(this, barrageStyleResponseList, mBuProcessor, this);
+        barrageStylePopupWindow.initPopWindow(mReadLayout);
     }
 
     @Override
-    public void hintOpenVipBtnListener() {
+    public void hintOpenVipBtnListener(int barrageStyle) {
+        mBarrageStyle = barrageStyle;
         showOpenVipDialog();
     }
 
-    @Override
-    public void hintBeansExchangeBtnListener() {
-        showBeansExchangeDialog();
-    }
+//    @Override
+//    public void hintBeansExchangeBtnListener() {
+//        showBeansExchangeDialog();
+//    }
 
     /**
      * from:弹幕样式PopupWindow
      * 显示漫豆兑换弹幕弹框
      */
     @Override
-    public void showBeansExchangeBtnListener() {
+    public void showBeansExchangeBtnListener(int barrageStyle) {
+        mBarrageStyle = barrageStyle;
         showBeansExchangeDialog();
     }
 
-    /**
-     * from:弹幕样式PopupWindow
-     * 显示弹幕样式:确定样式按钮
-     */
-    @Override
-    public void switchStyleLayoutBtnListener(int style) {
-        mBarrageStyle = style;
-        SoftKeyboardUtil.hideSoftKeyboard(this);
-        //显示
-    }
+//    /**
+//     * from:弹幕样式PopupWindow
+//     * 显示弹幕样式:确定样式按钮
+//     */
+//    @Override
+//    public void switchStyleLayoutBtnListener(int style) {
+//        mBarrageStyle = style;
+//        SoftKeyboardUtil.hideSoftKeyboard(this);
+//        //显示
+//    }
 
     @Override
     public void showPublishBarrageBtnListener() {

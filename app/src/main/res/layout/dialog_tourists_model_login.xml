@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#90000000">
+
+    <RelativeLayout
+        android:id="@+id/pop_contain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="@dimen/dp_30"
+        android:layout_marginEnd="@dimen/dp_30"
+        android:background="@drawable/bg_white_round_solid_5"
+        android:minHeight="@dimen/dp_220"
+        android:paddingBottom="@dimen/dp_30">
+
+        <ImageView
+            android:id="@+id/close_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:padding="@dimen/dp_10"
+            android:src="@mipmap/popup_close" />
+
+
+        <TextView
+            android:id="@+id/title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp_28"
+            android:text="Penjelasan mode pengunjung"
+            android:textColor="#FF9100"
+            android:textSize="@dimen/sp_16" />
+
+
+        <TextView
+            android:id="@+id/desc_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title_tv"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_14"
+            android:layout_marginEnd="@dimen/dp_10"
+            android:gravity="center"
+            android:text="anggota yang membeli dengan mode pengunjung hanya berlaku saat digunakan saja, Setelah APP
+diuninstall keuntungan yang didapat juga akan hilang. "
+            android:textColor="@color/first_text_color"
+            android:textSize="@dimen/sp_14" />
+
+        <TextView
+            android:id="@+id/login_in_tv"
+            android:layout_width="@dimen/dp_200"
+            android:layout_height="@dimen/dp_36"
+            android:layout_below="@id/desc_tv"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp_16"
+            android:background="@drawable/bg_blue1_round_solid_30"
+            android:gravity="center"
+            android:text="Log in"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_18" />
+
+        <!-- 购买-->
+        <TextView
+            android:id="@+id/purchase_tv"
+            android:layout_width="@dimen/dp_200"
+            android:layout_height="@dimen/dp_36"
+            android:layout_below="@id/login_in_tv"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp_16"
+            android:background="@drawable/bg_orange_round_solid_30"
+            android:gravity="center"
+            android:text="Pembelian"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_18" />
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

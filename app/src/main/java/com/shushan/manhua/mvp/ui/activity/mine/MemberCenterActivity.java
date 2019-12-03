@@ -32,6 +32,7 @@ import com.shushan.manhua.mvp.ui.adapter.BuyAdapter;
 import com.shushan.manhua.mvp.ui.adapter.ProfitAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseActivity;
 import com.shushan.manhua.mvp.ui.dialog.PaySelectDialog;
+import com.shushan.manhua.mvp.ui.dialog.TouristsModelLoginDialog;
 import com.shushan.manhua.mvp.utils.DataUtils;
 import com.shushan.manhua.mvp.utils.LogUtils;
 import com.shushan.manhua.mvp.utils.StatusBarUtil;
@@ -50,7 +51,7 @@ import butterknife.OnClick;
 /**
  * 会员中心
  */
-public class MemberCenterActivity extends BaseActivity implements MemberCenterControl.MemberCenterView, PaySelectDialog.payChoiceDialogListener, GooglePayHelper.BuyFinishListener {
+public class MemberCenterActivity extends BaseActivity implements MemberCenterControl.MemberCenterView, PaySelectDialog.payChoiceDialogListener, GooglePayHelper.BuyFinishListener, TouristsModelLoginDialog.TouristsModelLoginListener {
 
     @Inject
     MemberCenterControl.PresenterMemberCenter mPresenter;
@@ -197,8 +198,9 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
         switch (view.getId()) {
             case R.id.pay_tv:
                 if (mLoginModel != 2) {
-                    showToast(getString(R.string.please_login_hint));
-                    startActivitys(LoginActivity.class);
+//                    showToast(getString(R.string.please_login_hint));
+//                    startActivitys(LoginActivity.class);
+                    showTouristsLoginDialog();
                 } else {
                     showPayChooseDialog();
                 }
@@ -218,6 +220,28 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
         }
     }
 
+
+    /**
+     * 游客未登录弹框
+     */
+    private void showTouristsLoginDialog() {
+        String desc = "anggota yang membeli dengan mode pengunjung hanya berlaku saat digunakan saja, Setelah APP \n" +
+                "diuninstall keuntungan yang didapat juga akan hilang. ";
+        TouristsModelLoginDialog touristsModelLoginDialog = TouristsModelLoginDialog.newInstance();
+        touristsModelLoginDialog.setListener(this);
+        touristsModelLoginDialog.setDesc(desc);
+        DialogFactory.showDialogFragment(this.getSupportFragmentManager(), touristsModelLoginDialog, TouristsModelLoginDialog.TAG);
+    }
+
+    @Override
+    public void touristsModelLoginInBtnOkListener() {
+        startActivitys(LoginActivity.class);
+    }
+
+    @Override
+    public void touristsModelPurchaseBtnOkListener() {
+        showPayChooseDialog();
+    }
 
     /**
      * 请求会员中心数据
@@ -361,5 +385,6 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
                 .memberCenterModule(new MemberCenterModule(this, this))
                 .activityModule(new ActivityModule(this)).build().inject(this);
     }
+
 
 }
