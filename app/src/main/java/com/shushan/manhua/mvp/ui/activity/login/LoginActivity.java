@@ -19,7 +19,6 @@ import com.shushan.manhua.entity.response.LoginResponse;
 import com.shushan.manhua.entity.user.User;
 import com.shushan.manhua.help.FacebookLoginHelper;
 import com.shushan.manhua.help.GoogleLoginHelper;
-import com.shushan.manhua.mvp.ui.activity.main.MainActivity;
 import com.shushan.manhua.mvp.ui.base.BaseActivity;
 import com.shushan.manhua.mvp.utils.StatusBarUtil;
 import com.shushan.manhua.mvp.utils.SystemUtils;
@@ -150,9 +149,9 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
             user.token = userinfoBean.getToken();
             user.vip = userinfoBean.getVip();
             mBuProcessor.setLoginUser(user);
-            //刷新main数据
+            //刷新main数据 刷新
             LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.LOGIN_SUCCESS_UPDATE_DATA));
-            startActivitys(MainActivity.class);
+//            startActivitys(MainActivity.class);
             finish();
         }
     }

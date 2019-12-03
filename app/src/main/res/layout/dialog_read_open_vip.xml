@@ -7,8 +7,8 @@
 
 
     <RelativeLayout
-        android:layout_width="@dimen/dp_252"
-        android:layout_height="@dimen/dp_195"
+        android:layout_width="@dimen/dp_280"
+        android:layout_height="@dimen/dp_220"
         android:layout_centerInParent="true"
         android:background="@drawable/bg_white_round_solid_5">
 
@@ -27,6 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/dp_18"
+            android:gravity="center"
             android:text="@string/ReadOpenVipDialog_title"
             android:textColor="#915AFF"
             android:textSize="@dimen/sp_18" />
@@ -38,8 +39,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/title_tv"
             android:layout_marginTop="@dimen/dp_14"
-            android:paddingStart="@dimen/dp_20"
-            android:paddingEnd="@dimen/dp_20"
+            android:gravity="center"
+            android:paddingStart="@dimen/dp_12"
+            android:paddingEnd="@dimen/dp_12"
             android:text="@string/ReadOpenVipDialog_hint"
             android:textColor="@color/first_text_color"
             android:textSize="@dimen/sp_14" />
@@ -57,7 +59,7 @@
             android:layout_height="@dimen/dp_40"
             android:layout_below="@id/title_hint"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/dp_18"
+            android:layout_marginTop="@dimen/dp_20"
             android:layout_marginBottom="@dimen/dp_10"
             android:background="@drawable/gradient_recharge_bg"
             android:gravity="center"

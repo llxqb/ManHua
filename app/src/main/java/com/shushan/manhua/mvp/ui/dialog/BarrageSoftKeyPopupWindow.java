@@ -2,6 +2,7 @@ package com.shushan.manhua.mvp.ui.dialog;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -31,6 +32,7 @@ public class BarrageSoftKeyPopupWindow {
         mPopupWindowListener = popupWindowListener;
     }
 
+
     public void initPopWindow(View view) {
         View contentView = LayoutInflater.from(mContext).inflate(R.layout.popup_barrage_soft_key, null);
         //创建并显示popWindow
@@ -44,21 +46,31 @@ public class BarrageSoftKeyPopupWindow {
         handlePopListView(contentView);
     }
 
-    EditText messageEt;
+    private EditText messageEt;
+
 
     private void handlePopListView(View contentView) {
-
         ImageView sendMessageLeftIv = contentView.findViewById(R.id.send_message_left_iv);
         ImageView sendMessageRightIv = contentView.findViewById(R.id.send_message_right_iv);
         messageEt = contentView.findViewById(R.id.message_et);
-        messageEt.requestFocus();//获取焦点
+//        messageEt.requestFocus();//获取焦点
+        popupInputMethodWindow();
         TextView sendTv = contentView.findViewById(R.id.send_tv);
         messageEt.addTextChangedListener(search_text_OnChange);
+
+        mCustomPopWindow.getPopupWindow().setOnDismissListener(() -> {
+//                LogUtils.e("onDismiss()");
+            if (mPopupWindowListener != null) {
+                mCustomPopWindow.dissmiss();
+                mPopupWindowListener.dismissBtnListenerByBarrageSoftKey();
+            }
+        });
+
         sendMessageLeftIv.setOnClickListener(v -> {
             if (mPopupWindowListener != null) {
                 mPopupWindowListener.switchStyleLayoutBtnListenerByBarrageSoftKey();
-//                InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-//                imm.hideSoftInputFromWindow(v.getWindowToken(), 0); //隐藏软键盘
+                InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0); //隐藏软键盘
                 mCustomPopWindow.dissmiss();
             }
         });
@@ -75,14 +87,31 @@ public class BarrageSoftKeyPopupWindow {
             if (!TextUtils.isEmpty(messageEt.getText())) {
                 if (mPopupWindowListener != null) {
                     mPopupWindowListener.sendMessageBtnListenerByBarrageSoftKey(messageEt.getText().toString());
-//                    InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-//                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                    InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                     mCustomPopWindow.dissmiss();
                 }
             }
         });
 
+    }
 
+    /**
+     * 弹出输入法窗口
+     */
+    private void popupInputMethodWindow() {
+        new Handler().postDelayed(() -> {
+            //设置可获得焦点
+            messageEt.setFocusable(true);
+            messageEt.setFocusableInTouchMode(true);
+            //请求获得焦点
+            messageEt.requestFocus();
+
+            //调用系统输入法
+            InputMethodManager inputManager = (InputMethodManager) messageEt
+                    .getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.showSoftInput(messageEt, 0);
+        }, 500);
     }
 
 
@@ -92,6 +121,8 @@ public class BarrageSoftKeyPopupWindow {
         void showStyleBtnListenerByBarrageSoftKey();
 
         void sendMessageBtnListenerByBarrageSoftKey(String message);
+
+        void dismissBtnListenerByBarrageSoftKey();
     }
 
 

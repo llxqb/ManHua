@@ -17,7 +17,7 @@
         <RelativeLayout
             android:id="@+id/send_message_rl"
             android:layout_width="@dimen/dp_280"
-            android:layout_height="@dimen/dp_32"
+            android:layout_height="match_parent"
             android:layout_marginStart="@dimen/dp_10"
             android:background="@drawable/bg_line_round_stroke_30"
             app:layout_constraintStart_toStartOf="parent"
@@ -51,8 +51,6 @@
                 android:layout_toStartOf="@id/send_message_right_iv"
                 android:layout_toEndOf="@id/send_message_left_iv"
                 android:background="@null"
-
-                android:focusable="true"
                 android:gravity="start|center_vertical"
                 android:hint="@string/BarrageStylePopupWindow_barrage_hint"
                 android:paddingStart="@dimen/dp_6"

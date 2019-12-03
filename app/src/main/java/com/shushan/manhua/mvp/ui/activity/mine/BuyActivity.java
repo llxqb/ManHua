@@ -141,6 +141,7 @@ public class BuyActivity extends BaseActivity implements BuyControl.BuyView, Pay
             if (i == 0) {
                 VoucherCenterResponse.BeaninfoBean beaninfoBean = buyBeansResponseList.get(i);
                 beaninfoBean.isCheck = true;
+                mBeaninfoBean = beaninfoBean;
                 String moneyValue = "$ " + beaninfoBean.getPrice();
                 mMoneyTv.setText(moneyValue);
             }

@@ -14,7 +14,6 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -33,6 +32,7 @@ import com.shushan.manhua.entity.request.SupportRequest;
 import com.shushan.manhua.entity.response.BarrageStyleResponse;
 import com.shushan.manhua.entity.response.ReadingInfoResponse;
 import com.shushan.manhua.entity.response.SelectionResponse;
+import com.shushan.manhua.entity.user.User;
 import com.shushan.manhua.help.DialogFactory;
 import com.shushan.manhua.listener.SoftKeyBoardListener;
 import com.shushan.manhua.mvp.ui.activity.mine.BuyActivity;
@@ -104,7 +104,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     @BindView(R.id.send_message_right_iv)
     ImageView mSendMessageRightIv;
     @BindView(R.id.message_et)
-    EditText mMessageEt;
+    TextView mMessageEt;
     @BindView(R.id.send_tv)
     TextView mSendTv;
     @BindView(R.id.comment_num_tv)
@@ -132,8 +132,11 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     private List<BarrageStyleResponse> barrageStyleResponseList = new ArrayList<>();//弹幕样式list
     private List<String> bookPicList = new ArrayList<>();//漫画章节图片
     private Integer[] barrageStyleIcon = {R.mipmap.barrage0, R.mipmap.barrage1, R.mipmap.barrage2, R.mipmap.barrage3, R.mipmap.barrage4, R.mipmap.barrage5};
+    private Integer[] barrageStyleType = {0, 1, 1, 2, 1, 2};
     //是否是弹幕状态否则是评论状态 false
     private boolean isBarrageState = true;
+    //是否有popupWindow页面  有就不监听键盘
+    private boolean isPopupWindowView = false;
     private TakePhoto takePhoto;
     private InvokeParam invokeParam;
     private Uri uri;
@@ -157,6 +160,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     public int page = 1;
     private int picRvHeight;//图片recyclerView一页高度
     private int currentHeight = 0;//当前高度
+    private User mUser;
 
     public static void start(Context context, String bookId, int catalogueId) {
         Intent intent = new Intent(context, ReadActivity.class);
@@ -179,6 +183,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
         setContentView(R.layout.activity_read);
         setStatusBar();
         initInjectData();
+        mUser = mBuProcessor.getUser();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -311,6 +316,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
                 barrageStyleResponse.isCheck = false;
             }
             barrageStyleResponse.styleIcon = barrageStyleIcon[i];
+            barrageStyleResponse.styleType = barrageStyleType[i];
             barrageStyleResponseList.add(barrageStyleResponse);
         }
 //        showRechargeDialog();
@@ -322,11 +328,14 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
         SoftKeyBoardListener.setListener(this, new SoftKeyBoardListener.OnSoftKeyBoardChangeListener() {
             @Override
             public void keyBoardShow(int height) {
+                LogUtils.e("onKeyBoardListener()");
                 hideLayout();
-                if (isBarrageState) {//弹幕状态
-                    showBarragePopupWindow();
-                } else {//评论状态
-                    showCommentPopupWindow(getString(R.string.BarrageStylePopupWindow_comment_hint));
+                if (barrageSoftKeyPopupWindow == null) {
+                    if (isBarrageState) {//弹幕状态
+                        showBarragePopupWindow();
+                    } else {//评论状态
+                        showCommentPopupWindow(getString(R.string.BarrageStylePopupWindow_comment_hint));
+                    }
                 }
             }
 
@@ -360,18 +369,25 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
         mAddBookshelfIv.setVisibility(View.GONE);
     }
 
+    BarrageSoftKeyPopupWindow barrageSoftKeyPopupWindow;
+
     /**
      * 显示弹幕弹框PopupWindow
      */
     private void showBarragePopupWindow() {
-        new BarrageSoftKeyPopupWindow(this, this).initPopWindow(mReadLayout);
+        if (barrageSoftKeyPopupWindow == null) {
+            barrageSoftKeyPopupWindow = new BarrageSoftKeyPopupWindow(this, this);
+        }
+        barrageSoftKeyPopupWindow.initPopWindow(mReadLayout);
     }
 
     /**
      * 显示评论弹框PopupWindow
      */
     private void showCommentPopupWindow(String editHintContent) {
-        mCommentSoftKeyPopupWindow = new CommentSoftKeyPopupWindow(this, this, photoList, editHintContent);
+        if (mCommentSoftKeyPopupWindow == null) {
+            mCommentSoftKeyPopupWindow = new CommentSoftKeyPopupWindow(this, this, photoList, editHintContent);
+        }
         mCommentSoftKeyPopupWindow.initPopWindow(mReadLayout);
     }
 
@@ -400,12 +416,14 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     private void showBeansExchangeDialog() {
         ReadBeansExchangeDialog readBeansExchangeDialog = ReadBeansExchangeDialog.newInstance();
         readBeansExchangeDialog.setListener(this);
+        readBeansExchangeDialog.setDate(mUser.bean);
         DialogFactory.showDialogFragment(getSupportFragmentManager(), readBeansExchangeDialog, ReadBeansExchangeDialog.TAG);
     }
 
 
     @OnClick({R.id.common_left_iv, R.id.common_right_tv, R.id.bottom_directory_ll, R.id.last_chapter_iv, R.id.next_chapter_iv, R.id.barrage_ll, R.id.send_message_left_iv, R.id.send_message_right_iv,
-            R.id.support_tv, R.id.add_bookshelf_tv, R.id.share_tv, R.id.last_chapter_ll, R.id.next_chapter_ll, R.id.bottom_comment_ll, R.id.bottom_share_ll, R.id.bottom_setting_ll, R.id.back_top_iv, R.id.add_bookshelf_iv})
+            R.id.support_tv, R.id.add_bookshelf_tv, R.id.share_tv, R.id.last_chapter_ll, R.id.next_chapter_ll, R.id.bottom_comment_ll, R.id.bottom_share_ll, R.id.bottom_setting_ll,
+            R.id.back_top_iv, R.id.add_bookshelf_iv, R.id.send_message_ll,})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.common_left_iv:
@@ -481,6 +499,9 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
                     onAddBookShelfRequest();
                 }
                 break;
+            case R.id.send_message_ll:
+
+                break;
         }
     }
 
@@ -516,11 +537,15 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
 
     /**
      * 漫豆兑换弹幕弹框  去兑换
-     * 去充漫豆
+     * 1 去冲漫豆  2 去兑换
      */
     @Override
-    public void readBeansExchangeDialogBtnOkListener() {
-        startActivitys(BuyActivity.class);
+    public void readBeansExchangeDialogBtnOkListener(int type) {
+        if (type == 1) {
+            startActivitys(BuyActivity.class);
+        } else {
+            //兑换
+        }
     }
 
     /**
@@ -600,6 +625,8 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     @Override
     public void switchStyleLayoutBtnListenerByBarrageSoftKey() {
         switchFunction();
+        //显示评论功能
+        showCommentPopupWindow(getString(R.string.BarrageStylePopupWindow_comment_hint));
     }
 
     /**
@@ -616,6 +643,15 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     @Override
     public void sendMessageBtnListenerByBarrageSoftKey(String message) {
         showAddBarrageDialog(message);
+    }
+
+    /**
+     * 弹幕模式：popupWindow窗口关闭
+     */
+    @Override
+    public void dismissBtnListenerByBarrageSoftKey() {
+        LogUtils.e("dismissBtnListenerByBarrageSoftKey()");
+        barrageSoftKeyPopupWindow = null;
     }
 
     /**
@@ -698,7 +734,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     private void showBarrageStyle() {
         SoftKeyboardUtil.hideSoftKeyboard(this);
         showFunction();
-        new BarrageStylePopupWindow(this, barrageStyleResponseList, this).initPopWindow(mReadLayout);
+        new BarrageStylePopupWindow(this, barrageStyleResponseList, mBuProcessor, this).initPopWindow(mReadLayout);
     }
 
     @Override
@@ -727,6 +763,14 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     @Override
     public void switchStyleLayoutBtnListener(int style) {
         mBarrageStyle = style;
+        SoftKeyboardUtil.hideSoftKeyboard(this);
+        //显示
+    }
+
+    @Override
+    public void showPublishBarrageBtnListener() {
+        isPopupWindowView = true;
+        showBarragePopupWindow();
         SoftKeyboardUtil.hideSoftKeyboard(this);
     }
 

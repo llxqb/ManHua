@@ -120,5 +120,4 @@ public class ReadActivity extends ReadBaseActivity {
         mSelectionResponse = selectionResponse;
     }
 
-
 }

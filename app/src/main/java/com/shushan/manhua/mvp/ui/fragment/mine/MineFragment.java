@@ -115,6 +115,7 @@ public class MineFragment extends BaseFragment implements MineFragmentControl.Mi
             if (intent.getAction().equals(ActivityConstant.UPDATE_PERSONAL_INFO)) {
                 onRequestMineInfo();
             } else if (intent.getAction().equals(ActivityConstant.LOGIN_SUCCESS_UPDATE_DATA)) {
+                mLoginModel = mBuProcessor.getLoginModel();
                 onRequestMineInfo();
             }
         }
@@ -166,7 +167,11 @@ public class MineFragment extends BaseFragment implements MineFragmentControl.Mi
                     startActivitys(ReadingHistoryActivity.class);
                     break;
                 case 2://已购漫画
-                    startActivitys(PurchasedActivity.class);
+                    if (mLoginModel != 2) {
+                        toLogin();
+                    } else {
+                        startActivitys(PurchasedActivity.class);
+                    }
                     break;
             }
         });
@@ -176,16 +181,28 @@ public class MineFragment extends BaseFragment implements MineFragmentControl.Mi
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.avatar_iv:
-                startActivitys(PersonalInfoActivity.class);
+                if (mLoginModel != 2) {
+                    toLogin();
+                } else {
+                    startActivitys(PersonalInfoActivity.class);
+                }
                 break;
             case R.id.setting_iv:
                 startActivitys(SettingActivity.class);
                 break;
             case R.id.message_ll://我的消息
-                startActivitys(MessageActivity.class);
+                if (mLoginModel != 2) {
+                    toLogin();
+                } else {
+                    startActivitys(MessageActivity.class);
+                }
                 break;
             case R.id.recharge_tv://充值中心
-                startActivitys(BuyActivity.class);
+                if (mLoginModel != 2) {
+                    toLogin();
+                } else {
+                    startActivitys(BuyActivity.class);
+                }
                 break;
             case R.id.tourist_login_in://账号登录
                 startActivitys(LoginActivity.class);
@@ -195,7 +212,11 @@ public class MineFragment extends BaseFragment implements MineFragmentControl.Mi
                 startActivitys(MemberCenterActivity.class);
                 break;
             case R.id.check_in_beans_ll:
-                startActivitys(CheckInActivity.class);
+                if (mLoginModel != 2) {
+                    toLogin();
+                } else {
+                    startActivitys(CheckInActivity.class);
+                }
                 break;
             case R.id.vip_check_in_beans_ll:
                 startActivitys(MemberCenterActivity.class);
@@ -258,6 +279,14 @@ public class MineFragment extends BaseFragment implements MineFragmentControl.Mi
             }
             mBeansNumTv.setText(String.valueOf(userinfoBean.getBean()));
         }
+    }
+
+    /**
+     * 游客提示登录
+     */
+    private void toLogin() {
+        showToast(getString(R.string.please_login_hint));
+        startActivitys(LoginActivity.class);
     }
 
     private void initializeInjector() {

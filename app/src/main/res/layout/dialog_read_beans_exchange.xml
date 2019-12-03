@@ -7,10 +7,12 @@
 
 
     <RelativeLayout
-        android:layout_width="@dimen/dp_260"
-        android:layout_height="@dimen/dp_220"
+        android:layout_width="@dimen/dp_280"
+        android:layout_height="@dimen/dp_230"
         android:layout_centerInParent="true"
-        android:background="@drawable/bg_white_round_solid_5">
+        android:background="@drawable/bg_white_round_solid_5"
+        android:paddingStart="@dimen/dp_12"
+        android:paddingEnd="@dimen/dp_12">
 
 
         <ImageView
@@ -26,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/dp_26"
+            android:layout_marginTop="@dimen/dp_30"
             android:gravity="center"
             android:text="@string/ReadBeansExchangeDialog_title"
             android:textColor="#00D08D"
@@ -39,10 +41,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/title_tv"
             android:layout_centerHorizontal="true"
-            android:gravity="center"
             android:layout_marginStart="@dimen/dp_10"
             android:layout_marginTop="@dimen/dp_14"
             android:layout_marginEnd="@dimen/dp_10"
+            android:gravity="center"
             android:text="@string/ReadBeansExchangeDialog_hint"
             android:textColor="@color/first_text_color"
             android:textSize="@dimen/sp_14" />
@@ -60,7 +62,7 @@
             android:layout_height="@dimen/dp_40"
             android:layout_below="@id/exchange_hint"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/dp_18"
+            android:layout_marginTop="@dimen/dp_28"
             android:background="@drawable/gradient_exchange_bg"
             android:gravity="center"
             android:text="@string/ReadBeansExchangeDialog_sure"
@@ -69,6 +71,7 @@
 
 
         <TextView
+            android:id="@+id/beans_hint_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/sure_tv"

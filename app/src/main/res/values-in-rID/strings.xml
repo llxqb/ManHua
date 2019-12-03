@@ -5,6 +5,7 @@
     <string name="text_check_internet">请检查网络连接</string>
     <string name="text_wait_try">请重试</string>
     <string name="loading">loading…</string>
+    <string name="please_login_hint">Silakan masuk dulu</string>
 
     <string name="main_bottom_home">Beranda</string>
     <string name="main_bottom_teacher">Rak buku</string>
@@ -54,6 +55,7 @@
     <string name="ReadBeansExchangeDialog_title">Koin ditukar dengan komentar langsung</string>
     <string name="ReadBeansExchangeDialog_hint">tukar 100 koin, hanya bisa dipakai 30 hari</string>
     <string name="ReadBeansExchangeDialog_sure">Isi ulang koin</string>
+    <string name="ReadBeansExchangeDialog_sure1">Tukar</string>
     <string name="ReadBeansExchangeDialog_sure_hint">Koin tidak cukup</string>
 
     <string name="ReadOpenVipDialog_title">Komentar langsung ekslusif untuk anggota</string>

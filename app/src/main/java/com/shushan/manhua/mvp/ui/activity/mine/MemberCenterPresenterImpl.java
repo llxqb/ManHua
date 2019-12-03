@@ -3,8 +3,10 @@ package com.shushan.manhua.mvp.ui.activity.mine;
 import android.content.Context;
 
 import com.shushan.manhua.R;
+import com.shushan.manhua.entity.request.CreateOrderRequest;
 import com.shushan.manhua.entity.request.MemberCenterRequest;
 import com.shushan.manhua.entity.request.ReceiovedBeanByVipRequest;
+import com.shushan.manhua.entity.response.CreateOrderResponse;
 import com.shushan.manhua.entity.response.MemberCenterResponse;
 import com.shushan.manhua.help.RetryWithDelay;
 import com.shushan.manhua.mvp.model.MineModel;
@@ -83,6 +85,31 @@ public class MemberCenterPresenterImpl implements MemberCenterControl.PresenterM
         }
     }
 
+
+    /**
+     * 创建订单
+     */
+    @Override
+    public void onRequestCreateOrder(CreateOrderRequest createOrderRequest) {
+        mMemberCenterView.showLoading(mContext.getResources().getString(R.string.loading));
+        Disposable disposable = mMineModel.onRequestCreateOrder(createOrderRequest).compose(mMemberCenterView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
+                .subscribe(this::createOrderSuccess, throwable -> mMemberCenterView.showErrMessage(throwable),
+                        () -> mMemberCenterView.dismissLoading());
+        mMemberCenterView.addSubscription(disposable);
+    }
+
+
+    private void createOrderSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 0) {
+            responseData.parseData(CreateOrderResponse.class);
+            if (responseData.parsedData != null) {
+                CreateOrderResponse response = (CreateOrderResponse) responseData.parsedData;
+                mMemberCenterView.getCreateOrderGoogleSuccess(response);
+            }
+        } else {
+            mMemberCenterView.showLoading(responseData.errorMsg);
+        }
+    }
 
     @Override
     public void onCreate() {

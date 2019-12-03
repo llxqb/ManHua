@@ -32,6 +32,7 @@ import com.shushan.manhua.mvp.ui.activity.book.BookDetailActivity;
 import com.shushan.manhua.mvp.ui.activity.book.LongDeleteActivity;
 import com.shushan.manhua.mvp.ui.activity.book.ReadActivity;
 import com.shushan.manhua.mvp.ui.activity.book.ReadingHistoryActivity;
+import com.shushan.manhua.mvp.ui.activity.mine.MemberCenterActivity;
 import com.shushan.manhua.mvp.ui.adapter.BookShelfAdapter;
 import com.shushan.manhua.mvp.ui.adapter.RecommendAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseFragment;
@@ -152,7 +153,7 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
                 showToast("搜索");
                 break;
             case R.id.vip_center_tv:
-                showToast("会员中心");
+                startActivitys(MemberCenterActivity.class);
                 break;
             case R.id.continue_read_rl:
                 showToast("继续阅读");

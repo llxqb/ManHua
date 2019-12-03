@@ -5,6 +5,7 @@
     <string name="text_check_internet">请检查网络连接</string>
     <string name="text_wait_try">请重试</string>
     <string name="loading">loading…</string>
+    <string name="please_login_hint">请先登录</string>
 
     <string name="main_bottom_home">书城</string>
     <string name="main_bottom_teacher">书架</string>
@@ -54,6 +55,7 @@
     <string name="ReadBeansExchangeDialog_title">漫豆兑换弹幕</string>
     <string name="ReadBeansExchangeDialog_hint">100漫豆兑换，佩戴有限期30天~</string>
     <string name="ReadBeansExchangeDialog_sure">去充漫豆</string>
+    <string name="ReadBeansExchangeDialog_sure1">兑换</string>
     <string name="ReadBeansExchangeDialog_sure_hint">漫豆不足</string>
 
     <string name="ReadOpenVipDialog_title">会员专属弹幕</string>
