@@ -11,9 +11,9 @@ public class ReadingInfoResponse {
 
     /**
      * commend : [{"book_id":1,"book_name":"大国工程","label":["重生过去","畅想未来"],"oblong_cover":""}]
-     * catalogue : {"catalogue_id":1,"catalogue_name":"第一话 纪元时代","catalogue_content":["https://caricature.oss-ap-southeast-5.aliyuncs.com/book/1.jpg","https://caricature.oss-ap-southeast-5.aliyuncs.com/book/2.jpg","https://caricature.oss-ap-southeast-5.aliyuncs.com/book/3.jpg","https://caricature.oss-ap-southeast-5.aliyuncs.com/book/4.jpg","https://caricature.oss-ap-southeast-5.aliyuncs.com/book/5.jpg","https://caricature.oss-ap-southeast-5.aliyuncs.com/book/6.jpg"],"comment_count":1,"like":5,"change_like":2,"type":1,"width":"0","height":"0","is_like":1,"state":1,"count":1}
+     * catalogue : {"catalogue_id":1,"catalogue_name":"第一话 纪元时代","catalogue_content":["https://caricature.oss-ap-southeast-5.aliyuncs.com/book/1.jpg","https://caricature.oss-ap-southeast-5.aliyuncs.com/book/2.jpg","https://caricature.oss-ap-southeast-5.aliyuncs.com/book/3.jpg","https://caricature.oss-ap-southeast-5.aliyuncs.com/book/4.jpg","https://caricature.oss-ap-southeast-5.aliyuncs.com/book/5.jpg","https://caricature.oss-ap-southeast-5.aliyuncs.com/book/6.jpg"],"comment_count":3,"like":8,"change_like":2,"type":0,"sort":1,"cost":0,"vip_cost":0,"is_like":0,"state":1,"count":3,"next_catalogue_id":2,"pre_catalogue_id":0}
      * banner : [{"banner_name":"测试banner图","banner_pic":"http://www.baidu.com","banner_cate":1,"banner_url":"http://www.baidu.com","custom":""}]
-     * comment : [{"comment_id":2,"user_id":1,"book_id":1,"content":"太好了！","pics":[],"comment_time":1574077027,"like":1,"name":"测试","head_portrait":"http://www.baidu.com","is_like":0,"review":[],"review_count":0}]
+     * comment : [{"comment_id":2,"user_id":1,"book_id":1,"content":"太好了！","pics":[],"comment_time":1574077027,"like":2,"name":"测试","head_portrait":"http://www.baidu.com","is_like":0,"review":[],"review_count":0},{"comment_id":9,"user_id":10,"book_id":1,"content":"App does exactly","pics":[],"comment_time":1574913492,"like":0,"name":"zy1234","head_portrait":"https://img.pulaukomik.com/book/20191129/5de0b686ea304.png","is_like":0,"review":[],"review_count":0},{"comment_id":10,"user_id":10,"book_id":1,"content":"Dydy day would","pics":[],"comment_time":1574913527,"like":0,"name":"zy1234","head_portrait":"https://img.pulaukomik.com/book/20191129/5de0b686ea304.png","is_like":0,"review":[],"review_count":0}]
      */
 
     private CatalogueBean catalogue;
@@ -58,15 +58,18 @@ public class ReadingInfoResponse {
          * catalogue_id : 1
          * catalogue_name : 第一话 纪元时代
          * catalogue_content : ["https://caricature.oss-ap-southeast-5.aliyuncs.com/book/1.jpg","https://caricature.oss-ap-southeast-5.aliyuncs.com/book/2.jpg","https://caricature.oss-ap-southeast-5.aliyuncs.com/book/3.jpg","https://caricature.oss-ap-southeast-5.aliyuncs.com/book/4.jpg","https://caricature.oss-ap-southeast-5.aliyuncs.com/book/5.jpg","https://caricature.oss-ap-southeast-5.aliyuncs.com/book/6.jpg"]
-         * comment_count : 1
-         * like : 5
+         * comment_count : 3
+         * like : 8
          * change_like : 2
-         * type : 1
-         * width : 0
-         * height : 0
-         * is_like : 1
+         * type : 0
+         * sort : 1
+         * cost : 0
+         * vip_cost : 0
+         * is_like : 0
          * state : 1
-         * count : 1
+         * count : 3
+         * next_catalogue_id : 2
+         * pre_catalogue_id : 0
          */
 
         private int catalogue_id;
@@ -75,11 +78,14 @@ public class ReadingInfoResponse {
         private int like;
         private int change_like;
         private int type;
-        private String width;
-        private String height;
+        private int sort;
+        private int cost;
+        private int vip_cost;
         private int is_like;
         private int state;
         private int count;
+        private int next_catalogue_id;
+        private int pre_catalogue_id;
         private List<String> catalogue_content;
 
         public int getCatalogue_id() {
@@ -130,20 +136,28 @@ public class ReadingInfoResponse {
             this.type = type;
         }
 
-        public String getWidth() {
-            return width;
+        public int getSort() {
+            return sort;
         }
 
-        public void setWidth(String width) {
-            this.width = width;
+        public void setSort(int sort) {
+            this.sort = sort;
         }
 
-        public String getHeight() {
-            return height;
+        public int getCost() {
+            return cost;
         }
 
-        public void setHeight(String height) {
-            this.height = height;
+        public void setCost(int cost) {
+            this.cost = cost;
+        }
+
+        public int getVip_cost() {
+            return vip_cost;
+        }
+
+        public void setVip_cost(int vip_cost) {
+            this.vip_cost = vip_cost;
         }
 
         public int getIs_like() {
@@ -170,6 +184,22 @@ public class ReadingInfoResponse {
             this.count = count;
         }
 
+        public int getNext_catalogue_id() {
+            return next_catalogue_id;
+        }
+
+        public void setNext_catalogue_id(int next_catalogue_id) {
+            this.next_catalogue_id = next_catalogue_id;
+        }
+
+        public int getPre_catalogue_id() {
+            return pre_catalogue_id;
+        }
+
+        public void setPre_catalogue_id(int pre_catalogue_id) {
+            this.pre_catalogue_id = pre_catalogue_id;
+        }
+
         public List<String> getCatalogue_content() {
             return catalogue_content;
         }
@@ -178,8 +208,6 @@ public class ReadingInfoResponse {
             this.catalogue_content = catalogue_content;
         }
     }
-
-
 
 
 }

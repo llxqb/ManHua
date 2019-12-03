@@ -1,8 +1,10 @@
 package com.shushan.manhua.mvp.ui.activity.login;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
+import android.widget.CheckBox;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -19,18 +21,23 @@ import com.shushan.manhua.entity.response.LoginResponse;
 import com.shushan.manhua.entity.user.User;
 import com.shushan.manhua.help.FacebookLoginHelper;
 import com.shushan.manhua.help.GoogleLoginHelper;
+import com.shushan.manhua.mvp.ui.activity.splash.ProtocolActivity;
 import com.shushan.manhua.mvp.ui.base.BaseActivity;
 import com.shushan.manhua.mvp.utils.StatusBarUtil;
 import com.shushan.manhua.mvp.utils.SystemUtils;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class LoginActivity extends BaseActivity implements LoginControl.LoginView {
 
     @Inject
     LoginControl.PresenterLogin mPresenterLogin;
+    @BindView(R.id.check_box)
+    CheckBox mCheckBox;
     private User mUser;
     private FacebookLoginHelper faceBookLoginManager;
 
@@ -56,14 +63,23 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.login_google_tv:
-                showLoading(getResources().getString(R.string.loading));
-                GoogleLoginHelper.googleLogin(this);
+                if (mCheckBox.isChecked()) {
+                    showLoading(getResources().getString(R.string.loading));
+                    GoogleLoginHelper.googleLogin(this);
+                } else {
+                    showToast("Silakan baca perjanjiannya");
+                }
                 break;
             case R.id.login_facebook_tv:
-                //facebook登录
-                faceBookLoginManager.faceBookLogin(this);
+                if (mCheckBox.isChecked()) {
+                    //facebook登录
+                    faceBookLoginManager.faceBookLogin(this);
+                } else {
+                    showToast("Silakan baca perjanjiannya");
+                }
                 break;
             case R.id.protocol_tv:
+                startActivitys(ProtocolActivity.class);
                 break;
         }
     }
@@ -182,4 +198,10 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
     }
 
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
 }

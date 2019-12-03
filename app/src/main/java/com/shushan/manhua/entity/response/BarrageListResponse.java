@@ -4,6 +4,7 @@ import java.util.List;
 
 public class BarrageListResponse {
 
+
     /**
      * error : 0
      * msg : success

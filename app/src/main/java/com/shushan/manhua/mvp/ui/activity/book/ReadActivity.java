@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.LocalBroadcastManager;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -155,6 +153,12 @@ public class ReadActivity extends ReadBaseActivity {
     @Override
     public void getBarrageListSuccess(BarrageListResponse barrageListResponse) {
         mBarrageListResponse = barrageListResponse;
+//        for (BarrageListResponse.DataBean dataBean : barrageListResponse.getData()) {
+//            if (Integer.parseInt(dataBean.getYcoord()) < picRvHeight) {
+//
+//
+//            }
+//        }
 //        addView();
     }
 
@@ -163,14 +167,20 @@ public class ReadActivity extends ReadBaseActivity {
      */
     public void addView() {
         for (int i = 0; i < 3; i++) {
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            LayoutInflater inflater = LayoutInflater.from(this);
-            View view = inflater.inflate(R.layout.text_view, null);
-            TextView textView = view.findViewById(R.id.text_tv);
+//            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//            LayoutInflater inflater = LayoutInflater.from(this);
+//            View view = inflater.inflate(R.layout.text_view, null);
+//            TextView textView = view.findViewById(R.id.text_tv);
+            TextView textView = new TextView(this);
             textView.setText("我是弹幕我是弹幕");
-            layoutParams.setMargins(200, 200 + 50 * i, 0, 0);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            if (i == 1) {
+                layoutParams.setMargins(200, 1000, 0, 0);
+            } else {
+                layoutParams.setMargins(200, 200 + 50 * i, 0, 0);
+            }
             textView.setLayoutParams(layoutParams);
-            mReadLayout.addView(view);  // 调用一个参数的addView方法
+            mPicRecyclerView.addView(textView);  // 调用一个参数的addView方法
         }
     }
 }

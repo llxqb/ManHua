@@ -160,7 +160,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     public ReadingInfoResponse mReadingInfoResponse;
     public SelectionResponse mSelectionResponse;
     public int page = 1;
-    private int picRvHeight;//图片recyclerView一页高度
+    public int picRvHeight;//图片recyclerView总高度
     private int mCurrentHeight = 0;//当前高度
     private User mUser;
 
@@ -292,8 +292,13 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void initScrollView() {
         mNestedScrollView.setOnScrollChangeListener((View.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+//            LogUtils.e("scrollY:" + scrollY + " oldScrollY:" + oldScrollY);
             if (scrollY < oldScrollY) {//往上滑
                 isShowBackTopIv = true;
+                mBackTopIv.setVisibility(View.VISIBLE);
+            } else {
+                isShowBackTopIv = false;
+                mBackTopIv.setVisibility(View.INVISIBLE);
             }
             mCurrentHeight = scrollY;
 //            isShowBackTopIv = scrollY > mPicRecyclerView.getHeight() * 4 / 5;//大于图片的4/5 显示返回顶部按钮   往上滑显示返回顶部按钮
@@ -838,15 +843,15 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
             mReadBottomLl.setVisibility(View.INVISIBLE);
             mBarrageLl.setVisibility(View.INVISIBLE);
             mAddBookshelfIv.setVisibility(View.INVISIBLE);
-            mBackTopIv.setVisibility(View.INVISIBLE);
+
         } else {
             mSendMessageLl.setVisibility(View.VISIBLE);
             mReadBottomLl.setVisibility(View.VISIBLE);
             mBarrageLl.setVisibility(View.VISIBLE);
             mAddBookshelfIv.setVisibility(View.VISIBLE);
-            if (isShowBackTopIv) {
-                mBackTopIv.setVisibility(View.VISIBLE);
-            }
+//            if (isShowBackTopIv) {
+//                mBackTopIv.setVisibility(View.VISIBLE);
+//            }
         }
     }
 

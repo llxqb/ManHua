@@ -6,10 +6,10 @@ public class SelectionResponse {
 
 
     /**
-     * anthology : [{"catalogue_id":1,"catalogue_name":"第一话 纪元时代","catalogue_cover":"http://www.baidu.com","create_time":1574142426,"like":6,"change_like":2,"type":0,"sort":1,"is_like":1},{"catalogue_id":2,"catalogue_name":"第二话 青铜时代","catalogue_cover":"http://www.baidu.com","create_time":1574142425,"like":7,"change_like":3,"type":1,"sort":2,"is_like":1}]
+     * anthology : [{"catalogue_id":1,"catalogue_name":"第一话 纪元时代","catalogue_cover":"http://www.baidu.com","create_time":1574142426,"like":8,"change_like":2,"type":0,"sort":1,"is_like":0},{"catalogue_id":2,"catalogue_name":"第二话 青铜时代","catalogue_cover":"http://www.baidu.com","create_time":1574142425,"like":7,"change_like":3,"type":1,"sort":2,"is_like":0}]
      * residue_words : 0
      * words : 0
-     * last_catalogue_id : 0
+     * last_catalogue_id : 1
      */
 
     private int residue_words;
@@ -55,11 +55,11 @@ public class SelectionResponse {
          * catalogue_name : 第一话 纪元时代
          * catalogue_cover : http://www.baidu.com
          * create_time : 1574142426
-         * like : 6
+         * like : 8
          * change_like : 2
          * type : 0
          * sort : 1
-         * is_like : 1
+         * is_like : 0
          */
 
         private int catalogue_id;
