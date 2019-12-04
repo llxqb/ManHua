@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@mipmap/default_graph_1" />
+            android:src="@mipmap/default_detail" />
 
         <ImageView
             android:id="@+id/common_left_iv"

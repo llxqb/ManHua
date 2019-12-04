@@ -163,4 +163,9 @@ public class ReadActivity extends ReadBaseActivity {
     public void getBuyBarrageStyleSuccess(BuyBarrageStyleResponse buyBarrageStyleResponse) {
         mBuyBarrageStyleResponse = buyBarrageStyleResponse;
     }
+
+    @Override
+    public void cancelReadingBtnOkListener() {
+        finish();
+    }
 }

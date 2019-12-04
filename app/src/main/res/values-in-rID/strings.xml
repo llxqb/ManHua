@@ -47,8 +47,8 @@
     <string name="ReadActivity_add_bookshelf">Masuk ke rak buku</string>
     <string name="ReadActivity_share">Bagikan</string>
 
-    <string name="ReadUseCoinDialog_title">koin yang harus dibayarkan</string>
-    <string name="ReadUseCoinDialog_pay_hint"> koin untuk anggota</string>
+    <string name="ReadUseCoinDialog_title">5 koin yang harus dibayarkan</string>
+    <string name="ReadUseCoinDialog_pay_hint">Harga 3 koin untuk anggota</string>
     <string name="ReadUseCoinDialog_use_coin">Koin yang bisa digunakan</string>
     <string name="ReadUseCoinDialog_sure">Isi ulang koin</string>
 

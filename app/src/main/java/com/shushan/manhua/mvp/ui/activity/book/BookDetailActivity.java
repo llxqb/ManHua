@@ -55,10 +55,12 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
     private List<LabelResponse> labelResponseList = new ArrayList<>();
     String[] titles;
     String bookId;
+    String mBookCover;
 
-    public static void start(Context context, String bookId) {
+    public static void start(Context context, String bookId, String bookCover) {
         Intent intent = new Intent(context, BookDetailActivity.class);
         intent.putExtra("bookId", bookId);
+        intent.putExtra("bookCover", bookCover);
         context.startActivity(intent);
     }
 
@@ -73,6 +75,8 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
     public void initView() {
         if (getIntent() != null) {
             bookId = getIntent().getStringExtra("bookId");
+            mBookCover = getIntent().getStringExtra("bookCover");
+            mImageLoaderHelper.displayImage(this, mBookCover, mCoverIv, R.mipmap.default_detail);
             titles = new String[]{getResources().getString(R.string.BookDetailActivity_detail_tv), getResources().getString(R.string.BookDetailActivity_selection_tv)};
             mViewPager.setOffscreenPageLimit(2);
             mViewPager.setAdapter(new MyPageAdapter(getSupportFragmentManager()));
@@ -125,8 +129,8 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
 
         MyPageAdapter(FragmentManager fm) {
             super(fm);
-            BookDetailFragment bookDetailFragment = BookDetailFragment.getInstance(bookId);
-            SelectionDetailFragment selectionDetailFragment = SelectionDetailFragment.getInstance(bookId);
+            BookDetailFragment bookDetailFragment = BookDetailFragment.getInstance(bookId,mBookCover);
+            SelectionDetailFragment selectionDetailFragment = SelectionDetailFragment.getInstance(bookId,mBookCover);
             fragments.add(bookDetailFragment);
             fragments.add(selectionDetailFragment);
         }

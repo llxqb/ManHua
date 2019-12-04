@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -24,6 +25,7 @@ import com.shushan.manhua.di.modules.BookShelfFragmentModule;
 import com.shushan.manhua.di.modules.MainModule;
 import com.shushan.manhua.entity.RecommendBean;
 import com.shushan.manhua.entity.constants.ActivityConstant;
+import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.entity.request.BookShelfInfoRequest;
 import com.shushan.manhua.entity.request.RecommendRequest;
 import com.shushan.manhua.entity.response.BookShelfResponse;
@@ -62,6 +64,8 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
     SwipeRefreshLayout mSwipeLy;
     @BindView(R.id.last_read_layout)
     LinearLayout mLastReadLayout;
+    @BindView(R.id.recent_read_book_iv)
+    ImageView mRecentReadBookIv;
     @BindView(R.id.recent_read_book_name_tv)
     TextView mRecentReadBookNameTv;
     @BindView(R.id.recent_read_book_to_chapter_tv)
@@ -158,14 +162,14 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
             } else {
                 BookShelfResponse.BookrackBean bookrackBean = (BookShelfResponse.BookrackBean) adapter.getItem(position);
                 if (bookrackBean != null) {
-                    ReadActivity.start(getActivity(), String.valueOf(bookrackBean.getBook_id()), bookrackBean.getCatalogue_id());//阅读页面
+                    ReadActivity.start(getActivity(), String.valueOf(bookrackBean.getBook_id()), bookrackBean.getCatalogue_id(), bookrackBean.getDetail_cover());//阅读页面
                 }
             }
         });
 
         mRecommendAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             RecommendBean dataBean = (RecommendBean) adapter.getItem(position);
-            BookDetailActivity.start(getActivity(), String.valueOf(dataBean.getBook_id()));
+            BookDetailActivity.start(getActivity(), String.valueOf(dataBean.getBook_id()), dataBean.getSquare_cover());
         });
     }
 
@@ -218,10 +222,14 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
             mSwipeLy.setRefreshing(false);
         }
         mBookShelfResponse = bookShelfResponse;
-        if (bookShelfResponse.getLast_read() == null || new Gson().toJson(bookShelfResponse.getLast_read()).equals("{}")) {
+        BookShelfResponse.LastReadBean lastReadBean = bookShelfResponse.getLast_read();
+        if (lastReadBean == null || new Gson().toJson(lastReadBean).equals("{}")) {
             mLastReadLayout.setVisibility(View.GONE);
         } else {
             mLastReadLayout.setVisibility(View.VISIBLE);
+            mImageLoaderHelper.displayImage(getActivity(), lastReadBean.getDetail_cover(), mRecentReadBookIv, Constant.LOADING_DEFAULT_2);
+            mRecentReadBookNameTv.setText(lastReadBean.getBook_name());
+            mRecentReadBookToChapterTv.setText("Bacaan terakhir ke Bab " + lastReadBean.getCatalogue_id());
         }
         bookShelfResponseList = bookShelfResponse.getBookrack();
         BookShelfResponse.BookrackBean bookrackBean = new BookShelfResponse.BookrackBean();

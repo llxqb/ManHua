@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/swipe_ly"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swipe_ly"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -76,7 +76,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_12"
                     android:orientation="vertical"
-                    android:visibility="gone"
+
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/search_rl">
 
@@ -104,16 +104,17 @@
                             android:layout_width="@dimen/dp_100"
                             android:layout_height="@dimen/dp_60"
                             android:layout_marginStart="@dimen/dp_6"
+                            android:layout_marginTop="@dimen/dp_3"
                             android:scaleType="fitXY"
                             android:src="@mipmap/default_graph_2" />
 
                         <TextView
                             android:id="@+id/recent_read_book_name_tv"
-                            android:layout_width="wrap_content"
+                            android:layout_width="@dimen/dp_120"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/dp_11"
+                            android:text="Bacaan terakhir"
                             android:layout_toEndOf="@id/recent_read_book_iv"
-                            android:text="绝世炼丹师"
                             android:textColor="@color/white"
                             android:textSize="@dimen/sp_15" />
 
@@ -125,7 +126,7 @@
                             android:layout_marginStart="@dimen/dp_10"
                             android:layout_marginTop="@dimen/dp_5"
                             android:layout_toEndOf="@id/recent_read_book_iv"
-                            android:text="上次阅读至第3话"
+                            android:text="Bacaan terakhir ke Bab 3"
                             android:textColor="@color/white"
                             android:textSize="@dimen/sp_12" />
 
@@ -146,7 +147,7 @@
                             android:layout_width="@dimen/dp_1"
                             android:layout_height="@dimen/dp_50"
                             android:layout_centerVertical="true"
-                            android:layout_marginStart="@dimen/dp_60"
+                            android:layout_marginStart="@dimen/dp_30"
                             android:layout_toEndOf="@id/recent_read_book_name_tv"
                             android:background="@color/white" />
 

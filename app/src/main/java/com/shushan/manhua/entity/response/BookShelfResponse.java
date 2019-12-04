@@ -5,28 +5,16 @@ import android.os.Parcelable;
 
 import java.util.List;
 
-public class BookShelfResponse implements Parcelable {
+public class BookShelfResponse  {
+
+
     /**
-     * last_read : {}
-     * bookrack : []
+     * last_read : {"id":8,"user_id":19,"book_id":1,"catalogue_id":2,"create_time":1575424393,"type":1,"bean":5,"state":1,"deletetime":0,"book_name":"大国工程","detail_cover":"","words":575,"catalogue_name":"第二话 青铜时代","sort":2,"residue_words":573}
+     * bookrack : [{"book_id":1,"book_name":"大国工程","detail_cover":"","comment_count":10,"like":0,"type":1,"create_time":1574142425,"catalogue_id":2,"catalogue_name":"第二话 青铜时代","is_like":0}]
      */
 
     private LastReadBean last_read;
-
-    protected BookShelfResponse(Parcel in) {
-    }
-
-    public static final Creator<BookShelfResponse> CREATOR = new Creator<BookShelfResponse>() {
-        @Override
-        public BookShelfResponse createFromParcel(Parcel in) {
-            return new BookShelfResponse(in);
-        }
-
-        @Override
-        public BookShelfResponse[] newArray(int size) {
-            return new BookShelfResponse[size];
-        }
-    };
+    private List<BookrackBean> bookrack;
 
     public LastReadBean getLast_read() {
         return last_read;
@@ -36,11 +24,6 @@ public class BookShelfResponse implements Parcelable {
         this.last_read = last_read;
     }
 
-    public static class LastReadBean {
-    }
-
-    private List<BookrackBean> bookrack;
-
     public List<BookrackBean> getBookrack() {
         return bookrack;
     }
@@ -49,31 +32,175 @@ public class BookShelfResponse implements Parcelable {
         this.bookrack = bookrack;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
+    public static class LastReadBean {
+        /**
+         * id : 8
+         * user_id : 19
+         * book_id : 1
+         * catalogue_id : 2
+         * create_time : 1575424393
+         * type : 1
+         * bean : 5
+         * state : 1
+         * deletetime : 0
+         * book_name : 大国工程
+         * detail_cover :
+         * words : 575
+         * catalogue_name : 第二话 青铜时代
+         * sort : 2
+         * residue_words : 573
+         */
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
+        private int id;
+        private int user_id;
+        private int book_id;
+        private int catalogue_id;
+        private int create_time;
+        private int type;
+        private int bean;
+        private int state;
+        private int deletetime;
+        private String book_name;
+        private String detail_cover;
+        private int words;
+        private String catalogue_name;
+        private int sort;
+        private int residue_words;
 
-    }
 
-
-    public static class BookrackBean implements Parcelable{
-        public BookrackBean() {
+        public int getId() {
+            return id;
         }
 
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public int getUser_id() {
+            return user_id;
+        }
+
+        public void setUser_id(int user_id) {
+            this.user_id = user_id;
+        }
+
+        public int getBook_id() {
+            return book_id;
+        }
+
+        public void setBook_id(int book_id) {
+            this.book_id = book_id;
+        }
+
+        public int getCatalogue_id() {
+            return catalogue_id;
+        }
+
+        public void setCatalogue_id(int catalogue_id) {
+            this.catalogue_id = catalogue_id;
+        }
+
+        public int getCreate_time() {
+            return create_time;
+        }
+
+        public void setCreate_time(int create_time) {
+            this.create_time = create_time;
+        }
+
+        public int getType() {
+            return type;
+        }
+
+        public void setType(int type) {
+            this.type = type;
+        }
+
+        public int getBean() {
+            return bean;
+        }
+
+        public void setBean(int bean) {
+            this.bean = bean;
+        }
+
+        public int getState() {
+            return state;
+        }
+
+        public void setState(int state) {
+            this.state = state;
+        }
+
+        public int getDeletetime() {
+            return deletetime;
+        }
+
+        public void setDeletetime(int deletetime) {
+            this.deletetime = deletetime;
+        }
+
+        public String getBook_name() {
+            return book_name;
+        }
+
+        public void setBook_name(String book_name) {
+            this.book_name = book_name;
+        }
+
+        public String getDetail_cover() {
+            return detail_cover;
+        }
+
+        public void setDetail_cover(String detail_cover) {
+            this.detail_cover = detail_cover;
+        }
+
+        public int getWords() {
+            return words;
+        }
+
+        public void setWords(int words) {
+            this.words = words;
+        }
+
+        public String getCatalogue_name() {
+            return catalogue_name;
+        }
+
+        public void setCatalogue_name(String catalogue_name) {
+            this.catalogue_name = catalogue_name;
+        }
+
+        public int getSort() {
+            return sort;
+        }
+
+        public void setSort(int sort) {
+            this.sort = sort;
+        }
+
+        public int getResidue_words() {
+            return residue_words;
+        }
+
+        public void setResidue_words(int residue_words) {
+            this.residue_words = residue_words;
+        }
+    }
+
+    public static class BookrackBean implements Parcelable {
         /**
          * book_id : 1
          * book_name : 大国工程
          * detail_cover :
-         * comment_count : 0
+         * comment_count : 10
          * like : 0
          * type : 1
          * create_time : 1574142425
          * catalogue_id : 2
          * catalogue_name : 第二话 青铜时代
+         * is_like : 0
          */
 
         private int book_id;
@@ -85,14 +212,8 @@ public class BookShelfResponse implements Parcelable {
         private int create_time;
         private int catalogue_id;
         private String catalogue_name;
-
-        /**
-         * 点我显示更多
-         */
+        private int is_like;
         public boolean isMore;
-        /**
-         * 长按删除，是否选择
-         */
         public boolean isCheck;
 
         protected BookrackBean(Parcel in) {
@@ -105,8 +226,8 @@ public class BookShelfResponse implements Parcelable {
             create_time = in.readInt();
             catalogue_id = in.readInt();
             catalogue_name = in.readString();
+            is_like = in.readInt();
             isMore = in.readByte() != 0;
-            isCheck = in.readByte() != 0;
         }
 
         public static final Creator<BookrackBean> CREATOR = new Creator<BookrackBean>() {
@@ -120,6 +241,9 @@ public class BookShelfResponse implements Parcelable {
                 return new BookrackBean[size];
             }
         };
+
+        public BookrackBean() {
+        }
 
         public int getBook_id() {
             return book_id;
@@ -193,6 +317,14 @@ public class BookShelfResponse implements Parcelable {
             this.catalogue_name = catalogue_name;
         }
 
+        public int getIs_like() {
+            return is_like;
+        }
+
+        public void setIs_like(int is_like) {
+            this.is_like = is_like;
+        }
+
         @Override
         public int describeContents() {
             return 0;
@@ -209,10 +341,8 @@ public class BookShelfResponse implements Parcelable {
             dest.writeInt(create_time);
             dest.writeInt(catalogue_id);
             dest.writeString(catalogue_name);
+            dest.writeInt(is_like);
             dest.writeByte((byte) (isMore ? 1 : 0));
-            dest.writeByte((byte) (isCheck ? 1 : 0));
         }
     }
-
-
 }

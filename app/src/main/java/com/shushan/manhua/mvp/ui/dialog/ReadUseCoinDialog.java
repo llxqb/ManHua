@@ -2,6 +2,7 @@ package com.shushan.manhua.mvp.ui.dialog;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,7 +62,9 @@ public class ReadUseCoinDialog extends BaseDialogFragment {
     private void initView() {
 //"Harga"+3+getString(R.string.ReadUseCoinDialog_pay_hint);//会员价
 //        getString(R.string.ReadUseCoinDialog_use_coin)+0//可用金币
-        mAvailableCoinTv.setText(getString(R.string.ReadUseCoinDialog_use_coin) + " " + mBeans);
+        mAvailableCoinTv.setText(mBeans + " " + getString(R.string.ReadUseCoinDialog_use_coin));
+        //设置点击返回键不消失
+        getDialog().setOnKeyListener((dialog, keyCode, event) -> keyCode == KeyEvent.KEYCODE_BACK);
     }
 
     @Override
@@ -70,17 +73,20 @@ public class ReadUseCoinDialog extends BaseDialogFragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.close_iv, R.id.recharge_tv})
+    @OnClick({R.id.recharge_tv, R.id.cancel_tv})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.close_iv:
-                closeDialog();
+            case R.id.cancel_tv:
+                if (dialogBtnListener != null) {
+                    dialogBtnListener.cancelReadingBtnOkListener();
+                    closeDialog();
+                }
                 break;
             case R.id.recharge_tv://去充值
                 if (dialogBtnListener != null) {
                     dialogBtnListener.readUseCoinDialogBtnOkListener();
+//                    closeDialog();
                 }
-                closeDialog();
                 break;
         }
     }
@@ -88,6 +94,8 @@ public class ReadUseCoinDialog extends BaseDialogFragment {
 
     public interface ReadUseCoinDialogListener {
         void readUseCoinDialogBtnOkListener();//1 去充值  2 去使用
+
+        void cancelReadingBtnOkListener();//取消
     }
 
 

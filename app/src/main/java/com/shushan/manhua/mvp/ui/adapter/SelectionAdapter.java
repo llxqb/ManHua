@@ -14,7 +14,6 @@ import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.entity.response.SelectionResponse;
 import com.shushan.manhua.help.ImageLoaderHelper;
 import com.shushan.manhua.mvp.utils.DateUtil;
-import com.shushan.manhua.mvp.utils.LogUtils;
 
 import java.util.List;
 
@@ -36,7 +35,7 @@ public class SelectionAdapter extends BaseQuickAdapter<SelectionResponse.Antholo
             onBindViewHolder(holder, position);
         } else {
             int payload = (int) payloads.get(0);
-            LogUtils.e("payload:" + payload);
+//            LogUtils.e("payload:" + payload);
             TextView suggestNumTv = holder.getView(R.id.support_tv);
             Drawable drawable = mContext.getResources().getDrawable(R.mipmap.title_praise_purple);
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
@@ -48,7 +47,7 @@ public class SelectionAdapter extends BaseQuickAdapter<SelectionResponse.Antholo
 
     @Override
     protected void convert(BaseViewHolder helper, SelectionResponse.AnthologyBean item) {
-        helper.addOnClickListener(R.id.support_tv);
+        helper.addOnClickListener(R.id.support_tv).addOnClickListener(R.id.item_selection_layout);
         ImageView coverIv = helper.getView(R.id.cover_iv);
         mImageLoaderHelper.displayImage(mContext, item.getCatalogue_cover(), coverIv, Constant.LOADING_DEFAULT_2);
         helper.setText(R.id.title_tv, item.getCatalogue_name());

@@ -30,6 +30,7 @@ import com.shushan.manhua.di.modules.ReadModule;
 import com.shushan.manhua.entity.BannerBean;
 import com.shushan.manhua.entity.CommentBean;
 import com.shushan.manhua.entity.RecommendBean;
+import com.shushan.manhua.entity.constants.ActivityConstant;
 import com.shushan.manhua.entity.request.AddBookShelfRequest;
 import com.shushan.manhua.entity.request.ExchangeBarrageStyleRequest;
 import com.shushan.manhua.entity.request.ReadRecordingRequest;
@@ -158,6 +159,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     private int mBarrageStyle = 0;
     public String mBookId;
     public int mCatalogueId;// 当前章节id
+    public String mBookCover;//书籍封面
     public ReadingPicAdapter mReadingPicAdapter;//章节图片adapter
     public ReadingCommentAdapter mReadingCommentAdapter;//评价adapter
     public RecommendAdapter mRecommendAdapter;//推荐adapter
@@ -169,11 +171,13 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     public User mUser;
     public BarrageListResponse mBarrageListResponse;//弹幕集合
     public BuyBarrageStyleResponse mBuyBarrageStyleResponse;//用户购买弹幕样式列表
+    private ReadUseCoinDialog mReadUseCoinDialog;//非免费章节 弹出购买弹框
 
-    public static void start(Context context, String bookId, int catalogueId) {
+    public static void start(Context context, String bookId, int catalogueId, String bookCover) {
         Intent intent = new Intent(context, ReadActivity.class);
         intent.putExtra("bookId", bookId);
         intent.putExtra("catalogueId", catalogueId);
+        intent.putExtra("bookCover", bookCover);
         context.startActivity(intent);
     }
 
@@ -184,6 +188,25 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
         super.onCreate(savedInstanceState);
         File file = new File(getExternalCacheDir(), System.currentTimeMillis() + ".png");
         uri = Uri.fromFile(file);
+    }
+
+    @Override
+    public void onReceivePro(Context context, Intent intent) {
+        if (intent.getAction() != null) {
+            if (intent.getAction().equals(ActivityConstant.PAY_SUCCESS)) {//购买成功更新数据
+                mUser = mBuProcessor.getUser();
+                if (mReadUseCoinDialog != null) {
+                    mReadUseCoinDialog.closeDialog();
+                }
+            }
+        }
+        super.onReceivePro(context, intent);
+    }
+
+    @Override
+    public void addFilter() {
+        super.addFilter();
+        mFilter.addAction(ActivityConstant.PAY_SUCCESS);
     }
 
     @Override
@@ -200,6 +223,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
         if (getIntent() != null) {
             mBookId = getIntent().getStringExtra("bookId");
             mCatalogueId = getIntent().getIntExtra("catalogueId", 1);
+            mBookCover = getIntent().getStringExtra("bookCover");
         }
         mMessageEt.clearFocus();//让编辑框失去焦点 配合布局一起使用
         mBarrage = mSharePreferenceUtil.getBooleanData("barrage");
@@ -459,9 +483,9 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
      * 非免费章节 显示使用漫豆弹框
      */
     public void showRechargeDialog() {
-        ReadUseCoinDialog readUseCoinDialog = ReadUseCoinDialog.newInstance();
-        readUseCoinDialog.setListener(this);
-        DialogFactory.showDialogFragment(getSupportFragmentManager(), readUseCoinDialog, ReadUseCoinDialog.TAG);
+        mReadUseCoinDialog = ReadUseCoinDialog.newInstance();
+        mReadUseCoinDialog.setListener(this);
+        DialogFactory.showDialogFragment(getSupportFragmentManager(), mReadUseCoinDialog, ReadUseCoinDialog.TAG);
     }
 
     /**
@@ -493,7 +517,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
                 finish();
                 break;
             case R.id.common_right_tv: //全集    跳到详情
-                BookDetailActivity.start(this, mBookId);
+                BookDetailActivity.start(this, mBookId, mBookCover);
                 break;
             case R.id.barrage_ll://设置弹幕
                 mBarrage = mSharePreferenceUtil.getBooleanData("barrage");
