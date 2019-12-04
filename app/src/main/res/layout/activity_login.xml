@@ -67,16 +67,22 @@ Silahkan pilih cara check in di bawah ini"
             android:id="@+id/check_box"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="@dimen/dp_5"
-            android:checked="true" />
+            android:checked="true"
+            android:paddingStart="@dimen/dp_5"
+            android:paddingTop="@dimen/dp_5"
+            android:paddingEnd="@dimen/dp_1"
+            android:paddingBottom="@dimen/dp_5" />
 
         <TextView
             android:id="@+id/protocol_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingStart="@dimen/dp_1"
+            android:paddingTop="@dimen/dp_5"
+            android:paddingEnd="@dimen/dp_5"
+            android:paddingBottom="@dimen/dp_5"
             android:text="@string/LoginActivity_protocol"
             android:textColor="@color/white"
-            android:padding="@dimen/dp_5"
             android:textSize="@dimen/sp_13" />
     </LinearLayout>
 

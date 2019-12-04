@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.shushan.manhua.R;
 import com.shushan.manhua.entity.request.AddBookShelfRequest;
 import com.shushan.manhua.entity.request.BarrageListRequest;
+import com.shushan.manhua.entity.request.BuyBarrageStyleRequest;
 import com.shushan.manhua.entity.request.ExchangeBarrageStyleRequest;
 import com.shushan.manhua.entity.request.ReadRecordingRequest;
 import com.shushan.manhua.entity.request.ReadingRequest;
@@ -13,6 +14,7 @@ import com.shushan.manhua.entity.request.SelectionRequest;
 import com.shushan.manhua.entity.request.SendBarrageRequest;
 import com.shushan.manhua.entity.request.SupportRequest;
 import com.shushan.manhua.entity.response.BarrageListResponse;
+import com.shushan.manhua.entity.response.BuyBarrageStyleResponse;
 import com.shushan.manhua.entity.response.ReadingInfoResponse;
 import com.shushan.manhua.entity.response.SelectionResponse;
 import com.shushan.manhua.help.RetryWithDelay;
@@ -257,6 +259,34 @@ public class ReadPresenterImpl implements ReadControl.PresenterRead {
 //            }
             BarrageListResponse response = new Gson().fromJson(responseData.mJsonObject.toString(), BarrageListResponse.class);
             mReadView.getBarrageListSuccess(response);
+        } else {
+            mReadView.showToast(responseData.errorMsg);
+        }
+    }
+
+    /**
+     * 请求购买的弹幕样式
+     */
+    @Override
+    public void onRequestBuyBarrageStyle(BuyBarrageStyleRequest buyBarrageStyleRequest) {
+        mReadView.showLoading(mContext.getResources().getString(R.string.loading));
+        Disposable disposable = mBookModel.onRequestBuyBarrageStyle(buyBarrageStyleRequest).compose(mReadView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
+                .subscribe(this::buyBarrageStyleRequestSuccess, throwable -> mReadView.showErrMessage(throwable),
+                        () -> mReadView.dismissLoading());
+        mReadView.addSubscription(disposable);
+    }
+
+    /**
+     * 请求购买的弹幕样式 成功
+     */
+    private void buyBarrageStyleRequestSuccess(ResponseData responseData) {
+        mReadView.judgeToken(responseData.resultCode);
+        if (responseData.resultCode == 0) {
+            responseData.parseData(BuyBarrageStyleResponse.class);
+            if (responseData.parsedData != null) {
+                BuyBarrageStyleResponse response = (BuyBarrageStyleResponse) responseData.parsedData;
+                mReadView.getBuyBarrageStyleSuccess(response);
+            }
         } else {
             mReadView.showToast(responseData.errorMsg);
         }

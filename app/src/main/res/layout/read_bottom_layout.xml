@@ -65,6 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/comment_hint_tv"
             android:text="999+"
+            android:visibility="gone"
             android:textColor="@color/first_text_color"
             android:textSize="@dimen/sp_10" />
 

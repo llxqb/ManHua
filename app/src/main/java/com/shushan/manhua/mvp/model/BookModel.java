@@ -5,6 +5,7 @@ import com.shushan.manhua.entity.request.AddBookShelfRequest;
 import com.shushan.manhua.entity.request.BarrageListRequest;
 import com.shushan.manhua.entity.request.BookDetailRequest;
 import com.shushan.manhua.entity.request.BookShelfInfoRequest;
+import com.shushan.manhua.entity.request.BuyBarrageStyleRequest;
 import com.shushan.manhua.entity.request.CommentDetailRequest;
 import com.shushan.manhua.entity.request.CommentRequest;
 import com.shushan.manhua.entity.request.ExchangeBarrageStyleRequest;
@@ -143,6 +144,12 @@ public class BookModel {
      */
     public Observable<ResponseData> getBarrageListRequest(BarrageListRequest request) {
         return mBookApi.getBarrageListRequest(mGson.toJson(request)).map(mTransform::transformListType);
+    }
+    /**
+     * 请求购买的弹幕样式
+     */
+    public Observable<ResponseData> onRequestBuyBarrageStyle(BuyBarrageStyleRequest request) {
+        return mBookApi.onRequestBuyBarrageStyle(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 
     /**

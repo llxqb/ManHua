@@ -33,6 +33,7 @@ public class ReadUseCoinDialog extends BaseDialogFragment {
     TextView mAvailableCoinTv;
     Unbinder unbinder;
     private ReadUseCoinDialogListener dialogBtnListener;
+    private int mBeans;//我的漫豆
 
     public static ReadUseCoinDialog newInstance() {
         return new ReadUseCoinDialog();
@@ -42,6 +43,11 @@ public class ReadUseCoinDialog extends BaseDialogFragment {
     public void setListener(ReadUseCoinDialogListener dialogBtnListener) {
         this.dialogBtnListener = dialogBtnListener;
     }
+
+    public void setData(int beans) {
+        mBeans = beans;
+    }
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -55,6 +61,7 @@ public class ReadUseCoinDialog extends BaseDialogFragment {
     private void initView() {
 //"Harga"+3+getString(R.string.ReadUseCoinDialog_pay_hint);//会员价
 //        getString(R.string.ReadUseCoinDialog_use_coin)+0//可用金币
+        mAvailableCoinTv.setText(getString(R.string.ReadUseCoinDialog_use_coin) + " " + mBeans);
     }
 
     @Override
@@ -80,7 +87,7 @@ public class ReadUseCoinDialog extends BaseDialogFragment {
 
 
     public interface ReadUseCoinDialogListener {
-        void readUseCoinDialogBtnOkListener();
+        void readUseCoinDialogBtnOkListener();//1 去充值  2 去使用
     }
 
 

@@ -102,6 +102,12 @@ public interface BookApi {
     Observable<String> getBarrageListRequest(@Body String request);
 
     /**
+     * 请求购买的弹幕样式
+     */
+    @POST("cartoon/book/checkStyle")
+    Observable<String> onRequestBuyBarrageStyle(@Body String request);
+
+    /**
      * 评论详情
      */
     @POST("cartoon/comment/detail")

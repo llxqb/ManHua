@@ -13,12 +13,15 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerReadComponent;
@@ -29,9 +32,13 @@ import com.shushan.manhua.entity.CommentBean;
 import com.shushan.manhua.entity.RecommendBean;
 import com.shushan.manhua.entity.request.AddBookShelfRequest;
 import com.shushan.manhua.entity.request.ExchangeBarrageStyleRequest;
+import com.shushan.manhua.entity.request.ReadRecordingRequest;
+import com.shushan.manhua.entity.request.ReadingRequest;
 import com.shushan.manhua.entity.request.SendBarrageRequest;
 import com.shushan.manhua.entity.request.SupportRequest;
+import com.shushan.manhua.entity.response.BarrageListResponse;
 import com.shushan.manhua.entity.response.BarrageStyleResponse;
+import com.shushan.manhua.entity.response.BuyBarrageStyleResponse;
 import com.shushan.manhua.entity.response.ReadingInfoResponse;
 import com.shushan.manhua.entity.response.SelectionResponse;
 import com.shushan.manhua.entity.user.User;
@@ -137,8 +144,6 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     private Integer[] barrageStyleType = {0, 1, 1, 2, 1, 2};
     //是否是弹幕状态否则是评论状态 false
     private boolean isBarrageState = true;
-    //是否有popupWindow页面  有就不监听键盘
-    private boolean isPopupWindowView = false;
     private TakePhoto takePhoto;
     private InvokeParam invokeParam;
     private Uri uri;
@@ -151,7 +156,6 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
      * 当前选择的弹幕样式
      */
     private int mBarrageStyle = 0;
-    private boolean isShowBackTopIv = false;//是否显示返回顶部图片按钮
     public String mBookId;
     public int mCatalogueId;// 当前章节id
     public ReadingPicAdapter mReadingPicAdapter;//章节图片adapter
@@ -161,8 +165,10 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     public SelectionResponse mSelectionResponse;
     public int page = 1;
     public int picRvHeight;//图片recyclerView总高度
-    private int mCurrentHeight = 0;//当前高度
-    private User mUser;
+    public int mCurrentHeight = 0;//当前高度
+    public User mUser;
+    public BarrageListResponse mBarrageListResponse;//弹幕集合
+    public BuyBarrageStyleResponse mBuyBarrageStyleResponse;//用户购买弹幕样式列表
 
     public static void start(Context context, String bookId, int catalogueId) {
         Intent intent = new Intent(context, ReadActivity.class);
@@ -205,6 +211,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
         onKeyBoardListener();
         initAdapter();
         initScrollView();
+        onRequestReadingInfo();
     }
 
     private void initAdapter() {
@@ -294,13 +301,12 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
         mNestedScrollView.setOnScrollChangeListener((View.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
 //            LogUtils.e("scrollY:" + scrollY + " oldScrollY:" + oldScrollY);
             if (scrollY < oldScrollY) {//往上滑
-                isShowBackTopIv = true;
                 mBackTopIv.setVisibility(View.VISIBLE);
             } else {
-                isShowBackTopIv = false;
                 mBackTopIv.setVisibility(View.INVISIBLE);
             }
             mCurrentHeight = scrollY;
+//            LogUtils.e("mCurrentHeight:" + mCurrentHeight);
 //            isShowBackTopIv = scrollY > mPicRecyclerView.getHeight() * 4 / 5;//大于图片的4/5 显示返回顶部按钮   往上滑显示返回顶部按钮
             //mNestedScrollView.getChildAt(0).getMeasuredHeight()- mNestedScrollView.getMeasuredHeight()
             if (scrollY >= mPicRecyclerView.getHeight()) {//设置隐藏功能键
@@ -311,26 +317,63 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
             } else {
                 isBarrageState = true;
             }
+
+            //显示弹幕
+            for (BarrageListResponse.DataBean dataBean : mBarrageListResponse.getData()) {
+                if (Double.parseDouble(dataBean.getYcoord()) < (mCurrentHeight + 20) && Double.parseDouble(dataBean.getYcoord()) > mCurrentHeight) {//显示出来
+                    addTvView(dataBean);
+                }
+            }
         });
+    }
+
+    /**
+     * 增加弹幕view
+     */
+    public void addTvView(BarrageListResponse.DataBean dataBean) {
+        int screenWidth = SystemUtils.getScreenWidth(this);
+        int screenHeight = SystemUtils.getScreenHeight(this);
+        Toast toast2 = new Toast(this);
+        View view = LayoutInflater.from(this).inflate(R.layout.text_view, null);
+        TextView textTv = view.findViewById(R.id.text_tv);
+
+        switch (dataBean.getStyle_id()) {
+            case 0:
+                textTv.setBackgroundResource(R.mipmap.black_bg);
+                break;
+            case 1:
+                textTv.setBackgroundResource(R.mipmap.barrage1_bg);
+                break;
+            case 2:
+                textTv.setBackgroundResource(R.mipmap.barrage2_bg);
+                break;
+            case 3:
+                textTv.setBackgroundResource(R.mipmap.barrage3_bg);
+                break;
+            case 4:
+                textTv.setBackgroundResource(R.mipmap.barrage4_bg);
+                break;
+            case 5:
+                textTv.setBackgroundResource(R.mipmap.barrage5_bg);
+                break;
+        }
+        textTv.setText(dataBean.getBarrage_content());
+        toast2.setView(view);
+        toast2.setGravity(Gravity.CENTER, (int) Double.parseDouble(dataBean.getXcoord()) - screenWidth / 2, screenHeight / 2 - (int) Double.parseDouble(dataBean.getYcoord()));
+        toast2.show();
     }
 
     @Override
     public void initData() {
         mCommonRightTv.setVisibility(View.VISIBLE);
         mCommonRightTv.setText(getResources().getString(R.string.ReadActivity_right_title));
-//        for (int i = 0; i < barrageStyleIcon.length; i++) {
-//            BarrageStyleResponse barrageStyleResponse = new BarrageStyleResponse();
-//            if (i == 0) {
-//                barrageStyleResponse.isCheck = true;
-//            } else {
-//                barrageStyleResponse.isCheck = false;
-//            }
-//            barrageStyleResponse.styleIcon = barrageStyleIcon[i];
-//            barrageStyleResponse.styleType = barrageStyleType[i];
-//            barrageStyleResponseList.add(barrageStyleResponse);
-//        }
-
-
+        for (int i = 0; i < barrageStyleIcon.length; i++) {
+            BarrageStyleResponse barrageStyleResponse = new BarrageStyleResponse();
+            barrageStyleResponse.isCheck = i == 0;//默认选择第一项
+            barrageStyleResponse.styleIcon = barrageStyleIcon[i];
+            barrageStyleResponse.styleType = barrageStyleType[i];
+            barrageStyleResponseList.add(barrageStyleResponse);
+        }
     }
 
 
@@ -357,6 +400,16 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
         });
     }
 
+    /**
+     * 章节详情
+     */
+    private void onRequestReadingInfo() {
+        ReadingRequest readingRequest = new ReadingRequest();
+        readingRequest.token = mBuProcessor.getToken();
+        readingRequest.book_id = mBookId;
+        readingRequest.catalogue_id = String.valueOf(mCatalogueId);
+        mPresenter.onRequestReadingInfo(readingRequest);
+    }
 
     /**
      * 显示popupWindow时 隐藏的布局
@@ -403,10 +456,9 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     }
 
     /**
-     * 默认进来阅读没漫豆
-     * 显示去充值弹框
+     * 非免费章节 显示使用漫豆弹框
      */
-    private void showRechargeDialog() {
+    public void showRechargeDialog() {
         ReadUseCoinDialog readUseCoinDialog = ReadUseCoinDialog.newInstance();
         readUseCoinDialog.setListener(this);
         DialogFactory.showDialogFragment(getSupportFragmentManager(), readUseCoinDialog, ReadUseCoinDialog.TAG);
@@ -434,7 +486,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
 
     @OnClick({R.id.common_left_iv, R.id.common_right_tv, R.id.bottom_directory_ll, R.id.last_chapter_iv, R.id.next_chapter_iv, R.id.barrage_ll, R.id.send_message_left_iv, R.id.send_message_right_iv,
             R.id.support_tv, R.id.add_bookshelf_tv, R.id.share_tv, R.id.last_chapter_ll, R.id.next_chapter_ll, R.id.bottom_comment_ll, R.id.bottom_share_ll, R.id.bottom_setting_ll,
-            R.id.back_top_iv, R.id.add_bookshelf_iv, R.id.send_message_ll,})
+            R.id.back_top_iv, R.id.add_bookshelf_iv})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.common_left_iv:
@@ -472,14 +524,24 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
             case R.id.share_tv://分享
                 break;
             case R.id.last_chapter_ll://上一篇
+                if (mCatalogueId > 1) {
+                    mCatalogueId = mCatalogueId - 1;
+                    onRequestReadingInfo();
+                }
                 break;
             case R.id.next_chapter_ll://下一篇
+                mCatalogueId = mCatalogueId + 1;
+                onRequestReadingInfo();
                 break;
             case R.id.last_chapter_iv: //上一话
-
+                if (mCatalogueId > 1) {
+                    mCatalogueId = mCatalogueId - 1;
+                    onRequestReadingInfo();
+                }
                 break;
             case R.id.next_chapter_iv: //下一话
-
+                mCatalogueId = mCatalogueId + 1;
+                onRequestReadingInfo();
                 break;
             case R.id.bottom_directory_ll: //目录
                 if (mSelectionResponse != null) {
@@ -487,8 +549,10 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
                 }
                 break;
             case R.id.bottom_comment_ll://评论
+                MoreCommentActivity.start(this, mBookId);
                 break;
             case R.id.bottom_share_ll://分享
+
                 break;
             case R.id.bottom_setting_ll://设置
                 new ReadSettingPopupWindow(this, this, mSharePreferenceUtil).initPopWindow(mReadLayout);
@@ -509,9 +573,6 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
                 } else {
                     onAddBookShelfRequest();
                 }
-                break;
-            case R.id.send_message_ll:
-
                 break;
         }
     }
@@ -543,7 +604,26 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
      */
     @Override
     public void readUseCoinDialogBtnOkListener() {
-
+        //这里 只会跳到购买
+        //去购买漫豆
+        startActivitys(BuyActivity.class);
+//        if (mUser.vip == 1) {
+//            if (mUser.bean >= 3) {
+//                //去使用
+//                onRequestReadRecording(3);
+//            } else {
+//                //去购买漫豆
+//                startActivitys(BuyActivity.class);
+//            }
+//        } else {
+//            if (mUser.bean >= 5) {
+//                //去使用
+//                onRequestReadRecording(5);
+//            } else {
+//                //去购买漫豆
+//                startActivitys(BuyActivity.class);
+//            }
+//        }
     }
 
     /**
@@ -568,6 +648,19 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
         request.token = mBuProcessor.getToken();
         request.style_id = String.valueOf(mBarrageStyle);
         mPresenter.exchangeBarrageStyleRequest(request);
+    }
+
+    /**
+     * 上传阅读记录  和  使用漫豆  购买阅读非免费章节
+     */
+    public void onRequestReadRecording(int beans) {
+        ReadRecordingRequest readRecordingRequest = new ReadRecordingRequest();
+        readRecordingRequest.token = mBuProcessor.getToken();
+        readRecordingRequest.book_id = mBookId;
+        readRecordingRequest.catalogue_id = String.valueOf(mCatalogueId);
+        readRecordingRequest.type = String.valueOf(mReadingInfoResponse.getCatalogue().getType() + 1);
+        readRecordingRequest.bean = String.valueOf(beans);
+        mPresenter.onRequestReadRecording(readRecordingRequest);
     }
 
     /**
@@ -708,11 +801,11 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
         sendBarrageRequest.style_id = String.valueOf(mBarrageStyle);
         sendBarrageRequest.xcoord = String.valueOf(width);
         sendBarrageRequest.ycoord = mCurrentHeight + String.valueOf(height);
-        if (mUser.vip == 0) {
-            sendBarrageRequest.bean = "5";//非会员5 漫豆
-        } else {
-            sendBarrageRequest.bean = "3";//会员3 漫豆
-        }
+//        if (mUser.vip == 0) {
+//            sendBarrageRequest.bean = "5";//非会员5 漫豆
+//        } else {
+//            sendBarrageRequest.bean = "3";//会员3 漫豆
+//        }
         mPresenter.sendBarrageRequest(sendBarrageRequest);
     }
 
@@ -829,7 +922,6 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
 
     @Override
     public void showPublishBarrageBtnListener() {
-        isPopupWindowView = true;
         showBarragePopupWindow();
         SoftKeyboardUtil.hideSoftKeyboard(this);
     }

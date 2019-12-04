@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -53,10 +54,12 @@ import butterknife.Unbinder;
  * 书架
  */
 
-public class BookShelfFragment extends BaseFragment implements BookShelfFragmentControl.BookShelfView {
+public class BookShelfFragment extends BaseFragment implements BookShelfFragmentControl.BookShelfView, SwipeRefreshLayout.OnRefreshListener {
 
     @Inject
     BookShelfFragmentControl.BookShelfFragmentPresenter mPresenter;
+    @BindView(R.id.swipe_ly)
+    SwipeRefreshLayout mSwipeLy;
     @BindView(R.id.last_read_layout)
     LinearLayout mLastReadLayout;
     @BindView(R.id.recent_read_book_name_tv)
@@ -120,6 +123,8 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
 
     @Override
     public void initView() {
+        mSwipeLy.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
+        mSwipeLy.setOnRefreshListener(this);
         initAdapter();
         mLoginModel = mBuProcessor.getLoginModel();
         if (mLoginModel != 2) {
@@ -193,6 +198,11 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
         }
     }
 
+    @Override
+    public void onRefresh() {
+        onRequestBookShelfInfo();
+    }
+
     /**
      * 请求书架数据
      */
@@ -204,6 +214,9 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
 
     @Override
     public void getBookShelfInfoSuccess(BookShelfResponse bookShelfResponse) {
+        if (mSwipeLy.isRefreshing()) {
+            mSwipeLy.setRefreshing(false);
+        }
         mBookShelfResponse = bookShelfResponse;
         if (bookShelfResponse.getLast_read() == null || new Gson().toJson(bookShelfResponse.getLast_read()).equals("{}")) {
             mLastReadLayout.setVisibility(View.GONE);
