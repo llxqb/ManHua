@@ -10,12 +10,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerReadingHistoryComponent;
 import com.shushan.manhua.di.modules.ActivityModule;
 import com.shushan.manhua.di.modules.ReadingHistoryModule;
+import com.shushan.manhua.entity.request.DeleteReadingHistoryRequest;
+import com.shushan.manhua.entity.request.ReadingHistoryRequest;
 import com.shushan.manhua.entity.response.ReadingHistoryResponse;
-import com.shushan.manhua.mvp.ui.adapter.ReadingHistoryAdapter;
+import com.shushan.manhua.mvp.ui.adapter.ReadingHistoryChildAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseActivity;
 
 import java.util.ArrayList;
@@ -43,15 +46,15 @@ public class ReadingHistoryActivity extends BaseActivity implements ReadingHisto
     LinearLayout mHistoryBottomLayout;
     @BindView(R.id.select_all_tv)
     TextView mSelectAllTv;
-
-    private ReadingHistoryAdapter mReadingHistoryAdapter;
-    private List<ReadingHistoryResponse> readingHistoryResponseList = new ArrayList<>();
+    private ReadingHistoryChildAdapter mReadingHistoryChildAdapter;
+    private List<ReadingHistoryResponse.DataBean> readingHistoryResponseList = new ArrayList<>();
     /**
      * 是否是编辑状态
      */
     boolean isEditState = false;
     boolean isSelectState = false;//是否全选
     private View mEmptyView;
+    private int page = 1;
 
     @Override
     protected void initContentView() {
@@ -66,35 +69,21 @@ public class ReadingHistoryActivity extends BaseActivity implements ReadingHisto
         mCommonRightTv.setVisibility(View.VISIBLE);
         mCommonTitleTv.setText(getResources().getString(R.string.ReadingHistoryActivity_title));
         mCommonRightTv.setText(getResources().getString(R.string.ReadingHistoryActivity_edit));
-        mReadingHistoryAdapter = new ReadingHistoryAdapter(readingHistoryResponseList);
+        mReadingHistoryChildAdapter = new ReadingHistoryChildAdapter(readingHistoryResponseList, mImageLoaderHelper);
         mHistoryRecordRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mHistoryRecordRecyclerView.setAdapter(mReadingHistoryAdapter);
-
+        mHistoryRecordRecyclerView.setAdapter(mReadingHistoryChildAdapter);
+        mReadingHistoryChildAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            ReadingHistoryResponse.DataBean dataBean = (ReadingHistoryResponse.DataBean) adapter.getItem(position);
+            if (dataBean != null) {
+                dataBean.isCheck = !dataBean.isCheck;
+            }
+            adapter.notifyDataSetChanged();
+        });
     }
 
     @Override
     public void initData() {
-        for (int i = 0; i < 10; i++) {
-            ReadingHistoryResponse readingHistoryResponse = new ReadingHistoryResponse();
-            if (i == 0) {
-                readingHistoryResponse.date = "今天";
-            } else if (i == 1) {
-                readingHistoryResponse.date = "昨天";
-            } else {
-                readingHistoryResponse.date = "前天";
-            }
-            List<ReadingHistoryResponse.ReadingHistoryChildBean> readingHistoryChildBeanList = new ArrayList<>();
-            for (int j = 0; j < 2; j++) {
-                ReadingHistoryResponse.ReadingHistoryChildBean historyChildBean = new ReadingHistoryResponse.ReadingHistoryChildBean();
-                historyChildBean.isEditState = false;
-                historyChildBean.isCheck = false;
-                readingHistoryChildBeanList.add(historyChildBean);
-                readingHistoryResponse.readingHistoryChildBeanList = readingHistoryChildBeanList;
-            }
-            readingHistoryResponseList.add(readingHistoryResponse);
-        }
-
-        //  mReadingHistoryAdapter.setEmptyView(mEmptyView);
+        onRequestReadingHistory();
     }
 
     private void initEmptyView() {
@@ -118,72 +107,91 @@ public class ReadingHistoryActivity extends BaseActivity implements ReadingHisto
                     mCommonRightTv.setText(getResources().getString(R.string.ReadingHistoryActivity_edit));
                     mCommonRightTv.setTextColor(getResources().getColor(R.color.first_text_color));
                     mHistoryBottomLayout.setVisibility(View.GONE);
-                    for (ReadingHistoryResponse readingHistoryResponse : mReadingHistoryAdapter.getData()) {
-                        for (ReadingHistoryResponse.ReadingHistoryChildBean historyChildBean : readingHistoryResponse.readingHistoryChildBeanList) {
-                            historyChildBean.isEditState = false;
-                        }
+                    for (ReadingHistoryResponse.DataBean dataBean : mReadingHistoryChildAdapter.getData()) {
+                        dataBean.isEditState = false;
                     }
-                    mReadingHistoryAdapter.notifyDataSetChanged();
+                    mReadingHistoryChildAdapter.notifyDataSetChanged();
                 } else {//编辑状态
                     isEditState = true;
                     mCommonRightTv.setText(getResources().getString(R.string.ReadingHistoryActivity_edit_cancel));
                     mCommonRightTv.setTextColor(Color.parseColor("#FF9100"));
                     mHistoryBottomLayout.setVisibility(View.VISIBLE);
-                    for (ReadingHistoryResponse readingHistoryResponse : mReadingHistoryAdapter.getData()) {
-                        for (ReadingHistoryResponse.ReadingHistoryChildBean historyChildBean : readingHistoryResponse.readingHistoryChildBeanList) {
-                            historyChildBean.isEditState = true;
-                        }
+                    for (ReadingHistoryResponse.DataBean dataBean : mReadingHistoryChildAdapter.getData()) {
+                        dataBean.isEditState = true;
                     }
-                    mReadingHistoryAdapter.notifyDataSetChanged();
+                    mReadingHistoryChildAdapter.notifyDataSetChanged();
                 }
                 break;
             case R.id.select_all_tv://全选
                 if (isSelectState) {//设置不全选
                     isSelectState = false;
                     mSelectAllTv.setText(getResources().getString(R.string.ReadingHistoryActivity_select_all));
-                    for (ReadingHistoryResponse readingHistoryResponse : mReadingHistoryAdapter.getData()) {
-                        for (ReadingHistoryResponse.ReadingHistoryChildBean historyChildBean : readingHistoryResponse.readingHistoryChildBeanList) {
-                            historyChildBean.isCheck = false;
-                        }
+                    for (ReadingHistoryResponse.DataBean dataBean : mReadingHistoryChildAdapter.getData()) {
+                        dataBean.isCheck = false;
                     }
-                    mReadingHistoryAdapter.notifyDataSetChanged();
+                    mReadingHistoryChildAdapter.notifyDataSetChanged();
                 } else {
                     isSelectState = true;
                     mSelectAllTv.setText(getResources().getString(R.string.ReadingHistoryActivity_select_all_no));
-                    for (ReadingHistoryResponse readingHistoryResponse : mReadingHistoryAdapter.getData()) {
-                        for (ReadingHistoryResponse.ReadingHistoryChildBean historyChildBean : readingHistoryResponse.readingHistoryChildBeanList) {
-                            historyChildBean.isCheck = true;
-                        }
+                    for (ReadingHistoryResponse.DataBean dataBean : mReadingHistoryChildAdapter.getData()) {
+                        dataBean.isCheck = true;
                     }
-                    mReadingHistoryAdapter.notifyDataSetChanged();
+                    mReadingHistoryChildAdapter.notifyDataSetChanged();
                 }
-
                 break;
             case R.id.delete_tv://删除
                 List<Integer> integerList = new ArrayList<>();
-                for (ReadingHistoryResponse readingHistoryResponse : mReadingHistoryAdapter.getData()) {
-                    for (int i = 0; i < readingHistoryResponse.readingHistoryChildBeanList.size(); i++) {
-                        ReadingHistoryResponse.ReadingHistoryChildBean historyChildBean = readingHistoryResponse.readingHistoryChildBeanList.get(i);
-                        if (historyChildBean.isCheck) {
-                            integerList.add(i);
-                        }
+                for (int i = 0; i < mReadingHistoryChildAdapter.getData().size(); i++) {
+                    ReadingHistoryResponse.DataBean dataBean = mReadingHistoryChildAdapter.getData().get(i);
+                    if (dataBean.isCheck) {
+                        integerList.add(dataBean.getBook_id());
                     }
                 }
-                //TODO 这里要对应删除ReadingHistoryResponse下面id
-                showToast(""+integerList.toString());
+                onDeleteReadingHistoryRequest(new Gson().toJson(integerList));
                 break;
         }
     }
 
-    private void onRequestReadingHistory(){
-
+    /**
+     * 阅读历史
+     */
+    private void onRequestReadingHistory() {
+        ReadingHistoryRequest readingHistoryRequest = new ReadingHistoryRequest();
+        readingHistoryRequest.token = mBuProcessor.getToken();
+        readingHistoryRequest.page = String.valueOf(page);
+        readingHistoryRequest.pagesize = "100";
+        mPresenter.onRequestReadingHistory(readingHistoryRequest);
     }
 
+    @Override
+    public void getReadingHistorySuccess(ReadingHistoryResponse readingHistoryResponse) {
+        if (readingHistoryResponse.getData().isEmpty()) {
+            mReadingHistoryChildAdapter.setNewData(null);
+            mReadingHistoryChildAdapter.setEmptyView(mEmptyView);
+        } else {
+            mReadingHistoryChildAdapter.setNewData(readingHistoryResponse.getData());
+        }
+    }
+
+
+    private void onDeleteReadingHistoryRequest(String bookIds) {
+        DeleteReadingHistoryRequest deleteReadingHistoryRequest = new DeleteReadingHistoryRequest();
+        deleteReadingHistoryRequest.token = mBuProcessor.getToken();
+        deleteReadingHistoryRequest.history_ids = bookIds;
+        mPresenter.onDeleteReadingHistoryRequest(deleteReadingHistoryRequest);
+    }
+
+    @Override
+    public void getDeleteReadingHistorySuccess() {
+        showToast("删除成功");
+        onRequestReadingHistory();
+    }
 
     private void initInjectData() {
         DaggerReadingHistoryComponent.builder().appComponent(getAppComponent())
                 .readingHistoryModule(new ReadingHistoryModule(this, this))
                 .activityModule(new ActivityModule(this)).build().inject(this);
     }
+
 
 }

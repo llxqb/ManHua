@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/app_gray"
     tools:context=".mvp.ui.activity.book.ReadingHistoryActivity">
 
     <include layout="@layout/common_toolbar" />
@@ -23,7 +24,9 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@string/ReadingHistoryActivity_select_all" />
+            android:text="@string/ReadingHistoryActivity_select_all"
+            android:textColor="@color/color_30"
+            android:textSize="@dimen/sp_16" />
 
         <View style="@style/line_width_05" />
 
@@ -33,7 +36,9 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@string/ReadingHistoryActivity_delete" />
+            android:text="@string/ReadingHistoryActivity_delete"
+            android:textColor="#FF9100"
+            android:textSize="@dimen/sp_16" />
 
     </LinearLayout>
 

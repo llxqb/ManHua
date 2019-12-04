@@ -113,4 +113,16 @@ public interface BookApi {
     @POST("cartoon/comment/detail")
     Observable<String> onRequestCommentDetail(@Body String request);
 
+    /**
+     * 阅读历史
+     */
+    @POST("cartoon/user/readHistory")
+    Observable<String> onRequestReadingHistory(@Body String request);
+
+    /**
+     * 删除阅读历史
+     */
+    @POST("cartoon/user/delReadHistory")
+    Observable<String> onDeleteReadingHistoryRequest(@Body String request);
+
 }

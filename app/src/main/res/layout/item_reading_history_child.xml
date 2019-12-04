@@ -23,7 +23,7 @@
         android:layout_marginStart="@dimen/dp_10"
         android:layout_toEndOf="@id/check_iv"
         android:scaleType="centerCrop"
-        android:src="@mipmap/book_icon" />
+        android:src="@mipmap/default_graph_2" />
 
 
     <TextView
@@ -32,7 +32,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_13"
         android:layout_toEndOf="@id/cover_iv"
-        android:text="急先锋"
         android:textColor="@color/color_30"
         android:textSize="@dimen/sp_16" />
 
@@ -45,7 +44,7 @@
         android:layout_marginStart="@dimen/dp_13"
         android:layout_marginTop="@dimen/dp_10"
         android:layout_toEndOf="@id/cover_iv"
-        android:text="阅读至：第3话 阴谋与救赎"
+        android:singleLine="true"
         android:textColor="@color/color_6d"
         android:textSize="@dimen/sp_13" />
 
@@ -58,8 +57,16 @@
         android:layout_marginStart="@dimen/dp_13"
         android:layout_marginTop="@dimen/dp_15"
         android:layout_toEndOf="@id/cover_iv"
-        android:text="还剩48话未读"
         android:textColor="@color/color_6d"
+        android:textSize="@dimen/sp_13" />
+
+    <TextView
+        android:id="@+id/date_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/read_chapter_tv"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/dp_15"
         android:textSize="@dimen/sp_13" />
 
 </RelativeLayout>

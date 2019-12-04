@@ -1,6 +1,9 @@
 package com.shushan.manhua.mvp.ui.activity.book;
 
 
+import com.shushan.manhua.entity.request.DeleteReadingHistoryRequest;
+import com.shushan.manhua.entity.request.ReadingHistoryRequest;
+import com.shushan.manhua.entity.response.ReadingHistoryResponse;
 import com.shushan.manhua.mvp.presenter.LoadDataView;
 import com.shushan.manhua.mvp.presenter.Presenter;
 
@@ -10,22 +13,22 @@ import com.shushan.manhua.mvp.presenter.Presenter;
 
 public class ReadingHistoryControl {
     public interface ReadingHistoryView extends LoadDataView {
-//        void getVerifyCodeSuccess(VerifyCodeResponse verifyCodeResponse);
-//
-//        void getLoginSuccess(LoginResponse loginResponse);
+        void getReadingHistorySuccess(ReadingHistoryResponse readingHistoryResponse);
+
+        void getDeleteReadingHistorySuccess();
+
     }
 
     public interface PresenterReadingHistory extends Presenter<ReadingHistoryView> {
 
-//        /**
-//         * 获取验证码
-//         */
-//        void onRequestVerifyCode(VerifyCodeRequest verifyCodeRequest);
-//
-//        /**
-//         * 登录
-//         */
-//        void onRequestLogin(LoginRequest loginRequest);
+        /**
+         * 阅读历史
+         */
+        void onRequestReadingHistory(ReadingHistoryRequest readingHistoryRequest);
+        /**
+         * 删除阅读历史
+         */
+        void onDeleteReadingHistoryRequest(DeleteReadingHistoryRequest deleteReadingHistoryRequest);
     }
 
 }

@@ -168,4 +168,6 @@ public class ReadActivity extends ReadBaseActivity {
     public void cancelReadingBtnOkListener() {
         finish();
     }
+
+
 }

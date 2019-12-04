@@ -3,13 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/dp_10"
+    android:layout_marginTop="@dimen/dp_10"
     android:layout_marginEnd="@dimen/dp_10">
-
 
     <ImageView
         android:id="@+id/cover_iv"
-        android:layout_width="@dimen/dp_355"
-        android:layout_height="@dimen/dp_204"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
         android:src="@mipmap/default_graph_3" />
 
     <TextView

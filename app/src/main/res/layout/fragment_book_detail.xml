@@ -56,7 +56,6 @@
                 android:layout_marginStart="@dimen/dp_20"
                 android:layout_marginTop="@dimen/dp_12"
                 android:layout_marginEnd="@dimen/dp_20"
-                android:text="傲娇男五月奉急先锋之命，对晓雨进行贴身保护。充满了青先锋之命，对晓雨进行贴身保护。充满了青先锋之命，对晓雨进行贴身保护。充满了青先锋之命，对晓雨进行贴身保护。充满了青"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/desc_hint_tv" />
@@ -68,7 +67,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_20"
                 android:layout_marginTop="@dimen/dp_18"
-                android:text="作者：谷子远远"
                 android:textColor="@color/first_text_color"
                 android:textSize="@dimen/sp_14"
                 app:layout_constraintStart_toStartOf="parent"

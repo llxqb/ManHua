@@ -8,9 +8,11 @@ import com.shushan.manhua.entity.request.BookShelfInfoRequest;
 import com.shushan.manhua.entity.request.BuyBarrageStyleRequest;
 import com.shushan.manhua.entity.request.CommentDetailRequest;
 import com.shushan.manhua.entity.request.CommentRequest;
+import com.shushan.manhua.entity.request.DeleteReadingHistoryRequest;
 import com.shushan.manhua.entity.request.ExchangeBarrageStyleRequest;
 import com.shushan.manhua.entity.request.PublishCommentUserRequest;
 import com.shushan.manhua.entity.request.ReadRecordingRequest;
+import com.shushan.manhua.entity.request.ReadingHistoryRequest;
 import com.shushan.manhua.entity.request.SendBarrageRequest;
 import com.shushan.manhua.entity.request.SupportRequest;
 import com.shushan.manhua.entity.request.DeleteBookShelfRequest;
@@ -145,6 +147,7 @@ public class BookModel {
     public Observable<ResponseData> getBarrageListRequest(BarrageListRequest request) {
         return mBookApi.getBarrageListRequest(mGson.toJson(request)).map(mTransform::transformListType);
     }
+
     /**
      * 请求购买的弹幕样式
      */
@@ -157,6 +160,19 @@ public class BookModel {
      */
     public Observable<ResponseData> onRequestCommentDetail(CommentDetailRequest request) {
         return mBookApi.onRequestCommentDetail(mGson.toJson(request)).map(mTransform::transformCommon);
+    }
+
+    /**
+     * 阅读历史
+     */
+    public Observable<ResponseData> onRequestReadingHistory(ReadingHistoryRequest request) {
+        return mBookApi.onRequestReadingHistory(mGson.toJson(request)).map(mTransform::transformListType);
+    }
+    /**
+     * 删除阅读历史
+     */
+    public Observable<ResponseData> onDeleteReadingHistoryRequest(DeleteReadingHistoryRequest request) {
+        return mBookApi.onDeleteReadingHistoryRequest(mGson.toJson(request)).map(mTransform::transformListType);
     }
 
 

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerLongDeleteComponent;
 import com.shushan.manhua.di.modules.ActivityModule;
@@ -19,7 +20,6 @@ import com.shushan.manhua.entity.request.DeleteBookShelfRequest;
 import com.shushan.manhua.entity.response.BookShelfResponse;
 import com.shushan.manhua.mvp.ui.adapter.BookShelfDeleteAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseActivity;
-import com.shushan.manhua.mvp.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,7 +74,7 @@ public class LongDeleteActivity extends BaseActivity implements LongDeleteContro
             if (mBookrackBeanList.size() > 1) {
                 mBookrackBeanList.remove(mBookrackBeanList.size() - 1);
             }
-            mBookShelfDeleteAdapter = new BookShelfDeleteAdapter(mBookrackBeanList,mImageLoaderHelper);
+            mBookShelfDeleteAdapter = new BookShelfDeleteAdapter(mBookrackBeanList, mImageLoaderHelper);
             mRecyclerView.setAdapter(mBookShelfDeleteAdapter);
             mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
             mBookShelfDeleteAdapter.setOnItemChildClickListener((adapter, view, position) -> {
@@ -128,24 +128,14 @@ public class LongDeleteActivity extends BaseActivity implements LongDeleteContro
                 mCommonTitleTv.setText(getResources().getString(R.string.LongDeleteActivity_select_tv) + "(" + selectDeletePosNum() + ")");
                 mBookShelfDeleteAdapter.notifyDataSetChanged();
                 break;
-            case R.id.delete_tv:
-                //删除
-//                List<Integer> deletePosList = new ArrayList<>();//要删除的位置id
-//                for (int i = 0; i < mBookShelfDeleteAdapter.getData().size(); i++) {
-//                    BookShelfResponse.BookrackBean bookrackBean = mBookShelfDeleteAdapter.getData().get(i);
-//                    if (bookrackBean.isCheck) {
-//                        deletePosList.add(i);
-//                    }
-//                }
-//                showToast(deletePosList.toString());
-//                LogUtils.e("deletePosList:" + deletePosList.toString());
-
+            case R.id.delete_tv:       //删除
+                List<Integer> deletePosList = new ArrayList<>();//要删除的位置id
                 for (BookShelfResponse.BookrackBean bookrackBean : mBookShelfDeleteAdapter.getData()) {
                     if (bookrackBean.isCheck) {
-//                        deletePosList.add(i);
-                        onRequestDeleteBook(String.valueOf(bookrackBean.getBook_id()));
+                        deletePosList.add(bookrackBean.getBook_id());
                     }
                 }
+                onRequestDeleteBook(new Gson().toJson(deletePosList));
                 break;
         }
     }
@@ -153,10 +143,10 @@ public class LongDeleteActivity extends BaseActivity implements LongDeleteContro
     /**
      * 删除书架漫画
      */
-    private void onRequestDeleteBook(String bookId) {
+    private void onRequestDeleteBook(String booksId) {
         DeleteBookShelfRequest deleteBookShelfRequest = new DeleteBookShelfRequest();
         deleteBookShelfRequest.token = mBuProcessor.getToken();
-        deleteBookShelfRequest.book_id = bookId;
+        deleteBookShelfRequest.book_ids = booksId;
         mPresenter.onRequestDeleteBook(deleteBookShelfRequest);
     }
 
@@ -196,8 +186,6 @@ public class LongDeleteActivity extends BaseActivity implements LongDeleteContro
                 deletePosList.add(i);
             }
         }
-        showToast(deletePosList.toString());
-        LogUtils.e("deletePosList:" + deletePosList.toString());
         return deletePosList.size();
     }
 

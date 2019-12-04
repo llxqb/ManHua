@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_round_solid_5"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/dp_20"
+        android:paddingBottom="@dimen/dp_20">
+
+        <TextView
+            android:id="@+id/share_facebook_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/umeng_socialize_facebook"
+            android:gravity="center"
+            android:text="Facebook"
+            android:textColor="@color/color_30"
+            android:textSize="@dimen/sp_14" />
+
+        <TextView
+            android:id="@+id/share_whatsapp_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/umeng_socialize_whatsapp"
+            android:gravity="center"
+            android:text="WhatsApp"
+            android:textColor="@color/color_30"
+            android:textSize="@dimen/sp_14" />
+
+    </LinearLayout>
+
+
+    <View style="@style/line_height_1" />
+
+    <TextView
+        android:id="@+id/cancel_tv"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/bg_white_round_solid_5"
+        android:gravity="center"
+        android:text="@string/AvatarPopupWindow_cancel"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_16" />
+</LinearLayout>

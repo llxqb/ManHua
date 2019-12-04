@@ -39,6 +39,7 @@ import com.shushan.manhua.mvp.ui.activity.mine.MemberCenterActivity;
 import com.shushan.manhua.mvp.ui.adapter.BookShelfAdapter;
 import com.shushan.manhua.mvp.ui.adapter.RecommendAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseFragment;
+import com.shushan.manhua.mvp.utils.LogUtils;
 import com.shushan.manhua.mvp.utils.StatusBarUtil;
 
 import java.util.ArrayList;
@@ -187,14 +188,14 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
             case R.id.vip_center_tv:
                 startActivitys(MemberCenterActivity.class);
                 break;
-            case R.id.continue_read_rl:
-                showToast("继续阅读");
+            case R.id.continue_read_rl://继续阅读
+                ReadActivity.start(getActivity(), String.valueOf(mBookShelfResponse.getLast_read().getBook_id()), mBookShelfResponse.getLast_read().getCatalogue_id(), mBookShelfResponse.getLast_read().getDetail_cover());//阅读页面
                 break;
             case R.id.read_record_ll:
                 startActivitys(ReadingHistoryActivity.class);
                 break;
             case R.id.change_tv:
-                showToast("换一批");
+//                showToast("换一批");
                 break;
             case R.id.login_in_tv://登录
                 startActivitys(LoginActivity.class);
@@ -223,7 +224,8 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
         }
         mBookShelfResponse = bookShelfResponse;
         BookShelfResponse.LastReadBean lastReadBean = bookShelfResponse.getLast_read();
-        if (lastReadBean == null || new Gson().toJson(lastReadBean).equals("{}")) {
+        LogUtils.e("lastReadBean:" + new Gson().toJson(lastReadBean));
+        if (lastReadBean == null || new Gson().toJson(lastReadBean).equals("{}") || lastReadBean.getBook_id() == 0) {
             mLastReadLayout.setVisibility(View.GONE);
         } else {
             mLastReadLayout.setVisibility(View.VISIBLE);
@@ -236,6 +238,7 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
         bookrackBean.isMore = true;
         bookShelfResponseList.add(bookrackBean);
         mBookShelfAdapter.setNewData(bookShelfResponseList);
+
     }
 
 

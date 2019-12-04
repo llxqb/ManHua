@@ -7,6 +7,8 @@ import com.google.gson.Gson;
 import com.shushan.manhua.di.components.AppComponent;
 import com.shushan.manhua.di.components.DaggerAppComponent;
 import com.shushan.manhua.di.modules.AppModule;
+import com.shushan.manhua.entity.constants.ServerConstant;
+import com.umeng.commonsdk.UMConfigure;
 
 import javax.inject.Inject;
 
@@ -31,8 +33,16 @@ public class ManHuaApplication extends Application {
         mContext = this.getApplicationContext();
         mAppComponent = DaggerAppComponent.builder().appModule(new AppModule(this)).build();
         mAppComponent.inject(this);//必须有
-        //初始化内存泄漏检查工具
+        initUM();
     }
 
+    /**
+     * 初始化友盟
+     * 用到了友盟分享
+     */
+    private void initUM() {
+        UMConfigure.init(this, ServerConstant.UM_APP_KEY
+                , "umeng", UMConfigure.DEVICE_TYPE_PHONE, "");
+    }
 
 }

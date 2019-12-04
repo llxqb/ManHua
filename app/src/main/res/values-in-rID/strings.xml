@@ -2,20 +2,20 @@
     <string name="app_name">Pulau komik</string>
     <!--&#160;表示空格      一个汉字宽度的空格：&#12288;  或者\u3000-->
     <!--app相关 -->
-    <string name="text_check_internet">请检查网络连接</string>
-    <string name="text_wait_try">请重试</string>
+    <string name="text_check_internet">Silakan periksa koneksi jaringan</string>
+    <string name="text_wait_try">Silakan coba lagi</string>
     <string name="loading">loading…</string>
     <string name="please_login_hint">Silakan masuk dulu</string>
 
     <string name="main_bottom_home">Beranda</string>
     <string name="main_bottom_teacher">Rak buku</string>
     <string name="main_bottom_mime">Saya</string>
-    <string name="main_exit_app">再点一次退出应用</string>
+    <string name="main_exit_app">Klik lagi untuk keluar dari aplikasi</string>
 
     <string name="facebook_app_id">486323411986591</string>
     <string name="fb_login_protocol_scheme">fb486323411986591</string>
     <!--书架 -->
-    <string name="BookShelfFragment_search_hint_tv">搜漫画</string>
+    <string name="BookShelfFragment_search_hint_tv">Cari komik</string>
     <string name="BookShelfFragment_vip_center_tv">Pusat\nkeanggotaan</string>
     <string name="BookShelfFragment_recent_read_tv">Akhir-akhir ini yang dibaca</string>
     <string name="BookShelfFragment_recent_read_continue_tv">Lanjutkan membaca</string>
@@ -94,7 +94,7 @@
     <string name="LatestCommentFragment_comment_hint">silahkan masukkan komentar </string>
     <string name="LatestCommentFragment_publish">Memposting</string>
 
-    <string name="CommentDetailsActivity_title">评论详情</string>
+    <string name="CommentDetailsActivity_title">Detail ulasan</string>
 
     <string name="ReadingHistoryActivity_title">Riwayat penjelajahan</string>
     <string name="ReadingHistoryActivity_edit">Edit</string>
@@ -148,7 +148,7 @@
     <string name="TransactionDetailsActivity_RechargeRecord">Riwayat isi ulang</string>
     <string name="TransactionDetailsActivity_ExpensesRecordF">Riwayat penggunaan</string>
 
-    <string name="RechargeRecordAdapter_beans">漫豆</string>
+    <string name="RechargeRecordAdapter_beans">koin</string>
 
     <string name="BeansExpiredDialog_title">Mencontohkan</string>
     <string name="BeansExpiredDialog_hint">Hadiah koin segera berakhir!\njangan lupa segera habiskan ya</string>
@@ -183,9 +183,9 @@
     <string name="MessageActivity_ReceivedMessage">Balasan\nkomentar saya</string>
     <string name="MessageActivity_Notice">Pemberitahuan</string>
 
-    <string name="SentMessageAdapter_delete">删除</string>
+    <string name="SentMessageAdapter_delete">Hapus</string>
 
-    <string name="ReceivedMessageAdapter_comment">回复</string>
+    <string name="ReceivedMessageAdapter_comment">Jawab</string>
 
     <string name="SettingActivity_title">Pengaturan</string>
     <string name="SettingActivity_cache">Bersihkan Cache</string>
@@ -237,10 +237,10 @@
     <string name="AddBarrageDialog_cancel">Batal</string>
     <string name="AddBarrageDialog_sure">Yakin</string>
 
-    <string name="BarrageSoftKeyPopupWindow_limit_text">小于30个字符</string>
+    <string name="BarrageSoftKeyPopupWindow_limit_text">Kurang dari 30 karakter</string>
 
-    <string name="BarrageSettingActivity_title">更多设置</string>
-    <string name="BarrageSettingActivity_right_title">恢复默认</string>
+    <string name="BarrageSettingActivity_title">Lebih banyak pengaturan</string>
+    <string name="BarrageSettingActivity_right_title">Pulihkan default</string>
     <string name="BarrageSettingActivity_hint">Tolong perhatikan dalam bersikap dan berbahasa di komentar langsung</string>
     <string name="BarrageSettingActivity_transparency">Tingkat kecerahan</string>
     <string name="BarrageSettingActivity_play_speed">Kecepatan memainkan</string>

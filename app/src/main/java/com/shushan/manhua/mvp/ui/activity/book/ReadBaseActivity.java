@@ -44,6 +44,7 @@ import com.shushan.manhua.entity.response.ReadingInfoResponse;
 import com.shushan.manhua.entity.response.SelectionResponse;
 import com.shushan.manhua.entity.user.User;
 import com.shushan.manhua.help.DialogFactory;
+import com.shushan.manhua.listener.MyUMShareListener;
 import com.shushan.manhua.listener.SoftKeyBoardListener;
 import com.shushan.manhua.mvp.ui.activity.mine.BuyActivity;
 import com.shushan.manhua.mvp.ui.adapter.BannerReadingViewHolder;
@@ -60,9 +61,15 @@ import com.shushan.manhua.mvp.ui.dialog.ReadContentsPopupWindow;
 import com.shushan.manhua.mvp.ui.dialog.ReadOpenVipDialog;
 import com.shushan.manhua.mvp.ui.dialog.ReadSettingPopupWindow;
 import com.shushan.manhua.mvp.ui.dialog.ReadUseCoinDialog;
+import com.shushan.manhua.mvp.ui.dialog.SharePopupWindow;
 import com.shushan.manhua.mvp.utils.LogUtils;
 import com.shushan.manhua.mvp.utils.SoftKeyboardUtil;
 import com.shushan.manhua.mvp.utils.SystemUtils;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
+import com.umeng.socialize.shareboard.SnsPlatform;
 import com.zhouwei.mzbanner.MZBannerView;
 import com.zhouwei.mzbanner.holder.MZHolderCreator;
 
@@ -92,7 +99,7 @@ import butterknife.OnClick;
 public abstract class ReadBaseActivity extends BaseActivity implements ReadControl.ReadView, ReadUseCoinDialog.ReadUseCoinDialogListener, ReadBeansExchangeDialog.ReadBeansExchangeDialogListener,
         ReadOpenVipDialog.ReadOpenVipDialogListener, ReadSettingPopupWindow.ReadSettingPopupWindowListener, BarrageStylePopupWindow.BarrageStylePopupWindowListener,
         BarrageSoftKeyPopupWindow.BarrageSoftKeyPopupWindowListener, CommentSoftKeyPopupWindow.CommentSoftKeyPopupWindowListener, TakePhoto.TakeResultListener,
-        InvokeListener, AddBarrageDialog.AddBarrageDialogListener {
+        InvokeListener, AddBarrageDialog.AddBarrageDialogListener,SharePopupWindow.PopupWindowShareListener {
     @Inject
     ReadControl.PresenterRead mPresenter;
     @BindView(R.id.read_layout)
@@ -576,7 +583,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
                 MoreCommentActivity.start(this, mBookId);
                 break;
             case R.id.bottom_share_ll://分享
-
+                new SharePopupWindow(this, this).initPopWindow(mReadLayout);
                 break;
             case R.id.bottom_setting_ll://设置
                 new ReadSettingPopupWindow(this, this, mSharePreferenceUtil).initPopWindow(mReadLayout);
@@ -600,6 +607,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
                 break;
         }
     }
+
 
     /**
      * 点赞
@@ -1010,6 +1018,51 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
         mSupportTv.setCompoundDrawables(null, drawable, null, null);
     }
 
+
+    @Override
+    public void shareFacebookBtnListener() {
+        shareFacebook();
+    }
+
+    @Override
+    public void shareWhatsAppBtnListener() {
+        shareWhatsApp();
+    }
+
+
+    private void shareFacebook() {
+        //分享到facebook
+        SnsPlatform snsPlatform = SHARE_MEDIA.FACEBOOK.toSnsPlatform();
+        //分享链接
+        UMWeb web = new UMWeb("https://www.baidu.com/");
+        web.setTitle("hello");
+        web.setThumb(new UMImage(this, R.mipmap.logo));
+        web.setDescription("hello 123456");
+        new ShareAction(this)
+                .withMedia(web)
+                .setPlatform(snsPlatform.mPlatform)
+                .setCallback(new MyUMShareListener(this)).share();
+
+    }
+
+    private void shareWhatsApp(){
+        //分享到WhatsApp
+//        SnsPlatform snsPlatform = SHARE_MEDIA.WHATSAPP.toSnsPlatform();
+//        //分享链接
+//        UMWeb web = new UMWeb("https://www.baidu.com/");
+//        web.setTitle("hello");
+//        web.setThumb(new UMImage(this, R.mipmap.logo));
+//        web.setDescription("hello 123456");
+//        new ShareAction(this)
+//                .withMedia(web)
+//                .setPlatform(snsPlatform.mPlatform)
+//                .setCallback(new MyUMShareListener(this)).share();
+        new ShareAction(this)
+                .setPlatform(SHARE_MEDIA.WHATSAPP)//传入平台
+                .withText("hello")//分享内容
+                .setCallback(new MyUMShareListener(this))//回调监听器
+                .share();
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

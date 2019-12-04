@@ -28,7 +28,8 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
-        <activity android:name=".mvp.ui.activity.splash.ProtocolActivity"></activity>
+        <activity android:name=".mvp.ui.activity.splash.ProtocolActivity"
+            />
         <activity
             android:name=".mvp.ui.activity.splash.SplashActivity"
             android:screenOrientation="portrait">
@@ -122,9 +123,23 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="@string/fb_login_protocol_scheme" />
+                <data android:scheme="@string/fb_login_protocol_scheme"
+                    tools:ignore="ManifestResource" />
             </intent-filter>
         </activity>
+
+
+        <!-- facebook 分享/登录 @string/facebook_app_id -->
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+        <activity
+            android:name="com.umeng.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <provider
+            android:name="com.umeng.facebook.FacebookContentProvider"
+            android:authorities="com.facebook.app.FacebookContentProvider486323411986591"
+            android:exported="false" />
     </application>
 
 </manifest>

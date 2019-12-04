@@ -35,7 +35,6 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="@dimen/dp_20"
             android:layout_marginTop="@dimen/dp_133"
-            android:text="Pelopor"
             android:textColor="@color/white"
             android:textSize="@dimen/sp_20" />
 

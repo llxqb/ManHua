@@ -60,6 +60,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_17"
                     android:drawableTop="@mipmap/bookshelf_member_center"
+                    android:drawablePadding="@dimen/dp_5"
                     android:gravity="center"
                     android:text="@string/BookShelfFragment_vip_center_tv"
                     android:textColor="@color/white"
@@ -76,9 +77,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_12"
                     android:orientation="vertical"
-
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/search_rl">
+                    app:layout_constraintTop_toBottomOf="@id/search_rl"
+                    app:layout_goneMarginTop="@dimen/dp_5">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -113,8 +114,8 @@
                             android:layout_width="@dimen/dp_120"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/dp_11"
-                            android:text="Bacaan terakhir"
                             android:layout_toEndOf="@id/recent_read_book_iv"
+                            android:text="Bacaan terakhir"
                             android:textColor="@color/white"
                             android:textSize="@dimen/sp_15" />
 
@@ -173,7 +174,7 @@
                                 android:gravity="center"
                                 android:text="@string/BookShelfFragment_recent_read_record_tv"
                                 android:textColor="@color/white"
-                                android:textSize="@dimen/sp_12" />
+                                android:textSize="@dimen/sp_11" />
 
                         </LinearLayout>
 

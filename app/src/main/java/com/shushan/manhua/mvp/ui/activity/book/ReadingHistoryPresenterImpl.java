@@ -2,9 +2,18 @@ package com.shushan.manhua.mvp.ui.activity.book;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
+import com.shushan.manhua.R;
+import com.shushan.manhua.entity.request.DeleteReadingHistoryRequest;
+import com.shushan.manhua.entity.request.ReadingHistoryRequest;
+import com.shushan.manhua.entity.response.ReadingHistoryResponse;
+import com.shushan.manhua.help.RetryWithDelay;
 import com.shushan.manhua.mvp.model.BookModel;
+import com.shushan.manhua.mvp.model.ResponseData;
 
 import javax.inject.Inject;
+
+import io.reactivex.disposables.Disposable;
 
 
 /**
@@ -26,32 +35,62 @@ public class ReadingHistoryPresenterImpl implements ReadingHistoryControl.Presen
     }
 
 
-//    /**
-//     * 登录
-//     */
-//    @Override
-//    public void onRequestLogin(LoginRequest loginRequest) {
-//        mReadingHistoryView.showLoading(mContext.getResources().getString(R.string.loading));
-//        Disposable disposable = mBookModel.onRequestLogin(loginRequest).compose(mReadingHistoryView.applySchedulers()).retryWhen(new com.shushan.homework101.help.RetryWithDelay(3, 3000))
-//                .subscribe(this::requestLoginSuccess, throwable -> mReadingHistoryView.showErrMessage(throwable),
-//                        () -> mReadingHistoryView.dismissLoading());
-//        mReadingHistoryView.addSubscription(disposable);
-//    }
-//
-//    /**
-//     * 登录成功
-//     */
-//    private void requestLoginSuccess(ResponseData responseData) {
-//        if (responseData.resultCode == 0) {
-//            responseData.parseData(LoginResponse.class);
+    /**
+     * 阅读历史
+     */
+    @Override
+    public void onRequestReadingHistory(ReadingHistoryRequest readingHistoryRequest) {
+        mReadingHistoryView.showLoading(mContext.getResources().getString(R.string.loading));
+        Disposable disposable = mBookModel.onRequestReadingHistory(readingHistoryRequest).compose(mReadingHistoryView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
+                .subscribe(this::requestReadingHistorySuccess, throwable -> mReadingHistoryView.showErrMessage(throwable),
+                        () -> mReadingHistoryView.dismissLoading());
+        mReadingHistoryView.addSubscription(disposable);
+    }
+
+    /**
+     * 阅读历史 成功
+     */
+    private void requestReadingHistorySuccess(ResponseData responseData) {
+        if (responseData.resultCode == 0) {
+            ReadingHistoryResponse response = new Gson().fromJson(responseData.mJsonObject.toString(), ReadingHistoryResponse.class);
+            mReadingHistoryView.getReadingHistorySuccess(response);
+//            responseData.parseData(ReadingHistoryResponse.class);
 //            if (responseData.parsedData != null) {
-//                LoginResponse response = (LoginResponse) responseData.parsedData;
-//                mReadingHistoryView.getLoginSuccess(response);
+//                ReadingHistoryResponse response = (ReadingHistoryResponse) responseData.parsedData;
+//                mReadingHistoryView.getReadingHistorySuccess(response);
 //            }
-//        } else {
-//            mReadingHistoryView.showToast(responseData.errorMsg);
-//        }
-//    }
+        } else {
+            mReadingHistoryView.showToast(responseData.errorMsg);
+        }
+    }
+
+    /**
+     * 删除阅读历史
+     */
+    @Override
+    public void onDeleteReadingHistoryRequest(DeleteReadingHistoryRequest deleteReadingHistoryRequest) {
+        mReadingHistoryView.showLoading(mContext.getResources().getString(R.string.loading));
+        Disposable disposable = mBookModel.onDeleteReadingHistoryRequest(deleteReadingHistoryRequest).compose(mReadingHistoryView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
+                .subscribe(this::requestDeleteReadingHistorySuccess, throwable -> mReadingHistoryView.showErrMessage(throwable),
+                        () -> mReadingHistoryView.dismissLoading());
+        mReadingHistoryView.addSubscription(disposable);
+    }
+
+    /**
+     * 删除阅读历史 成功
+     */
+    private void requestDeleteReadingHistorySuccess(ResponseData responseData) {
+        if (responseData.resultCode == 0) {
+            mReadingHistoryView.getDeleteReadingHistorySuccess();
+//            responseData.parseData(ReadingHistoryResponse.class);
+//            if (responseData.parsedData != null) {
+//                ReadingHistoryResponse response = (ReadingHistoryResponse) responseData.parsedData;
+//                mReadingHistoryView.getReadingHistorySuccess(response);
+//            }
+        } else {
+            mReadingHistoryView.showToast(responseData.errorMsg);
+        }
+    }
 
 
     @Override
