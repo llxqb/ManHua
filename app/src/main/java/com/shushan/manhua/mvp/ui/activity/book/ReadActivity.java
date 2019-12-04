@@ -33,6 +33,14 @@ public class ReadActivity extends ReadBaseActivity {
     @Override
     public void initData() {
         super.initData();
+        mBarrageFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_BARRAGE);
+        mTurnPageFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_TURN_PAGE);
+        mNightModelFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_NIGHT_MODEL);
+        if (mBarrageFlag) {
+            mBarrageIv.setImageResource(R.mipmap.barrage_open);
+        } else {
+            mBarrageIv.setImageResource(R.mipmap.barrage_close);
+        }
     }
 
 
@@ -164,6 +172,19 @@ public class ReadActivity extends ReadBaseActivity {
         mBuyBarrageStyleResponse = buyBarrageStyleResponse;
     }
 
+
+    /**
+     * 发布评论成功
+     */
+    @Override
+    public void getPublishCommentSuccess() {
+
+    }
+
+    /**
+     * 收费章节
+     * 取消兑换阅读
+     */
     @Override
     public void cancelReadingBtnOkListener() {
         finish();

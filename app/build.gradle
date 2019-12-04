@@ -6,8 +6,8 @@ android {
         applicationId "com.shushan.manhua"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 2
-        versionName "1.0"
+        versionCode 3
+        versionName "1.0.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true//as3.0对vector兼容
         //as3.0对butterknife兼容
@@ -162,4 +162,8 @@ dependencies {
 
     //    implementation 'com.facebook.android:facebook-applinks:[4,5)'
     implementation files('libs/umeng-common-2.1.8.jar')
+
+    //Ahdi支付
+    implementation files('libs/BCAXCOWidget.aar')
+    implementation files('libs/PaymentSdk.aar')
 }

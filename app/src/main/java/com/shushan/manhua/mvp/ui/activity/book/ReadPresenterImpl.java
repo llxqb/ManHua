@@ -8,11 +8,13 @@ import com.shushan.manhua.entity.request.AddBookShelfRequest;
 import com.shushan.manhua.entity.request.BarrageListRequest;
 import com.shushan.manhua.entity.request.BuyBarrageStyleRequest;
 import com.shushan.manhua.entity.request.ExchangeBarrageStyleRequest;
+import com.shushan.manhua.entity.request.PublishCommentRequest;
 import com.shushan.manhua.entity.request.ReadRecordingRequest;
 import com.shushan.manhua.entity.request.ReadingRequest;
 import com.shushan.manhua.entity.request.SelectionRequest;
 import com.shushan.manhua.entity.request.SendBarrageRequest;
 import com.shushan.manhua.entity.request.SupportRequest;
+import com.shushan.manhua.entity.request.UploadImage;
 import com.shushan.manhua.entity.response.BarrageListResponse;
 import com.shushan.manhua.entity.response.BuyBarrageStyleResponse;
 import com.shushan.manhua.entity.response.ReadingInfoResponse;
@@ -165,6 +167,7 @@ public class ReadPresenterImpl implements ReadControl.PresenterRead {
     private void requestReadRecordingSuccess(ResponseData responseData) {
         mReadView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 0) {
+            mReadView.getReadRecordingSuccess();
 //            responseData.parseData(SelectionResponse.class);
 //            if (responseData.parsedData != null) {
 //                SelectionResponse response = (SelectionResponse) responseData.parsedData;
@@ -292,6 +295,54 @@ public class ReadPresenterImpl implements ReadControl.PresenterRead {
         }
     }
 
+
+    /**
+     * 上传图片
+     */
+    @Override
+    public void uploadImageRequest(UploadImage uploadPicRequest) {
+        mReadView.showLoading(mContext.getResources().getString(R.string.loading));
+        Disposable disposable = mBookModel.uploadImageRequest(uploadPicRequest).compose(mReadView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
+                .subscribe(this::uploadPicSuccess, throwable -> mReadView.showErrMessage(throwable),
+                        () -> mReadView.dismissLoading());
+        mReadView.addSubscription(disposable);
+    }
+
+    /**
+     * 上传图片 成功
+     */
+    private void uploadPicSuccess(ResponseData responseData) {
+        mReadView.judgeToken(responseData.resultCode);
+        if (responseData.resultCode == 0) {
+            mReadView.getUploadPicSuccess(responseData.result);
+        } else {
+            mReadView.showToast(responseData.errorMsg);
+        }
+    }
+
+    /**
+     * 发布评论
+     */
+    @Override
+    public void onRequestPublishComment(PublishCommentRequest publishCommentRequest) {
+        mReadView.showLoading(mContext.getResources().getString(R.string.loading));
+        Disposable disposable = mBookModel.onRequestPublishComment(publishCommentRequest).compose(mReadView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
+                .subscribe(this::requestPublishCommentSuccess, throwable -> mReadView.showErrMessage(throwable),
+                        () -> mReadView.dismissLoading());
+        mReadView.addSubscription(disposable);
+    }
+
+    /**
+     * 发布评论 成功
+     */
+    private void requestPublishCommentSuccess(ResponseData responseData) {
+        mReadView.judgeToken(responseData.resultCode);
+        if (responseData.resultCode == 0) {
+            mReadView.getPublishCommentSuccess();
+        } else {
+            mReadView.showToast(responseData.errorMsg);
+        }
+    }
 
     @Override
     public void onCreate() {

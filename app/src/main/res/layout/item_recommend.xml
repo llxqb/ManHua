@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/item_recommend_layout"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_marginEnd="@dimen/dp_10"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     android:paddingTop="@dimen/dp_5"
@@ -12,7 +13,7 @@
         android:id="@+id/book_iv"
         android:layout_width="@dimen/dp_101"
         android:layout_height="@dimen/dp_134"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         android:src="@mipmap/default_graph_4" />
 
 
@@ -22,7 +23,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_8"
         android:singleLine="true"
-        android:text="霸道小叔，请轻撩"
         android:textColor="@color/color_30"
         android:textSize="@dimen/sp_13" />
 
@@ -32,7 +32,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_5"
         android:singleLine="true"
-        android:text="神秘世界，危险机遇并存"
         android:textColor="#989FAE"
         android:textSize="@dimen/sp_12" />
 

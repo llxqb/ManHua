@@ -5,6 +5,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.shushan.manhua.R;
@@ -37,16 +38,16 @@ public class SharePopupWindow {
     }
 
     private void handlePopListView(View contentView) {
-        TextView shareFacebookTv = contentView.findViewById(R.id.share_facebook_tv);
-        TextView shareWhatsappTv = contentView.findViewById(R.id.share_whatsapp_tv);
+        LinearLayout shareFacebookLl = contentView.findViewById(R.id.share_facebook_ll);
+        LinearLayout shareWhatsappLl = contentView.findViewById(R.id.share_whatsapp_ll);
         TextView cancelTv = contentView.findViewById(R.id.cancel_tv);
-        shareFacebookTv.setOnClickListener(v -> {
+        shareFacebookLl.setOnClickListener(v -> {
             if (mPopupWindowListener != null) {
                 mPopupWindowListener.shareFacebookBtnListener();
                 mCustomPopWindow.dissmiss();
             }
         });
-        shareWhatsappTv.setOnClickListener(v -> {
+        shareWhatsappLl.setOnClickListener(v -> {
             if (mPopupWindowListener != null) {
                 mPopupWindowListener.shareWhatsAppBtnListener();
                 mCustomPopWindow.dissmiss();

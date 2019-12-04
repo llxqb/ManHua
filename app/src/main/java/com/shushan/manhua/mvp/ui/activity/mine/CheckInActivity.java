@@ -195,7 +195,9 @@ public class CheckInActivity extends BaseActivity implements CheckInControl.Chec
     @Override
     public void getReceiveTaskSuccess() {
 //        mTaskAdapter.notifyItemChanged(taskClickPos, "");//局部刷新
+        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.UPDATE_PERSONAL_INFO));
         onRequestSignData();
+
     }
 
 

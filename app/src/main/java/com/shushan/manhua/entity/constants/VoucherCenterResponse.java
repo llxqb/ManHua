@@ -3,11 +3,12 @@ package com.shushan.manhua.entity.constants;
 import java.util.List;
 
 public class VoucherCenterResponse {
+
     /**
-     * bean : 0
-     * expire_time : 1577807999   到期时间
-     * expire_bean : 0            快过期漫豆数量
-     * beaninfo : [{"beans_id":1,"beans":500,"presenter_beans":250,"price":"4.99"},{"beans_id":2,"beans":100,"presenter_beans":50,"price":"0.99"},{"beans_id":3,"beans":1000,"presenter_beans":500,"price":"9.99"},{"beans_id":4,"beans":2000,"presenter_beans":1000,"price":"19.99"},{"beans_id":5,"beans":3000,"presenter_beans":1500,"price":"29.99"},{"beans_id":6,"beans":5000,"presenter_beans":2500,"price":"49.99"}]
+     * bean : 3
+     * expire_time : 1577807999  到期时间
+     * expire_bean : 0           快过期漫豆数量
+     * beaninfo : [{"beans_id":1,"beans":100,"presenter_beans":20,"price":"4.99","yn_price":70000},{"beans_id":2,"beans":20,"presenter_beans":2,"price":"0.99","yn_price":14000},{"beans_id":3,"beans":200,"presenter_beans":100,"price":"9.99","yn_price":141000},{"beans_id":4,"beans":400,"presenter_beans":300,"price":"19.99","yn_price":290000},{"beans_id":5,"beans":600,"presenter_beans":500,"price":"29.99","yn_price":423000},{"beans_id":6,"beans":1000,"presenter_beans":1000,"price":"49.99","yn_price":706000}]
      */
 
     private int bean;
@@ -50,15 +51,17 @@ public class VoucherCenterResponse {
     public static class BeaninfoBean {
         /**
          * beans_id : 1
-         * beans : 500
-         * presenter_beans : 250  赠送数量
+         * beans : 100
+         * presenter_beans : 20
          * price : 4.99
+         * yn_price : 70000
          */
 
         private int beans_id;
         private int beans;
         private int presenter_beans;
         private String price;
+        private int yn_price;
         public boolean isCheck;
 
         public int getBeans_id() {
@@ -91,6 +94,14 @@ public class VoucherCenterResponse {
 
         public void setPrice(String price) {
             this.price = price;
+        }
+
+        public int getYn_price() {
+            return yn_price;
+        }
+
+        public void setYn_price(int yn_price) {
+            this.yn_price = yn_price;
         }
     }
 }

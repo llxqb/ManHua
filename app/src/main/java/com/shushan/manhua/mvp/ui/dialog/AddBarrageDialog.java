@@ -107,8 +107,9 @@ public class AddBarrageDialog extends BaseDialogFragment {
                 String moveTvValue = mMoveTv.getText().toString();
                 int[] lv2 = {0, 0};
                 mMoveTv.getLocationInWindow(lv2);
-                int width = lv2[0]; // 此控件左上角坐标;
-                int height = lv2[1];
+                // 此控件左上角坐标;
+                int width = lv2[0];
+                int height = lv2[1] -63;
                 if (dialogBtnListener != null) {
                     dialogBtnListener.addBarrageBtnOkListener(moveTvValue, width, height);
                 }

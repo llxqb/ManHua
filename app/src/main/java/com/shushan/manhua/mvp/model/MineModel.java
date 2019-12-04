@@ -4,12 +4,17 @@ package com.shushan.manhua.mvp.model;
 import com.google.gson.Gson;
 import com.shushan.manhua.entity.request.CreateOrderRequest;
 import com.shushan.manhua.entity.request.MemberCenterRequest;
+import com.shushan.manhua.entity.request.PayFinishAHDIRequest;
+import com.shushan.manhua.entity.request.PayFinishByUniPinRequest;
+import com.shushan.manhua.entity.request.PayFinishUploadRequest;
 import com.shushan.manhua.entity.request.PurchasedBookRequest;
 import com.shushan.manhua.entity.request.ReadingSettingRequest;
 import com.shushan.manhua.entity.request.ReceiovedBeanByVipRequest;
 import com.shushan.manhua.entity.request.ReceiveTaskRequest;
 import com.shushan.manhua.entity.request.RechargeRecordRequest;
 import com.shushan.manhua.entity.request.RecommendRequest;
+import com.shushan.manhua.entity.request.RequestOrderAHDIRequest;
+import com.shushan.manhua.entity.request.RequestOrderUniPinPayRequest;
 import com.shushan.manhua.entity.request.SignDataRequest;
 import com.shushan.manhua.entity.request.SignRequest;
 import com.shushan.manhua.entity.request.SubmitFeedbackRequest;
@@ -108,11 +113,19 @@ public class MineModel {
     }
 
     /**
+     * 充值记录/消费记录
+     */
+    public Observable<ResponseData> onRequestRechargeRecord(RechargeRecordRequest request) {
+        return mMineApi.onRequestRechargeRecord(new Gson().toJson(request)).map(mTransform::transformListType);
+    }
+
+    /**
      * 充值中心
      */
     public Observable<ResponseData> onRequestVoucherCenter(VoucherCenterRequest request) {
         return mMineApi.onRequestVoucherCenter(new Gson().toJson(request)).map(mTransform::transformCommon);
     }
+
     /**
      * 创建订单
      */
@@ -121,10 +134,39 @@ public class MineModel {
     }
 
     /**
-     * 充值记录/消费记录
+     * Google 支付成功上报
      */
-    public Observable<ResponseData> onRequestRechargeRecord(RechargeRecordRequest request) {
-        return mMineApi.onRequestRechargeRecord(new Gson().toJson(request)).map(mTransform::transformListType);
+    public Observable<ResponseData> onPayFinishUpload(PayFinishUploadRequest request) {
+        return mMineApi.onRequestPaySuccess(request.INAPP_PURCHASE_DATA, request.INAPP_DATA_SIGNATURE, request.order_no).map(mTransform::transformCommon);
+    }
+
+
+    /**
+     * 创建订单--AHDI支付
+     */
+    public Observable<ResponseData> onRequestCreateOrderAHDI(RequestOrderAHDIRequest request) {
+        return mMineApi.onRequestCreateOrderAHDI(mGson.toJson(request)).map(mTransform::transformCommon);
+    }
+
+    /**
+     * AHDI支付上报（查询是否已经支付完成）
+     */
+    public Observable<ResponseData> onPayFinishAHDIUpload(PayFinishAHDIRequest request) {
+        return mMineApi.onPayFinishAHDIUpload(new Gson().toJson(request)).map(mTransform::transformCommon);
+    }
+
+    /**
+     * 创建订单--UniPin支付
+     */
+    public Observable<ResponseData> onRequestCreateOrderByUniPin(RequestOrderUniPinPayRequest request) {
+        return mMineApi.onRequestCreateOrderByUniPin(mGson.toJson(request)).map(mTransform::transformCommon);
+    }
+
+    /**
+     * UniPin支付上报
+     */
+    public Observable<ResponseData> onPayFinishUploadByUniPin(PayFinishByUniPinRequest request) {
+        return mMineApi.onPayFinishUploadByUniPin(new Gson().toJson(request)).map(mTransform::transformCommon);
     }
 
 }

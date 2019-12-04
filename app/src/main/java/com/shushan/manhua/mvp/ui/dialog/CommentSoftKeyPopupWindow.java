@@ -90,20 +90,20 @@ public class CommentSoftKeyPopupWindow {
                     LogUtils.e("position:" + position);
                     adapter.remove(position);
                     break;
-                case R.id.item_publish_photo_layout:
-                    if (position == 0) {
-
-                    }
-                    break;
+//                case R.id.item_publish_photo_layout:
+//                    if (position == 0) {
+//
+//                    }
+//                    break;
             }
         });
 
-//        sendMessageLeftIv.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
+        sendMessageLeftIv.setOnClickListener(v -> {
+            if (mPopupWindowListener != null) {
+                mPopupWindowListener.switchFunctionByCommentSoftKeyBtnListener();
+            }
+            mCustomPopWindow.dissmiss();
+        });
 
         photoIv.setOnClickListener(v -> {
             if (mPopupWindowListener != null && publishCommentPhotoAdapter.getItemCount() < 9) {

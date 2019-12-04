@@ -5,11 +5,13 @@ import com.shushan.manhua.entity.request.AddBookShelfRequest;
 import com.shushan.manhua.entity.request.BarrageListRequest;
 import com.shushan.manhua.entity.request.BuyBarrageStyleRequest;
 import com.shushan.manhua.entity.request.ExchangeBarrageStyleRequest;
+import com.shushan.manhua.entity.request.PublishCommentRequest;
 import com.shushan.manhua.entity.request.ReadRecordingRequest;
 import com.shushan.manhua.entity.request.ReadingRequest;
 import com.shushan.manhua.entity.request.SelectionRequest;
 import com.shushan.manhua.entity.request.SendBarrageRequest;
 import com.shushan.manhua.entity.request.SupportRequest;
+import com.shushan.manhua.entity.request.UploadImage;
 import com.shushan.manhua.entity.response.BarrageListResponse;
 import com.shushan.manhua.entity.response.BuyBarrageStyleResponse;
 import com.shushan.manhua.entity.response.ReadingInfoResponse;
@@ -31,6 +33,8 @@ public class ReadControl {
 
         void getSelectionInfoSuccess(SelectionResponse selectionResponse);
 
+        void getReadRecordingSuccess();
+
         void getSendBarrageSuccess();
 
         void getExchangeBarrageStyleSuccess();
@@ -38,6 +42,10 @@ public class ReadControl {
         void getBarrageListSuccess(BarrageListResponse barrageListResponse);
 
         void getBuyBarrageStyleSuccess(BuyBarrageStyleResponse buyBarrageStyleResponse);
+
+        void getUploadPicSuccess(String picPath);
+
+        void getPublishCommentSuccess();
     }
 
     public interface PresenterRead extends Presenter<ReadView> {
@@ -87,6 +95,15 @@ public class ReadControl {
          */
         void onRequestBuyBarrageStyle(BuyBarrageStyleRequest buyBarrageStyleRequest);
 
+        /**
+         * 上传图片
+         */
+        void uploadImageRequest(UploadImage uploadPicRequest);
+
+        /**
+         * 发布评论
+         */
+        void onRequestPublishComment(PublishCommentRequest publishCommentRequest);
     }
 
 }
