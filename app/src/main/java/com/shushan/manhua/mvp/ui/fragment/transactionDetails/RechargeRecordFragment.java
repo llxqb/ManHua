@@ -9,7 +9,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.shushan.manhua.ManHuaApplication;
 import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerRechargeRecordFragmentComponent;
@@ -36,7 +39,7 @@ import butterknife.Unbinder;
  * 充值记录
  */
 
-public class RechargeRecordFragment extends BaseFragment implements RechargeRecordFragmentControl.RechargeRecordView {
+public class RechargeRecordFragment extends BaseFragment implements RechargeRecordFragmentControl.RechargeRecordView , BaseQuickAdapter.RequestLoadMoreListener{
 
     @Inject
     RechargeRecordFragmentControl.RechargeRecordFragmentPresenter mPresenter;
@@ -47,6 +50,7 @@ public class RechargeRecordFragment extends BaseFragment implements RechargeReco
     private RechargeRecordAdapter mRechargeRecordAdapter;
     private List<RechargeRecordResponse> rechargeRecordResponseList = new ArrayList<>();
     private int page = 1;
+    private View mEmptyView;
 
     @Nullable
     @Override
@@ -62,10 +66,12 @@ public class RechargeRecordFragment extends BaseFragment implements RechargeReco
 
     @Override
     public void initView() {
+        initEmptyView();
         mUser = mBuProcessor.getUser();
         mRechargeRecordAdapter = new RechargeRecordAdapter(rechargeRecordResponseList);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mRechargeRecordAdapter);
+        mRechargeRecordAdapter.setOnLoadMoreListener(this, mRecyclerView);
     }
 
     @Override
@@ -85,6 +91,11 @@ public class RechargeRecordFragment extends BaseFragment implements RechargeReco
         mPresenter.onRequestRechargeRecord(rechargeRecordRequest);
     }
 
+    @Override
+    public void onLoadMoreRequested() {
+
+    }
+
     /**
      * 充值记录 成功
      */
@@ -93,6 +104,14 @@ public class RechargeRecordFragment extends BaseFragment implements RechargeReco
 
     }
 
+
+    private void initEmptyView() {
+        mEmptyView = LayoutInflater.from(getActivity()).inflate(R.layout.empty_layout, (ViewGroup) mRecyclerView.getParent(), false);
+        ImageView emptyIv = mEmptyView.findViewById(R.id.empty_iv);
+        TextView emptyTv = mEmptyView.findViewById(R.id.empty_tv);
+        emptyIv.setImageResource(R.mipmap.default_page_history);
+        emptyTv.setText(getResources().getString(R.string.ReadingHistoryActivity_empty_tv));
+    }
 
     private void initializeInjector() {
         DaggerRechargeRecordFragmentComponent.builder().appComponent(((ManHuaApplication) Objects.requireNonNull(getActivity()).getApplication()).getAppComponent())
@@ -107,6 +126,7 @@ public class RechargeRecordFragment extends BaseFragment implements RechargeReco
         super.onDestroyView();
         unbinder.unbind();
     }
+
 
 
 }

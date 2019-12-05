@@ -273,4 +273,5 @@
     <string name="PayReportErrorDialog_error_info1" translatable="false">Successful payment but failed to upload, please re-upload</string><!--支付成功但上传失败，请重新上传 -->
     <string name="PayReportErrorDialog_error_info2" translatable="false">Order update failed, please try again</string><!--订单更新失败，请重试 -->
 
+    <string name="ProtocolActivity_title">用户注册协议</string>
 </resources>

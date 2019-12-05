@@ -16,9 +16,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.shushan.manhua.ManHuaApplication;
 import com.shushan.manhua.R;
@@ -67,7 +69,7 @@ import butterknife.Unbinder;
  */
 
 public class HotCommentFragment extends BaseFragment implements HotCommentFragmentControl.HotCommentView, CommentSoftKeyPopupWindow.CommentSoftKeyPopupWindowListener, TakePhoto.TakeResultListener,
-        InvokeListener {
+        InvokeListener, BaseQuickAdapter.RequestLoadMoreListener {
 
     @Inject
     HotCommentFragmentControl.HotCommentFragmentPresenter mPresenter;
@@ -99,6 +101,7 @@ public class HotCommentFragment extends BaseFragment implements HotCommentFragme
     private String mContent;//评论内容
     CommentBean mCommentBean;
     private int clickPos;
+    private View mEmptyView;
 
     public static HotCommentFragment getInstance(String bookId) {
         if (mHotCommentFragment == null) {
@@ -148,6 +151,7 @@ public class HotCommentFragment extends BaseFragment implements HotCommentFragme
         mReadingCommentAdapter = new ReadingCommentAdapter(readingCommendResponseList, mImageLoaderHelper);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mReadingCommentAdapter);
+        mReadingCommentAdapter.setOnLoadMoreListener(this, mRecyclerView);
         mReadingCommentAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             clickPos = position;
             mCommentBean = (CommentBean) adapter.getItem(position);
@@ -167,6 +171,7 @@ public class HotCommentFragment extends BaseFragment implements HotCommentFragme
 
     @Override
     public void initData() {
+        initEmptyView();
     }
 
     @OnClick({R.id.comment_content_rl, R.id.publish_comment_tv})
@@ -207,8 +212,41 @@ public class HotCommentFragment extends BaseFragment implements HotCommentFragme
     }
 
     @Override
+    public void onLoadMoreRequested() {
+        if (!readingCommendResponseList.isEmpty()) {
+            if (page == 1 && readingCommendResponseList.size() < Constant.PAGESIZE) {
+                mReadingCommentAdapter.loadMoreEnd(true);
+            } else {
+                if (readingCommendResponseList.size() < Constant.PAGESIZE) {
+                    mReadingCommentAdapter.loadMoreEnd();
+                } else {
+                    //等于10条
+                    page++;
+                    mReadingCommentAdapter.loadMoreComplete();
+                    onRequestCommentInfo();
+                }
+            }
+        } else {
+            mReadingCommentAdapter.loadMoreEnd();
+        }
+    }
+
+    @Override
     public void getCommentInfoSuccess(CommentListBean commentListBean) {
-        mReadingCommentAdapter.setNewData(commentListBean.getData());
+        readingCommendResponseList = commentListBean.getData();
+        //加载更多这样设置
+        if (!commentListBean.getData().isEmpty()) {
+            if (page == 1) {
+                mReadingCommentAdapter.setNewData(commentListBean.getData());
+            } else {
+                mReadingCommentAdapter.addData(commentListBean.getData());
+            }
+        } else {
+            if (page == 1) {
+                mReadingCommentAdapter.setNewData(null);
+                mReadingCommentAdapter.setEmptyView(mEmptyView);
+            }
+        }
     }
 
     /**
@@ -384,8 +422,16 @@ public class HotCommentFragment extends BaseFragment implements HotCommentFragme
         //传到CommentSoftKeyPopupWindow
 //        new CommentSoftKeyPopupWindow(ReadActivity.this, ReadActivity.this, photoList).initPopWindow(mReadLayout);
         mCommentSoftKeyPopupWindow.setListData(photoList, this);
-
     }
+
+    private void initEmptyView() {
+        mEmptyView = LayoutInflater.from(getActivity()).inflate(R.layout.empty_layout, (ViewGroup) mRecyclerView.getParent(), false);
+        ImageView emptyIv = mEmptyView.findViewById(R.id.empty_iv);
+        TextView emptyTv = mEmptyView.findViewById(R.id.empty_tv);
+        emptyIv.setImageResource(R.mipmap.default_page_comment);
+        emptyTv.setText(getResources().getString(R.string.BookDetailFragment_empty_tv));
+    }
+
 
 
     private void initializeInjector() {

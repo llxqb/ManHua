@@ -16,9 +16,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.shushan.manhua.ManHuaApplication;
 import com.shushan.manhua.R;
@@ -68,7 +70,7 @@ import butterknife.Unbinder;
  */
 
 public class LatestCommentFragment extends BaseFragment implements LatestCommentFragmentControl.LatestCommentView, CommentSoftKeyPopupWindow.CommentSoftKeyPopupWindowListener,
-        TakePhoto.TakeResultListener, InvokeListener {
+        TakePhoto.TakeResultListener, InvokeListener, BaseQuickAdapter.RequestLoadMoreListener {
 
     @Inject
     LatestCommentFragmentControl.LatestCommentFragmentPresenter mPresenter;
@@ -98,8 +100,9 @@ public class LatestCommentFragment extends BaseFragment implements LatestComment
     private List<String> mPicList = new ArrayList<>();
     private String mBookId;
     private String mContent;//评论内容
-    CommentBean commentBean;
+    private CommentBean commentBean;
     private int clickPos;
+    private View mEmptyView;
 
     public static LatestCommentFragment getInstance(String bookId) {
         if (mLatestCommentFragment == null) {
@@ -151,6 +154,7 @@ public class LatestCommentFragment extends BaseFragment implements LatestComment
         mReadingCommentAdapter = new ReadingCommentAdapter(readingCommendResponseList, mImageLoaderHelper);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mReadingCommentAdapter);
+        mReadingCommentAdapter.setOnLoadMoreListener(this, mRecyclerView);
         mReadingCommentAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             clickPos = position;
             commentBean = (CommentBean) adapter.getItem(position);
@@ -170,6 +174,7 @@ public class LatestCommentFragment extends BaseFragment implements LatestComment
 
     @Override
     public void initData() {
+        initEmptyView();
     }
 
     @OnClick({R.id.comment_content_rl, R.id.publish_comment_tv})
@@ -197,8 +202,41 @@ public class LatestCommentFragment extends BaseFragment implements LatestComment
     }
 
     @Override
+    public void onLoadMoreRequested() {
+        if (!readingCommendResponseList.isEmpty()) {
+            if (page == 1 && readingCommendResponseList.size() < Constant.PAGESIZE) {
+                mReadingCommentAdapter.loadMoreEnd(true);
+            } else {
+                if (readingCommendResponseList.size() < Constant.PAGESIZE) {
+                    mReadingCommentAdapter.loadMoreEnd();
+                } else {
+                    //等于10条
+                    page++;
+                    mReadingCommentAdapter.loadMoreComplete();
+                    onRequestCommentInfo();
+                }
+            }
+        } else {
+            mReadingCommentAdapter.loadMoreEnd();
+        }
+    }
+
+    @Override
     public void getCommentInfoSuccess(CommentListBean commentListBean) {
-        mReadingCommentAdapter.setNewData(commentListBean.getData());
+        readingCommendResponseList = commentListBean.getData();
+        //加载更多这样设置
+        if (!commentListBean.getData().isEmpty()) {
+            if (page == 1) {
+                mReadingCommentAdapter.setNewData(commentListBean.getData());
+            } else {
+                mReadingCommentAdapter.addData(commentListBean.getData());
+            }
+        } else {
+            if (page == 1) {
+                mReadingCommentAdapter.setNewData(null);
+                mReadingCommentAdapter.setEmptyView(mEmptyView);
+            }
+        }
     }
 
     /**
@@ -385,7 +423,14 @@ public class LatestCommentFragment extends BaseFragment implements LatestComment
         //传到CommentSoftKeyPopupWindow
 //        new CommentSoftKeyPopupWindow(ReadActivity.this, ReadActivity.this, photoList).initPopWindow(mReadLayout);
         mCommentSoftKeyPopupWindow.setListData(photoList, this);
+    }
 
+    private void initEmptyView() {
+        mEmptyView = LayoutInflater.from(getActivity()).inflate(R.layout.empty_layout, (ViewGroup) mRecyclerView.getParent(), false);
+        ImageView emptyIv = mEmptyView.findViewById(R.id.empty_iv);
+        TextView emptyTv = mEmptyView.findViewById(R.id.empty_tv);
+        emptyIv.setImageResource(R.mipmap.default_page_comment);
+        emptyTv.setText(getResources().getString(R.string.BookDetailFragment_empty_tv));
     }
 
 

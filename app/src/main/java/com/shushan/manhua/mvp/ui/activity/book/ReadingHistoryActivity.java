@@ -54,7 +54,6 @@ public class ReadingHistoryActivity extends BaseActivity implements ReadingHisto
     boolean isEditState = false;
     boolean isSelectState = false;//是否全选
     private View mEmptyView;
-    private int page = 1;
 
     @Override
     protected void initContentView() {
@@ -158,7 +157,7 @@ public class ReadingHistoryActivity extends BaseActivity implements ReadingHisto
     private void onRequestReadingHistory() {
         ReadingHistoryRequest readingHistoryRequest = new ReadingHistoryRequest();
         readingHistoryRequest.token = mBuProcessor.getToken();
-        readingHistoryRequest.page = String.valueOf(page);
+        readingHistoryRequest.page = "1";
         readingHistoryRequest.pagesize = "100";
         mPresenter.onRequestReadingHistory(readingHistoryRequest);
     }

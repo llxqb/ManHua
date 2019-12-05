@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.shushan.manhua.ManHuaApplication;
 import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerSelectionFragmentComponent;
@@ -43,7 +44,7 @@ import butterknife.Unbinder;
  * 漫画选集
  */
 
-public class SelectionDetailFragment extends BaseFragment implements SelectionFragmentControl.SelectionView {
+public class SelectionDetailFragment extends BaseFragment implements SelectionFragmentControl.SelectionView , BaseQuickAdapter.RequestLoadMoreListener{
 
     @Inject
     SelectionFragmentControl.SelectionFragmentPresenter mPresenter;
@@ -99,6 +100,7 @@ public class SelectionDetailFragment extends BaseFragment implements SelectionFr
         mSelectionAdapter = new SelectionAdapter(selectionResponseList, mImageLoaderHelper);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mSelectionAdapter);
+        mSelectionAdapter.setOnLoadMoreListener(this, mRecyclerView);
         mSelectionAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             dataBean = (SelectionResponse.AnthologyBean) adapter.getItem(position);
             clickPos = position;
@@ -152,7 +154,16 @@ public class SelectionDetailFragment extends BaseFragment implements SelectionFr
             };
             //这里就会自动根据规则进行排序
             Collections.sort(mSelectionResponse.getAnthology(), comparator);
-            mSelectionAdapter.setNewData(mSelectionResponse.getAnthology());
+//            mSelectionAdapter.setNewData(mSelectionResponse.getAnthology());
+            selectionResponseList = mSelectionResponse.getAnthology();
+            //加载更多这样设置
+            if (!mSelectionResponse.getAnthology().isEmpty()) {
+                if (page == 1) {
+                    mSelectionAdapter.setNewData(mSelectionResponse.getAnthology());
+                } else {
+                    mSelectionAdapter.addData(mSelectionResponse.getAnthology());
+                }
+            }
         }
     }
 
@@ -169,6 +180,26 @@ public class SelectionDetailFragment extends BaseFragment implements SelectionFr
         mPresenter.onRequestSelectionInfo(selectionRequest);
     }
 
+    @Override
+    public void onLoadMoreRequested() {
+        if (!selectionResponseList.isEmpty()) {
+            if (page == 1 && selectionResponseList.size() < Constant.PAGESIZE) {
+                mSelectionAdapter.loadMoreEnd(true);
+            } else {
+                if (selectionResponseList.size() < Constant.PAGESIZE) {
+                    mSelectionAdapter.loadMoreEnd();
+                } else {
+                    //等于10条
+                    page++;
+                    mSelectionAdapter.loadMoreComplete();
+                    onRequestSelectionInfo();
+                }
+            }
+        } else {
+            mSelectionAdapter.loadMoreEnd();
+        }
+    }
+    
     @Override
     public void getSelectionInfoSuccess(SelectionResponse selectionResponse) {
         mSelectionResponse = selectionResponse;
@@ -207,4 +238,5 @@ public class SelectionDetailFragment extends BaseFragment implements SelectionFr
     }
 
 
+  
 }

@@ -272,4 +272,6 @@
     <string name="money_yn">Rp</string>
     <string name="PayReportErrorDialog_error_info1">Pembayaran berhasil tetapi gagal mengunggah, harap unggah kembali</string><!--支付成功但上传失败，请重新上传 -->
     <string name="PayReportErrorDialog_error_info2">Pembaruan pesanan gagal, silakan coba lagi</string><!--订单更新失败，请重试 -->
+
+    <string name="ProtocolActivity_title">Perjanjian Pendaftaran Pengguna</string>
 </resources>

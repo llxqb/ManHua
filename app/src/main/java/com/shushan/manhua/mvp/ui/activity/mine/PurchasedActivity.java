@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerPurchasedComponent;
 import com.shushan.manhua.di.modules.ActivityModule;
@@ -29,7 +30,7 @@ import butterknife.OnClick;
 /**
  * 已购漫画
  */
-public class PurchasedActivity extends BaseActivity implements PurchasedControl.PurchasedView {
+public class PurchasedActivity extends BaseActivity implements PurchasedControl.PurchasedView, BaseQuickAdapter.RequestLoadMoreListener {
 
     @Inject
     PurchasedControl.PresenterPurchased mPresenter;
@@ -56,6 +57,7 @@ public class PurchasedActivity extends BaseActivity implements PurchasedControl.
         mPurchasedAdapter = new PurchasedAdapter(purchasedResponseList, mImageLoaderHelper);
         mPurchasedRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mPurchasedRecyclerView.setAdapter(mPurchasedAdapter);
+        mPurchasedAdapter.setOnLoadMoreListener(this, mPurchasedRecyclerView);
     }
 
     @Override
@@ -82,11 +84,41 @@ public class PurchasedActivity extends BaseActivity implements PurchasedControl.
     }
 
     @Override
-    public void getPurchasedBookSuccess(PurchasedResponse purchasedResponse) {
-        if (purchasedResponse.getData().isEmpty()) {
-            mPurchasedAdapter.setEmptyView(mEmptyView);
+    public void onLoadMoreRequested() {
+        if (!purchasedResponseList.isEmpty()) {
+            if (page == 1 && purchasedResponseList.size() < Constant.PAGESIZE) {
+                mPurchasedAdapter.loadMoreEnd(true);
+            } else {
+                if (purchasedResponseList.size() < Constant.PAGESIZE) {
+                    mPurchasedAdapter.loadMoreEnd();
+                } else {
+                    //等于10条
+                    page++;
+                    mPurchasedAdapter.loadMoreComplete();
+                    onRequestPurchasedBook();
+                }
+            }
         } else {
-            mPurchasedAdapter.setNewData(purchasedResponse.getData());
+            mPurchasedAdapter.loadMoreEnd();
+        }
+    }
+
+
+    @Override
+    public void getPurchasedBookSuccess(PurchasedResponse purchasedResponse) {
+        purchasedResponseList = purchasedResponse.getData();
+        //加载更多这样设置
+        if (!purchasedResponse.getData().isEmpty()) {
+            if (page == 1) {
+                mPurchasedAdapter.setNewData(purchasedResponse.getData());
+            } else {
+                mPurchasedAdapter.addData(purchasedResponse.getData());
+            }
+        } else {
+            if (page == 1) {
+                mPurchasedAdapter.setNewData(null);
+                mPurchasedAdapter.setEmptyView(mEmptyView);
+            }
         }
     }
 

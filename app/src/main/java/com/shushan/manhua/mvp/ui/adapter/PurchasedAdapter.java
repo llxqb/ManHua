@@ -26,7 +26,7 @@ public class PurchasedAdapter extends BaseQuickAdapter<PurchasedResponse.DataBea
     @Override
     protected void convert(BaseViewHolder helper, PurchasedResponse.DataBean item) {
         ImageView bookCoverIv = helper.getView(R.id.book_cover_iv);
-//        mImageLoaderHelper.displayImage(mContext, item.get); TODO
+//        mImageLoaderHelper.displayImage(mContext,item.getc); TODO
 
     }
 }

@@ -12,6 +12,7 @@ import com.shushan.manhua.mvp.ui.activity.main.MainActivity;
 import com.shushan.manhua.mvp.ui.base.BaseActivity;
 import com.shushan.manhua.mvp.ui.dialog.CommonDialog;
 import com.shushan.manhua.mvp.utils.DataCleanManager;
+import com.shushan.manhua.mvp.utils.SystemUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -63,13 +64,13 @@ public class SettingActivity extends BaseActivity implements CommonDialog.Common
                 showClearCacheDialog();
                 break;
             case R.id.version_update_ll://版本更新
-                showToast("版本更新");
+                showToast("Versi saat ini:" + SystemUtils.getVersionName(this));
                 break;
             case R.id.protocol_ll://用户协议
-                showToast("用户协议");
+//                showToast("用户协议");
                 break;
             case R.id.about_us_ll://关于我们
-                showToast("关于我们");
+//                showToast("关于我们");
                 break;
             case R.id.exit_tv:
                 commonDialogClickType = 2;

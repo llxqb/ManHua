@@ -9,7 +9,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.shushan.manhua.ManHuaApplication;
 import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerExpensesRecordFragmentComponent;
@@ -37,7 +40,7 @@ import butterknife.Unbinder;
  * 消费记录
  */
 
-public class ExpensesRecordFragment extends BaseFragment implements ExpensesRecordFragmentControl.ExpensesRecordView {
+public class ExpensesRecordFragment extends BaseFragment implements ExpensesRecordFragmentControl.ExpensesRecordView, BaseQuickAdapter.RequestLoadMoreListener {
 
     @Inject
     ExpensesRecordFragmentControl.ExpensesRecordFragmentPresenter mPresenter;
@@ -48,6 +51,7 @@ public class ExpensesRecordFragment extends BaseFragment implements ExpensesReco
     private ExpensesRecordAdapter mExpensesRecordAdapter;
     private List<ExpensesRecordResponse> expensesRecordResponseList = new ArrayList<>();
     private int page = 1;
+    private View mEmptyView;
 
     @Nullable
     @Override
@@ -63,10 +67,12 @@ public class ExpensesRecordFragment extends BaseFragment implements ExpensesReco
 
     @Override
     public void initView() {
+        initEmptyView();
         mUser = mBuProcessor.getUser();
         mExpensesRecordAdapter = new ExpensesRecordAdapter(expensesRecordResponseList);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mExpensesRecordAdapter);
+        mExpensesRecordAdapter.setOnLoadMoreListener(this, mRecyclerView);
     }
 
 
@@ -87,13 +93,55 @@ public class ExpensesRecordFragment extends BaseFragment implements ExpensesReco
         mPresenter.onRequestRechargeRecord(rechargeRecordRequest);
     }
 
+    @Override
+    public void onLoadMoreRequested() {
+//        if (!readingCommendResponseList.isEmpty()) {
+//            if (page == 1 && readingCommendResponseList.size() < Constant.PAGESIZE) {
+//                mReadingCommentAdapter.loadMoreEnd(true);
+//            } else {
+//                if (readingCommendResponseList.size() < Constant.PAGESIZE) {
+//                    mReadingCommentAdapter.loadMoreEnd();
+//                } else {
+//                    //等于10条
+//                    page++;
+//                    mReadingCommentAdapter.loadMoreComplete();
+//                    onRequestCommentInfo();
+//                }
+//            }
+//        } else {
+//            mReadingCommentAdapter.loadMoreEnd();
+//        }
+    }
     /**
      * 消费记录 成功
      */
     @Override
     public void getRechargeRecordSuccess(RechargeRecordResponse rechargeRecordResponse) {
-
+//        readingCommendResponseList = commentListBean.getData();
+//        //加载更多这样设置
+//        if (!commentListBean.getData().isEmpty()) {
+//            if (page == 1) {
+//                mReadingCommentAdapter.setNewData(commentListBean.getData());
+//            } else {
+//                mReadingCommentAdapter.addData(commentListBean.getData());
+//            }
+//        } else {
+//            if (page == 1) {
+//                mReadingCommentAdapter.setNewData(null);
+//                mReadingCommentAdapter.setEmptyView(mEmptyView);
+//            }
+//        }
     }
+
+
+    private void initEmptyView() {
+        mEmptyView = LayoutInflater.from(getActivity()).inflate(R.layout.empty_layout, (ViewGroup) mRecyclerView.getParent(), false);
+        ImageView emptyIv = mEmptyView.findViewById(R.id.empty_iv);
+        TextView emptyTv = mEmptyView.findViewById(R.id.empty_tv);
+        emptyIv.setImageResource(R.mipmap.default_page_history);
+        emptyTv.setText(getResources().getString(R.string.ReadingHistoryActivity_empty_tv));
+    }
+
 
     private void initializeInjector() {
         DaggerExpensesRecordFragmentComponent.builder().appComponent(((ManHuaApplication) Objects.requireNonNull(getActivity()).getApplication()).getAppComponent())
@@ -108,4 +156,6 @@ public class ExpensesRecordFragment extends BaseFragment implements ExpensesReco
         super.onDestroyView();
         unbinder.unbind();
     }
+
+
 }

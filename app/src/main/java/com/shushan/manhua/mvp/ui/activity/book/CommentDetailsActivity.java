@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerCommentDetailComponent;
 import com.shushan.manhua.di.modules.ActivityModule;
@@ -39,7 +40,7 @@ import butterknife.OnClick;
 /**
  * 评论详情
  */
-public class CommentDetailsActivity extends BaseActivity implements CommentDetailControl.CommentDetailView, CommentSoftKeyPopupWindow.CommentSoftKeyPopupWindowListener {
+public class CommentDetailsActivity extends BaseActivity implements CommentDetailControl.CommentDetailView, CommentSoftKeyPopupWindow.CommentSoftKeyPopupWindowListener , BaseQuickAdapter.RequestLoadMoreListener{
 
     @Inject
     CommentDetailControl.PresenterCommentDetail mPresenter;
@@ -70,7 +71,6 @@ public class CommentDetailsActivity extends BaseActivity implements CommentDetai
     private List<String> picStringList = new ArrayList<>();
     private int page = 1;
     private String mCommentId;
-    private CommentSoftKeyPopupWindow mCommentSoftKeyPopupWindow;
     private String mContent;//评论内容
     private CommentDetailResponse mCommentDetailResponse;
     private CommentDetailResponse.ReviewBean mReviewBean;
@@ -104,6 +104,7 @@ public class CommentDetailsActivity extends BaseActivity implements CommentDetai
         mCommentDetailAdapter = new CommentDetailAdapter(commentDetailResponseList, mImageLoaderHelper);
         mCommentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mCommentRecyclerView.setAdapter(mCommentDetailAdapter);
+        mCommentDetailAdapter.setOnLoadMoreListener(this, mCommentRecyclerView);
         mCommentDetailAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             mReviewBean = (CommentDetailResponse.ReviewBean) adapter.getItem(position);
             clickPos = position;
@@ -165,9 +166,37 @@ public class CommentDetailsActivity extends BaseActivity implements CommentDetai
     }
 
     @Override
+    public void onLoadMoreRequested() {
+        if (!commentDetailResponseList.isEmpty()) {
+            if (page == 1 && commentDetailResponseList.size() < Constant.PAGESIZE) {
+                mCommentDetailAdapter.loadMoreEnd(true);
+            } else {
+                if (commentDetailResponseList.size() < Constant.PAGESIZE) {
+                    mCommentDetailAdapter.loadMoreEnd();
+                } else {
+                    //等于10条
+                    page++;
+                    mCommentDetailAdapter.loadMoreComplete();
+                    onRequestCommentDetail();
+                }
+            }
+        } else {
+            mCommentDetailAdapter.loadMoreEnd();
+        }
+    }
+    
+    @Override
     public void getCommentDetailSuccess(CommentDetailResponse commentDetailResponse) {
         mCommentDetailResponse = commentDetailResponse;
-        mCommentDetailAdapter.setNewData(commentDetailResponse.getReview());
+        commentDetailResponseList = commentDetailResponse.getReview();
+        //加载更多这样设置
+        if (!commentDetailResponse.getReview().isEmpty()) {
+            if (page == 1) {
+                mCommentDetailAdapter.setNewData(commentDetailResponse.getReview());
+            } else {
+                mCommentDetailAdapter.addData(commentDetailResponse.getReview());
+            }
+        }
         mPicAdapter.setNewData(commentDetailResponse.getPics());
         mImageLoaderHelper.displayImage(this, commentDetailResponse.getHead_portrait(), mAvatarIv, Constant.LOADING_AVATOR);
         mNameTv.setText(commentDetailResponse.getName());
@@ -189,7 +218,7 @@ public class CommentDetailsActivity extends BaseActivity implements CommentDetai
      * 显示评论弹框PopupWindow
      */
     private void showCommentPopupWindow(String editHintContent) {
-        mCommentSoftKeyPopupWindow = new CommentSoftKeyPopupWindow(this, this, null, editHintContent);
+        CommentSoftKeyPopupWindow mCommentSoftKeyPopupWindow = new CommentSoftKeyPopupWindow(this, this, null, editHintContent);
         mCommentSoftKeyPopupWindow.initPopWindow(mCommentDetailLayout);
     }
 
@@ -284,4 +313,5 @@ public class CommentDetailsActivity extends BaseActivity implements CommentDetai
     }
 
 
+   
 }
