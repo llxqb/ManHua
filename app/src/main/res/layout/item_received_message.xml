@@ -24,7 +24,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_10"
             android:layout_toEndOf="@id/avatar_iv"
-            android:text="dear莫阿"
             android:textColor="@color/color26"
             android:textSize="@dimen/sp_13"
             android:textStyle="bold" />
@@ -50,6 +49,7 @@
             android:layout_alignParentEnd="true"
             android:drawableStart="@mipmap/reply"
             android:drawablePadding="@dimen/dp_5"
+            android:padding="@dimen/dp_5"
             android:text="@string/ReceivedMessageAdapter_comment"
             android:textColor="@color/color_80"
             android:textSize="@dimen/sp_13" />

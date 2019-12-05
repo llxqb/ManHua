@@ -5,7 +5,7 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.shushan.manhua.R;
 import com.shushan.manhua.entity.request.MessageRequest;
-import com.shushan.manhua.entity.response.MessageResponse;
+import com.shushan.manhua.entity.response.ReceivedMessageResponse;
 import com.shushan.manhua.help.RetryWithDelay;
 import com.shushan.manhua.mvp.model.ResponseData;
 import com.shushan.manhua.mvp.model.UserModel;
@@ -51,7 +51,7 @@ public class ReceivedMessageFragmentPresenterImpl implements ReceivedMessageFrag
     private void requestRequestMessageSuccess(ResponseData responseData) {
         mReceivedMessageView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 0) {
-            MessageResponse response = new Gson().fromJson(responseData.mJsonObject.toString(), MessageResponse.class);
+            ReceivedMessageResponse response = new Gson().fromJson(responseData.mJsonObject.toString(), ReceivedMessageResponse.class);
             mReceivedMessageView.getMessageInfoSuccess(response);
         } else {
             mReceivedMessageView.showToast(responseData.errorMsg);

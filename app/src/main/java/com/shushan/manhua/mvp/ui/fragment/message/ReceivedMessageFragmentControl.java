@@ -2,7 +2,7 @@ package com.shushan.manhua.mvp.ui.fragment.message;
 
 
 import com.shushan.manhua.entity.request.MessageRequest;
-import com.shushan.manhua.entity.response.MessageResponse;
+import com.shushan.manhua.entity.response.ReceivedMessageResponse;
 import com.shushan.manhua.mvp.presenter.LoadDataView;
 import com.shushan.manhua.mvp.presenter.Presenter;
 
@@ -12,7 +12,7 @@ import com.shushan.manhua.mvp.presenter.Presenter;
 
 public class ReceivedMessageFragmentControl {
     public interface ReceivedMessageView extends LoadDataView {
-        void getMessageInfoSuccess(MessageResponse messageResponse);
+        void getMessageInfoSuccess(ReceivedMessageResponse messageResponse);
     }
 
     public interface ReceivedMessageFragmentPresenter extends Presenter<ReceivedMessageView> {

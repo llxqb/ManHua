@@ -17,7 +17,13 @@ public interface UserApi {
     Observable<String> onRequestMessageInfo(@Body String request);
 
     /**
-     * 请求消息列表
+     * 删除评论/回复
+     */
+    @POST("cartoon/comment/delComment")
+    Observable<String> onDeleteMessageRequest(@Body String request);
+
+    /**
+     * 请求个人信息
      */
     @POST("cartoon/user/userInfo")
     Observable<String> onRequestPersonalInfo(@Body String request);

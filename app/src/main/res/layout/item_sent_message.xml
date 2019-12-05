@@ -17,6 +17,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="这个好看吗？"
+            android:paddingStart="@dimen/dp_10"
+            android:paddingEnd="@dimen/dp_10"
             android:textColor="@color/color_30"
             android:textSize="@dimen/sp_15" />
 
@@ -84,6 +86,7 @@
             android:layout_alignParentBottom="true"
             android:drawablePadding="@dimen/dp_5"
             android:text="@string/SentMessageAdapter_delete"
+            android:padding="@dimen/dp_5"
             android:textColor="@color/color_80"
             android:textSize="@dimen/sp_12" />
 
@@ -96,6 +99,7 @@
             android:layout_toStartOf="@id/delete_tv"
             android:drawableStart="@mipmap/title_praise_gray"
             android:drawablePadding="@dimen/dp_5"
+            android:padding="@dimen/dp_5"
             android:text="22"
             android:textColor="@color/color_80"
             android:textSize="@dimen/sp_12" />

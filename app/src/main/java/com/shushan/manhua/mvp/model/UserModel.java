@@ -1,6 +1,7 @@
 package com.shushan.manhua.mvp.model;
 
 import com.google.gson.Gson;
+import com.shushan.manhua.entity.request.DeleteMessageRequest;
 import com.shushan.manhua.entity.request.MessageRequest;
 import com.shushan.manhua.entity.request.PersonalInfoRequest;
 import com.shushan.manhua.entity.request.UpdatePersonalInfoRequest;
@@ -33,6 +34,12 @@ public class UserModel {
      */
     public Observable<ResponseData> onRequestMessageInfo(MessageRequest request) {
         return mUserApi.onRequestMessageInfo(mGson.toJson(request)).map(mTransform::transformListType);
+    }
+    /**
+     * 删除评论/回复
+     */
+    public Observable<ResponseData> onDeleteMessageRequest(DeleteMessageRequest request) {
+        return mUserApi.onDeleteMessageRequest(mGson.toJson(request)).map(mTransform::transformListType);
     }
 
     /**

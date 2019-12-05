@@ -12,15 +12,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.shushan.manhua.ManHuaApplication;
 import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerReceivedMessageFragmentComponent;
 import com.shushan.manhua.di.modules.MessageModule;
 import com.shushan.manhua.di.modules.ReceivedMessageFragmentModule;
 import com.shushan.manhua.entity.request.MessageRequest;
-import com.shushan.manhua.entity.response.MessageResponse;
+import com.shushan.manhua.entity.response.ReceivedMessageResponse;
 import com.shushan.manhua.mvp.ui.adapter.ReceivedMessageAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseFragment;
+import com.shushan.manhua.mvp.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +46,7 @@ public class ReceivedMessageFragment extends BaseFragment implements ReceivedMes
     RecyclerView mRecyclerView;
     Unbinder unbinder;
     private ReceivedMessageAdapter mReceivedMessageAdapter;
-    private List<MessageResponse.DataBean> receivedMessageResponseList = new ArrayList<>();
+    private List<ReceivedMessageResponse.DataBean> receivedMessageResponseList = new ArrayList<>();
     private View mEmptyView;
 
     @Nullable
@@ -62,7 +64,7 @@ public class ReceivedMessageFragment extends BaseFragment implements ReceivedMes
     @Override
     public void initView() {
         initEmptyView();
-        mReceivedMessageAdapter = new ReceivedMessageAdapter(receivedMessageResponseList);
+        mReceivedMessageAdapter = new ReceivedMessageAdapter(receivedMessageResponseList, mImageLoaderHelper);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mReceivedMessageAdapter);
     }
@@ -81,14 +83,15 @@ public class ReceivedMessageFragment extends BaseFragment implements ReceivedMes
 
 
     @Override
-    public void getMessageInfoSuccess(MessageResponse messageResponse) {
+    public void getMessageInfoSuccess(ReceivedMessageResponse messageResponse) {
+        LogUtils.e("messageResponse:" + new Gson().toJson(messageResponse));
         if (messageResponse.getData().isEmpty()) {
+            mReceivedMessageAdapter.setNewData(null);
             mReceivedMessageAdapter.setEmptyView(mEmptyView);
         } else {
             mReceivedMessageAdapter.setNewData(messageResponse.getData());
         }
     }
-
 
 
     private void initEmptyView() {

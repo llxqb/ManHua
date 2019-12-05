@@ -12,14 +12,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.shushan.manhua.ManHuaApplication;
 import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerSentMessageFragmentComponent;
 import com.shushan.manhua.di.modules.MessageModule;
 import com.shushan.manhua.di.modules.SentMessageFragmentModule;
+import com.shushan.manhua.entity.request.DeleteMessageRequest;
 import com.shushan.manhua.entity.request.MessageRequest;
 import com.shushan.manhua.entity.response.MessageResponse;
+import com.shushan.manhua.entity.response.SentMessageResponse;
+import com.shushan.manhua.mvp.ui.activity.book.BookDetailActivity;
+import com.shushan.manhua.mvp.ui.activity.book.CommentDetailsActivity;
 import com.shushan.manhua.mvp.ui.adapter.SentMessageAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseFragment;
 
@@ -45,8 +48,9 @@ public class SentMessageFragment extends BaseFragment implements SentMessageFrag
     RecyclerView mRecyclerView;
     Unbinder unbinder;
     private SentMessageAdapter mSentMessageAdapter;
-    private List<MessageResponse.DataBean> sentMessageResponseList = new ArrayList<>();
+    private List<SentMessageResponse.DataBean> sentMessageResponseList = new ArrayList<>();
     private View mEmptyView;
+    private int clickPos;
 
     @Nullable
     @Override
@@ -63,13 +67,28 @@ public class SentMessageFragment extends BaseFragment implements SentMessageFrag
     @Override
     public void initView() {
         initEmptyView();
-        mSentMessageAdapter = new SentMessageAdapter(sentMessageResponseList,mImageLoaderHelper);
+        mSentMessageAdapter = new SentMessageAdapter(sentMessageResponseList, mImageLoaderHelper);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mSentMessageAdapter);
-        mSentMessageAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-
+        mSentMessageAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            MessageResponse.DataBean dataBean = (MessageResponse.DataBean) adapter.getItem(position);
+            clickPos = position;
+            switch (view.getId()) {
+                case R.id.comment_content_tv://跳到评论详情
+                    if (dataBean != null) {
+                        CommentDetailsActivity.start(getActivity(), String.valueOf(dataBean.getComment_id()));
+                    }
+                    break;
+                case R.id.book_detail_ll://跳到书籍详情
+                    if (dataBean != null) {
+                        BookDetailActivity.start(getActivity(), String.valueOf(dataBean.getBook_id()), dataBean.getDetail_cover());
+                    }
+                    break;
+                case R.id.delete_tv://删除
+                    if (dataBean != null) {
+                        onDeleteMessageRequest(String.valueOf(dataBean.getComment_id()));
+                    }
+                    break;
             }
         });
     }
@@ -96,13 +115,27 @@ public class SentMessageFragment extends BaseFragment implements SentMessageFrag
 
 
     @Override
-    public void getMessageInfoSuccess(MessageResponse messageResponse) {
+    public void getMessageInfoSuccess(SentMessageResponse messageResponse) {
         if (messageResponse.getData().isEmpty()) {
             mSentMessageAdapter.setNewData(null);
             mSentMessageAdapter.setEmptyView(mEmptyView);
         } else {
             mSentMessageAdapter.setNewData(messageResponse.getData());
         }
+    }
+
+
+    private void onDeleteMessageRequest(String commentId) {
+        DeleteMessageRequest deleteMessageRequest = new DeleteMessageRequest();
+        deleteMessageRequest.token = mBuProcessor.getToken();
+        deleteMessageRequest.id = commentId;
+        deleteMessageRequest.type = "1";//1删除主评论2删除回复
+        mPresenter.onDeleteMessageRequest(deleteMessageRequest);
+    }
+
+    @Override
+    public void getDeleteMessageSuccess() {
+        mSentMessageAdapter.remove(clickPos);
     }
 
 
