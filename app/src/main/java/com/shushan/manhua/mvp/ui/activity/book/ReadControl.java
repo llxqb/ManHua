@@ -10,6 +10,7 @@ import com.shushan.manhua.entity.request.ReadRecordingRequest;
 import com.shushan.manhua.entity.request.ReadingRequest;
 import com.shushan.manhua.entity.request.SelectionRequest;
 import com.shushan.manhua.entity.request.SendBarrageRequest;
+import com.shushan.manhua.entity.request.ShareTaskRequest;
 import com.shushan.manhua.entity.request.SupportRequest;
 import com.shushan.manhua.entity.request.UploadImage;
 import com.shushan.manhua.entity.response.BarrageListResponse;
@@ -104,6 +105,11 @@ public class ReadControl {
          * 发布评论
          */
         void onRequestPublishComment(PublishCommentRequest publishCommentRequest);
+
+        /**
+         * 请求分享任务
+         */
+        void onRequestShareTask(ShareTaskRequest shareTaskRequest);
     }
 
 }

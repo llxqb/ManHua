@@ -66,6 +66,12 @@ public interface BookApi {
     Observable<String> onRequestPublishComment(@Body String request);
 
     /**
+     * 请求分享任务
+     */
+    @POST("cartoon/sign/shareQuest")
+    Observable<String> onRequestShareTask(@Body String request);
+
+    /**
      * 请求漫画选集信息
      */
     @POST("cartoon/book/anthology")

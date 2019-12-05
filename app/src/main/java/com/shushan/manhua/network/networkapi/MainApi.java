@@ -52,4 +52,10 @@ public interface MainApi {
     @POST("cartoon/user")
     Observable<String> onRequestMineInfo(@Body String request);
 
+    /**
+     * 查询是否有未读消息
+     */
+    @POST("cartoon/user/unReadMessage")
+    Observable<String> onRequestUnReadMessage(@Body String request);
+
 }

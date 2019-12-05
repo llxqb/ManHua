@@ -3,6 +3,8 @@ package com.shushan.manhua.entity.response;
 import java.util.List;
 
 public class ReceivedMessageResponse {
+
+
     /**
      * error : 0
      * msg : success

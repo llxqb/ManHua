@@ -14,6 +14,7 @@ import com.shushan.manhua.entity.request.PublishCommentUserRequest;
 import com.shushan.manhua.entity.request.ReadRecordingRequest;
 import com.shushan.manhua.entity.request.ReadingHistoryRequest;
 import com.shushan.manhua.entity.request.SendBarrageRequest;
+import com.shushan.manhua.entity.request.ShareTaskRequest;
 import com.shushan.manhua.entity.request.SupportRequest;
 import com.shushan.manhua.entity.request.DeleteBookShelfRequest;
 import com.shushan.manhua.entity.request.PublishCommentRequest;
@@ -104,6 +105,12 @@ public class BookModel {
      */
     public Observable<ResponseData> onRequestPublishComment(PublishCommentRequest request) {
         return mBookApi.onRequestPublishComment(mGson.toJson(request)).map(mTransform::transformCommon);
+    }
+    /**
+     * 请求分享任务
+     */
+    public Observable<ResponseData> onRequestShareTask(ShareTaskRequest request) {
+        return mBookApi.onRequestShareTask(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 
     /**

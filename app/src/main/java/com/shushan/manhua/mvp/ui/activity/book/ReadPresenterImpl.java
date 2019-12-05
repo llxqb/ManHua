@@ -13,6 +13,7 @@ import com.shushan.manhua.entity.request.ReadRecordingRequest;
 import com.shushan.manhua.entity.request.ReadingRequest;
 import com.shushan.manhua.entity.request.SelectionRequest;
 import com.shushan.manhua.entity.request.SendBarrageRequest;
+import com.shushan.manhua.entity.request.ShareTaskRequest;
 import com.shushan.manhua.entity.request.SupportRequest;
 import com.shushan.manhua.entity.request.UploadImage;
 import com.shushan.manhua.entity.response.BarrageListResponse;
@@ -339,6 +340,30 @@ public class ReadPresenterImpl implements ReadControl.PresenterRead {
         mReadView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 0) {
             mReadView.getPublishCommentSuccess();
+        } else {
+            mReadView.showToast(responseData.errorMsg);
+        }
+    }
+    /**
+     * 请求分享任务
+     */
+    @Override
+    public void onRequestShareTask(ShareTaskRequest shareTaskRequest) {
+        mReadView.showLoading(mContext.getResources().getString(R.string.loading));
+        Disposable disposable = mBookModel.onRequestShareTask(shareTaskRequest).compose(mReadView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
+                .subscribe(this::requestShareTaskSuccess, throwable -> mReadView.showErrMessage(throwable),
+                        () -> mReadView.dismissLoading());
+        mReadView.addSubscription(disposable);
+    }
+
+    /**
+     * 请求分享任务 成功
+     */
+    private void requestShareTaskSuccess(ResponseData responseData) {
+        mReadView.judgeToken(responseData.resultCode);
+        if (responseData.resultCode == 0) {
+//            mReadView.getPublishCommentSuccess();
+//            mReadView.showToast();
         } else {
             mReadView.showToast(responseData.errorMsg);
         }

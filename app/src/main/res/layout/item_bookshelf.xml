@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:gravity="center_horizontal"
-    android:paddingTop="@dimen/dp_5"
+    android:paddingTop="@dimen/dp_10"
     android:paddingBottom="@dimen/dp_5">
 
     <ImageView
@@ -35,7 +35,6 @@
         android:paddingTop="@dimen/dp_3"
         android:paddingEnd="@dimen/dp_6"
         android:paddingBottom="@dimen/dp_3"
-        android:text="今天"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_11" />
 
@@ -46,7 +45,6 @@
         android:layout_below="@id/book_iv"
         android:layout_marginTop="@dimen/dp_10"
         android:singleLine="true"
-        android:text="霸道小叔，请轻撩霸道小叔，请轻撩霸道小叔，请轻撩"
         android:textColor="@color/color_30"
         android:textSize="@dimen/sp_15" />
 
@@ -57,7 +55,6 @@
         android:layout_below="@id/book_name_tv"
         android:layout_marginTop="@dimen/dp_5"
         android:singleLine="true"
-        android:text="神秘世界，危险机遇并存神秘世界，危险机遇并存"
         android:textColor="#989FAE"
         android:textSize="@dimen/sp_12" />
 

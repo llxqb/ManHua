@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.shushan.manhua.ManHuaApplication;
 import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerReceivedMessageFragmentComponent;
@@ -22,7 +21,6 @@ import com.shushan.manhua.entity.request.MessageRequest;
 import com.shushan.manhua.entity.response.ReceivedMessageResponse;
 import com.shushan.manhua.mvp.ui.adapter.ReceivedMessageAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseFragment;
-import com.shushan.manhua.mvp.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,7 +82,6 @@ public class ReceivedMessageFragment extends BaseFragment implements ReceivedMes
 
     @Override
     public void getMessageInfoSuccess(ReceivedMessageResponse messageResponse) {
-        LogUtils.e("messageResponse:" + new Gson().toJson(messageResponse));
         if (messageResponse.getData().isEmpty()) {
             mReceivedMessageAdapter.setNewData(null);
             mReceivedMessageAdapter.setEmptyView(mEmptyView);

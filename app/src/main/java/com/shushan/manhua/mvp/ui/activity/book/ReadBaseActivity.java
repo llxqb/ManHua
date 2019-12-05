@@ -40,6 +40,7 @@ import com.shushan.manhua.entity.request.PublishCommentRequest;
 import com.shushan.manhua.entity.request.ReadRecordingRequest;
 import com.shushan.manhua.entity.request.ReadingRequest;
 import com.shushan.manhua.entity.request.SendBarrageRequest;
+import com.shushan.manhua.entity.request.ShareTaskRequest;
 import com.shushan.manhua.entity.request.SupportRequest;
 import com.shushan.manhua.entity.request.UploadImage;
 import com.shushan.manhua.entity.response.BarrageListResponse;
@@ -898,7 +899,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
         if (sendBarrageRequest != null) {
             textTv.setText(sendBarrageRequest.barrage_content);
             toast2.setView(view);
-            LogUtils.e("textTv.getWidth():" + (int) Double.parseDouble(sendBarrageRequest.xcoord) + " textTv.getHeight():" + (int) Double.parseDouble(sendBarrageRequest.ycoord));
+//            LogUtils.e("textTv.getWidth():" + (int) Double.parseDouble(sendBarrageRequest.xcoord) + " textTv.getHeight():" + (int) Double.parseDouble(sendBarrageRequest.ycoord));
             toast2.setGravity(Gravity.TOP | Gravity.LEFT, (int) Double.parseDouble(sendBarrageRequest.xcoord), (int) Double.parseDouble(sendBarrageRequest.ycoord) - mCurrentHeight);
             toast2.show();
         }
@@ -932,7 +933,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
 
     @Override
     public void CommentSendMessageBtnListener(List<TImage> tImageList, String content) {
-        LogUtils.e("content:" + content);
+//        LogUtils.e("content:" + content);
         mContent = content;
         if (tImageList.size() > 0) {
             for (TImage tImage : tImageList) {
@@ -1122,13 +1123,21 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     @Override
     public void shareFacebookBtnListener() {
         shareFacebook();
+        onShareTaskRequest();
     }
 
     @Override
     public void shareWhatsAppBtnListener() {
         shareWhatsApp();
+        onShareTaskRequest();
     }
 
+
+    private void onShareTaskRequest(){
+        ShareTaskRequest shareTaskRequest = new ShareTaskRequest();
+        shareTaskRequest.token = mBuProcessor.getToken();
+        mPresenter.onRequestShareTask(shareTaskRequest);
+    }
 
     private void shareFacebook() {
         //分享到facebook

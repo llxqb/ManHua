@@ -17,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.shushan.manhua.ManHuaApplication;
 import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerMineFragmentComponent;
@@ -26,8 +25,10 @@ import com.shushan.manhua.di.modules.MineFragmentModule;
 import com.shushan.manhua.entity.constants.ActivityConstant;
 import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.entity.request.MineRequest;
+import com.shushan.manhua.entity.request.UnReadMessageRequest;
 import com.shushan.manhua.entity.response.MineInfoResponse;
 import com.shushan.manhua.entity.response.MineReadingResponse;
+import com.shushan.manhua.entity.response.UnReadMessageResponse;
 import com.shushan.manhua.entity.user.User;
 import com.shushan.manhua.mvp.ui.activity.book.ReadingHistoryActivity;
 import com.shushan.manhua.mvp.ui.activity.login.LoginActivity;
@@ -42,7 +43,6 @@ import com.shushan.manhua.mvp.ui.activity.user.MessageActivity;
 import com.shushan.manhua.mvp.ui.activity.user.PersonalInfoActivity;
 import com.shushan.manhua.mvp.ui.adapter.MineReadingAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseFragment;
-import com.shushan.manhua.mvp.utils.LogUtils;
 import com.shushan.manhua.mvp.utils.StatusBarUtil;
 import com.shushan.manhua.mvp.utils.UserUtil;
 import com.shushan.manhua.mvp.views.CircleImageView;
@@ -140,6 +140,7 @@ public class MineFragment extends BaseFragment implements MineFragmentControl.Mi
     @Override
     public void initData() {
         onRequestMineInfo();
+//        onRequestUnReadMessage();
         mLoginModel = mBuProcessor.getLoginModel();
     }
 
@@ -199,11 +200,6 @@ public class MineFragment extends BaseFragment implements MineFragmentControl.Mi
                 break;
             case R.id.recharge_tv://充值中心
                 startActivitys(BuyActivity.class);
-//                if (mLoginModel != 2) {
-//                    toLogin();
-//                } else {
-//
-//                }
                 break;
             case R.id.tourist_login_in://账号登录
                 startActivitys(LoginActivity.class);
@@ -231,6 +227,7 @@ public class MineFragment extends BaseFragment implements MineFragmentControl.Mi
     @Override
     public void onRefresh() {
         onRequestMineInfo();
+//        onRequestUnReadMessage();
     }
 
     /**
@@ -261,12 +258,13 @@ public class MineFragment extends BaseFragment implements MineFragmentControl.Mi
         setData(userinfoBean);
     }
 
+
     private void setData(MineInfoResponse.UserinfoBean userinfoBean) {
         if (userinfoBean != null) {
             User user = UserUtil.tranLoginUser(userinfoBean);
             mBuProcessor.setLoginUser(user);
             mUser = mBuProcessor.getUser();
-            LogUtils.e("Mine: mUser:" + new Gson().toJson(mUser));
+//            LogUtils.e("Mine: mUser:" + new Gson().toJson(mUser));
             mImageLoaderHelper.displayImage(getActivity(), userinfoBean.getHead_portrait(), mAvatarIv, Constant.LOADING_AVATOR);
             mUsernameTv.setText(userinfoBean.getName());
             if (userinfoBean.getVip() == 0) {//是否是VIP
@@ -280,6 +278,23 @@ public class MineFragment extends BaseFragment implements MineFragmentControl.Mi
             }
             mBeansNumTv.setText(String.valueOf(userinfoBean.getBean()));
         }
+    }
+
+
+    /**
+     * 查询是否有未读消息
+     */
+    private void onRequestUnReadMessage() {
+        UnReadMessageRequest unReadMessageRequest = new UnReadMessageRequest();
+        unReadMessageRequest.token = mBuProcessor.getToken();
+        mPresenter.onRequestUnReadMessage(unReadMessageRequest);
+    }
+
+    @Override
+    public void getUnReadMessageSuccess(UnReadMessageResponse unReadMessageResponse) {
+//        if(unReadMessageResponse.getState()==0){
+//
+//        }
     }
 
     /**

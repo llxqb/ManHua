@@ -71,7 +71,7 @@ public class SentMessageFragment extends BaseFragment implements SentMessageFrag
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mSentMessageAdapter);
         mSentMessageAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-            MessageResponse.DataBean dataBean = (MessageResponse.DataBean) adapter.getItem(position);
+            SentMessageResponse.DataBean dataBean = (SentMessageResponse.DataBean) adapter.getItem(position);
             clickPos = position;
             switch (view.getId()) {
                 case R.id.comment_content_tv://跳到评论详情
@@ -95,7 +95,7 @@ public class SentMessageFragment extends BaseFragment implements SentMessageFrag
 
     @Override
     public void initData() {
-        onRequestMessageInfo();
+//        onRequestMessageInfo();
     }
 
     private void initEmptyView() {
