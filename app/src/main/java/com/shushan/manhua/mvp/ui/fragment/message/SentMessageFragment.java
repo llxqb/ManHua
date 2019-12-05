@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.shushan.manhua.ManHuaApplication;
 import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerSentMessageFragmentComponent;
@@ -62,15 +63,20 @@ public class SentMessageFragment extends BaseFragment implements SentMessageFrag
     @Override
     public void initView() {
         initEmptyView();
-        mSentMessageAdapter = new SentMessageAdapter(sentMessageResponseList);
+        mSentMessageAdapter = new SentMessageAdapter(sentMessageResponseList,mImageLoaderHelper);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mSentMessageAdapter);
+        mSentMessageAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+
+            }
+        });
     }
 
     @Override
     public void initData() {
         onRequestMessageInfo();
-        //  mSentMessageAdapter.setEmptyView(mEmptyView);
     }
 
     private void initEmptyView() {
@@ -92,6 +98,7 @@ public class SentMessageFragment extends BaseFragment implements SentMessageFrag
     @Override
     public void getMessageInfoSuccess(MessageResponse messageResponse) {
         if (messageResponse.getData().isEmpty()) {
+            mSentMessageAdapter.setNewData(null);
             mSentMessageAdapter.setEmptyView(mEmptyView);
         } else {
             mSentMessageAdapter.setNewData(messageResponse.getData());

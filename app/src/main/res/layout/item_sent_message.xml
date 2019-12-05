@@ -26,10 +26,12 @@
             android:layout_height="@dimen/dp_60"
             android:layout_below="@id/comment_content_tv"
             android:layout_marginTop="@dimen/dp_12"
-            android:src="@mipmap/reading_preference_fantasy" />
+            android:scaleType="centerCrop"
+            android:src="@mipmap/default_graph_2" />
 
 
         <LinearLayout
+            android:id="@+id/book_detail_ll"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_60"
             android:layout_below="@id/comment_content_tv"

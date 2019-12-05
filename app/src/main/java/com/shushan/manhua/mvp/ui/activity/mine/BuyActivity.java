@@ -85,6 +85,7 @@ public class BuyActivity extends BaseActivity implements BuyControl.BuyView, Pay
      * 是否是打开了UniPin支付网页页面
      */
     private boolean openUniPinWeb = false;
+    private String mBuyType = "2";//1购买会员2购买嗨豆
 
     @Override
     protected void initContentView() {
@@ -270,7 +271,7 @@ public class BuyActivity extends BaseActivity implements BuyControl.BuyView, Pay
     private void createOrderGoogle(String relation_id, String price) {
         CreateOrderRequest createOrderRequest = new CreateOrderRequest();
         createOrderRequest.token = mBuProcessor.getToken();
-        createOrderRequest.type = "2";
+        createOrderRequest.type = mBuyType;
         createOrderRequest.relation_id = relation_id;
         createOrderRequest.money = price;
         createOrderRequest.from = Constant.FROM;
@@ -346,7 +347,7 @@ public class BuyActivity extends BaseActivity implements BuyControl.BuyView, Pay
     private void createOrderAHDI(String relation_id, String price) {
         RequestOrderAHDIRequest requestOrderAHDIRequest = new RequestOrderAHDIRequest();
         requestOrderAHDIRequest.token = mBuProcessor.getToken();
-        requestOrderAHDIRequest.type = "2";
+        requestOrderAHDIRequest.type = mBuyType;
         requestOrderAHDIRequest.relation_id = relation_id;
         requestOrderAHDIRequest.money = price;
         mPresenter.onRequestCreateOrderAHDI(requestOrderAHDIRequest);
@@ -413,7 +414,7 @@ public class BuyActivity extends BaseActivity implements BuyControl.BuyView, Pay
     private void createOrderByUniPin(String relation_id, String price) {
         RequestOrderUniPinPayRequest requestOrderUniPinPayRequest = new RequestOrderUniPinPayRequest();
         requestOrderUniPinPayRequest.token = mBuProcessor.getToken();
-        requestOrderUniPinPayRequest.type = "2";
+        requestOrderUniPinPayRequest.type = mBuyType;
         requestOrderUniPinPayRequest.relation_id = relation_id;
         requestOrderUniPinPayRequest.money = price;
         mPresenter.onRequestCreateOrderByUniPin(requestOrderUniPinPayRequest);

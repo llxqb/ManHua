@@ -32,7 +32,7 @@ public class UserModel {
      * 请求消息列表
      */
     public Observable<ResponseData> onRequestMessageInfo(MessageRequest request) {
-        return mUserApi.onRequestMessageInfo(mGson.toJson(request)).map(mTransform::transformCommon);
+        return mUserApi.onRequestMessageInfo(mGson.toJson(request)).map(mTransform::transformListType);
     }
 
     /**

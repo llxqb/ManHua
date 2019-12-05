@@ -3,10 +3,11 @@ package com.shushan.manhua.entity.response;
 import java.util.List;
 
 public class MessageResponse {
+
     /**
      * error : 0
      * msg : success
-     * data : [{"comment_id":1,"book_id":1,"catalogue_id":0,"content":"这本书真棒！","pics":[],"comment_time":1574077027,"like":0,"book_name":"大国工程","detail_cover":"","catalogue_name":"","type":1},{"comment_id":2,"book_id":1,"catalogue_id":1,"content":"太好了！","pics":[],"comment_time":1574077027,"like":0,"book_name":"大国工程","detail_cover":"","catalogue_name":"第一话 纪元时代","type":2},{"comment_id":1,"book_id":1,"catalogue_id":0,"content":"这本书真棒！","pics":["https://caricature.oss-ap-southeast-5.aliyuncs.com/comment/20191118/5dd26de2b9ca8.png"],"like":0,"book_name":"大国工程","detail_cover":"","catalogue_name":"","be_user_id":1,"reply_id":1,"comment":{"content":"这本书真棒！","pics":["https://caricature.oss-ap-southeast-5.aliyuncs.com/comment/20191118/5dd26de2b9ca8.png"],"name":"测试","be_name":"测试"}}]
+     * data : [{"comment_id":16,"book_id":1,"catalogue_id":0,"content":"123456789","pics":[],"comment_time":1575511652,"like":0,"book_name":"大国工程","detail_cover":"","catalogue_name":"","type":1},{"comment_id":15,"book_id":1,"catalogue_id":1,"content":"ttttt","pics":[],"comment_time":1575457343,"like":0,"book_name":"大国工程","detail_cover":"","catalogue_name":"第一话 纪元时代","type":2}]
      */
 
     private int error;
@@ -39,20 +40,17 @@ public class MessageResponse {
 
     public static class DataBean {
         /**
-         * comment_id : 1
+         * comment_id : 16
          * book_id : 1
          * catalogue_id : 0
-         * content : 这本书真棒！
+         * content : 123456789
          * pics : []
-         * comment_time : 1574077027
+         * comment_time : 1575511652
          * like : 0
          * book_name : 大国工程
          * detail_cover :
          * catalogue_name :
          * type : 1
-         * be_user_id : 1
-         * reply_id : 1
-         * comment : {"content":"这本书真棒！","pics":["https://caricature.oss-ap-southeast-5.aliyuncs.com/comment/20191118/5dd26de2b9ca8.png"],"name":"测试","be_name":"测试"}
          */
 
         private int comment_id;
@@ -65,9 +63,6 @@ public class MessageResponse {
         private String detail_cover;
         private String catalogue_name;
         private int type;
-        private int be_user_id;
-        private int reply_id;
-        private CommentBean comment;
         private List<?> pics;
 
         public int getComment_id() {
@@ -150,82 +145,12 @@ public class MessageResponse {
             this.type = type;
         }
 
-        public int getBe_user_id() {
-            return be_user_id;
-        }
-
-        public void setBe_user_id(int be_user_id) {
-            this.be_user_id = be_user_id;
-        }
-
-        public int getReply_id() {
-            return reply_id;
-        }
-
-        public void setReply_id(int reply_id) {
-            this.reply_id = reply_id;
-        }
-
-        public CommentBean getComment() {
-            return comment;
-        }
-
-        public void setComment(CommentBean comment) {
-            this.comment = comment;
-        }
-
         public List<?> getPics() {
             return pics;
         }
 
         public void setPics(List<?> pics) {
             this.pics = pics;
-        }
-
-        public static class CommentBean {
-            /**
-             * content : 这本书真棒！
-             * pics : ["https://caricature.oss-ap-southeast-5.aliyuncs.com/comment/20191118/5dd26de2b9ca8.png"]
-             * name : 测试
-             * be_name : 测试
-             */
-
-            private String content;
-            private String name;
-            private String be_name;
-            private List<String> pics;
-
-            public String getContent() {
-                return content;
-            }
-
-            public void setContent(String content) {
-                this.content = content;
-            }
-
-            public String getName() {
-                return name;
-            }
-
-            public void setName(String name) {
-                this.name = name;
-            }
-
-            public String getBe_name() {
-                return be_name;
-            }
-
-            public void setBe_name(String be_name) {
-                this.be_name = be_name;
-            }
-
-            public List<String> getPics() {
-                return pics;
-            }
-
-            public void setPics(List<String> pics) {
-                this.pics = pics;
-            }
         }
     }
 }

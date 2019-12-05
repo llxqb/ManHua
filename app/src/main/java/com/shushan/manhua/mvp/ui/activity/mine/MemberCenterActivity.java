@@ -2,6 +2,8 @@ package com.shushan.manhua.mvp.ui.activity.mine;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.GridLayoutManager;
@@ -12,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ahdi.sdk.payment.AhdiPay;
 import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerMemberCenterComponent;
 import com.shushan.manhua.di.modules.ActivityModule;
@@ -20,7 +23,14 @@ import com.shushan.manhua.entity.constants.ActivityConstant;
 import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.entity.request.CreateOrderRequest;
 import com.shushan.manhua.entity.request.MemberCenterRequest;
+import com.shushan.manhua.entity.request.PayFinishAHDIRequest;
+import com.shushan.manhua.entity.request.PayFinishByUniPinRequest;
+import com.shushan.manhua.entity.request.PayFinishUploadRequest;
 import com.shushan.manhua.entity.request.ReceiovedBeanByVipRequest;
+import com.shushan.manhua.entity.request.RequestOrderAHDIRequest;
+import com.shushan.manhua.entity.request.RequestOrderUniPinPayRequest;
+import com.shushan.manhua.entity.response.CreateOrderAHDIResponse;
+import com.shushan.manhua.entity.response.CreateOrderByUniPinResponse;
 import com.shushan.manhua.entity.response.CreateOrderResponse;
 import com.shushan.manhua.entity.response.MemberCenterResponse;
 import com.shushan.manhua.entity.response.ProfitResponse;
@@ -87,6 +97,13 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
      */
     private IabHelper iabHelper;
     private MemberCenterResponse.VipinfoBean mVipInfoBean;
+    private String errorInfo1;
+    private String errorInfo2;
+    /**
+     * 是否是打开了UniPin支付网页页面
+     */
+    private boolean openUniPinWeb = false;
+    private String mBuyType = "1";//1购买会员2购买嗨豆
 
 
     @Override
@@ -182,6 +199,8 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
 
     @Override
     public void initData() {
+        errorInfo1 = getResources().getString(R.string.PayReportErrorDialog_error_info1);
+        errorInfo2 = getResources().getString(R.string.PayReportErrorDialog_error_info2);
         String[] profitName = {getResources().getString(R.string.MemberCenterActivity_beans_everyday), getResources().getString(R.string.MemberCenterActivity_restriction), getResources().getString(R.string.MemberCenterActivity_discount), getResources().getString(R.string.MemberCenterActivity_barrage), getResources().getString(R.string.MemberCenterActivity_Identity)};
         int[] profitIcon = {R.mipmap.beans2, R.mipmap.vip_free_works, R.mipmap.vip_discount, R.mipmap.vip_barrage, R.mipmap.vip_honorable_status};
         for (int i = 0; i < profitName.length; i++) {
@@ -198,8 +217,6 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
         switch (view.getId()) {
             case R.id.pay_tv:
                 if (mLoginModel != 2) {
-//                    showToast(getString(R.string.please_login_hint));
-//                    startActivitys(LoginActivity.class);
                     showTouristsLoginDialog();
                 } else {
                     showPayChooseDialog();
@@ -322,10 +339,10 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
                 GooglePayChoose();
                 break;
             case 2:
-//                AHDIPayChoose();
+                AHDIPayChoose();
                 break;
             case 3:
-//                UNiPinPayChoose();
+                UNiPinPayChoose();
                 break;
         }
     }
@@ -343,7 +360,7 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
     private void createOrderGoogle(String relation_id, String price) {
         CreateOrderRequest createOrderRequest = new CreateOrderRequest();
         createOrderRequest.token = mBuProcessor.getToken();
-        createOrderRequest.type = "1";
+        createOrderRequest.type = mBuyType;
         createOrderRequest.relation_id = relation_id;
         createOrderRequest.money = price;
         createOrderRequest.from = Constant.FROM;
@@ -370,6 +387,215 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
     }
 
 
+    /**
+     * 支付成功上报--GOOGLE
+     */
+    private void payFinishGoogleUpload(Purchase purchase) {
+        //上传数据到服务器
+        PayFinishUploadRequest payFinishUploadRequest = new PayFinishUploadRequest();
+        payFinishUploadRequest.order_no = purchase.getDeveloperPayload();
+        payFinishUploadRequest.INAPP_DATA_SIGNATURE = purchase.getSignature();
+        payFinishUploadRequest.INAPP_PURCHASE_DATA = purchase.getOriginalJson();
+        mPresenter.onPayFinishUpload(payFinishUploadRequest);
+    }
+
+
+    @Override
+    public void getPayFinishGoogleUploadSuccess() {
+        //查询用户信息-->更新用户信息(我的-首页接口)
+//        requestHomeUserInfo();
+//        logAddPaymentInfoEvent(true);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.PAY_SUCCESS));
+    }
+
+    /**
+     * 支付成功但是上传失败--》重新上报
+     */
+    @Override
+    public void getPayFinishGoogleUploadFail(String error) {
+//        reportPayDialog(errorInfo1);
+    }
+
+    @Override
+    public void getPayFinishGoogleUploadThowable() {
+        showToast(getResources().getString(R.string.text_check_internet));
+//        reportPayDialog(errorInfo2);
+    }
+
+    //AHDI 创建订单
+    private void AHDIPayChoose() {
+        createOrderAHDI(String.valueOf(mVipInfoBean.getVipinfo_id()), String.valueOf(mVipInfoBean.getYn_price()));
+    }
+
+    /**
+     * 创建订单 AHDI订单
+     */
+    private void createOrderAHDI(String relation_id, String price) {
+        RequestOrderAHDIRequest requestOrderAHDIRequest = new RequestOrderAHDIRequest();
+        requestOrderAHDIRequest.token = mBuProcessor.getToken();
+        requestOrderAHDIRequest.type = mBuyType;
+        requestOrderAHDIRequest.relation_id = relation_id;
+        requestOrderAHDIRequest.money = price;
+        mPresenter.onRequestCreateOrderAHDI(requestOrderAHDIRequest);
+    }
+
+    /**
+     * 创建订单成功--AHDI pay
+     */
+    @Override
+    public void createOrderAHDISuccess(CreateOrderAHDIResponse createOrderAHDIResponse) {
+        //调用 SDK 的 startPay 方法发起支付
+        AhdiPay.startPay(this, createOrderAHDIResponse.getAppid(), createOrderAHDIResponse.getApp_userid(), createOrderAHDIResponse.getToken(), (resultCode, signValue, resultInfo) -> {
+            if (resultCode == AhdiPay.PAY_SUCCESS) {
+                //支付成功，上传数据到服务器
+//                mCreateOrderAHDIResponse = createOrderAHDIResponse;
+                payFinishAHDIUpload(createOrderAHDIResponse);
+            } else {
+                showToast(getResources().getString(R.string.payment_fail));
+            }
+        });
+    }
+
+    /**
+     * 支付成功上报--AHDI
+     */
+    private void payFinishAHDIUpload(CreateOrderAHDIResponse createOrderAHDIResponse) {
+        PayFinishAHDIRequest payFinishAHDIRequest = new PayFinishAHDIRequest();
+        payFinishAHDIRequest.token = mBuProcessor.getToken();
+        payFinishAHDIRequest.order_no = createOrderAHDIResponse.getOrder_no();
+        mPresenter.onPayFinishAHDIUpload(payFinishAHDIRequest);
+    }
+
+    /**
+     * AHDI上报 成功
+     */
+    @Override
+    public void getPayFinishAHDIUploadSuccess() {
+        //查询用户信息-->更新用户信息(我的-首页接口)
+//        requestHomeUserInfo();
+//        logAddPaymentInfoEvent(true);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.PAY_SUCCESS));
+    }
+
+    @Override
+    public void getPayFinishAHDIUploadFail(String error) {
+//        reportPayDialog(errorInfo1);
+    }
+
+    @Override
+    public void getPayFinishAHDIUploadThowable() {
+        showToast(getResources().getString(R.string.text_check_internet));
+//        reportPayDialog(errorInfo2);
+    }
+
+
+    private void UNiPinPayChoose() {
+        //2.创建订单 - UniPin支付
+        createOrderByUniPin(String.valueOf(mVipInfoBean.getVipinfo_id()), String.valueOf(mVipInfoBean.getYn_price()));
+    }
+
+    /**
+     * 创建订单 UniPin订单
+     */
+    private void createOrderByUniPin(String relation_id, String price) {
+        RequestOrderUniPinPayRequest requestOrderUniPinPayRequest = new RequestOrderUniPinPayRequest();
+        requestOrderUniPinPayRequest.token = mBuProcessor.getToken();
+        requestOrderUniPinPayRequest.type = mBuyType;
+        requestOrderUniPinPayRequest.relation_id = relation_id;
+        requestOrderUniPinPayRequest.money = price;
+        mPresenter.onRequestCreateOrderByUniPin(requestOrderUniPinPayRequest);
+    }
+
+    CreateOrderByUniPinResponse mCreateOrderByUniPinResponse;
+
+    /**
+     * 创建订单成功--UniPin
+     */
+    @Override
+    public void createOrderByUniPinSuccess(CreateOrderByUniPinResponse createOrderByUniPinResponse) {
+//        Log.e("ddd", "createOrderByUniPinResponse:" + new Gson().toJson(createOrderByUniPinResponse));
+        mCreateOrderByUniPinResponse = createOrderByUniPinResponse;
+        openUniPinWeb = true;
+        Intent intent = new Intent();
+        intent.setAction("android.intent.action.VIEW");
+        Uri content_url = Uri.parse(createOrderByUniPinResponse.getUrl());
+        intent.setData(content_url);
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (openUniPinWeb) {
+            payFinishUnipinUpload(true);
+        }
+    }
+
+
+    /**
+     * 支付成功上报--UniPin
+     */
+    private void payFinishUnipinUpload(boolean showLoading) {
+        openUniPinWeb = false;
+        if (showLoading) {
+            showLoading(getResources().getString(R.string.loading));
+        }
+        //UniPin支付上报
+        String orderId = mCreateOrderByUniPinResponse.getOrder_no();
+        PayFinishByUniPinRequest payFinishByUniPinRequest = new PayFinishByUniPinRequest();
+        payFinishByUniPinRequest.order_no = orderId;
+        mPresenter.onPayFinishUploadByUniPin(payFinishByUniPinRequest);
+    }
+
+    /**
+     * UniPin上报成功
+     */
+    @Override
+    public void getPayFinishUploadByUniPinSuccess() {
+        //查询用户信息-->更新用户信息(我的-首页接口)
+//        requestHomeUserInfo();
+//        logAddPaymentInfoEvent(true);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.PAY_SUCCESS));
+    }
+
+    private int UnipinPayNum = 1;
+
+    @Override
+    public void getPayFinishUploadByUniPinFail(String error) {
+        showToast(error);
+        //不知道是取消还是上报异常操作 没有验证
+        if (UnipinPayNum < 2) {
+            UnipinPayNum++;
+            delayTimeUnloadUnipin();
+        }
+    }
+
+    @Override
+    public void getPayFinishUploadByUniPinThowable() {
+        showToast(getResources().getString(R.string.text_check_internet));
+//        reportPayDialog(errorInfo2);
+    }
+
+    private void delayTimeUnloadUnipin() {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                payFinishUnipinUpload(false);
+            }
+        }, 1000);//3秒后执行Runnable中的run方法
+    }
+
+    /**
+     * 重新上报dialog
+     */
+//    private void reportPayDialog(String title) {
+//        PayReportErrorDialog payReportErrorDialog = PayReportErrorDialog.newInstance();
+//        payReportErrorDialog.setListener(this);
+//        payReportErrorDialog.setTitle(title);
+//        DialogFactory.showDialogFragment(getSupportFragmentManager(), payReportErrorDialog, PayReportErrorDialog.TAG);
+//    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -386,5 +612,11 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
                 .activityModule(new ActivityModule(this)).build().inject(this);
     }
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mGooglePayHelper != null) mGooglePayHelper.dispose();
+    }
 
 }

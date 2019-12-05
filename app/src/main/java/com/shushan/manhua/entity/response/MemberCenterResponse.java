@@ -3,10 +3,11 @@ package com.shushan.manhua.entity.response;
 import java.util.List;
 
 public class MemberCenterResponse {
+
     /**
-     * vipget_state : 0  0未领取1已领取
-     * userinfo : {"id":13,"name":"llxqb","head_portrait":"https://img.pulaukomik.com/book/20191129/5de0d1245d997.png","sex":2,"birthday":1567137600,"token":"6fa0aa72af45199d3f7ca8859e13e87c","deviceId":"00000000-3512-abd9-3512-abd900000000","platform":"android","type":1,"bean":0,"valid_bean":10,"vip":0,"vip_end_time":0,"last_month_bean":0,"channel":1,"book_type":[1,2,4]}
-     * vipinfo : [{"vipinfo_id":1,"name":"谷歌订阅/App Store订阅","original_price":"29.99","price":"9.99","bean":200,"indate":30,"type":1},{"vipinfo_id":2,"name":"1个月","original_price":"29.99","price":"9.99","bean":200,"indate":30,"type":2},{"vipinfo_id":3,"name":"3个月","original_price":"89.99","price":"49.99","bean":2000,"indate":90,"type":2},{"vipinfo_id":4,"name":"12个月","original_price":"199.99","price":"99.99","bean":10000,"indate":365,"type":2}]
+     * vipget_state : 0
+     * userinfo : {"id":19,"name":"bee T","head_portrait":"https://img.pulaukomik.com/book/20191202/5de4bffdc40da.png","sex":0,"birthday":0,"token":"58fe5932d4eb0275c8e9623e37b32baf","deviceId":"00000000-3512-abd9-3512-abd900000000","platform":"android","type":1,"bean":3,"valid_bean":3,"vip":0,"vip_end_time":0,"last_month_bean":0,"channel":1,"book_type":[2,3,6]}
+     * vipinfo : [{"vipinfo_id":1,"name":"谷歌订阅/App Store订阅","original_price":"29.99","price":"9.99","bean":200,"indate":30,"type":1,"yn_price":0},{"vipinfo_id":2,"name":"1个月","original_price":"29.99","price":"19.99","bean":400,"indate":30,"type":2,"yn_price":290000},{"vipinfo_id":3,"name":"3个月","original_price":"89.99","price":"49.99","bean":1400,"indate":90,"type":2,"yn_price":706000},{"vipinfo_id":4,"name":"12个月","original_price":"359.99","price":"99.99","bean":6000,"indate":365,"type":2,"yn_price":1412000}]
      */
 
     private int vipget_state;
@@ -39,22 +40,22 @@ public class MemberCenterResponse {
 
     public static class UserinfoBean {
         /**
-         * id : 13
-         * name : llxqb
-         * head_portrait : https://img.pulaukomik.com/book/20191129/5de0d1245d997.png
-         * sex : 2
-         * birthday : 1567137600
-         * token : 6fa0aa72af45199d3f7ca8859e13e87c
+         * id : 19
+         * name : bee T
+         * head_portrait : https://img.pulaukomik.com/book/20191202/5de4bffdc40da.png
+         * sex : 0
+         * birthday : 0
+         * token : 58fe5932d4eb0275c8e9623e37b32baf
          * deviceId : 00000000-3512-abd9-3512-abd900000000
          * platform : android
          * type : 1
-         * bean : 0
-         * valid_bean : 10
+         * bean : 3
+         * valid_bean : 3
          * vip : 0
          * vip_end_time : 0
          * last_month_bean : 0
          * channel : 1
-         * book_type : [1,2,4]
+         * book_type : [2,3,6]
          */
 
         private int id;
@@ -211,7 +212,8 @@ public class MemberCenterResponse {
          * price : 9.99
          * bean : 200
          * indate : 30  有效天数
-         * type : 1  1谷歌订阅2非订阅
+         * type : 1      1谷歌订阅2非订阅
+         * yn_price : 0
          */
 
         private int vipinfo_id;
@@ -221,6 +223,7 @@ public class MemberCenterResponse {
         private int bean;
         private int indate;
         private int type;
+        private int yn_price;
         public boolean isCheck;
 
         public int getVipinfo_id() {
@@ -277,6 +280,14 @@ public class MemberCenterResponse {
 
         public void setType(int type) {
             this.type = type;
+        }
+
+        public int getYn_price() {
+            return yn_price;
+        }
+
+        public void setYn_price(int yn_price) {
+            this.yn_price = yn_price;
         }
     }
 }
