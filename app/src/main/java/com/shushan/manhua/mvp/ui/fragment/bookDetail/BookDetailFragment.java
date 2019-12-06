@@ -67,10 +67,6 @@ public class BookDetailFragment extends BaseFragment implements BookDetailFragme
     private CommentBean commentBean;
     private int clickPos;
 
-//    public BookDetailFragment(String mBookId) {
-//        super();
-//    }
-
 
     public static BookDetailFragment getInstance(String bookId) {
         if (mBookDetailFragment == null) {
@@ -100,7 +96,6 @@ public class BookDetailFragment extends BaseFragment implements BookDetailFragme
         mUser = mBuProcessor.getUser();
         if (getArguments() != null) {
             mBookId = getArguments().getString("bookId");
-            mBookCover = getArguments().getString("bookCover");
             onRequestDetailInfo();
         }
         mReadingCommentAdapter = new ReadingCommentAdapter(readingCommendResponseList, mImageLoaderHelper);

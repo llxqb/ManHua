@@ -23,7 +23,6 @@ import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.entity.request.SelectionRequest;
 import com.shushan.manhua.entity.request.SupportRequest;
 import com.shushan.manhua.entity.response.SelectionResponse;
-import com.shushan.manhua.mvp.ui.activity.book.ReadActivity;
 import com.shushan.manhua.mvp.ui.adapter.SelectionAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseFragment;
 
@@ -58,7 +57,6 @@ public class SelectionDetailFragment extends BaseFragment implements SelectionFr
     private SelectionAdapter mSelectionAdapter;
     private List<SelectionResponse.AnthologyBean> selectionResponseList = new ArrayList<>();
     private String mBookId;
-    private String mBookCover;
     private int page = 1;
     private int sort = 0;//sort 0: 正序  1 ：逆序
     private SelectionResponse mSelectionResponse;
@@ -66,13 +64,12 @@ public class SelectionDetailFragment extends BaseFragment implements SelectionFr
     private int clickPos;
 
 
-    public static SelectionDetailFragment getInstance(String bookId, String bookCover) {
+    public static SelectionDetailFragment getInstance(String bookId) {
         if (mSelectionDetailFragment == null) {
             mSelectionDetailFragment = new SelectionDetailFragment();
         }
         Bundle bd = new Bundle();
         bd.putString("bookId", bookId);
-        bd.putString("bookCover", bookCover);
         mSelectionDetailFragment.setArguments(bd);
         return mSelectionDetailFragment;
     }
@@ -94,7 +91,6 @@ public class SelectionDetailFragment extends BaseFragment implements SelectionFr
     public void initView() {
         if (getArguments() != null) {
             mBookId = getArguments().getString("bookId");
-            mBookCover = getArguments().getString("bookCover");
             onRequestSelectionInfo();
         }
         mSelectionAdapter = new SelectionAdapter(selectionResponseList, mImageLoaderHelper);
@@ -106,8 +102,6 @@ public class SelectionDetailFragment extends BaseFragment implements SelectionFr
             clickPos = position;
             if (view.getId() == R.id.support_tv) {
                 onCommentSuggestRequest();
-            } else if (view.getId() == R.id.item_selection_layout) {
-                ReadActivity.start(getActivity(), mBookId, dataBean.getCatalogue_id(), mBookCover);//阅读页面
             }
         });
     }
@@ -116,7 +110,7 @@ public class SelectionDetailFragment extends BaseFragment implements SelectionFr
     public void initData() {
     }
 
-    @OnClick({R.id.sort_tv, R.id.start_reading_tv})
+    @OnClick({R.id.sort_tv})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.sort_tv:
@@ -132,9 +126,6 @@ public class SelectionDetailFragment extends BaseFragment implements SelectionFr
                     mSortTv.setCompoundDrawables(null, null, drawable, null);
                 }
                 initSortList();
-                break;
-            case R.id.start_reading_tv:
-                ReadActivity.start(getActivity(), mBookId, 1, mBookCover);//阅读页面 章节默认第一章节？
                 break;
         }
     }
@@ -237,6 +228,4 @@ public class SelectionDetailFragment extends BaseFragment implements SelectionFr
         unbinder.unbind();
     }
 
-
-  
 }

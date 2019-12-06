@@ -36,6 +36,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.annotations.Nullable;
 
 /**
  * 漫画书籍详情
@@ -111,9 +112,19 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
                 if (mBookDetailInfoResponse != null) {
                     BookDetailInfoResponse.HistoryBean historyBean = mBookDetailInfoResponse.getHistory();
                     if (historyBean != null) {
-                        ReadActivity.start(this, mBookId, historyBean.getCatalogue_id(), mBookCover);//继续阅读
+                        Intent intent = new Intent(this,ReadActivity.class);
+                        intent.putExtra("bookId",mBookId);
+                        intent.putExtra("catalogueId",historyBean.getCatalogue_id());
+                        intent.putExtra("bookCover",mBookCover);
+                        startActivityForResult(intent,100);//继续阅读
+//                        ReadActivity.start(this, mBookId, historyBean.getCatalogue_id(), mBookCover);//继续阅读
                     } else {
-                        ReadActivity.start(this, mBookId, 1, mBookCover);//阅读页面 章节默认第一章节
+                        Intent intent = new Intent(this,ReadActivity.class);
+                        intent.putExtra("bookId",mBookId);
+                        intent.putExtra("catalogueId",1);
+                        intent.putExtra("bookCover",mBookCover);
+                        startActivityForResult(intent,100);//继续阅读
+//                        ReadActivity.start(this, mBookId, 1, mBookCover);//阅读页面 章节默认第一章节;
                     }
                 }
                 break;
@@ -151,14 +162,26 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
         LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.UPDATE_BOOKSHELF));
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //此处可以根据两个Code进行判断，本页面和结果页面跳过来的值
+        if (requestCode == 100 && resultCode == 101) {
+            String result = data.getStringExtra("result");
+            String result = data.getStringExtra("result");
+            textView.setText(result);
+        }
+    }
+
+
     private class MyPageAdapter extends FragmentPagerAdapter {
         private List<Fragment> fragments = new ArrayList<Fragment>();
 
         MyPageAdapter(FragmentManager fm) {
             super(fm);
-
-            BookDetailFragment bookDetailFragment = new BookDetailFragment(mBookId);//BookDetailFragment.getInstance(mBookId);
-            SelectionDetailFragment selectionDetailFragment = SelectionDetailFragment.getInstance(mBookId, mBookCover);
+            BookDetailFragment bookDetailFragment = BookDetailFragment.getInstance(mBookId);
+            SelectionDetailFragment selectionDetailFragment = SelectionDetailFragment.getInstance(mBookId);
             fragments.add(bookDetailFragment);
             fragments.add(selectionDetailFragment);
         }

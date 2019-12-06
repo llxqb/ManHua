@@ -519,7 +519,11 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
                 finish();
                 break;
             case R.id.common_right_tv: //全集    跳到详情
-                BookDetailActivity.start(this, mBookId, mBookCover);
+                Intent i = new Intent();
+//                i.putExtra("bookId", mBookId);
+//                i.putExtra("bookCover", mBookCover);
+                setResult(101, i);
+//                BookDetailActivity.start(this, mBookId, mBookCover);
                 break;
             case R.id.barrage_ll://设置弹幕
                 mBarrageFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_BARRAGE);
