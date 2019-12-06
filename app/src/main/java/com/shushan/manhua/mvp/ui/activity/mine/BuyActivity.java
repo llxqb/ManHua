@@ -296,7 +296,7 @@ public class BuyActivity extends BaseActivity implements BuyControl.BuyView, Pay
     @Override
     public void getCreateOrderGoogleSuccess(CreateOrderResponse createOrderResponse) {
         //3 . 购买漫豆
-        mGooglePayHelper.queryGoods(DataUtils.uppercaseToLowercase(createOrderResponse.getProduct_id()), createOrderResponse.getOrder_no());
+        mGooglePayHelper.queryGoods(DataUtils.uppercaseToLowercase(createOrderResponse.getProduct_id()), createOrderResponse.getOrder_no(),false);
     }
 
     //4.购买漫豆成功

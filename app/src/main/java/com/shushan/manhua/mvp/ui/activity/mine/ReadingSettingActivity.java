@@ -16,6 +16,7 @@ import com.shushan.manhua.entity.constants.ActivityConstant;
 import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.entity.request.ReadingSettingRequest;
 import com.shushan.manhua.entity.response.BookTypeResponse;
+import com.shushan.manhua.entity.user.User;
 import com.shushan.manhua.mvp.ui.adapter.SelectBookTypeAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseActivity;
 
@@ -52,18 +53,20 @@ public class ReadingSettingActivity extends BaseActivity implements ReadingSetti
     private int sex;//1男频2女频
     private SelectBookTypeAdapter mSelectBookTypeAdapter;
     private List<Integer> mChooseList;
+    private User mUser;
+    List<Integer> chooseList = new ArrayList<>();//已选择的类型id
 
     @Override
     protected void initContentView() {
         setContentView(R.layout.activity_reading_setting);
         setStatusBar();
         initInjectData();
+        mUser = mBuProcessor.getUser();
     }
 
     @Override
     public void initView() {
         mCommonTitleTv.setText(getString(R.string.ReadingSettingActivity_title));
-        List<Integer> chooseList = new ArrayList<>();//已选择的类型id
         mSelectBookTypeAdapter = new SelectBookTypeAdapter(bookTypeResponseList, mImageLoaderHelper);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         mRecyclerView.setAdapter(mSelectBookTypeAdapter);
@@ -97,6 +100,15 @@ public class ReadingSettingActivity extends BaseActivity implements ReadingSetti
     @Override
     public void initData() {
         mPresenter.onRequestManHuaType();
+        if (mUser.channel == 1) {
+            mMaskMaleIv.setVisibility(View.VISIBLE);
+            mMaskFemaleIv.setVisibility(View.INVISIBLE);
+        } else if (mUser.channel == 2) {
+            mMaskFemaleIv.setVisibility(View.VISIBLE);
+            mMaskMaleIv.setVisibility(View.INVISIBLE);
+        }
+
+
     }
 
 
@@ -112,9 +124,9 @@ public class ReadingSettingActivity extends BaseActivity implements ReadingSetti
                 mMaskMaleIv.setVisibility(View.INVISIBLE);
                 break;
             case R.id.channel_male_rl:
+                sex = 1;
                 mMaskMaleIv.setVisibility(View.VISIBLE);
                 mMaskFemaleIv.setVisibility(View.INVISIBLE);
-                sex = 1;
                 break;
             case R.id.sure_tv:
                 mChooseList = new ArrayList<>();
@@ -150,11 +162,11 @@ public class ReadingSettingActivity extends BaseActivity implements ReadingSetti
     @Override
     public void getReadingSettingSuccess() {
         showToast("success");
-        finish();
         mSharePreferenceUtil.setData(Constant.CHANNEL, String.valueOf(sex));
         mSharePreferenceUtil.setData(Constant.BOOK_TYPE, mChooseList.toString());//[1,2,3]喜欢的类型
         //更新首页数据 更新书架推荐数据
         LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.UPDATE_RECOMMEND_BOOK));
+        finish();
     }
 
     private void initInjectData() {

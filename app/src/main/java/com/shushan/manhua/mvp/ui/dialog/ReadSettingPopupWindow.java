@@ -23,11 +23,10 @@ import com.shushan.manhua.mvp.utils.SharePreferenceUtil;
 public class ReadSettingPopupWindow {
     private Activity mContext;
     private ReadSettingPopupWindowListener mPopupWindowListener;
-    private CustomPopWindow mCustomPopWindow;
     private SharePreferenceUtil mSharePreferenceUtil;
-    ImageView pageTurningIv;
-    ImageView nightModelIv;
-    ImageView barrageSwitchIv;
+    private ImageView pageTurningIv;
+    private ImageView nightModelIv;
+    private ImageView barrageSwitchIv;
 
     public ReadSettingPopupWindow(Activity context, ReadSettingPopupWindowListener popupWindowListener, SharePreferenceUtil sharePreferenceUtil) {
         mContext = context;
@@ -40,7 +39,8 @@ public class ReadSettingPopupWindow {
         //处理popWindow 显示内容
         handlePopListView(contentView);
         //创建并显示popWindow
-        mCustomPopWindow = new CustomPopWindow.PopupWindowBuilder(mContext)
+        //显示大小
+        CustomPopWindow mCustomPopWindow = new CustomPopWindow.PopupWindowBuilder(mContext)
                 .setView(contentView)
                 .enableBackgroundDark(true)
                 .size(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)//显示大小
@@ -53,9 +53,9 @@ public class ReadSettingPopupWindow {
         nightModelIv = contentView.findViewById(R.id.night_model_iv);
         barrageSwitchIv = contentView.findViewById(R.id.barrage_switch_iv);
         TextView moreTv = contentView.findViewById(R.id.more_tv);
-        boolean pageTurning = mSharePreferenceUtil.getBooleanData(Constant.IS_TURN_PAGE, true);
+        boolean pageTurning = mSharePreferenceUtil.getBooleanData(Constant.IS_TURN_PAGE, false);
         boolean nightModel = mSharePreferenceUtil.getBooleanData(Constant.IS_NIGHT_MODEL, false);
-        boolean barrageSwitch = mSharePreferenceUtil.getBooleanData(Constant.IS_BARRAGE, false);
+        boolean barrageSwitch = mSharePreferenceUtil.getBooleanData(Constant.IS_BARRAGE, true);
 
         if (pageTurning) {
             pageTurningIv.setImageResource(R.mipmap.switch_open);
@@ -101,7 +101,7 @@ public class ReadSettingPopupWindow {
                     mSharePreferenceUtil.setData(Constant.IS_BARRAGE, true);
                     barrageSwitchIv.setImageResource(R.mipmap.switch_open);
                 }
-                mPopupWindowListener.barrageSwitchBtnListener(barrageSwitch1);
+                mPopupWindowListener.barrageSwitchBtnListener(!barrageSwitch1);
             }
         });
         moreTv.setOnClickListener(v -> {

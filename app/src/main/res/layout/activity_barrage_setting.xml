@@ -94,7 +94,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_45"
             android:padding="@dimen/dp_10"
-            android:src="@mipmap/switch_open"
+            android:src="@mipmap/switch_close"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/model_tv" />
 
@@ -154,7 +154,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_14"
             android:padding="@dimen/dp_10"
-            android:src="@mipmap/switch_close"
+            android:src="@mipmap/switch_open"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/night_model_iv" />
 

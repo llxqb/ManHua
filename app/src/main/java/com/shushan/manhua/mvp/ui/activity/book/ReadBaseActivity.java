@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -32,6 +33,7 @@ import com.shushan.manhua.di.modules.ReadModule;
 import com.shushan.manhua.entity.BannerBean;
 import com.shushan.manhua.entity.CommentBean;
 import com.shushan.manhua.entity.RecommendBean;
+import com.shushan.manhua.entity.constants.ActivityConstant;
 import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.entity.request.AddBookShelfRequest;
 import com.shushan.manhua.entity.request.BuyBarrageStyleRequest;
@@ -52,6 +54,7 @@ import com.shushan.manhua.entity.user.User;
 import com.shushan.manhua.help.DialogFactory;
 import com.shushan.manhua.listener.MyUMShareListener;
 import com.shushan.manhua.listener.SoftKeyBoardListener;
+import com.shushan.manhua.mvp.ui.activity.login.LoginActivity;
 import com.shushan.manhua.mvp.ui.activity.mine.BuyActivity;
 import com.shushan.manhua.mvp.ui.activity.mine.MemberCenterActivity;
 import com.shushan.manhua.mvp.ui.adapter.BannerReadingViewHolder;
@@ -106,8 +109,8 @@ import butterknife.OnClick;
  */
 public abstract class ReadBaseActivity extends BaseActivity implements ReadControl.ReadView, ReadUseCoinDialog.ReadUseCoinDialogListener, ReadBeansExchangeDialog.ReadBeansExchangeDialogListener,
         ReadOpenVipDialog.ReadOpenVipDialogListener, ReadSettingPopupWindow.ReadSettingPopupWindowListener, BarrageStylePopupWindow.BarrageStylePopupWindowListener,
-        BarrageSoftKeyPopupWindow.BarrageSoftKeyPopupWindowListener, CommentSoftKeyPopupWindow.CommentSoftKeyPopupWindowListener, TakePhoto.TakeResultListener,
-        InvokeListener, AddBarrageDialog.AddBarrageDialogListener, SharePopupWindow.PopupWindowShareListener, ReadContentsPopupWindow.ReadContentsPopupWindowListener {
+        BarrageSoftKeyPopupWindow.BarrageSoftKeyPopupWindowListener, CommentSoftKeyPopupWindow.CommentSoftKeyPopupWindowListener, TakePhoto.TakeResultListener, InvokeListener,
+        AddBarrageDialog.AddBarrageDialogListener, SharePopupWindow.PopupWindowShareListener, ReadContentsPopupWindow.ReadContentsPopupWindowListener, MyUMShareListener.ShareResultListener {
     @Inject
     ReadControl.PresenterRead mPresenter;
     @BindView(R.id.read_layout)
@@ -157,7 +160,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     private List<RecommendBean> readingRecommendResponseList = new ArrayList<>();//推荐list
     private List<CommentBean> readingCommendResponseList = new ArrayList<>();//评论
     private List<BarrageStyleResponse> barrageStyleResponseList = new ArrayList<>();//弹幕样式list
-    private List<String> bookPicList = new ArrayList<>();//漫画章节图片
+    private List<ReadingInfoResponse.CatalogueBean.CatalogueContentBean> bookPicList = new ArrayList<>();//漫画章节图片
     private Integer[] barrageStyleIcon = {R.mipmap.barrage0, R.mipmap.barrage1, R.mipmap.barrage2, R.mipmap.barrage3, R.mipmap.barrage4, R.mipmap.barrage5};
     private Integer[] barrageStyleType = {0, 1, 1, 2, 1, 2};
     //是否是弹幕状态否则是评论状态 false
@@ -165,8 +168,6 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     private TakePhoto takePhoto;
     private InvokeParam invokeParam;
     private Uri uri;
-    //成功取得照片
-    Bitmap bitmap;
     //选择照片的路径集合
     private ArrayList<TImage> photoList = new ArrayList<>();
     private CommentSoftKeyPopupWindow mCommentSoftKeyPopupWindow;//评论弹幕
@@ -177,6 +178,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     public String mBookId;
     public int mCatalogueId;// 当前章节id
     public String mBookCover;//书籍封面
+    private boolean isBookDetailActivityTo = false;//是否是从书籍详情页跳转过来
     public ReadingPicAdapter mReadingPicAdapter;//章节图片adapter
     public ReadingCommentAdapter mReadingCommentAdapter;//评价adapter
     public RecommendAdapter mRecommendAdapter;//推荐adapter
@@ -189,7 +191,6 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     public BarrageListResponse mBarrageListResponse;//弹幕集合
     public BuyBarrageStyleResponse mBuyBarrageStyleResponse;//用户购买弹幕样式列表
     public ReadUseCoinDialog mReadUseCoinDialog;//非免费章节 弹出购买弹框
-
     /**
      * 上传成功后图片集合
      */
@@ -199,6 +200,9 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     boolean mNightModelFlag;//夜间模式
     int mTransparency;
     int mPlaySpeed;
+    public int mLoginModel;//1 是游客模式 2 是登录模式
+    private CommentBean mCommentBean;
+    private int clickPos;
 
     public static void start(Context context, String bookId, int catalogueId, String bookCover) {
         Intent intent = new Intent(context, ReadActivity.class);
@@ -229,10 +233,12 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void initView() {
+        mLoginModel = mBuProcessor.getLoginModel();
         if (getIntent() != null) {
             mBookId = getIntent().getStringExtra("bookId");
             mCatalogueId = getIntent().getIntExtra("catalogueId", 1);
             mBookCover = getIntent().getStringExtra("bookCover");
+            isBookDetailActivityTo = getIntent().getBooleanExtra("is_book_detail_activity", false);
         }
         mMessageEt.clearFocus();//让编辑框失去焦点 配合布局一起使用
         onKeyBoardListener();
@@ -251,10 +257,19 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
         mCommentRecyclerView.setAdapter(mReadingCommentAdapter);
         mCommentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mReadingCommentAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-            CommentBean commentBean = (CommentBean) adapter.getItem(position);
+            mCommentBean = (CommentBean) adapter.getItem(position);
+            clickPos = position;
             switch (view.getId()) {
                 case R.id.comment_ll:
-                    CommentDetailsActivity.start(this, String.valueOf(commentBean.getComment_id()));
+                    if (mCommentBean != null) {
+                        CommentDetailsActivity.start(this, String.valueOf(mCommentBean.getComment_id()));
+                    }
+                    break;
+                case R.id.suggest_num_tv:
+                    onCommentSuggestRequest();
+                    break;
+                case R.id.content_tv:
+                    showCommentPopupWindow("@" + mCommentBean.getName());
                     break;
             }
         });
@@ -269,11 +284,9 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
         });
         mPicRecyclerView.setAdapter(mReadingPicAdapter);
         mReadingPicAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-            SoftKeyboardUtil.hideSoftKeyboard(ReadBaseActivity.this);
+            SoftKeyboardUtil.hideSoftKeyboard(this);
             showFunction();
         });
-
-
     }
 
 
@@ -404,7 +417,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
             @Override
             public void keyBoardShow(int height) {
                 hideLayout();
-                if (barrageSoftKeyPopupWindow == null) {
+                if (mBarrageSoftKeyPopupWindow == null && mCommentSoftKeyPopupWindow == null) {//弹幕ppw不为空  评论ppw 不为空
                     if (isBarrageState) {//弹幕状态
                         showBarragePopupWindow();
                     } else {//评论状态
@@ -419,6 +432,23 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
             }
         });
     }
+
+    /**
+     * 评论点赞
+     */
+    private void onCommentSuggestRequest() {
+        SupportRequest commentSuggestRequest = new SupportRequest();
+        commentSuggestRequest.token = mBuProcessor.getToken();
+        commentSuggestRequest.relation_id = String.valueOf(mCommentBean.getComment_id());
+        commentSuggestRequest.type = "4";
+        mPresenter.onCommentSuggestRequest(commentSuggestRequest);
+    }
+
+    @Override
+    public void getSuggestSuccess() {
+        mReadingCommentAdapter.notifyItemChanged(clickPos, mCommentBean.getLike());//局部刷新
+    }
+
 
     /**
      * 章节详情
@@ -453,16 +483,16 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
         mAddBookshelfIv.setVisibility(View.GONE);
     }
 
-    BarrageSoftKeyPopupWindow barrageSoftKeyPopupWindow;
+    BarrageSoftKeyPopupWindow mBarrageSoftKeyPopupWindow;
 
     /**
      * 显示弹幕弹框PopupWindow
      */
     private void showBarragePopupWindow() {
-        if (barrageSoftKeyPopupWindow == null) {
-            barrageSoftKeyPopupWindow = new BarrageSoftKeyPopupWindow(this, this);
+        if (mBarrageSoftKeyPopupWindow == null) {
+            mBarrageSoftKeyPopupWindow = new BarrageSoftKeyPopupWindow(this, this);
         }
-        barrageSoftKeyPopupWindow.initPopWindow(mReadLayout);
+        mBarrageSoftKeyPopupWindow.initPopWindow(mReadLayout);
     }
 
     /**
@@ -521,8 +551,9 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
                 finish();
                 break;
             case R.id.common_right_tv: //全集    跳到详情
-                Intent i = new Intent();
-                setResult(101, i);
+                if (!isBookDetailActivityTo) {
+                    BookDetailActivity.start(this, mBookId, mBookCover);
+                }
                 finish();
                 break;
             case R.id.barrage_ll://设置弹幕
@@ -760,6 +791,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
         mUser.bean = mUser.bean - useBean;
         mBuProcessor.setLoginUser(mUser);
         mUser = mBuProcessor.getUser();
+        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.UPDATE_PERSONAL_INFO));
     }
 
 
@@ -855,7 +887,19 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
      */
     @Override
     public void sendMessageBtnListenerByBarrageSoftKey(String message) {
-        showAddBarrageDialog(message);
+        if (mLoginModel != 2) {
+            toLogin();
+        } else {
+            showAddBarrageDialog(message);
+        }
+    }
+
+    /**
+     * 游客提示登录
+     */
+    private void toLogin() {
+        showToast(getString(R.string.please_login_hint));
+        startActivitys(LoginActivity.class);
     }
 
     /**
@@ -863,7 +907,15 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
      */
     @Override
     public void dismissBtnListenerByBarrageSoftKey() {
-        barrageSoftKeyPopupWindow = null;
+        mBarrageSoftKeyPopupWindow = null;
+    }
+
+    /**
+     * 评论模式：popupWindow窗口关闭
+     */
+    @Override
+    public void dismissBtnListenerByCommentSoftKey() {
+        mCommentSoftKeyPopupWindow = null;
     }
 
     /**
@@ -910,7 +962,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
      */
     @Override
     public void getSendBarrageSuccess() {
-        showToast("send success");
+//        showToast("send success");
         addTvView();
     }
 
@@ -979,15 +1031,19 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     @Override
     public void CommentSendMessageBtnListener(List<TImage> tImageList, String content) {
 //        LogUtils.e("content:" + content);
-        mContent = content;
-        if (tImageList.size() > 0) {
-            for (TImage tImage : tImageList) {
-                Bitmap bitmap = BitmapFactory.decodeFile(tImage.getCompressPath());
-                String path = PicUtils.convertIconToString(PicUtils.ImageCompressL(bitmap));
-                uploadImage(path);
-            }
+        if (mLoginModel != 2) {
+            toLogin();
         } else {
-            publishComment();
+            mContent = content;
+            if (tImageList.size() > 0) {
+                for (TImage tImage : tImageList) {
+                    Bitmap bitmap = BitmapFactory.decodeFile(tImage.getCompressPath());
+                    String path = PicUtils.convertIconToString(PicUtils.ImageCompressL(bitmap));
+                    uploadImage(path);
+                }
+            } else {
+                publishComment();
+            }
         }
     }
 
@@ -1035,6 +1091,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
         if (mCommentSoftKeyPopupWindow != null) {
             mCommentSoftKeyPopupWindow.dismissPopupWindow();
         }
+//        onRequestReadingInfo();// 更新章节详情  数据太多
     }
 
     /**
@@ -1042,7 +1099,12 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
      */
     @Override
     public void ReplyCommentBtnListener(String content) {
-
+        if (mLoginModel != 2) {
+            toLogin();
+        } else {
+            mContent = content;
+            publishComment();
+        }
     }
 
     /**
@@ -1177,16 +1239,21 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     @Override
     public void shareFacebookBtnListener() {
         shareFacebook();
-        onShareTaskRequest();
     }
 
     @Override
     public void shareWhatsAppBtnListener() {
         shareWhatsApp();
+    }
+
+    @Override
+    public void shareSuccess() {
         onShareTaskRequest();
     }
 
-
+    /**
+     * 上传分享成功
+     */
     private void onShareTaskRequest() {
         ShareTaskRequest shareTaskRequest = new ShareTaskRequest();
         shareTaskRequest.token = mBuProcessor.getToken();
@@ -1204,7 +1271,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
         new ShareAction(this)
                 .withMedia(web)
                 .setPlatform(snsPlatform.mPlatform)
-                .setCallback(new MyUMShareListener(this)).share();
+                .setCallback(new MyUMShareListener(this, this)).share();
 
     }
 
@@ -1223,7 +1290,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
         new ShareAction(this)
                 .setPlatform(SHARE_MEDIA.WHATSAPP)//传入平台
                 .withText("hello")//分享内容
-                .setCallback(new MyUMShareListener(this))//回调监听器
+                .setCallback(new MyUMShareListener(this, this))//回调监听器
                 .share();
     }
 
@@ -1286,7 +1353,6 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
         //传到CommentSoftKeyPopupWindow
 //        new CommentSoftKeyPopupWindow(ReadActivity.this, ReadActivity.this, photoList).initPopWindow(mReadLayout);
         mCommentSoftKeyPopupWindow.setListData(photoList, this);
-
     }
 
     private void initInjectData() {

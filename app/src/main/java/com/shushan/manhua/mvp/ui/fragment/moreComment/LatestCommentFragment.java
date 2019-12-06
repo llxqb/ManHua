@@ -265,6 +265,11 @@ public class LatestCommentFragment extends BaseFragment implements LatestComment
         onPublishCommentUser();
     }
 
+    @Override
+    public void dismissBtnListenerByCommentSoftKey() {
+
+    }
+
     /**
      * 评论用户评论
      */

@@ -304,7 +304,7 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
 
         mUser.vip = userinfoBean.getVip();
         mBuProcessor.setLoginUser(mUser);
-        if(mPayType!=0){
+        if (mPayType != 0) {
             LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.PAY_SUCCESS));
         }
     }
@@ -384,7 +384,11 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
     @Override
     public void getCreateOrderGoogleSuccess(CreateOrderResponse createOrderResponse) {
         //3 . 购买漫豆
-        mGooglePayHelper.queryGoods(DataUtils.uppercaseToLowercase(createOrderResponse.getProduct_id()), createOrderResponse.getOrder_no());
+        if (createOrderResponse.getProduct_id().equals("pulaukomik_appstore_subscription")) {//订阅
+            mGooglePayHelper.queryGoods(DataUtils.uppercaseToLowercase(createOrderResponse.getProduct_id()), createOrderResponse.getOrder_no(), true);
+        } else {
+            mGooglePayHelper.queryGoods(DataUtils.uppercaseToLowercase(createOrderResponse.getProduct_id()), createOrderResponse.getOrder_no(), false);
+        }
     }
 
     //4.购买漫豆成功
@@ -632,8 +636,12 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         //一定记得调用这个方法，才能调起Google回调
-        if (iabHelper != null && requestCode == Constant.GOOGLE_PAY_REQ) {
-            iabHelper.handleActivityResult(requestCode, resultCode, data);
+        if (iabHelper != null) {
+            if (requestCode == Constant.GOOGLE_PAY_REQ) {
+                iabHelper.handleActivityResult(requestCode, resultCode, data);
+            } else if (requestCode == Constant.GOOGLE_PAY_REQ_SUBSCRIPTION) {//谷歌订阅
+                iabHelper.handleActivityResult(requestCode, resultCode, data);
+            }
         }
     }
 

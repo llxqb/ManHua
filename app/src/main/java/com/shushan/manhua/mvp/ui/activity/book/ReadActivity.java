@@ -36,8 +36,11 @@ public class ReadActivity extends ReadBaseActivity {
                 mUser = mBuProcessor.getUser();
                 if (mReadUseCoinDialog != null) {
                     mReadUseCoinDialog.closeDialog();
+                    setIsRecharge();//重新判断
                 }
                 onRequestBuyBarrageStyle();
+            } else if (intent.getAction().equals(ActivityConstant.LOGIN_SUCCESS_UPDATE_DATA)) {
+                mLoginModel = mBuProcessor.getLoginModel();
             }
         }
         super.onReceivePro(context, intent);
@@ -47,6 +50,7 @@ public class ReadActivity extends ReadBaseActivity {
     public void addFilter() {
         super.addFilter();
         mFilter.addAction(ActivityConstant.PAY_SUCCESS);
+        mFilter.addAction(ActivityConstant.LOGIN_SUCCESS_UPDATE_DATA);
     }
 
 
@@ -82,8 +86,12 @@ public class ReadActivity extends ReadBaseActivity {
         } else {
             setSupportState();
         }
+        setIsRecharge();
+    }
+
+    private void setIsRecharge() {
         //是否免费 0 免费 1 收费1
-        if (readingInfoResponse.getCatalogue().getType() != 0) {//收费
+        if (mReadingInfoResponse.getCatalogue().getType() != 0) {//收费
             if (mUser.vip == 0) {//非VIP
                 if (mUser.bean >= 5) {
                     onRequestReadRecording(5);//消耗漫豆
@@ -102,7 +110,6 @@ public class ReadActivity extends ReadBaseActivity {
         } else {
             onRequestReadRecording(0);
         }
-
     }
 
     /**
@@ -186,4 +193,6 @@ public class ReadActivity extends ReadBaseActivity {
         mCatalogueId = chapterId;
         onRequestReadingInfo();
     }
+
+
 }

@@ -20,7 +20,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:scaleType="centerCrop"
-            android:src="@mipmap/reading_preference_antiquities" />
+            android:src="@mipmap/default_graph_1" />
 
 
         <ImageView
@@ -36,7 +36,8 @@
         android:id="@+id/type_name_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
+        android:textColor="@color/first_text_color"
+        android:text="Perkotaan"
         android:textSize="@dimen/sp_14" />
 
 </LinearLayout>

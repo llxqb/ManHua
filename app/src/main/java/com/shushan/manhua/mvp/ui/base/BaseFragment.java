@@ -17,7 +17,6 @@ import android.view.ViewGroup;
 import com.bumptech.glide.load.HttpException;
 import com.shushan.manhua.R;
 import com.shushan.manhua.entity.user.BuProcessor;
-import com.shushan.manhua.entity.user.User;
 import com.shushan.manhua.help.DialogFactory;
 import com.shushan.manhua.help.ImageLoaderHelper;
 import com.shushan.manhua.mvp.ui.activity.main.MainActivity;
@@ -137,7 +136,6 @@ public abstract class BaseFragment extends Fragment {
 
     public void judgeToken(Integer code) {
         if (code == 2) {
-            showToast("登入过期,请重新登入");
             mSharePreferenceUtil.clearData();
             Intent intent = new Intent(getActivity(), MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);//表示 不创建新的实例activity

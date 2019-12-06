@@ -1,6 +1,8 @@
 package com.shushan.manhua.mvp.ui.fragment.bookDetail;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,12 +21,14 @@ import com.shushan.manhua.di.components.DaggerBookDetailFragmentComponent;
 import com.shushan.manhua.di.modules.BookDetailFragmentModule;
 import com.shushan.manhua.di.modules.BookDetailModule;
 import com.shushan.manhua.entity.CommentBean;
+import com.shushan.manhua.entity.constants.ActivityConstant;
 import com.shushan.manhua.entity.request.BookDetailRequest;
 import com.shushan.manhua.entity.request.SupportRequest;
 import com.shushan.manhua.entity.response.BookDetailInfoResponse;
 import com.shushan.manhua.entity.user.User;
 import com.shushan.manhua.mvp.ui.activity.book.MoreCommentActivity;
-import com.shushan.manhua.mvp.ui.adapter.ReadingCommentAdapter;
+import com.shushan.manhua.mvp.ui.activity.login.LoginActivity;
+import com.shushan.manhua.mvp.ui.adapter.BookDetailAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseFragment;
 
 import java.util.ArrayList;
@@ -59,14 +63,14 @@ public class BookDetailFragment extends BaseFragment implements BookDetailFragme
     @BindView(R.id.comment_recycler_view)
     RecyclerView mCommentRecyclerView;
     Unbinder unbinder;
-    ReadingCommentAdapter mReadingCommentAdapter;
+    BookDetailAdapter mReadingCommentAdapter;
     private List<CommentBean> readingCommendResponseList = new ArrayList<>();
     private View mEmptyView;
     private User mUser;
     private String mBookId;
     private CommentBean commentBean;
     private int clickPos;
-
+    private int mLoginModel;//1 是游客模式 2 是登录模式
 
     public static BookDetailFragment getInstance(String bookId) {
         if (mBookDetailFragment == null) {
@@ -76,6 +80,22 @@ public class BookDetailFragment extends BaseFragment implements BookDetailFragme
         bd.putString("bookId", bookId);
         mBookDetailFragment.setArguments(bd);
         return mBookDetailFragment;
+    }
+
+    @Override
+    public void onReceivePro(Context context, Intent intent) {
+        if (intent.getAction() != null) {
+            if (intent.getAction().equals(ActivityConstant.LOGIN_SUCCESS_UPDATE_DATA)) {
+                mLoginModel = mBuProcessor.getLoginModel();
+            }
+        }
+        super.onReceivePro(context, intent);
+    }
+
+    @Override
+    public void addFilter() {
+        super.addFilter();
+        mFilter.addAction(ActivityConstant.LOGIN_SUCCESS_UPDATE_DATA);
     }
 
     @Nullable
@@ -92,13 +112,14 @@ public class BookDetailFragment extends BaseFragment implements BookDetailFragme
 
     @Override
     public void initView() {
+        mLoginModel = mBuProcessor.getLoginModel();
         initEmptyView();
         mUser = mBuProcessor.getUser();
         if (getArguments() != null) {
             mBookId = getArguments().getString("bookId");
             onRequestDetailInfo();
         }
-        mReadingCommentAdapter = new ReadingCommentAdapter(readingCommendResponseList, mImageLoaderHelper);
+        mReadingCommentAdapter = new BookDetailAdapter(readingCommendResponseList, mImageLoaderHelper);
         mCommentRecyclerView.setAdapter(mReadingCommentAdapter);
         mCommentRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mReadingCommentAdapter.setOnItemChildClickListener((adapter, view, position) -> {
@@ -106,10 +127,18 @@ public class BookDetailFragment extends BaseFragment implements BookDetailFragme
             clickPos = position;
             switch (view.getId()) {
                 case R.id.suggest_num_tv:
-                    onCommentSuggestRequest();
+                    if (mLoginModel != 2) {
+                        toLogin();
+                    } else {
+                        onCommentSuggestRequest();
+                    }
                     break;
                 case R.id.item_comment_layout:
-                    MoreCommentActivity.start(getActivity(), mBookId);
+                    if (mLoginModel != 2) {
+                        toLogin();
+                    } else {
+                        MoreCommentActivity.start(getActivity(), mBookId);
+                    }
                     break;
             }
         });
@@ -137,18 +166,17 @@ public class BookDetailFragment extends BaseFragment implements BookDetailFragme
             case R.id.more_comment_tv:
                 MoreCommentActivity.start(getActivity(), mBookId);
                 break;
-//            case R.id.start_reading_tv:
-//                if (mBookDetailInfoResponse != null) {
-//                    BookDetailInfoResponse.HistoryBean historyBean = mBookDetailInfoResponse.getHistory();
-//                    if (historyBean != null) {
-//                        ReadActivity.start(getActivity(), mBookId, historyBean.getCatalogue_id(), mBookCover);//继续阅读
-//                    } else {
-//                        ReadActivity.start(getActivity(), mBookId, 1, mBookCover);//阅读页面 章节默认第一章节
-//                    }
-//                }
-//                break;
         }
     }
+
+    /**
+     * 游客提示登录
+     */
+    private void toLogin() {
+        showToast(getString(R.string.please_login_hint));
+        startActivitys(LoginActivity.class);
+    }
+
 
     /**
      * 请求漫画详情
@@ -178,6 +206,7 @@ public class BookDetailFragment extends BaseFragment implements BookDetailFragme
             mReadingCommentAdapter.setNewData(bookDetailInfoResponse.getComment());
         }
     }
+
 
     /**
      * 评论点赞

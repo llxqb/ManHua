@@ -17,7 +17,6 @@ import com.shushan.manhua.entity.CommentBean;
 import com.shushan.manhua.entity.ReplyBean;
 import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.help.ImageLoaderHelper;
-import com.shushan.manhua.mvp.ui.activity.book.CommentDetailsActivity;
 import com.shushan.manhua.mvp.ui.activity.book.LookPhotoActivity;
 import com.shushan.manhua.mvp.utils.DateUtil;
 import com.shushan.manhua.mvp.utils.LogUtils;
@@ -29,11 +28,11 @@ import java.util.List;
 /**
  * 阅读页面评论adapter
  */
-public class ReadingCommentAdapter extends BaseQuickAdapter<CommentBean, BaseViewHolder> {
+public class BookDetailAdapter extends BaseQuickAdapter<CommentBean, BaseViewHolder> {
 
     private ImageLoaderHelper mImageLoaderHelper;
 
-    public ReadingCommentAdapter(@Nullable List<CommentBean> data, ImageLoaderHelper imageLoaderHelper) {
+    public BookDetailAdapter(@Nullable List<CommentBean> data, ImageLoaderHelper imageLoaderHelper) {
         super(R.layout.item_reading_rommend, data);
         mImageLoaderHelper = imageLoaderHelper;
     }
@@ -63,6 +62,7 @@ public class ReadingCommentAdapter extends BaseQuickAdapter<CommentBean, BaseVie
         helper.setText(R.id.name_tv, item.getName());
         helper.setText(R.id.time_tv, DateUtil.getStrTime(item.getComment_time(), DateUtil.TIME_MMDD_HHMM));
         helper.setText(R.id.suggest_num_tv, String.valueOf(item.getLike()));
+
         TextView suggestNumTv = helper.getView(R.id.suggest_num_tv);
         if (item.getIs_like() == 0) {//未点赞
             Drawable drawable = mContext.getResources().getDrawable(R.mipmap.title_praise_gray);
@@ -103,12 +103,12 @@ public class ReadingCommentAdapter extends BaseQuickAdapter<CommentBean, BaseVie
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         recyclerView.setAdapter(replyAdapter);
 
-        replyAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-            CommentDetailsActivity.start(mContext, String.valueOf(item.getComment_id()));//评论详情
-        });
-        helper.getView(R.id.comment_ll).setOnClickListener(v -> {
-            CommentDetailsActivity.start(mContext, String.valueOf(item.getComment_id()));//评论详情
-        });
+//        replyAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+//            CommentDetailsActivity.start(mContext, String.valueOf(item.getComment_id()));//评论详情
+//        });
+//        helper.getView(R.id.comment_ll).setOnClickListener(v -> {
+//            CommentDetailsActivity.start(mContext, String.valueOf(item.getComment_id()));//评论详情
+//        });
         //Lihat semua 10 balasan 查看全部10条回复
         TextView lookAllCommentTv = helper.getView(R.id.look_all_comment_tv);
         helper.setText(R.id.look_all_comment_tv, "Lihat semua " + item.getReview_count() + " balasan");

@@ -232,6 +232,11 @@ public class CommentDetailsActivity extends BaseActivity implements CommentDetai
         onPublishCommentUser();
     }
 
+    @Override
+    public void dismissBtnListenerByCommentSoftKey() {
+
+    }
+
 
     /**
      * 评论用户评论

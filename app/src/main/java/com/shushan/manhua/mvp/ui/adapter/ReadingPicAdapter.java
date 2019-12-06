@@ -8,6 +8,8 @@ import android.widget.LinearLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.shushan.manhua.R;
+import com.shushan.manhua.entity.constants.Constant;
+import com.shushan.manhua.entity.response.ReadingInfoResponse;
 import com.shushan.manhua.help.ImageLoaderHelper;
 import com.shushan.manhua.mvp.views.ResizableImageView;
 
@@ -16,14 +18,14 @@ import java.util.List;
 /**
  * 漫画章节图片adapter
  */
-public class ReadingPicAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
+public class ReadingPicAdapter extends BaseQuickAdapter<ReadingInfoResponse.CatalogueBean.CatalogueContentBean, BaseViewHolder> {
 
     private ImageLoaderHelper mImageLoaderHelper;
 
     private View mView;
     LinearLayout itemReadingPic;
 
-    public ReadingPicAdapter(@Nullable List<String> data, ImageLoaderHelper imageLoaderHelper) {
+    public ReadingPicAdapter(@Nullable List<ReadingInfoResponse.CatalogueBean.CatalogueContentBean> data, ImageLoaderHelper imageLoaderHelper) {
         super(R.layout.item_reading_pic, data);
         mImageLoaderHelper = imageLoaderHelper;
     }
@@ -35,11 +37,11 @@ public class ReadingPicAdapter extends BaseQuickAdapter<String, BaseViewHolder> 
 //    }
 
     @Override
-    protected void convert(BaseViewHolder helper, String item) {
+    protected void convert(BaseViewHolder helper, ReadingInfoResponse.CatalogueBean.CatalogueContentBean item) {
         helper.addOnClickListener(R.id.item_reading_pic);
         ResizableImageView picIv = helper.getView(R.id.resizableImageView);
-        if (!TextUtils.isEmpty(item)) {
-            mImageLoaderHelper.displayImage(mContext, item, picIv, R.mipmap.read_default);//Constant.LOADING_DEFAULT_4
+        if (!TextUtils.isEmpty(item.getUrl())) {
+            mImageLoaderHelper.displayImage(mContext, item.getUrl(), picIv, Constant.LOADING_DEFAULT_4);//Constant.LOADING_DEFAULT_4
         }
     }
 

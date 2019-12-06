@@ -12,7 +12,10 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 public class MyUMShareListener implements UMShareListener {
 
     private Context mContext;
-    public MyUMShareListener(Context context) {
+    private ShareResultListener mShareResultListener;
+
+    public MyUMShareListener(ShareResultListener shareResultListener, Context context) {
+        mShareResultListener = shareResultListener;
         mContext = context;
     }
 
@@ -23,7 +26,10 @@ public class MyUMShareListener implements UMShareListener {
 
     @Override
     public void onResult(SHARE_MEDIA share_media) {
-        Toast.makeText(mContext, "success", Toast.LENGTH_LONG).show();
+//        Toast.makeText(mContext, "success", Toast.LENGTH_LONG).show();
+        if (mShareResultListener != null) {
+            mShareResultListener.shareSuccess();
+        }
     }
 
     @Override
@@ -34,5 +40,9 @@ public class MyUMShareListener implements UMShareListener {
     @Override
     public void onCancel(SHARE_MEDIA share_media) {
         Toast.makeText(mContext, "cancel", Toast.LENGTH_LONG).show();
+    }
+
+    public interface ShareResultListener {
+        void shareSuccess();
     }
 }

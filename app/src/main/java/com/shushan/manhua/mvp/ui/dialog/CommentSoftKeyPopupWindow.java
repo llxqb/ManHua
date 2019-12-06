@@ -56,8 +56,6 @@ public class CommentSoftKeyPopupWindow {
 
     public void initPopWindow(View view) {
         View contentView = LayoutInflater.from(mContext).inflate(R.layout.popup_comment_soft_key, null);
-        //处理popWindow 显示内容
-        handlePopListView(contentView);
         //创建并显示popWindow
         mCustomPopWindow = new CustomPopWindow.PopupWindowBuilder(mContext)
                 .setView(contentView)
@@ -66,6 +64,8 @@ public class CommentSoftKeyPopupWindow {
                 .create();
         mCustomPopWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
 
+        //处理popWindow 显示内容
+        handlePopListView(contentView);
     }
 
 
@@ -104,6 +104,13 @@ public class CommentSoftKeyPopupWindow {
 //                    break;
             }
         });
+        mCustomPopWindow.getPopupWindow().setOnDismissListener(() -> {
+            if (mPopupWindowListener != null) {
+                mCustomPopWindow.dissmiss();
+                mPopupWindowListener.dismissBtnListenerByCommentSoftKey();
+            }
+        });
+
 
         sendMessageLeftIv.setOnClickListener(v -> {
             if (mPopupWindowListener != null) {
@@ -155,5 +162,7 @@ public class CommentSoftKeyPopupWindow {
         void CommentSendMessageBtnListener(List<TImage> tImageList, String content);
 
         void ReplyCommentBtnListener(String content);
+
+        void dismissBtnListenerByCommentSoftKey();
     }
 }

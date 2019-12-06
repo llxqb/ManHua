@@ -68,9 +68,7 @@ Silahkan pilih cara check in di bawah ini"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
-            android:paddingStart="@dimen/dp_5"
             android:paddingTop="@dimen/dp_5"
-            android:paddingEnd="@dimen/dp_1"
             android:paddingBottom="@dimen/dp_5" />
 
         <TextView

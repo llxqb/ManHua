@@ -62,7 +62,7 @@ public class SelectionDetailFragment extends BaseFragment implements SelectionFr
     private SelectionResponse mSelectionResponse;
     private SelectionResponse.AnthologyBean dataBean;
     private int clickPos;
-
+    private int mLoginModel;//1 是游客模式 2 是登录模式
 
     public static SelectionDetailFragment getInstance(String bookId) {
         if (mSelectionDetailFragment == null) {

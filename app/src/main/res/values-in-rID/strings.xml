@@ -239,7 +239,7 @@
 
     <string name="BarrageSoftKeyPopupWindow_limit_text">Kurang dari 30 karakter</string>
 
-    <string name="BarrageSettingActivity_title">Lebih banyak pengaturan</string>
+    <string name="BarrageSettingActivity_title">Siapkan</string>
     <string name="BarrageSettingActivity_right_title">Pulihkan default</string>
     <string name="BarrageSettingActivity_hint">Tolong perhatikan dalam bersikap dan berbahasa di komentar langsung</string>
     <string name="BarrageSettingActivity_transparency">Tingkat kecerahan</string>

@@ -54,22 +54,23 @@ public class ReadingInfoResponse {
     }
 
     public static class CatalogueBean {
+
         /**
-         * catalogue_id : 1
-         * catalogue_name : 第一话 纪元时代
-         * catalogue_content : ["https://caricature.oss-ap-southeast-5.aliyuncs.com/book/1.jpg","https://caricature.oss-ap-southeast-5.aliyuncs.com/book/2.jpg","https://caricature.oss-ap-southeast-5.aliyuncs.com/book/3.jpg","https://caricature.oss-ap-southeast-5.aliyuncs.com/book/4.jpg","https://caricature.oss-ap-southeast-5.aliyuncs.com/book/5.jpg","https://caricature.oss-ap-southeast-5.aliyuncs.com/book/6.jpg"]
-         * comment_count : 3
-         * like : 8
-         * change_like : 2
-         * type : 0
-         * sort : 1
-         * cost : 0
-         * vip_cost : 0
+         * catalogue_id : 10
+         * catalogue_name : 第五话
+         * catalogue_content : [{"url":"https://img.pulaukomik.com/catalogue/15756136702771.png","width":1000,"height":9646},{"url":"https://img.pulaukomik.com/catalogue/15756136927292.png","width":1000,"height":8343},{"url":"https://img.pulaukomik.com/catalogue/15756137042182.png","width":1000,"height":8730},{"url":"https://img.pulaukomik.com/catalogue/15756137138834.png","width":1000,"height":9800},{"url":"https://img.pulaukomik.com/catalogue/15756137277419.png","width":1000,"height":9200},{"url":"https://img.pulaukomik.com/catalogue/15756137455479.png","width":1000,"height":9900}]
+         * comment_count : 0
+         * like : 30
+         * change_like : 30
+         * type : 1
+         * sort : 5
+         * cost : 4
+         * vip_cost : 3
          * is_like : 0
          * state : 1
-         * count : 3
-         * next_catalogue_id : 2
-         * pre_catalogue_id : 0
+         * count : 0
+         * next_catalogue_id : 0
+         * pre_catalogue_id : 5
          */
 
         private int catalogue_id;
@@ -86,7 +87,7 @@ public class ReadingInfoResponse {
         private int count;
         private int next_catalogue_id;
         private int pre_catalogue_id;
-        private List<String> catalogue_content;
+        private List<CatalogueContentBean> catalogue_content;
 
         public int getCatalogue_id() {
             return catalogue_id;
@@ -200,12 +201,48 @@ public class ReadingInfoResponse {
             this.pre_catalogue_id = pre_catalogue_id;
         }
 
-        public List<String> getCatalogue_content() {
+        public List<CatalogueContentBean> getCatalogue_content() {
             return catalogue_content;
         }
 
-        public void setCatalogue_content(List<String> catalogue_content) {
+        public void setCatalogue_content(List<CatalogueContentBean> catalogue_content) {
             this.catalogue_content = catalogue_content;
+        }
+
+        public static class CatalogueContentBean {
+            /**
+             * url : https://img.pulaukomik.com/catalogue/15756136702771.png
+             * width : 1000
+             * height : 9646
+             */
+
+            private String url;
+            private int width;
+            private int height;
+
+            public String getUrl() {
+                return url;
+            }
+
+            public void setUrl(String url) {
+                this.url = url;
+            }
+
+            public int getWidth() {
+                return width;
+            }
+
+            public void setWidth(int width) {
+                this.width = width;
+            }
+
+            public int getHeight() {
+                return height;
+            }
+
+            public void setHeight(int height) {
+                this.height = height;
+            }
         }
     }
 

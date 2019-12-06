@@ -160,7 +160,7 @@ public class PersonalInfoActivity extends BaseActivity implements PersonalInfoCo
         if (personalInfoResponse.getBirthday() == 0) {
             mBirthdayTv.setHint(getString(R.string.PersonalInfoActivity_select));
         } else {
-            mBirthdayTv.setText(DateUtil.getStrTime(personalInfoResponse.getBirthday(),DateUtil.TIME_YYMMDD));
+            mBirthdayTv.setText(DateUtil.getStrTime(personalInfoResponse.getBirthday(), DateUtil.TIME_YYMMDD));
         }
 
     }
@@ -257,7 +257,7 @@ public class PersonalInfoActivity extends BaseActivity implements PersonalInfoCo
 
     @Override
     public void getUpdatePersonalInfoSuccess() {
-        showToast("更新成功");
+        showToast("success");
         LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.UPDATE_PERSONAL_INFO));
         finish();
     }

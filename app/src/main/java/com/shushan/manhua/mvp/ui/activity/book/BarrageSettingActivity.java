@@ -46,14 +46,9 @@ public class BarrageSettingActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        turnPageFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_TURN_PAGE);
-        barrageFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_BARRAGE);
-        nightModelFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_NIGHT_MODEL);
-        if (barrageFlag) {
-            mBarrageSwitchIv.setImageResource(R.mipmap.switch_open);
-        } else {
-            mBarrageSwitchIv.setImageResource(R.mipmap.switch_close);
-        }
+        turnPageFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_TURN_PAGE, false);
+        nightModelFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_NIGHT_MODEL, false);
+        barrageFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_BARRAGE, true);
         if (turnPageFlag) {
             mPageTurningIv.setImageResource(R.mipmap.switch_open);
         } else {
@@ -64,12 +59,15 @@ public class BarrageSettingActivity extends BaseActivity {
         } else {
             mNightModelIv.setImageResource(R.mipmap.switch_close);
         }
-
+        if (barrageFlag) {
+            mBarrageSwitchIv.setImageResource(R.mipmap.switch_open);
+        } else {
+            mBarrageSwitchIv.setImageResource(R.mipmap.switch_close);
+        }
         int transparency = mSharePreferenceUtil.getIntData(Constant.TRANSPARENCY, 80);
         int playSpeed = mSharePreferenceUtil.getIntData(Constant.PLAY_SPEED, 80);
         mSeekBar.setProgress(transparency);
         mPlaySeekBar.setProgress(playSpeed);
-
     }
 
     @Override

@@ -369,6 +369,30 @@ public class ReadPresenterImpl implements ReadControl.PresenterRead {
         }
     }
 
+    /**
+     * 评论点赞
+     */
+    @Override
+    public void onCommentSuggestRequest(SupportRequest commentSuggestRequest) {
+        mReadView.showLoading(mContext.getResources().getString(R.string.loading));
+        Disposable disposable = mBookModel.onSupportRequest(commentSuggestRequest).compose(mReadView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
+                .subscribe(this::commentSuggestSuccess, throwable -> mReadView.showErrMessage(throwable),
+                        () -> mReadView.dismissLoading());
+        mReadView.addSubscription(disposable);
+    }
+
+    /**
+     * 评论点赞 成功
+     */
+    private void commentSuggestSuccess(ResponseData responseData) {
+        mReadView.judgeToken(responseData.resultCode);
+        if (responseData.resultCode == 0) {
+            mReadView.getSuggestSuccess();
+        } else {
+            mReadView.showToast(responseData.errorMsg);
+        }
+    }
+
     @Override
     public void onCreate() {
     }

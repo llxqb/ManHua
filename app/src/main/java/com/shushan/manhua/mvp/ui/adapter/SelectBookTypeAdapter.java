@@ -10,6 +10,7 @@ import com.shushan.manhua.R;
 import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.entity.response.BookTypeResponse;
 import com.shushan.manhua.help.ImageLoaderHelper;
+import com.shushan.manhua.mvp.ui.activity.mine.ReadingSettingActivity;
 import com.shushan.manhua.mvp.utils.LogUtils;
 
 import java.util.List;
@@ -52,6 +53,11 @@ public class SelectBookTypeAdapter extends BaseQuickAdapter<BookTypeResponse.Dat
         }
         ImageView imageView = helper.getView(R.id.cover_iv);
         mImageLoaderHelper.displayImage(mContext, item.getType_cover(), imageView, Constant.LOADING_DEFAULT_1);
+        if (mContext instanceof ReadingSettingActivity) {
+            helper.setTextColor(R.id.type_name_tv, mContext.getResources().getColor(R.color.first_text_color));
+        } else {
+            helper.setTextColor(R.id.type_name_tv, mContext.getResources().getColor(R.color.white));
+        }
         helper.setText(R.id.type_name_tv, item.getType_name());
     }
 }

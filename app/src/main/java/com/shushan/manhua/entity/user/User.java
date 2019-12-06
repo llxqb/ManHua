@@ -18,6 +18,9 @@ public class User implements Serializable {
      */
     public int vip;
     public int vip_end_time;
+    /**
+     * 1 男 2 女
+     */
     public int channel;
     public String bookType;
     /**

@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.shushan.manhua.ManHuaApplication;
 import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerMineFragmentComponent;
@@ -264,7 +265,7 @@ public class MineFragment extends BaseFragment implements MineFragmentControl.Mi
 
     private void setData(MineInfoResponse.UserinfoBean userinfoBean) {
         if (userinfoBean != null) {
-            User user = UserUtil.tranLoginUser(userinfoBean);
+            User user = UserUtil.tranLoginUser(userinfoBean,new Gson().toJson(userinfoBean.getBook_type()));
             mBuProcessor.setLoginUser(user);
             mUser = mBuProcessor.getUser();
 //            LogUtils.e("Mine: mUser:" + new Gson().toJson(mUser));

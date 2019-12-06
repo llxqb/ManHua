@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidkun.xtablayout.XTabLayout;
+import com.google.gson.Gson;
 import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerBookDetailComponent;
 import com.shushan.manhua.di.modules.ActivityModule;
@@ -111,20 +112,20 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
             case R.id.start_reading_tv:
                 if (mBookDetailInfoResponse != null) {
                     BookDetailInfoResponse.HistoryBean historyBean = mBookDetailInfoResponse.getHistory();
-                    if (historyBean != null) {
-                        Intent intent = new Intent(this,ReadActivity.class);
-                        intent.putExtra("bookId",mBookId);
-                        intent.putExtra("catalogueId",historyBean.getCatalogue_id());
-                        intent.putExtra("bookCover",mBookCover);
-                        startActivityForResult(intent,100);//继续阅读
-//                        ReadActivity.start(this, mBookId, historyBean.getCatalogue_id(), mBookCover);//继续阅读
+                    if (historyBean != null && !new Gson().toJson(historyBean).equals("{}")) {
+                        Intent intent = new Intent(this, ReadActivity.class);
+                        intent.putExtra("bookId", mBookId);
+                        intent.putExtra("catalogueId", historyBean.getCatalogue_id());
+                        intent.putExtra("bookCover", mBookCover);
+                        intent.putExtra("is_book_detail_activity", true);
+                        startActivity(intent);//继续阅读
                     } else {
-                        Intent intent = new Intent(this,ReadActivity.class);
-                        intent.putExtra("bookId",mBookId);
-                        intent.putExtra("catalogueId",1);
-                        intent.putExtra("bookCover",mBookCover);
-                        startActivityForResult(intent,100);//阅读页面 章节默认第一章节;
-//                        ReadActivity.start(this, mBookId, 1, mBookCover);//阅读页面 章节默认第一章节;
+                        Intent intent = new Intent(this, ReadActivity.class);
+                        intent.putExtra("bookId", mBookId);
+                        intent.putExtra("catalogueId", 1);
+                        intent.putExtra("bookCover", mBookCover);
+                        intent.putExtra("is_book_detail_activity", true);
+                        startActivity(intent);//阅读页面 章节默认第一章节;
                     }
                 }
                 break;

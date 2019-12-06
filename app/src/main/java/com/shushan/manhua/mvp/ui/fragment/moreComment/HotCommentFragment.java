@@ -275,6 +275,11 @@ public class HotCommentFragment extends BaseFragment implements HotCommentFragme
         onPublishCommentUser();
     }
 
+    @Override
+    public void dismissBtnListenerByCommentSoftKey() {
+
+    }
+
     /**
      * 评论用户评论
      */

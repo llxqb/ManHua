@@ -20,6 +20,7 @@ public class GooglePayHelper {
     private IabHelper mHelper;
     private String sku;
     private String mOrderId;
+    private boolean mIsSubscription;
     private BuyFinishListener mBuyFinishListener;
 
     public GooglePayHelper(Activity context, BuyFinishListener buyFinishListener) {
@@ -53,10 +54,15 @@ public class GooglePayHelper {
     /**
      * 查询商品
      */
-    public void queryGoods(String sku, String orderId) {
+    public void queryGoods(String sku, String orderId, boolean isSubscription) {
         this.sku = sku;
         this.mOrderId = orderId;
-        queryInventory();
+        mIsSubscription = isSubscription;
+        if (isSubscription) {
+            buySubscriptionGood();
+        } else {
+            queryInventory();
+        }
     }
 
     /**
@@ -93,6 +99,22 @@ public class GooglePayHelper {
     }
 
     /**
+     * 购买订阅商品
+     */
+    private void buySubscriptionGood() {
+        try {
+            // 这个payload是要给Google发送的备注信息，自定义参数，购买完成之后的订单中也有该字段
+            mHelper.launchSubscriptionPurchaseFlow(mContext, sku, Constant.GOOGLE_PAY_REQ_SUBSCRIPTION, mPurchaseFinishedListener, mOrderId);
+        } catch (IabHelper.IabAsyncInProgressException e) {
+            e.printStackTrace();
+            if (mBuyFinishListener != null) {
+                mBuyFinishListener.buyFinishFail();
+            }
+            Log.e(TAG, "IabHelper:" + e.toString());
+        }
+    }
+
+    /**
      * 是否要先消耗再购买
      * false 只消耗
      */
@@ -110,6 +132,7 @@ public class GooglePayHelper {
             Purchase purchase = inventory.getPurchase(sku);
             Log.e(TAG, "查询商品信息成功 purchase:" + purchase);
             Log.e(TAG, "getSkuDetails " + inventory.getSkuDetails(sku));
+            Log.e(TAG, "mIsSubscription " + mIsSubscription);
             if (purchase != null) {
                 isToBuy = true;
                 //库存存在用户购买的产品，先去消耗
@@ -118,7 +141,11 @@ public class GooglePayHelper {
                 //库存不存在
                 //进行购买
                 //在合适的地方调用购买
-                buyGoods();
+                if (mIsSubscription) {
+                    buySubscriptionGood();
+                } else {
+                    buyGoods();
+                }
             }
         }
     };
@@ -133,7 +160,9 @@ public class GooglePayHelper {
 //            Log.e(TAG, "购买的回调 purchase:" + new Gson().toJson(purchase));
             if (result.isSuccess()) {
                 //支付成功
-                expendGoods(purchase);
+                if (!mIsSubscription) {
+                    expendGoods(purchase);
+                }
                 //模拟检测public key
                 //购买成功后，应该将购买返回的信息发送到自己的服务端，自己的服务端再去利用public key去验签
                 if (mBuyFinishListener != null) {
@@ -170,7 +199,11 @@ public class GooglePayHelper {
             Log.e(TAG, "消耗商品回调 --成功");
             if (isToBuy) {
                 isToBuy = false;
-                buyGoods();
+                if (mIsSubscription) {
+                    buySubscriptionGood();
+                } else {
+                    buyGoods();
+                }
             }
         } else {
             Log.e(TAG, "消耗商品回调 --失败" + result);

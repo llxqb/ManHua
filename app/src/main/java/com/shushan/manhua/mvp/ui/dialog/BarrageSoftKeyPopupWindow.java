@@ -125,7 +125,7 @@ public class BarrageSoftKeyPopupWindow {
     }
 
 
-    public TextWatcher search_text_OnChange = new TextWatcher() {
+    private TextWatcher search_text_OnChange = new TextWatcher() {
         private int selectionStart;
         private int selectionEnd;
 

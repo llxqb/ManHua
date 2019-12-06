@@ -47,6 +47,8 @@ public class ReadControl {
         void getUploadPicSuccess(String picPath);
 
         void getPublishCommentSuccess();
+
+        void getSuggestSuccess();
     }
 
     public interface PresenterRead extends Presenter<ReadView> {
@@ -110,6 +112,12 @@ public class ReadControl {
          * 请求分享任务
          */
         void onRequestShareTask(ShareTaskRequest shareTaskRequest);
+
+        /**
+         * 评论点赞
+         */
+        void onCommentSuggestRequest(SupportRequest commentSuggestRequest);
+
     }
 
 }

@@ -29,7 +29,6 @@ public class BarrageStylePopupWindow {
     private CustomPopWindow mCustomPopWindow;
     private List<BarrageStyleResponse> barrageStyleResponseList;
     private BuProcessor mBuProcessor;
-    private User mUser;
 
     public BarrageStylePopupWindow(Activity context, List<BarrageStyleResponse> barrageStyleResponseList, BuProcessor buProcessor, BarrageStylePopupWindowListener popupWindowListener) {
         mContext = context;
@@ -77,7 +76,6 @@ public class BarrageStylePopupWindow {
     private BarrageStyleAdapter barrageStyleAdapter;
 
     private void handlePopListView(View contentView) {
-        mUser = mBuProcessor.getUser();
         RecyclerView recyclerView = contentView.findViewById(R.id.recycler_view);
         RelativeLayout sendMessageRl = contentView.findViewById(R.id.send_message_rl);
         TextView messageTv = contentView.findViewById(R.id.message_tv);
@@ -86,6 +84,7 @@ public class BarrageStylePopupWindow {
         recyclerView.setLayoutManager(new GridLayoutManager(mContext, 2));
         recyclerView.setAdapter(barrageStyleAdapter);
         barrageStyleAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            User mUser = mBuProcessor.getUser();
             BarrageStyleResponse barrageStyleResponse = (BarrageStyleResponse) adapter.getItem(position);
             for (BarrageStyleResponse barrageStyleResponse1 : barrageStyleResponseList) {
                 if (barrageStyleResponse1.isCheck) {
