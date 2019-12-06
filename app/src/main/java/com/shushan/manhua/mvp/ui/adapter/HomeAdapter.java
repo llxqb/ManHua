@@ -28,6 +28,7 @@ public class HomeAdapter extends BaseQuickAdapter<HomeResponse.BooksBean, BaseVi
 
     @Override
     protected void convert(BaseViewHolder helper, HomeResponse.BooksBean item) {
+        helper.addOnClickListener(R.id.item_home_layout);
         ImageView coverIv = helper.getView(R.id.cover_iv);
         helper.setText(R.id.book_name_tv, item.getBook_name());
         mImageLoaderHelper.displayImage(mContext, item.getOblong_cover(), coverIv, Constant.LOADING_DEFAULT_3);

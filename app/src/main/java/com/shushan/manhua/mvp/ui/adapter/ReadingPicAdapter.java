@@ -8,7 +8,6 @@ import android.widget.LinearLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.shushan.manhua.R;
-import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.help.ImageLoaderHelper;
 import com.shushan.manhua.mvp.views.ResizableImageView;
 
@@ -40,7 +39,7 @@ public class ReadingPicAdapter extends BaseQuickAdapter<String, BaseViewHolder> 
         helper.addOnClickListener(R.id.item_reading_pic);
         ResizableImageView picIv = helper.getView(R.id.resizableImageView);
         if (!TextUtils.isEmpty(item)) {
-            mImageLoaderHelper.displayImage(mContext, item, picIv, Constant.LOADING_DEFAULT_4);
+            mImageLoaderHelper.displayImage(mContext, item, picIv, R.mipmap.read_default);//Constant.LOADING_DEFAULT_4
         }
     }
 

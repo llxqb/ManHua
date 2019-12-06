@@ -5,7 +5,7 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.shushan.manhua.R;
 import com.shushan.manhua.entity.request.RechargeRecordRequest;
-import com.shushan.manhua.entity.response.RechargeRecordResponse;
+import com.shushan.manhua.entity.response.ExpensesRecordResponse;
 import com.shushan.manhua.help.RetryWithDelay;
 import com.shushan.manhua.mvp.model.MineModel;
 import com.shushan.manhua.mvp.model.ResponseData;
@@ -51,8 +51,8 @@ public class ExpensesRecordFragmentPresenterImpl implements ExpensesRecordFragme
     private void requestRechargeRecordSuccess(ResponseData responseData) {
         mExpensesRecordView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 0) {
-            RechargeRecordResponse response = new Gson().fromJson(responseData.mJsonObject.toString(), RechargeRecordResponse.class);
-            mExpensesRecordView.getRechargeRecordSuccess(response);
+            ExpensesRecordResponse response = new Gson().fromJson(responseData.mJsonObject.toString(), ExpensesRecordResponse.class);
+            mExpensesRecordView.getExpensesRecordSuccess(response);
 //            responseData.parseData(RechargeRecordResponse.class);
 //            if (responseData.parsedData != null) {
 //                RechargeRecordResponse response = (RechargeRecordResponse) responseData.parsedData;

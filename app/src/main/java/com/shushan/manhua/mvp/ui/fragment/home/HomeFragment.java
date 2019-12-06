@@ -19,6 +19,7 @@ import com.shushan.manhua.entity.BannerBean;
 import com.shushan.manhua.entity.request.HomeInfoRequest;
 import com.shushan.manhua.entity.response.HomeResponse;
 import com.shushan.manhua.entity.user.User;
+import com.shushan.manhua.mvp.ui.activity.book.BookDetailActivity;
 import com.shushan.manhua.mvp.ui.adapter.BannerViewHolder;
 import com.shushan.manhua.mvp.ui.adapter.HomeAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseFragment;
@@ -73,6 +74,10 @@ public class HomeFragment extends BaseFragment implements HomeFragmentControl.Ho
         mHomeAdapter = new HomeAdapter(homeResponseList, mImageLoaderHelper);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mHomeAdapter);
+        mHomeAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            HomeResponse.BooksBean booksBean = (HomeResponse.BooksBean) adapter.getItem(position);
+            BookDetailActivity.start(getActivity(), String.valueOf(booksBean.getBook_id()), booksBean.getOblong_cover());
+        });
     }
 
     @Override

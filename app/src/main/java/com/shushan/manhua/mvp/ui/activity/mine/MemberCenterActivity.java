@@ -108,7 +108,7 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
     /**
      * 支付类型 1：Google   2:AHDI  3:Unipin
      */
-    private int mPayType;
+    private int mPayType = 0;
     private Purchase mPurchase;//google支付
     private CreateOrderAHDIResponse mCreateOrderAHDIResponse;//
     private CreateOrderByUniPinResponse mCreateOrderByUniPinResponse;
@@ -301,6 +301,12 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
             mGetBeansTv.setText(getString(R.string.MemberCenterActivity_get_beans_ed));
             mGetBeansTv.setBackgroundResource(R.drawable.bg_gray_round_solid_20);
         }
+
+        mUser.vip = userinfoBean.getVip();
+        mBuProcessor.setLoginUser(mUser);
+        if(mPayType!=0){
+            LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.PAY_SUCCESS));
+        }
     }
 
 
@@ -414,7 +420,6 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
 //        requestHomeUserInfo();
 //        logAddPaymentInfoEvent(true);
         onRequestMemberCenter();
-        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.PAY_SUCCESS));
     }
 
     /**
@@ -484,7 +489,6 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
 //        requestHomeUserInfo();
 //        logAddPaymentInfoEvent(true);
         onRequestMemberCenter();
-        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.PAY_SUCCESS));
     }
 
     @Override
@@ -565,7 +569,6 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
 //        requestHomeUserInfo();
 //        logAddPaymentInfoEvent(true);
         onRequestMemberCenter();
-        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.PAY_SUCCESS));
     }
 
     private int UnipinPayNum = 1;

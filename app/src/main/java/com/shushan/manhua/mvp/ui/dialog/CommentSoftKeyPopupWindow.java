@@ -33,7 +33,7 @@ public class CommentSoftKeyPopupWindow {
     private CustomPopWindow mCustomPopWindow;
     private ArrayList<TImage> publishCommentPhotoResponseList;
     private PublishCommentPhotoAdapter publishCommentPhotoAdapter;
-    String mEditHintContent;//编辑框提示内容
+    private String mEditHintContent;//编辑框提示内容
 
     public CommentSoftKeyPopupWindow(Activity context, CommentSoftKeyPopupWindowListener popupWindowListener, ArrayList<TImage> publishCommentPhotoResponseList, String editHintContent) {
         mContext = context;
@@ -46,6 +46,13 @@ public class CommentSoftKeyPopupWindow {
         publishCommentPhotoAdapter.setNewData(publishCommentPhotoResponseList);
         loadDataView.dismissLoading();
     }
+
+    public void dismissPopupWindow() {
+        if (mCustomPopWindow != null) {
+            mCustomPopWindow.getPopupWindow().dismiss();
+        }
+    }
+
 
     public void initPopWindow(View view) {
         View contentView = LayoutInflater.from(mContext).inflate(R.layout.popup_comment_soft_key, null);

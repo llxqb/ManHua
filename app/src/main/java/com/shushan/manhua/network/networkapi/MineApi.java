@@ -2,6 +2,8 @@ package com.shushan.manhua.network.networkapi;
 
 import io.reactivex.Observable;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
 /**
@@ -101,12 +103,15 @@ public interface MineApi {
     @POST("cartoon/unipinpay")
     Observable<String> onRequestCreateOrderByUniPin(@Body String request);
 
-    /**
-     * Google支付成功上报
-     * 多参数表单提交
-     */
+//    /**
+//     * Google支付成功上报
+//     * 多参数表单提交
+//     */
+//    @POST("cartoon/google")
+//    Observable<String> onRequestPaySuccess(@Body String request);
+    @FormUrlEncoded
     @POST("cartoon/google")
-    Observable<String> onRequestPaySuccess(@Body String request);
+    Observable<String> onRequestPaySuccess(@Field("INAPP_PURCHASE_DATA") String data, @Field("INAPP_DATA_SIGNATURE") String signature, @Field("ord_no") String order_no);
 
     /**
      * AHDI支付成功上报

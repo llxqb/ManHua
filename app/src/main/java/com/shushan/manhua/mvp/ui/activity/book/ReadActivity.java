@@ -37,6 +37,7 @@ public class ReadActivity extends ReadBaseActivity {
                 if (mReadUseCoinDialog != null) {
                     mReadUseCoinDialog.closeDialog();
                 }
+                onRequestBuyBarrageStyle();
             }
         }
         super.onReceivePro(context, intent);
@@ -169,14 +170,6 @@ public class ReadActivity extends ReadBaseActivity {
 
 
     /**
-     * 发布评论成功
-     */
-    @Override
-    public void getPublishCommentSuccess() {
-
-    }
-
-    /**
      * 收费章节
      * 取消兑换阅读
      */
@@ -185,5 +178,12 @@ public class ReadActivity extends ReadBaseActivity {
         finish();
     }
 
-
+    /**
+     * 切换章节
+     */
+    @Override
+    public void clickChapterBtnListener(int chapterId) {
+        mCatalogueId = chapterId;
+        onRequestReadingInfo();
+    }
 }

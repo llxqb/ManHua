@@ -28,9 +28,9 @@ public class ReadContentsPopupWindow {
     private SelectionResponse mSelectionResponse;
     private ImageLoaderHelper mImageLoaderHelper;
 
-    public ReadContentsPopupWindow(Activity context, SelectionResponse selectionResponse, ImageLoaderHelper imageLoaderHelper) {
+    public ReadContentsPopupWindow(Activity context, SelectionResponse selectionResponse, ReadContentsPopupWindowListener popupWindowListener, ImageLoaderHelper imageLoaderHelper) {
         mContext = context;
-//        mPopupWindowListener = popupWindowListener;
+        mPopupWindowListener = popupWindowListener;
         this.mSelectionResponse = selectionResponse;
         mImageLoaderHelper = imageLoaderHelper;
     }
@@ -65,6 +65,13 @@ public class ReadContentsPopupWindow {
 //        Total 20 chapter,10 chapter belum dibaca
         String totalValue = "Total " + mSelectionResponse.getWords() + " chapter," + mSelectionResponse.getResidue_words() + " chapter belum dibaca";
         bookNumTv.setText(totalValue);
+        readingChapterAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            SelectionResponse.AnthologyBean anthologyBean = (SelectionResponse.AnthologyBean) adapter.getItem(position);
+            if (mPopupWindowListener != null) {
+                mPopupWindowListener.clickChapterBtnListener(anthologyBean.getCatalogue_id());
+            }
+        });
+
         mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -168,12 +175,6 @@ public class ReadContentsPopupWindow {
     }
 
     public interface ReadContentsPopupWindowListener {
-//        void pageTurningBtnListener();
-//
-//        void nightModelBtnListener(boolean nightModel);
-//
-//        void barrageSwitchBtnListener();
-//
-//        void clickMoreBtnListener();
+        void clickChapterBtnListener(int chapterId);
     }
 }

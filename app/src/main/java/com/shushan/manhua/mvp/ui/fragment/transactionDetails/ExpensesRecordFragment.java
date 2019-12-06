@@ -21,8 +21,6 @@ import com.shushan.manhua.di.modules.TransactionDetailsModule;
 import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.entity.request.RechargeRecordRequest;
 import com.shushan.manhua.entity.response.ExpensesRecordResponse;
-import com.shushan.manhua.entity.response.RechargeRecordResponse;
-import com.shushan.manhua.entity.user.User;
 import com.shushan.manhua.mvp.ui.adapter.ExpensesRecordAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseFragment;
 
@@ -47,9 +45,8 @@ public class ExpensesRecordFragment extends BaseFragment implements ExpensesReco
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
     Unbinder unbinder;
-    private User mUser;
     private ExpensesRecordAdapter mExpensesRecordAdapter;
-    private List<ExpensesRecordResponse> expensesRecordResponseList = new ArrayList<>();
+    private List<ExpensesRecordResponse.DataBean> expensesRecordResponseList = new ArrayList<>();
     private int page = 1;
     private View mEmptyView;
 
@@ -68,7 +65,6 @@ public class ExpensesRecordFragment extends BaseFragment implements ExpensesReco
     @Override
     public void initView() {
         initEmptyView();
-        mUser = mBuProcessor.getUser();
         mExpensesRecordAdapter = new ExpensesRecordAdapter(expensesRecordResponseList);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mExpensesRecordAdapter);
@@ -95,42 +91,42 @@ public class ExpensesRecordFragment extends BaseFragment implements ExpensesReco
 
     @Override
     public void onLoadMoreRequested() {
-//        if (!readingCommendResponseList.isEmpty()) {
-//            if (page == 1 && readingCommendResponseList.size() < Constant.PAGESIZE) {
-//                mReadingCommentAdapter.loadMoreEnd(true);
-//            } else {
-//                if (readingCommendResponseList.size() < Constant.PAGESIZE) {
-//                    mReadingCommentAdapter.loadMoreEnd();
-//                } else {
-//                    //等于10条
-//                    page++;
-//                    mReadingCommentAdapter.loadMoreComplete();
-//                    onRequestCommentInfo();
-//                }
-//            }
-//        } else {
-//            mReadingCommentAdapter.loadMoreEnd();
-//        }
+        if (!expensesRecordResponseList.isEmpty()) {
+            if (page == 1 && expensesRecordResponseList.size() < Constant.PAGESIZE) {
+                mExpensesRecordAdapter.loadMoreEnd(true);
+            } else {
+                if (expensesRecordResponseList.size() < Constant.PAGESIZE) {
+                    mExpensesRecordAdapter.loadMoreEnd();
+                } else {
+                    //等于10条
+                    page++;
+                    mExpensesRecordAdapter.loadMoreComplete();
+                    onRequestRechargeRecord();
+                }
+            }
+        } else {
+            mExpensesRecordAdapter.loadMoreEnd();
+        }
     }
     /**
      * 消费记录 成功
      */
     @Override
-    public void getRechargeRecordSuccess(RechargeRecordResponse rechargeRecordResponse) {
-//        readingCommendResponseList = commentListBean.getData();
-//        //加载更多这样设置
-//        if (!commentListBean.getData().isEmpty()) {
-//            if (page == 1) {
-//                mReadingCommentAdapter.setNewData(commentListBean.getData());
-//            } else {
-//                mReadingCommentAdapter.addData(commentListBean.getData());
-//            }
-//        } else {
-//            if (page == 1) {
-//                mReadingCommentAdapter.setNewData(null);
-//                mReadingCommentAdapter.setEmptyView(mEmptyView);
-//            }
-//        }
+    public void getExpensesRecordSuccess(ExpensesRecordResponse expensesRecordResponse) {
+        expensesRecordResponseList = expensesRecordResponse.getData();
+        //加载更多这样设置
+        if (!expensesRecordResponse.getData().isEmpty()) {
+            if (page == 1) {
+                mExpensesRecordAdapter.setNewData(expensesRecordResponse.getData());
+            } else {
+                mExpensesRecordAdapter.addData(expensesRecordResponse.getData());
+            }
+        } else {
+            if (page == 1) {
+                mExpensesRecordAdapter.setNewData(null);
+                mExpensesRecordAdapter.setEmptyView(mEmptyView);
+            }
+        }
     }
 
 

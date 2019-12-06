@@ -3,10 +3,11 @@ package com.shushan.manhua.entity.response;
 import java.util.List;
 
 public class RechargeRecordResponse {
+
     /**
      * error : 0
      * msg : success
-     * data : [{"book_id":1,"user_id":1,"name":"看漫画","count":10,"book_name":"大国工程","detail_cover":"","catalogue_name":"第一话 纪元时代","catalogue_id":1}]
+     * data : [{"book_id":0,"user_id":19,"name":"购买会员赠送","count":400,"book_name":null,"detail_cover":null,"catalogue_name":null,"catalogue_id":0,"status":6,"create_time":1575613266},{"book_id":0,"user_id":19,"name":"购买会员赠送","count":400,"book_name":null,"detail_cover":null,"catalogue_name":null,"catalogue_id":0,"status":6,"create_time":1575612854},{"book_id":0,"user_id":19,"name":"购买漫豆","count":100,"book_name":null,"detail_cover":null,"catalogue_name":null,"catalogue_id":0,"status":1,"create_time":1575610853},{"book_id":0,"user_id":19,"name":"充值赠送","count":20,"book_name":null,"detail_cover":null,"catalogue_name":null,"catalogue_id":0,"status":2,"create_time":1575610853},{"book_id":0,"user_id":19,"name":"购买漫豆","count":100,"book_name":null,"detail_cover":null,"catalogue_name":null,"catalogue_id":0,"status":1,"create_time":1575609646},{"book_id":0,"user_id":19,"name":"充值赠送","count":20,"book_name":null,"detail_cover":null,"catalogue_name":null,"catalogue_id":0,"status":2,"create_time":1575609646}]
      */
 
     private int error;
@@ -39,14 +40,16 @@ public class RechargeRecordResponse {
 
     public static class DataBean {
         /**
-         * book_id : 1
-         * user_id : 1
-         * name : 看漫画
-         * count : 10
-         * book_name : 大国工程
-         * detail_cover :
-         * catalogue_name : 第一话 纪元时代
-         * catalogue_id : 1
+         * book_id : 0
+         * user_id : 19
+         * name : 购买会员赠送
+         * count : 400
+         * book_name : null
+         * detail_cover : null
+         * catalogue_name : null
+         * catalogue_id : 0
+         * status : 6
+         * create_time : 1575613266
          */
 
         private int book_id;
@@ -57,6 +60,8 @@ public class RechargeRecordResponse {
         private String detail_cover;
         private String catalogue_name;
         private int catalogue_id;
+        private int status;
+        private int create_time;
 
         public int getBook_id() {
             return book_id;
@@ -90,7 +95,7 @@ public class RechargeRecordResponse {
             this.count = count;
         }
 
-        public String getBook_name() {
+        public Object getBook_name() {
             return book_name;
         }
 
@@ -120,6 +125,22 @@ public class RechargeRecordResponse {
 
         public void setCatalogue_id(int catalogue_id) {
             this.catalogue_id = catalogue_id;
+        }
+
+        public int getStatus() {
+            return status;
+        }
+
+        public void setStatus(int status) {
+            this.status = status;
+        }
+
+        public int getCreate_time() {
+            return create_time;
+        }
+
+        public void setCreate_time(int create_time) {
+            this.create_time = create_time;
         }
     }
 }

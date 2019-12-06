@@ -225,6 +225,12 @@ public class BuyActivity extends BaseActivity implements BuyControl.BuyView, Pay
         mBeansNumTv.setText(String.valueOf(voucherCenterResponse.getBean()));
         String expireBeanValue = voucherCenterResponse.getExpire_bean() + " koin, setelah " + DateUtil.getStrTime(voucherCenterResponse.getExpire_time(), "dd") + " hari gagal";
         mBeansNumHintTv.setText(expireBeanValue);
+
+        mUser.bean = voucherCenterResponse.getBean();
+        mBuProcessor.setLoginUser(mUser);
+        if (mPayType != 0) {
+            LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.PAY_SUCCESS));
+        }
     }
 
 
@@ -327,7 +333,6 @@ public class BuyActivity extends BaseActivity implements BuyControl.BuyView, Pay
 //        requestHomeUserInfo();
 //        logAddPaymentInfoEvent(true);
         onRequestData();
-        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.PAY_SUCCESS));
     }
 
     /**
@@ -397,7 +402,6 @@ public class BuyActivity extends BaseActivity implements BuyControl.BuyView, Pay
         //查询用户信息-->更新用户信息(我的-首页接口)
 //        logAddPaymentInfoEvent(true);
         onRequestData();
-        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.PAY_SUCCESS));
     }
 
     @Override
@@ -476,7 +480,6 @@ public class BuyActivity extends BaseActivity implements BuyControl.BuyView, Pay
         //查询用户信息-->更新用户信息(我的-首页接口)
 //        logAddPaymentInfoEvent(true);
         onRequestData();
-        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.PAY_SUCCESS));
     }
 
     private int UnipinPayNum = 1;

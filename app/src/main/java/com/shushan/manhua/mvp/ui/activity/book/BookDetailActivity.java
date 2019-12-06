@@ -123,7 +123,7 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
                         intent.putExtra("bookId",mBookId);
                         intent.putExtra("catalogueId",1);
                         intent.putExtra("bookCover",mBookCover);
-                        startActivityForResult(intent,100);//继续阅读
+                        startActivityForResult(intent,100);//阅读页面 章节默认第一章节;
 //                        ReadActivity.start(this, mBookId, 1, mBookCover);//阅读页面 章节默认第一章节;
                     }
                 }
@@ -167,11 +167,8 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         //此处可以根据两个Code进行判断，本页面和结果页面跳过来的值
-        if (requestCode == 100 && resultCode == 101) {
-            String result = data.getStringExtra("result");
-            String result = data.getStringExtra("result");
-            textView.setText(result);
-        }
+//        if (requestCode == 100 && resultCode == 101) {
+//        }
     }
 
 

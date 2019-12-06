@@ -274,4 +274,15 @@
     <string name="PayReportErrorDialog_error_info2" translatable="false">Order update failed, please try again</string><!--订单更新失败，请重试 -->
 
     <string name="ProtocolActivity_title">用户注册协议</string>
+
+    <string name="ExpensesRecordAdapter_state0">消费</string>
+    <string name="ExpensesRecordAdapter_state1">充值</string>
+    <string name="ExpensesRecordAdapter_state2">充值赠送</string>
+    <string name="ExpensesRecordAdapter_state3">签到领取</string>
+    <string name="ExpensesRecordAdapter_state4">任务获取</string>
+    <string name="ExpensesRecordAdapter_state5">会员领取</string>
+    <string name="ExpensesRecordAdapter_state6">会员赠送</string>
+    <string name="ExpensesRecordAdapter_state7">发送弹幕</string>
+    <string name="ExpensesRecordAdapter_state8">兑换弹幕样式</string>
+
 </resources>

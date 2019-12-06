@@ -7,10 +7,12 @@
 
 
     <RelativeLayout
-        android:layout_width="@dimen/dp_280"
-        android:layout_height="@dimen/dp_220"
+        android:layout_width="@dimen/dp_290"
+        android:layout_height="@dimen/dp_230"
         android:layout_centerInParent="true"
-        android:background="@drawable/bg_white_round_solid_5">
+        android:background="@drawable/bg_white_round_solid_5"
+        android:paddingStart="@dimen/dp_8"
+        android:paddingEnd="@dimen/dp_8">
 
 
         <ImageView
@@ -26,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/dp_18"
+            android:layout_marginTop="@dimen/dp_26"
             android:gravity="center"
             android:text="@string/ReadOpenVipDialog_title"
             android:textColor="#915AFF"
@@ -55,7 +57,7 @@
 
         <TextView
             android:id="@+id/sure_tv"
-            android:layout_width="@dimen/dp_138"
+            android:layout_width="@dimen/dp_148"
             android:layout_height="@dimen/dp_40"
             android:layout_below="@id/title_hint"
             android:layout_centerHorizontal="true"

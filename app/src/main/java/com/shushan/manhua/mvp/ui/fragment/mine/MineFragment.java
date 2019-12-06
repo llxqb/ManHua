@@ -117,6 +117,8 @@ public class MineFragment extends BaseFragment implements MineFragmentControl.Mi
             } else if (intent.getAction().equals(ActivityConstant.LOGIN_SUCCESS_UPDATE_DATA)) {
                 mLoginModel = mBuProcessor.getLoginModel();
                 onRequestMineInfo();
+            }else if(intent.getAction().equals(ActivityConstant.PAY_SUCCESS)){
+                onRequestMineInfo();
             }
         }
         super.onReceivePro(context, intent);
@@ -127,6 +129,7 @@ public class MineFragment extends BaseFragment implements MineFragmentControl.Mi
         super.addFilter();
         mFilter.addAction(ActivityConstant.UPDATE_PERSONAL_INFO);
         mFilter.addAction(ActivityConstant.LOGIN_SUCCESS_UPDATE_DATA);
+        mFilter.addAction(ActivityConstant.PAY_SUCCESS);
     }
 
 

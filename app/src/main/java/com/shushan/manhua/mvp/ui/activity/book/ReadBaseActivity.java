@@ -107,7 +107,7 @@ import butterknife.OnClick;
 public abstract class ReadBaseActivity extends BaseActivity implements ReadControl.ReadView, ReadUseCoinDialog.ReadUseCoinDialogListener, ReadBeansExchangeDialog.ReadBeansExchangeDialogListener,
         ReadOpenVipDialog.ReadOpenVipDialogListener, ReadSettingPopupWindow.ReadSettingPopupWindowListener, BarrageStylePopupWindow.BarrageStylePopupWindowListener,
         BarrageSoftKeyPopupWindow.BarrageSoftKeyPopupWindowListener, CommentSoftKeyPopupWindow.CommentSoftKeyPopupWindowListener, TakePhoto.TakeResultListener,
-        InvokeListener, AddBarrageDialog.AddBarrageDialogListener, SharePopupWindow.PopupWindowShareListener {
+        InvokeListener, AddBarrageDialog.AddBarrageDialogListener, SharePopupWindow.PopupWindowShareListener, ReadContentsPopupWindow.ReadContentsPopupWindowListener {
     @Inject
     ReadControl.PresenterRead mPresenter;
     @BindView(R.id.read_layout)
@@ -272,6 +272,8 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
             SoftKeyboardUtil.hideSoftKeyboard(ReadBaseActivity.this);
             showFunction();
         });
+
+
     }
 
 
@@ -342,7 +344,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
             }
             //显示弹幕
             for (BarrageListResponse.DataBean dataBean : mBarrageListResponse.getData()) {
-                if (scrollY > Double.parseDouble(dataBean.getYcoord()) && scrollY < Double.parseDouble(dataBean.getYcoord()) + 10) {
+                if (scrollY > Double.parseDouble(dataBean.getYcoord()) - 10 && scrollY < Double.parseDouble(dataBean.getYcoord()) + 10) {
                     showTvView(dataBean);
                 }
             }
@@ -421,7 +423,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     /**
      * 章节详情
      */
-    private void onRequestReadingInfo() {
+    public void onRequestReadingInfo() {
         ReadingRequest readingRequest = new ReadingRequest();
         readingRequest.token = mBuProcessor.getToken();
         readingRequest.book_id = mBookId;
@@ -520,10 +522,8 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
                 break;
             case R.id.common_right_tv: //全集    跳到详情
                 Intent i = new Intent();
-//                i.putExtra("bookId", mBookId);
-//                i.putExtra("bookCover", mBookCover);
                 setResult(101, i);
-//                BookDetailActivity.start(this, mBookId, mBookCover);
+                finish();
                 break;
             case R.id.barrage_ll://设置弹幕
                 mBarrageFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_BARRAGE);
@@ -576,7 +576,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
                 break;
             case R.id.bottom_directory_ll: //目录
                 if (mSelectionResponse != null) {
-                    new ReadContentsPopupWindow(this, mSelectionResponse, mImageLoaderHelper).initPopWindow(mReadLayout);
+                    new ReadContentsPopupWindow(this, mSelectionResponse, this, mImageLoaderHelper).initPopWindow(mReadLayout);
                 }
                 break;
             case R.id.bottom_comment_ll://评论
@@ -693,6 +693,9 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
         beanToBarrage = true;
         //更新 购买的弹幕样式
         onRequestBuyBarrageStyle();
+        mUser.bean = mUser.bean - 100;//100漫豆兑换一次
+        mBuProcessor.setLoginUser(mUser);
+        mUser = mBuProcessor.getUser();
     }
 
     /**
@@ -713,7 +716,6 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     public void getBuyBarrageStyleSuccess(BuyBarrageStyleResponse buyBarrageStyleResponse) {
         barrageStyleResponseList.clear();
         mBuyBarrageStyleResponse = buyBarrageStyleResponse;
-        //TODO 拿到购买的样式id
         for (int i = 0; i < barrageStyleIcon.length; i++) {
             BarrageStyleResponse barrageStyleResponse = new BarrageStyleResponse();
             barrageStyleResponse.isCheck = i == 0;//默认选择第一项
@@ -729,7 +731,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
         if (beanToBarrage) {//更新弹幕
             beanToBarrage = false;
             if (mBarrageStylePopupWindow != null) {
-                mBarrageStylePopupWindow.updateData(barrageStyleResponseList);
+                mBarrageStylePopupWindow.updateData(barrageStyleResponseList, mBarrageStyle);
             }
         }
     }
@@ -1024,6 +1026,18 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     }
 
     /**
+     * 发布评论成功
+     */
+    @Override
+    public void getPublishCommentSuccess() {
+        showToast("publish success");
+        SoftKeyboardUtil.hideSoftKeyboard(this);
+        if (mCommentSoftKeyPopupWindow != null) {
+            mCommentSoftKeyPopupWindow.dismissPopupWindow();
+        }
+    }
+
+    /**
      * 回复评论
      */
     @Override
@@ -1079,6 +1093,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
      */
     @Override
     public void showBeansExchangeBtnListener(int barrageStyle) {
+        mBarrageStyle = barrageStyle;
         showBeansExchangeDialog();
     }
 

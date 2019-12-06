@@ -27,6 +27,7 @@ public class ReadingChapterAdapter extends BaseQuickAdapter<SelectionResponse.An
     @Override
     protected void convert(BaseViewHolder helper, SelectionResponse.AnthologyBean item) {
 //        helper.setText(R.id.title_tv,item.title);
+        helper.addOnClickListener(R.id.item_reading_chapter_layout);
         ImageView coverIv = helper.getView(R.id.cover_iv);
         mImageLoaderHelper.displayImage(mContext, item.getCatalogue_cover(), coverIv, Constant.LOADING_DEFAULT_2);
         helper.setText(R.id.title_tv, item.getCatalogue_name());

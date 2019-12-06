@@ -38,7 +38,16 @@ public class BarrageStylePopupWindow {
         this.barrageStyleResponseList = barrageStyleResponseList;
     }
 
-    public void updateData(List<BarrageStyleResponse> barrageStyleResponseList) {
+    public void updateData(List<BarrageStyleResponse> barrageStyleResponseList, int barrageStyle) {
+        for (int i = 0; i < barrageStyleResponseList.size(); i++) {
+            BarrageStyleResponse barrageStyleResponse = barrageStyleResponseList.get(i);
+            if (barrageStyleResponse.isCheck) {
+                barrageStyleResponse.isCheck = false;
+            }
+            if (barrageStyle == i) {
+                barrageStyleResponse.isCheck = true;//默认选中
+            }
+        }
         barrageStyleAdapter.setNewData(barrageStyleResponseList);
     }
 
@@ -65,8 +74,7 @@ public class BarrageStylePopupWindow {
     }
 
 
-
-    BarrageStyleAdapter barrageStyleAdapter;
+    private BarrageStyleAdapter barrageStyleAdapter;
 
     private void handlePopListView(View contentView) {
         mUser = mBuProcessor.getUser();

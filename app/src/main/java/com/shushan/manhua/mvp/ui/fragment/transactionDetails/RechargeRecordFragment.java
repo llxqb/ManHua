@@ -21,7 +21,6 @@ import com.shushan.manhua.di.modules.TransactionDetailsModule;
 import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.entity.request.RechargeRecordRequest;
 import com.shushan.manhua.entity.response.RechargeRecordResponse;
-import com.shushan.manhua.entity.user.User;
 import com.shushan.manhua.mvp.ui.adapter.RechargeRecordAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseFragment;
 
@@ -39,16 +38,15 @@ import butterknife.Unbinder;
  * 充值记录
  */
 
-public class RechargeRecordFragment extends BaseFragment implements RechargeRecordFragmentControl.RechargeRecordView , BaseQuickAdapter.RequestLoadMoreListener{
+public class RechargeRecordFragment extends BaseFragment implements RechargeRecordFragmentControl.RechargeRecordView, BaseQuickAdapter.RequestLoadMoreListener {
 
     @Inject
     RechargeRecordFragmentControl.RechargeRecordFragmentPresenter mPresenter;
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
     Unbinder unbinder;
-    private User mUser;
     private RechargeRecordAdapter mRechargeRecordAdapter;
-    private List<RechargeRecordResponse> rechargeRecordResponseList = new ArrayList<>();
+    private List<RechargeRecordResponse.DataBean> rechargeRecordResponseList = new ArrayList<>();
     private int page = 1;
     private View mEmptyView;
 
@@ -67,7 +65,6 @@ public class RechargeRecordFragment extends BaseFragment implements RechargeReco
     @Override
     public void initView() {
         initEmptyView();
-        mUser = mBuProcessor.getUser();
         mRechargeRecordAdapter = new RechargeRecordAdapter(rechargeRecordResponseList);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mRechargeRecordAdapter);
@@ -93,7 +90,22 @@ public class RechargeRecordFragment extends BaseFragment implements RechargeReco
 
     @Override
     public void onLoadMoreRequested() {
-
+        if (!rechargeRecordResponseList.isEmpty()) {
+            if (page == 1 && rechargeRecordResponseList.size() < Constant.PAGESIZE) {
+                mRechargeRecordAdapter.loadMoreEnd(true);
+            } else {
+                if (rechargeRecordResponseList.size() < Constant.PAGESIZE) {
+                    mRechargeRecordAdapter.loadMoreEnd();
+                } else {
+                    //等于10条
+                    page++;
+                    mRechargeRecordAdapter.loadMoreComplete();
+                    onRequestRechargeRecord();
+                }
+            }
+        } else {
+            mRechargeRecordAdapter.loadMoreEnd();
+        }
     }
 
     /**
@@ -101,7 +113,20 @@ public class RechargeRecordFragment extends BaseFragment implements RechargeReco
      */
     @Override
     public void getRechargeRecordSuccess(RechargeRecordResponse rechargeRecordResponse) {
-
+        rechargeRecordResponseList = rechargeRecordResponse.getData();
+        //加载更多这样设置
+        if (!rechargeRecordResponse.getData().isEmpty()) {
+            if (page == 1) {
+                mRechargeRecordAdapter.setNewData(rechargeRecordResponse.getData());
+            } else {
+                mRechargeRecordAdapter.addData(rechargeRecordResponse.getData());
+            }
+        } else {
+            if (page == 1) {
+                mRechargeRecordAdapter.setNewData(null);
+                mRechargeRecordAdapter.setEmptyView(mEmptyView);
+            }
+        }
     }
 
 
@@ -126,7 +151,6 @@ public class RechargeRecordFragment extends BaseFragment implements RechargeReco
         super.onDestroyView();
         unbinder.unbind();
     }
-
 
 
 }
