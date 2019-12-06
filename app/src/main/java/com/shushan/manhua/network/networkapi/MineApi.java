@@ -2,8 +2,6 @@ package com.shushan.manhua.network.networkapi;
 
 import io.reactivex.Observable;
 import retrofit2.http.Body;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
 /**
@@ -107,9 +105,8 @@ public interface MineApi {
      * Google支付成功上报
      * 多参数表单提交
      */
-    @FormUrlEncoded
     @POST("cartoon/google")
-    Observable<String> onRequestPaySuccess(@Field("INAPP_PURCHASE_DATA") String data, @Field("INAPP_DATA_SIGNATURE") String signature, @Field("order_no") String order_no);
+    Observable<String> onRequestPaySuccess(@Body String request);
 
     /**
      * AHDI支付成功上报

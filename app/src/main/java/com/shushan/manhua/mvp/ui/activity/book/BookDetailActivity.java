@@ -20,6 +20,8 @@ import com.shushan.manhua.di.modules.ActivityModule;
 import com.shushan.manhua.di.modules.BookDetailModule;
 import com.shushan.manhua.entity.constants.ActivityConstant;
 import com.shushan.manhua.entity.request.AddBookShelfRequest;
+import com.shushan.manhua.entity.request.BookDetailRequest;
+import com.shushan.manhua.entity.response.BookDetailInfoResponse;
 import com.shushan.manhua.entity.response.LabelResponse;
 import com.shushan.manhua.mvp.ui.adapter.LabelAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseActivity;
@@ -54,8 +56,9 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
     ViewPager mViewPager;
     private List<LabelResponse> labelResponseList = new ArrayList<>();
     String[] titles;
-    String bookId;
+    String mBookId;
     String mBookCover;
+    private BookDetailInfoResponse mBookDetailInfoResponse;
 
     public static void start(Context context, String bookId, String bookCover) {
         Intent intent = new Intent(context, BookDetailActivity.class);
@@ -74,7 +77,7 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
     @Override
     public void initView() {
         if (getIntent() != null) {
-            bookId = getIntent().getStringExtra("bookId");
+            mBookId = getIntent().getStringExtra("bookId");
             mBookCover = getIntent().getStringExtra("bookCover");
             mImageLoaderHelper.displayImage(this, mBookCover, mCoverIv, R.mipmap.default_detail);
             titles = new String[]{getResources().getString(R.string.BookDetailActivity_detail_tv), getResources().getString(R.string.BookDetailActivity_selection_tv)};
@@ -91,11 +94,11 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
 
     @Override
     public void initData() {
-
+        onRequestDetailInfo();
     }
 
 
-    @OnClick({R.id.common_left_iv, R.id.add_bookshelf_tv})
+    @OnClick({R.id.common_left_iv, R.id.add_bookshelf_tv, R.id.start_reading_tv})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.common_left_iv:
@@ -104,9 +107,33 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
             case R.id.add_bookshelf_tv:
                 onAddBookShelfRequest();
                 break;
+            case R.id.start_reading_tv:
+                if (mBookDetailInfoResponse != null) {
+                    BookDetailInfoResponse.HistoryBean historyBean = mBookDetailInfoResponse.getHistory();
+                    if (historyBean != null) {
+                        ReadActivity.start(this, mBookId, historyBean.getCatalogue_id(), mBookCover);//继续阅读
+                    } else {
+                        ReadActivity.start(this, mBookId, 1, mBookCover);//阅读页面 章节默认第一章节
+                    }
+                }
+                break;
         }
     }
 
+    /**
+     * 请求漫画详情
+     */
+    private void onRequestDetailInfo() {
+        BookDetailRequest bookDetailRequest = new BookDetailRequest();
+        bookDetailRequest.token = mBuProcessor.getToken();
+        bookDetailRequest.book_id = mBookId;
+        mPresenter.onRequestBookDetailInfo(bookDetailRequest);
+    }
+
+    @Override
+    public void getBookDetailInfoSuccess(BookDetailInfoResponse bookDetailInfoResponse) {
+        mBookDetailInfoResponse = bookDetailInfoResponse;
+    }
 
     /**
      * 加入书架
@@ -114,7 +141,7 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
     private void onAddBookShelfRequest() {
         AddBookShelfRequest addBookShelfRequest = new AddBookShelfRequest();
         addBookShelfRequest.token = mBuProcessor.getToken();
-        addBookShelfRequest.book_id = bookId;
+        addBookShelfRequest.book_id = mBookId;
         mPresenter.onAddBookShelfRequest(addBookShelfRequest);
     }
 
@@ -129,8 +156,9 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
 
         MyPageAdapter(FragmentManager fm) {
             super(fm);
-            BookDetailFragment bookDetailFragment = BookDetailFragment.getInstance(bookId,mBookCover);
-            SelectionDetailFragment selectionDetailFragment = SelectionDetailFragment.getInstance(bookId,mBookCover);
+
+            BookDetailFragment bookDetailFragment = new BookDetailFragment(mBookId);//BookDetailFragment.getInstance(mBookId);
+            SelectionDetailFragment selectionDetailFragment = SelectionDetailFragment.getInstance(mBookId, mBookCover);
             fragments.add(bookDetailFragment);
             fragments.add(selectionDetailFragment);
         }

@@ -24,7 +24,6 @@ import com.shushan.manhua.entity.request.SupportRequest;
 import com.shushan.manhua.entity.response.BookDetailInfoResponse;
 import com.shushan.manhua.entity.user.User;
 import com.shushan.manhua.mvp.ui.activity.book.MoreCommentActivity;
-import com.shushan.manhua.mvp.ui.activity.book.ReadActivity;
 import com.shushan.manhua.mvp.ui.adapter.ReadingCommentAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseFragment;
 
@@ -65,18 +64,20 @@ public class BookDetailFragment extends BaseFragment implements BookDetailFragme
     private View mEmptyView;
     private User mUser;
     private String mBookId;
-    private String mBookCover;
     private CommentBean commentBean;
     private int clickPos;
-    private BookDetailInfoResponse mBookDetailInfoResponse;
 
-    public static BookDetailFragment getInstance(String bookId, String bookCover) {
+//    public BookDetailFragment(String mBookId) {
+//        super();
+//    }
+
+
+    public static BookDetailFragment getInstance(String bookId) {
         if (mBookDetailFragment == null) {
             mBookDetailFragment = new BookDetailFragment();
         }
         Bundle bd = new Bundle();
         bd.putString("bookId", bookId);
-        bd.putString("bookCover", bookCover);
         mBookDetailFragment.setArguments(bd);
         return mBookDetailFragment;
     }
@@ -132,7 +133,7 @@ public class BookDetailFragment extends BaseFragment implements BookDetailFragme
     }
 
 
-    @OnClick({R.id.publish_comment_tv, R.id.more_comment_tv, R.id.start_reading_tv})
+    @OnClick({R.id.publish_comment_tv, R.id.more_comment_tv})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.publish_comment_tv:
@@ -141,16 +142,16 @@ public class BookDetailFragment extends BaseFragment implements BookDetailFragme
             case R.id.more_comment_tv:
                 MoreCommentActivity.start(getActivity(), mBookId);
                 break;
-            case R.id.start_reading_tv:
-                if (mBookDetailInfoResponse != null) {
-                    BookDetailInfoResponse.HistoryBean historyBean = mBookDetailInfoResponse.getHistory();
-                    if (historyBean != null) {
-                        ReadActivity.start(getActivity(), mBookId, historyBean.getCatalogue_id(), mBookCover);//继续阅读
-                    } else {
-                        ReadActivity.start(getActivity(), mBookId, 1, mBookCover);//阅读页面 章节默认第一章节
-                    }
-                }
-                break;
+//            case R.id.start_reading_tv:
+//                if (mBookDetailInfoResponse != null) {
+//                    BookDetailInfoResponse.HistoryBean historyBean = mBookDetailInfoResponse.getHistory();
+//                    if (historyBean != null) {
+//                        ReadActivity.start(getActivity(), mBookId, historyBean.getCatalogue_id(), mBookCover);//继续阅读
+//                    } else {
+//                        ReadActivity.start(getActivity(), mBookId, 1, mBookCover);//阅读页面 章节默认第一章节
+//                    }
+//                }
+//                break;
         }
     }
 
@@ -166,7 +167,6 @@ public class BookDetailFragment extends BaseFragment implements BookDetailFragme
 
     @Override
     public void getBookDetailInfoSuccess(BookDetailInfoResponse bookDetailInfoResponse) {
-        mBookDetailInfoResponse = bookDetailInfoResponse;
         BookDetailInfoResponse.DetailBean detailBean = bookDetailInfoResponse.getDetail();
         if (detailBean != null) {
             mDescTv.setText(detailBean.getDes());

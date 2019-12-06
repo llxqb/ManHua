@@ -41,10 +41,10 @@ import com.shushan.manhua.mvp.ui.activity.login.LoginActivity;
 import com.shushan.manhua.mvp.ui.adapter.BuyAdapter;
 import com.shushan.manhua.mvp.ui.adapter.ProfitAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseActivity;
+import com.shushan.manhua.mvp.ui.dialog.PayReportErrorDialog;
 import com.shushan.manhua.mvp.ui.dialog.PaySelectDialog;
 import com.shushan.manhua.mvp.ui.dialog.TouristsModelLoginDialog;
 import com.shushan.manhua.mvp.utils.DataUtils;
-import com.shushan.manhua.mvp.utils.LogUtils;
 import com.shushan.manhua.mvp.utils.StatusBarUtil;
 import com.shushan.manhua.mvp.utils.googlePayUtils.IabHelper;
 import com.shushan.manhua.mvp.utils.googlePayUtils.Purchase;
@@ -61,7 +61,8 @@ import butterknife.OnClick;
 /**
  * 会员中心
  */
-public class MemberCenterActivity extends BaseActivity implements MemberCenterControl.MemberCenterView, PaySelectDialog.payChoiceDialogListener, GooglePayHelper.BuyFinishListener, TouristsModelLoginDialog.TouristsModelLoginListener {
+public class MemberCenterActivity extends BaseActivity implements MemberCenterControl.MemberCenterView, PaySelectDialog.payChoiceDialogListener, GooglePayHelper.BuyFinishListener,
+        TouristsModelLoginDialog.TouristsModelLoginListener, PayReportErrorDialog.PayReportDialogListener {
 
     @Inject
     MemberCenterControl.PresenterMemberCenter mPresenter;
@@ -104,7 +105,13 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
      */
     private boolean openUniPinWeb = false;
     private String mBuyType = "1";//1购买会员2购买嗨豆
-
+    /**
+     * 支付类型 1：Google   2:AHDI  3:Unipin
+     */
+    private int mPayType;
+    private Purchase mPurchase;//google支付
+    private CreateOrderAHDIResponse mCreateOrderAHDIResponse;//
+    private CreateOrderByUniPinResponse mCreateOrderByUniPinResponse;
 
     @Override
     protected void initContentView() {
@@ -333,7 +340,7 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
 
     @Override
     public void payType(int payType) {
-        LogUtils.e("payType:" + payType);
+        mPayType = payType;
         switch (payType) {
             case 1:
                 GooglePayChoose();
@@ -377,7 +384,8 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
     //4.购买漫豆成功
     @Override
     public void buyFinishSuccess(Purchase purchase) {
-
+        mPurchase = purchase;
+        payFinishGoogleUpload(purchase);
     }
 
     //4.购买漫豆失败
@@ -393,7 +401,7 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
     private void payFinishGoogleUpload(Purchase purchase) {
         //上传数据到服务器
         PayFinishUploadRequest payFinishUploadRequest = new PayFinishUploadRequest();
-        payFinishUploadRequest.order_no = purchase.getDeveloperPayload();
+        payFinishUploadRequest.ord_no = purchase.getDeveloperPayload();
         payFinishUploadRequest.INAPP_DATA_SIGNATURE = purchase.getSignature();
         payFinishUploadRequest.INAPP_PURCHASE_DATA = purchase.getOriginalJson();
         mPresenter.onPayFinishUpload(payFinishUploadRequest);
@@ -405,6 +413,7 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
         //查询用户信息-->更新用户信息(我的-首页接口)
 //        requestHomeUserInfo();
 //        logAddPaymentInfoEvent(true);
+        onRequestMemberCenter();
         LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.PAY_SUCCESS));
     }
 
@@ -413,13 +422,13 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
      */
     @Override
     public void getPayFinishGoogleUploadFail(String error) {
-//        reportPayDialog(errorInfo1);
+        reportPayDialog(errorInfo1);
     }
 
     @Override
     public void getPayFinishGoogleUploadThowable() {
         showToast(getResources().getString(R.string.text_check_internet));
-//        reportPayDialog(errorInfo2);
+        reportPayDialog(errorInfo2);
     }
 
     //AHDI 创建订单
@@ -448,7 +457,7 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
         AhdiPay.startPay(this, createOrderAHDIResponse.getAppid(), createOrderAHDIResponse.getApp_userid(), createOrderAHDIResponse.getToken(), (resultCode, signValue, resultInfo) -> {
             if (resultCode == AhdiPay.PAY_SUCCESS) {
                 //支付成功，上传数据到服务器
-//                mCreateOrderAHDIResponse = createOrderAHDIResponse;
+                mCreateOrderAHDIResponse = createOrderAHDIResponse;
                 payFinishAHDIUpload(createOrderAHDIResponse);
             } else {
                 showToast(getResources().getString(R.string.payment_fail));
@@ -474,18 +483,19 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
         //查询用户信息-->更新用户信息(我的-首页接口)
 //        requestHomeUserInfo();
 //        logAddPaymentInfoEvent(true);
+        onRequestMemberCenter();
         LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.PAY_SUCCESS));
     }
 
     @Override
     public void getPayFinishAHDIUploadFail(String error) {
-//        reportPayDialog(errorInfo1);
+        reportPayDialog(errorInfo1);
     }
 
     @Override
     public void getPayFinishAHDIUploadThowable() {
         showToast(getResources().getString(R.string.text_check_internet));
-//        reportPayDialog(errorInfo2);
+        reportPayDialog(errorInfo2);
     }
 
 
@@ -506,7 +516,6 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
         mPresenter.onRequestCreateOrderByUniPin(requestOrderUniPinPayRequest);
     }
 
-    CreateOrderByUniPinResponse mCreateOrderByUniPinResponse;
 
     /**
      * 创建订单成功--UniPin
@@ -555,6 +564,7 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
         //查询用户信息-->更新用户信息(我的-首页接口)
 //        requestHomeUserInfo();
 //        logAddPaymentInfoEvent(true);
+        onRequestMemberCenter();
         LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.PAY_SUCCESS));
     }
 
@@ -573,7 +583,7 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
     @Override
     public void getPayFinishUploadByUniPinThowable() {
         showToast(getResources().getString(R.string.text_check_internet));
-//        reportPayDialog(errorInfo2);
+        reportPayDialog(errorInfo2);
     }
 
     private void delayTimeUnloadUnipin() {
@@ -589,12 +599,31 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
     /**
      * 重新上报dialog
      */
-//    private void reportPayDialog(String title) {
-//        PayReportErrorDialog payReportErrorDialog = PayReportErrorDialog.newInstance();
-//        payReportErrorDialog.setListener(this);
-//        payReportErrorDialog.setTitle(title);
-//        DialogFactory.showDialogFragment(getSupportFragmentManager(), payReportErrorDialog, PayReportErrorDialog.TAG);
-//    }
+    private void reportPayDialog(String title) {
+        PayReportErrorDialog payReportErrorDialog = PayReportErrorDialog.newInstance();
+        payReportErrorDialog.setListener(this);
+        payReportErrorDialog.setTitle(title);
+        DialogFactory.showDialogFragment(getSupportFragmentManager(), payReportErrorDialog, PayReportErrorDialog.TAG);
+    }
+
+    @Override
+    public void payReportBtnOkListener() {
+        switch (mPayType) {
+            case 1:
+                if (mPurchase != null) {
+                    payFinishGoogleUpload(mPurchase);
+                }
+                break;
+            case 2:
+                if (mCreateOrderAHDIResponse != null) {
+                    payFinishAHDIUpload(mCreateOrderAHDIResponse);
+                }
+                break;
+            case 3:
+                payFinishUnipinUpload(true);
+                break;
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

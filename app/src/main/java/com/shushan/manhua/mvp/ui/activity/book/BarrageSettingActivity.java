@@ -1,5 +1,6 @@
 package com.shushan.manhua.mvp.ui.activity.book;
 
+import android.provider.Settings;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -45,8 +46,8 @@ public class BarrageSettingActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        barrageFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_BARRAGE);
         turnPageFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_TURN_PAGE);
+        barrageFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_BARRAGE);
         nightModelFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_NIGHT_MODEL);
         if (barrageFlag) {
             mBarrageSwitchIv.setImageResource(R.mipmap.switch_open);
@@ -63,13 +64,53 @@ public class BarrageSettingActivity extends BaseActivity {
         } else {
             mNightModelIv.setImageResource(R.mipmap.switch_close);
         }
+
+        int transparency = mSharePreferenceUtil.getIntData(Constant.TRANSPARENCY, 80);
+        int playSpeed = mSharePreferenceUtil.getIntData(Constant.PLAY_SPEED, 80);
+        mSeekBar.setProgress(transparency);
+        mPlaySeekBar.setProgress(playSpeed);
+
     }
 
     @Override
     public void initData() {
-
+        initSeekBar();
     }
 
+    private void initSeekBar() {
+        mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                mSharePreferenceUtil.setData(Constant.TRANSPARENCY, progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+        mPlaySeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                mSharePreferenceUtil.setData(Constant.PLAY_SPEED, progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+    }
 
     @OnClick({R.id.common_left_iv, R.id.model_tv, R.id.page_turning_iv, R.id.night_model_iv, R.id.barrage_switch_iv})
     public void onViewClicked(View view) {
@@ -78,26 +119,35 @@ public class BarrageSettingActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.model_tv:
-
+                mSharePreferenceUtil.setData(Constant.IS_TURN_PAGE, false);
+                mSharePreferenceUtil.setData(Constant.IS_NIGHT_MODEL, false);
+                mSharePreferenceUtil.setData(Constant.IS_BARRAGE, true);
+                mPageTurningIv.setImageResource(R.mipmap.switch_close);
+                mNightModelIv.setImageResource(R.mipmap.switch_close);
+                mBarrageSwitchIv.setImageResource(R.mipmap.switch_close);
                 break;
             case R.id.page_turning_iv:
                 turnPageFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_TURN_PAGE);
                 if (turnPageFlag) {
                     mSharePreferenceUtil.setData(Constant.IS_TURN_PAGE, false);
-                    mNightModelIv.setImageResource(R.mipmap.switch_close);
+                    mPageTurningIv.setImageResource(R.mipmap.switch_close);
                 } else {
                     mSharePreferenceUtil.setData(Constant.IS_TURN_PAGE, true);
-                    mNightModelIv.setImageResource(R.mipmap.switch_open);
+                    mPageTurningIv.setImageResource(R.mipmap.switch_open);
                 }
                 break;
             case R.id.night_model_iv:
                 nightModelFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_NIGHT_MODEL);
                 if (nightModelFlag) {
                     mSharePreferenceUtil.setData(Constant.IS_NIGHT_MODEL, false);
-                    mBarrageSwitchIv.setImageResource(R.mipmap.switch_close);
+                    mNightModelIv.setImageResource(R.mipmap.switch_close);
+                    //设置白天模式
+                    Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 110);//屏幕亮度值范围必须位于：0～255
                 } else {
                     mSharePreferenceUtil.setData(Constant.IS_NIGHT_MODEL, true);
-                    mBarrageSwitchIv.setImageResource(R.mipmap.switch_open);
+                    mNightModelIv.setImageResource(R.mipmap.switch_open);
+                    //设置夜间模式
+                    Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 25);//屏幕亮度值范围必须位于：0～255
                 }
                 break;
             case R.id.barrage_switch_iv:

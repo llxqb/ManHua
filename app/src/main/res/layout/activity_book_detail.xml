@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,8 +8,10 @@
     tools:context=".mvp.ui.activity.book.BookDetailActivity">
 
     <RelativeLayout
+        android:id="@+id/book_detail_top_layout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_214">
+        android:layout_height="@dimen/dp_214"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/cover_iv"
@@ -69,6 +71,7 @@
         android:id="@+id/xTabLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_40"
+        app:layout_constraintTop_toBottomOf="@id/book_detail_top_layout"
         app:xTabIndicatorColor="@color/color_30"
         app:xTabIndicatorHeight="@dimen/dp_4"
         app:xTabIndicatorWidth="@dimen/dp_20"
@@ -81,8 +84,27 @@
 
     <!--<View style="@style/line_height_1" />-->
 
+    <TextView
+        android:id="@+id/start_reading_tv"
+        android:layout_width="@dimen/dp_305"
+        android:layout_height="@dimen/dp_40"
+        android:layout_marginTop="@dimen/dp_28"
+        android:layout_marginBottom="@dimen/dp_18"
+        android:background="@drawable/start_reading_bg"
+        android:gravity="center"
+        android:text="@string/BookDetailFragment_start_reading"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_18"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-</LinearLayout>
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/start_reading_tv"
+        app:layout_constraintTop_toBottomOf="@id/xTabLayout" />
+
+
+</android.support.constraint.ConstraintLayout>

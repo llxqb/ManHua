@@ -1,5 +1,6 @@
 package com.shushan.manhua.mvp.ui.activity.book;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -9,10 +10,8 @@ import com.shushan.manhua.R;
 import com.shushan.manhua.entity.constants.ActivityConstant;
 import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.entity.request.BarrageListRequest;
-import com.shushan.manhua.entity.request.BuyBarrageStyleRequest;
 import com.shushan.manhua.entity.request.SelectionRequest;
 import com.shushan.manhua.entity.response.BarrageListResponse;
-import com.shushan.manhua.entity.response.BuyBarrageStyleResponse;
 import com.shushan.manhua.entity.response.ReadingInfoResponse;
 import com.shushan.manhua.entity.response.SelectionResponse;
 
@@ -31,11 +30,33 @@ public class ReadActivity extends ReadBaseActivity {
     }
 
     @Override
+    public void onReceivePro(Context context, Intent intent) {
+        if (intent.getAction() != null) {
+            if (intent.getAction().equals(ActivityConstant.PAY_SUCCESS)) {//购买成功更新数据
+                mUser = mBuProcessor.getUser();
+                if (mReadUseCoinDialog != null) {
+                    mReadUseCoinDialog.closeDialog();
+                }
+            }
+        }
+        super.onReceivePro(context, intent);
+    }
+
+    @Override
+    public void addFilter() {
+        super.addFilter();
+        mFilter.addAction(ActivityConstant.PAY_SUCCESS);
+    }
+
+
+    @Override
     public void initData() {
         super.initData();
         mBarrageFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_BARRAGE);
         mTurnPageFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_TURN_PAGE);
         mNightModelFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_NIGHT_MODEL);
+        mTransparency = mSharePreferenceUtil.getIntData(Constant.TRANSPARENCY, 80);
+        mPlaySpeed = mSharePreferenceUtil.getIntData(Constant.PLAY_SPEED, 80);
         if (mBarrageFlag) {
             mBarrageIv.setImageResource(R.mipmap.barrage_open);
         } else {
@@ -125,14 +146,6 @@ public class ReadActivity extends ReadBaseActivity {
 
 
     /**
-     * 兑换弹幕样式成功
-     */
-    @Override
-    public void getExchangeBarrageStyleSuccess() {
-        showBarrageStyle();
-    }
-
-    /**
      * 请求弹幕列表
      */
     private void onRequestBarrageList() {
@@ -152,24 +165,6 @@ public class ReadActivity extends ReadBaseActivity {
 //        new BarrageTextPopupWindow(this).initPopWindow(mReadLayout);
 //        BarrageTextDialog barrageTextDialog = BarrageTextDialog.newInstance();
 //        DialogFactory.showDialogFragment(getSupportFragmentManager(), barrageTextDialog, BarrageTextDialog.TAG);
-    }
-
-
-    /**
-     * 请求购买的弹幕样式
-     */
-    private void onRequestBuyBarrageStyle() {
-        BuyBarrageStyleRequest buyBarrageStyleRequest = new BuyBarrageStyleRequest();
-        buyBarrageStyleRequest.token = mBuProcessor.getToken();
-        mPresenter.onRequestBuyBarrageStyle(buyBarrageStyleRequest);
-    }
-
-    /**
-     * 请求购买的弹幕样式 成功
-     */
-    @Override
-    public void getBuyBarrageStyleSuccess(BuyBarrageStyleResponse buyBarrageStyleResponse) {
-        mBuyBarrageStyleResponse = buyBarrageStyleResponse;
     }
 
 

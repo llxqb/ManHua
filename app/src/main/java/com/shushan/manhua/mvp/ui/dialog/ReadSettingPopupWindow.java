@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.shushan.manhua.R;
+import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.mvp.utils.SharePreferenceUtil;
 
 
@@ -52,9 +53,9 @@ public class ReadSettingPopupWindow {
         nightModelIv = contentView.findViewById(R.id.night_model_iv);
         barrageSwitchIv = contentView.findViewById(R.id.barrage_switch_iv);
         TextView moreTv = contentView.findViewById(R.id.more_tv);
-        boolean pageTurning = mSharePreferenceUtil.getBooleanData("pageTurning", true);
-        boolean nightModel = mSharePreferenceUtil.getBooleanData("nightModel", false);
-        boolean barrageSwitch = mSharePreferenceUtil.getBooleanData("barrageSwitch", false);
+        boolean pageTurning = mSharePreferenceUtil.getBooleanData(Constant.IS_TURN_PAGE, true);
+        boolean nightModel = mSharePreferenceUtil.getBooleanData(Constant.IS_NIGHT_MODEL, false);
+        boolean barrageSwitch = mSharePreferenceUtil.getBooleanData(Constant.IS_BARRAGE, false);
 
         if (pageTurning) {
             pageTurningIv.setImageResource(R.mipmap.switch_open);
@@ -67,15 +68,22 @@ public class ReadSettingPopupWindow {
             nightModelIv.setImageResource(R.mipmap.switch_close);
         }
         if (barrageSwitch) {
-            pageTurningIv.setImageResource(R.mipmap.switch_open);
+            barrageSwitchIv.setImageResource(R.mipmap.switch_open);
         } else {
-            pageTurningIv.setImageResource(R.mipmap.switch_close);
+            barrageSwitchIv.setImageResource(R.mipmap.switch_close);
         }
 
         pageTurningIv.setOnClickListener(v -> {
             if (mPopupWindowListener != null) {
-                mPopupWindowListener.pageTurningBtnListener();
-
+                boolean pageTurning1 = mSharePreferenceUtil.getBooleanData(Constant.IS_TURN_PAGE, true);
+                if (pageTurning1) {
+                    mSharePreferenceUtil.setData(Constant.IS_TURN_PAGE, false);
+                    pageTurningIv.setImageResource(R.mipmap.switch_close);
+                } else {
+                    mSharePreferenceUtil.setData(Constant.IS_TURN_PAGE, true);
+                    pageTurningIv.setImageResource(R.mipmap.switch_open);
+                }
+                mPopupWindowListener.pageTurningBtnListener(pageTurning1);
             }
         });
         nightModelIv.setOnClickListener(v -> {
@@ -85,7 +93,15 @@ public class ReadSettingPopupWindow {
         });
         barrageSwitchIv.setOnClickListener(v -> {
             if (mPopupWindowListener != null) {
-                mPopupWindowListener.barrageSwitchBtnListener();
+                boolean barrageSwitch1 = mSharePreferenceUtil.getBooleanData(Constant.IS_BARRAGE, true);
+                if (barrageSwitch1) {
+                    mSharePreferenceUtil.setData(Constant.IS_BARRAGE, false);
+                    barrageSwitchIv.setImageResource(R.mipmap.switch_close);
+                } else {
+                    mSharePreferenceUtil.setData(Constant.IS_BARRAGE, true);
+                    barrageSwitchIv.setImageResource(R.mipmap.switch_open);
+                }
+                mPopupWindowListener.barrageSwitchBtnListener(barrageSwitch1);
             }
         });
         moreTv.setOnClickListener(v -> {
@@ -110,14 +126,14 @@ public class ReadSettingPopupWindow {
                 mContext.startActivity(intent);
             } else {
                 //有了权限，具体的动作
-                boolean nightModel = mSharePreferenceUtil.getBooleanData("nightModel", false);
+                boolean nightModel = mSharePreferenceUtil.getBooleanData(Constant.IS_NIGHT_MODEL, false);
                 if (nightModel) {
                     //设置白天模式
-                    mSharePreferenceUtil.setData("nightModel", false);
+                    mSharePreferenceUtil.setData(Constant.IS_NIGHT_MODEL, false);
                     nightModelIv.setImageResource(R.mipmap.switch_close);
                 } else {
                     //设置夜间模式
-                    mSharePreferenceUtil.setData("nightModel", true);
+                    mSharePreferenceUtil.setData(Constant.IS_NIGHT_MODEL, true);
                     nightModelIv.setImageResource(R.mipmap.switch_open);
                 }
                 mPopupWindowListener.nightModelBtnListener(nightModel);
@@ -127,11 +143,11 @@ public class ReadSettingPopupWindow {
     }
 
     public interface ReadSettingPopupWindowListener {
-        void pageTurningBtnListener();
+        void pageTurningBtnListener(boolean pageTurning);
 
         void nightModelBtnListener(boolean nightModel);
 
-        void barrageSwitchBtnListener();
+        void barrageSwitchBtnListener(boolean barrageSwitch);
 
         void clickMoreBtnListener();
     }

@@ -50,6 +50,14 @@ public class SharePreferenceUtil {
     public int getIntData(String key) {
         return mSharedprefence.getValueByName(projectKey, key, Sharedprefence.INT);
     }
+    /**
+     * sp 取出本地数据
+     * 赋默认值
+     * @param key
+     */
+    public int getIntData(String key,int keyDefaultValue) {
+        return mSharedprefence.getValueByName(projectKey, key, Sharedprefence.INT, keyDefaultValue);
+    }
 
     public boolean getBooleanData(String key) {
         return mSharedprefence.getValueByName(projectKey, key, Sharedprefence.BOOLEAN);

@@ -31,7 +31,7 @@
     <string name="LongDeleteActivity_select_delete">删除</string>
     <!--<string name="ReadActivity_add_bookshelf">加入书架</string>-->
     <!--<string name="ReadActivity_back_top">返回顶部</string>-->
-    <string name="ReadActivity_right_title">弹幕</string>
+    <string name="ReadActivity_right_title">全集</string>
     <string name="ReadActivity_barrage">弹幕</string>
     <string name="ReadActivity_send">发射</string>
     <string name="ReadActivity_bottom_directory">目录</string>

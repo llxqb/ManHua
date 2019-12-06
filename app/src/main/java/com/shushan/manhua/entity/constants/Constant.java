@@ -44,6 +44,9 @@ public class Constant {
     public static final String IS_BARRAGE = "barrage";//是否弹幕开关
     public static final String IS_TURN_PAGE = "turn_page";//是否点击上下翻页
     public static final String IS_NIGHT_MODEL = "night_model";//是否夜间模式开关
+    public static final String TRANSPARENCY = "transparency";//透明度
+    public static final String PLAY_SPEED= "play_speed";//播放速度
+
     /**
      * 登录模式： 游客模式 1、 账号登录 2
      */

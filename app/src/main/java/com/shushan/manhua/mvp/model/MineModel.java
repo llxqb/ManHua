@@ -137,7 +137,7 @@ public class MineModel {
      * Google 支付成功上报
      */
     public Observable<ResponseData> onPayFinishUpload(PayFinishUploadRequest request) {
-        return mMineApi.onRequestPaySuccess(request.INAPP_PURCHASE_DATA, request.INAPP_DATA_SIGNATURE, request.order_no).map(mTransform::transformCommon);
+        return mMineApi.onRequestPaySuccess(new Gson().toJson(request)).map(mTransform::transformCommon);
     }
 
 

@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.shushan.manhua.R;
 import com.shushan.manhua.entity.request.AddBookShelfRequest;
+import com.shushan.manhua.entity.request.BookDetailRequest;
+import com.shushan.manhua.entity.response.BookDetailInfoResponse;
 import com.shushan.manhua.help.RetryWithDelay;
 import com.shushan.manhua.mvp.model.BookModel;
 import com.shushan.manhua.mvp.model.ResponseData;
@@ -31,7 +33,33 @@ public class BookDetailPresenterImpl implements BookDetailControl.PresenterBookD
         mBookDetailView = view;
     }
 
+    /**
+     * 查询书籍详情
+     */
+    @Override
+    public void onRequestBookDetailInfo(BookDetailRequest bookDetailRequest) {
+        mBookDetailView.showLoading(mContext.getResources().getString(R.string.loading));
+        Disposable disposable = mBookModel.onRequestBookDetailInfo(bookDetailRequest).compose(mBookDetailView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
+                .subscribe(this::requestBookDetailInfoSuccess, throwable -> mBookDetailView.showErrMessage(throwable),
+                        () -> mBookDetailView.dismissLoading());
+        mBookDetailView.addSubscription(disposable);
+    }
 
+    /**
+     * 查询书籍详情 成功
+     */
+    private void requestBookDetailInfoSuccess(ResponseData responseData) {
+        mBookDetailView.judgeToken(responseData.resultCode);
+        if (responseData.resultCode == 0) {
+            responseData.parseData(BookDetailInfoResponse.class);
+            if (responseData.parsedData != null) {
+                BookDetailInfoResponse response = (BookDetailInfoResponse) responseData.parsedData;
+                mBookDetailView.getBookDetailInfoSuccess(response);
+            }
+        } else {
+            mBookDetailView.showToast(responseData.errorMsg);
+        }
+    }
     /**
      * 加入书架
      */

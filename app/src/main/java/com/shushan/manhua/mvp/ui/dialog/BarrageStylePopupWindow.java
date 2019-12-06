@@ -38,6 +38,11 @@ public class BarrageStylePopupWindow {
         this.barrageStyleResponseList = barrageStyleResponseList;
     }
 
+    public void updateData(List<BarrageStyleResponse> barrageStyleResponseList) {
+        barrageStyleAdapter.setNewData(barrageStyleResponseList);
+    }
+
+
     public void setDismiss() {
         if (mCustomPopWindow != null) {
             mCustomPopWindow.getPopupWindow().dismiss();
@@ -60,13 +65,16 @@ public class BarrageStylePopupWindow {
     }
 
 
+
+    BarrageStyleAdapter barrageStyleAdapter;
+
     private void handlePopListView(View contentView) {
         mUser = mBuProcessor.getUser();
         RecyclerView recyclerView = contentView.findViewById(R.id.recycler_view);
         RelativeLayout sendMessageRl = contentView.findViewById(R.id.send_message_rl);
         TextView messageTv = contentView.findViewById(R.id.message_tv);
         ImageView sendMessageRightIv = contentView.findViewById(R.id.send_message_right_iv);
-        BarrageStyleAdapter barrageStyleAdapter = new BarrageStyleAdapter(barrageStyleResponseList);
+        barrageStyleAdapter = new BarrageStyleAdapter(barrageStyleResponseList);
         recyclerView.setLayoutManager(new GridLayoutManager(mContext, 2));
         recyclerView.setAdapter(barrageStyleAdapter);
         barrageStyleAdapter.setOnItemChildClickListener((adapter, view, position) -> {
@@ -78,24 +86,32 @@ public class BarrageStylePopupWindow {
             }
             //vip 提示开通vip   漫豆兑换提示消费漫豆
             if (barrageStyleResponse != null) {
-                if (barrageStyleResponse.styleType == 0) {//0 免费  1 ： vip兑换   2 ：漫豆兑换
+                if (barrageStyleResponse.isBuy) {//是否购买过 且 在有效期期内
                     barrageStyleResponse.isCheck = true;
                     adapter.notifyDataSetChanged();
-                } else if (barrageStyleResponse.styleType == 1) {//vip兑换
-                    if (mUser.vip == 0) {
-                        if (mPopupWindowListener != null) {
-                            mPopupWindowListener.hintOpenVipBtnListener(position);
-                        }
-                    } else {
-//                        if (mPopupWindowListener != null) {
-//                            mPopupWindowListener.hintOpenVipBtnListener();
-//                        }
+                    if (mPopupWindowListener != null) {
+                        mPopupWindowListener.selectBarrageStyleBtnListener(position);
+                    }
+                } else {
+                    if (barrageStyleResponse.styleType == 0) {//0 免费  1 ： vip兑换   2 ：漫豆兑换
                         barrageStyleResponse.isCheck = true;
                         adapter.notifyDataSetChanged();
-                    }
-                } else {//漫豆兑换
-                    if (mPopupWindowListener != null) {
-                        mPopupWindowListener.showBeansExchangeBtnListener(position);
+                    } else if (barrageStyleResponse.styleType == 1) {//vip兑换
+                        if (mUser.vip == 0) {
+                            if (mPopupWindowListener != null) {
+                                mPopupWindowListener.hintOpenVipBtnListener(position);
+                            }
+                        } else {
+                            barrageStyleResponse.isCheck = true;
+                            adapter.notifyDataSetChanged();
+                            if (mPopupWindowListener != null) {
+                                mPopupWindowListener.selectBarrageStyleBtnListener(position);
+                            }
+                        }
+                    } else {//漫豆兑换
+                        if (mPopupWindowListener != null) {
+                            mPopupWindowListener.showBeansExchangeBtnListener(position);
+                        }
                     }
                 }
             }
@@ -107,13 +123,6 @@ public class BarrageStylePopupWindow {
                 mCustomPopWindow.dissmiss();
             }
         });
-
-//        messageTv.setOnClickListener(v -> {
-//            if (mPopupWindowListener != null) {
-//                mPopupWindowListener.showPublishBarrageBtnListener();
-//            }
-//            mCustomPopWindow.dissmiss();
-//        });
     }
 
 
@@ -122,9 +131,9 @@ public class BarrageStylePopupWindow {
 
         void showBeansExchangeBtnListener(int barrageStyle);//显示漫豆兑换弹幕弹框
 
-//        void hintBeansExchangeBtnListener();//隐藏
+        //        void hintBeansExchangeBtnListener();//隐藏
 //
-//        void switchStyleLayoutBtnListener(int style);
+        void selectBarrageStyleBtnListener(int barrageStyle);//显示选择的弹幕样式
 
         void showPublishBarrageBtnListener();//发送弹幕
     }

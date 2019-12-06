@@ -4,27 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/start_reading_tv"
-        android:layout_width="@dimen/dp_305"
-        android:layout_height="@dimen/dp_40"
-        android:layout_marginTop="@dimen/dp_28"
-        android:layout_marginBottom="@dimen/dp_18"
-        android:background="@drawable/start_reading_bg"
-        android:gravity="center"
-        android:text="@string/BookDetailFragment_start_reading"
-        android:textColor="@color/white"
-        android:textSize="@dimen/sp_18"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="@dimen/dp_14"
-        app:layout_constraintBottom_toTopOf="@id/start_reading_tv"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <android.support.constraint.ConstraintLayout
