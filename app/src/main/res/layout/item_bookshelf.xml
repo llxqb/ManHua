@@ -12,6 +12,7 @@
         android:id="@+id/book_iv"
         android:layout_width="@dimen/dp_162"
         android:layout_height="@dimen/dp_162"
+        android:scaleType="centerCrop"
         android:src="@mipmap/default_graph_1"
         android:visibility="invisible" />
 

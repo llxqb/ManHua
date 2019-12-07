@@ -9,13 +9,12 @@
         android:id="@+id/label_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_white_round_solid_30"
+        android:background="@drawable/bg_write_stroke_30"
         android:gravity="center"
         android:paddingStart="@dimen/dp_7"
         android:paddingTop="@dimen/dp_4"
         android:paddingEnd="@dimen/dp_7"
         android:paddingBottom="@dimen/dp_4"
-        android:text="标签1"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_13" />
 

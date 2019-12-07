@@ -85,7 +85,6 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
     private List<BookShelfResponse.BookrackBean> bookShelfResponseList = new ArrayList<>();
     private List<RecommendBean> recommendResponseList = new ArrayList<>();
     private BookShelfResponse mBookShelfResponse;
-    private int mLoginModel;//1 是游客模式 2 是登录模式
 
     @Nullable
     @Override
@@ -131,7 +130,8 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
         mSwipeLy.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
         mSwipeLy.setOnRefreshListener(this);
         initAdapter();
-        mLoginModel = mBuProcessor.getLoginModel();
+        //1 是游客模式 2 是登录模式
+        int mLoginModel = mBuProcessor.getLoginModel();
         if (mLoginModel != 2) {
             mShelfLayout.setVisibility(View.GONE);
             mShelfEmptyLayout.setVisibility(View.VISIBLE);
@@ -141,7 +141,6 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
             onRequestBookShelfInfo();
             onRecommendInfo();
         }
-
     }
 
     private void initAdapter() {

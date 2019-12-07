@@ -31,14 +31,17 @@
 
 
         <TextView
-            android:id="@+id/username_tv"
+            android:id="@+id/book_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginStart="@dimen/dp_20"
-            android:layout_marginTop="@dimen/dp_133"
+            android:layout_marginTop="@dimen/dp_90"
+            android:maxWidth="@dimen/dp_200"
+            android:singleLine="true"
             android:textColor="@color/white"
-            android:textSize="@dimen/sp_20" />
+            android:textSize="@dimen/sp_20"
+            android:textStyle="bold" />
 
         <!-- 加入书架-->
         <TextView
@@ -48,6 +51,8 @@
             android:layout_alignParentEnd="true"
             android:layout_marginTop="@dimen/dp_125"
             android:background="@drawable/bg_gray_round_solid_top_left_30"
+            android:drawableStart="@mipmap/details_page_follow"
+            android:drawablePadding="@dimen/dp_5"
             android:paddingStart="@dimen/dp_12"
             android:paddingTop="@dimen/dp_6"
             android:paddingEnd="@dimen/dp_5"
@@ -60,9 +65,9 @@
             android:id="@+id/label_recycler_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/username_tv"
+            android:layout_below="@id/add_bookshelf_tv"
             android:layout_marginStart="@dimen/dp_20"
-            android:layout_marginTop="@dimen/dp_15" />
+            android:layout_marginTop="@dimen/dp_8" />
 
     </RelativeLayout>
 

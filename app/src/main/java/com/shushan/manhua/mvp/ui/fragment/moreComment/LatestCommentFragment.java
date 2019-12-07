@@ -201,28 +201,34 @@ public class LatestCommentFragment extends BaseFragment implements LatestComment
         mPresenter.onRequestCommentInfo(commentRequest);
     }
 
+    boolean isReqState = false;//加载更多 正在请求状态
+
     @Override
     public void onLoadMoreRequested() {
-        if (!readingCommendResponseList.isEmpty()) {
-            if (page == 1 && readingCommendResponseList.size() < Constant.PAGESIZE) {
-                mReadingCommentAdapter.loadMoreEnd(true);
-            } else {
-                if (readingCommendResponseList.size() < Constant.PAGESIZE) {
-                    mReadingCommentAdapter.loadMoreEnd();
+        if(!isReqState){
+            if (!readingCommendResponseList.isEmpty()) {
+                if (page == 1 && readingCommendResponseList.size() < Constant.PAGESIZE) {
+                    mReadingCommentAdapter.loadMoreEnd(true);
                 } else {
-                    //等于10条
-                    page++;
-                    mReadingCommentAdapter.loadMoreComplete();
-                    onRequestCommentInfo();
+                    if (readingCommendResponseList.size() < Constant.PAGESIZE) {
+                        mReadingCommentAdapter.loadMoreEnd();
+                    } else {
+                        //等于10条
+                        page++;
+                        mReadingCommentAdapter.loadMoreComplete();
+                        onRequestCommentInfo();
+                        isReqState = true;
+                    }
                 }
+            } else {
+                mReadingCommentAdapter.loadMoreEnd();
             }
-        } else {
-            mReadingCommentAdapter.loadMoreEnd();
         }
     }
 
     @Override
     public void getCommentInfoSuccess(CommentListBean commentListBean) {
+        isReqState = false;
         readingCommendResponseList = commentListBean.getData();
         //加载更多这样设置
         if (!commentListBean.getData().isEmpty()) {

@@ -89,23 +89,28 @@ public class ExpensesRecordFragment extends BaseFragment implements ExpensesReco
         mPresenter.onRequestRechargeRecord(rechargeRecordRequest);
     }
 
+    boolean isReqState = false;//加载更多 正在请求状态
+
     @Override
     public void onLoadMoreRequested() {
-        if (!expensesRecordResponseList.isEmpty()) {
-            if (page == 1 && expensesRecordResponseList.size() < Constant.PAGESIZE) {
-                mExpensesRecordAdapter.loadMoreEnd(true);
-            } else {
-                if (expensesRecordResponseList.size() < Constant.PAGESIZE) {
-                    mExpensesRecordAdapter.loadMoreEnd();
+        if (!isReqState) {
+            if (!expensesRecordResponseList.isEmpty()) {
+                if (page == 1 && expensesRecordResponseList.size() < Constant.PAGESIZE) {
+                    mExpensesRecordAdapter.loadMoreEnd(true);
                 } else {
-                    //等于10条
-                    page++;
-                    mExpensesRecordAdapter.loadMoreComplete();
-                    onRequestRechargeRecord();
+                    if (expensesRecordResponseList.size() < Constant.PAGESIZE) {
+                        mExpensesRecordAdapter.loadMoreEnd();
+                    } else {
+                        //等于10条
+                        page++;
+                        mExpensesRecordAdapter.loadMoreComplete();
+                        isReqState = true;
+                        onRequestRechargeRecord();
+                    }
                 }
+            } else {
+                mExpensesRecordAdapter.loadMoreEnd();
             }
-        } else {
-            mExpensesRecordAdapter.loadMoreEnd();
         }
     }
     /**
@@ -113,6 +118,7 @@ public class ExpensesRecordFragment extends BaseFragment implements ExpensesReco
      */
     @Override
     public void getExpensesRecordSuccess(ExpensesRecordResponse expensesRecordResponse) {
+        isReqState = false;
         expensesRecordResponseList = expensesRecordResponse.getData();
         //加载更多这样设置
         if (!expensesRecordResponse.getData().isEmpty()) {

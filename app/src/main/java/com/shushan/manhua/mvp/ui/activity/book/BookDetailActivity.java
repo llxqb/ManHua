@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidkun.xtablayout.XTabLayout;
-import com.google.gson.Gson;
 import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerBookDetailComponent;
 import com.shushan.manhua.di.modules.ActivityModule;
@@ -23,7 +22,6 @@ import com.shushan.manhua.entity.constants.ActivityConstant;
 import com.shushan.manhua.entity.request.AddBookShelfRequest;
 import com.shushan.manhua.entity.request.BookDetailRequest;
 import com.shushan.manhua.entity.response.BookDetailInfoResponse;
-import com.shushan.manhua.entity.response.LabelResponse;
 import com.shushan.manhua.mvp.ui.adapter.LabelAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseActivity;
 import com.shushan.manhua.mvp.ui.fragment.bookDetail.BookDetailFragment;
@@ -37,7 +35,6 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.annotations.Nullable;
 
 /**
  * 漫画书籍详情
@@ -48,19 +45,22 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
     BookDetailControl.PresenterBookDetail mPresenter;
     @BindView(R.id.cover_iv)
     ImageView mCoverIv;
-    @BindView(R.id.username_tv)
-    TextView mUsernameTv;
+    @BindView(R.id.book_tv)
+    TextView mBookTv;
     @BindView(R.id.label_recycler_view)
     RecyclerView mLabelRecyclerView;
+    @BindView(R.id.add_bookshelf_tv)
+    TextView mAddBookshelfTv;
     @BindView(R.id.xTabLayout)
     XTabLayout mXTabLayout;
     @BindView(R.id.view_pager)
     ViewPager mViewPager;
-    private List<LabelResponse> labelResponseList = new ArrayList<>();
+    private List<String> labelResponseList = new ArrayList<>();
     String[] titles;
     String mBookId;
     String mBookCover;
     private BookDetailInfoResponse mBookDetailInfoResponse;
+    private LabelAdapter mLabelAdapter;
 
     public static void start(Context context, String bookId, String bookCover) {
         Intent intent = new Intent(context, BookDetailActivity.class);
@@ -86,7 +86,8 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
             mViewPager.setOffscreenPageLimit(2);
             mViewPager.setAdapter(new MyPageAdapter(getSupportFragmentManager()));
             mXTabLayout.setupWithViewPager(mViewPager);
-            LabelAdapter mLabelAdapter = new LabelAdapter(labelResponseList);
+
+            mLabelAdapter = new LabelAdapter(labelResponseList);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
             linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
             mLabelRecyclerView.setLayoutManager(linearLayoutManager);
@@ -112,7 +113,7 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
             case R.id.start_reading_tv:
                 if (mBookDetailInfoResponse != null) {
                     BookDetailInfoResponse.HistoryBean historyBean = mBookDetailInfoResponse.getHistory();
-                    if (historyBean != null && !new Gson().toJson(historyBean).equals("{}")) {
+                    if (historyBean != null && historyBean.getCatalogue_id() != 0) {
                         Intent intent = new Intent(this, ReadActivity.class);
                         intent.putExtra("bookId", mBookId);
                         intent.putExtra("catalogueId", historyBean.getCatalogue_id());
@@ -145,6 +146,13 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
     @Override
     public void getBookDetailInfoSuccess(BookDetailInfoResponse bookDetailInfoResponse) {
         mBookDetailInfoResponse = bookDetailInfoResponse;
+        mLabelAdapter.setNewData(bookDetailInfoResponse.getDetail().getLabel());
+        mBookTv.setText(mBookDetailInfoResponse.getDetail().getBook_name());
+        if (bookDetailInfoResponse.getDetail().getState() == 0) {//0未加入书架1已加入书架
+            mAddBookshelfTv.setText(getString(R.string.BookDetailActivity_add_bookshelf));//BookDetailActivity_add_bookshelf_ed
+        } else {
+            mAddBookshelfTv.setText(getString(R.string.BookDetailActivity_add_bookshelf_ed));
+        }
     }
 
     /**
@@ -159,17 +167,8 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
 
     @Override
     public void getBookShelfSuccess() {
-        showToast("add success");
         LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.UPDATE_BOOKSHELF));
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        //此处可以根据两个Code进行判断，本页面和结果页面跳过来的值
-//        if (requestCode == 100 && resultCode == 101) {
-//        }
+        mAddBookshelfTv.setText(getString(R.string.BookDetailActivity_add_bookshelf_ed));
     }
 
 

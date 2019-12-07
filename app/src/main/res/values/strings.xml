@@ -74,6 +74,7 @@
     <string name="BookDetailActivity_detail_tv">详情</string>
     <string name="BookDetailActivity_selection_tv">选集</string>
     <string name="BookDetailActivity_add_bookshelf">加入书架</string>
+    <string name="BookDetailActivity_add_bookshelf_ed">已加入书架</string>
 
     <string name="BookDetailFragment_book_desc_hint">作品简介</string>
     <string name="BookDetailFragment_author">作者：</string>

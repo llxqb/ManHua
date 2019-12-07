@@ -83,29 +83,35 @@ public class PurchasedActivity extends BaseActivity implements PurchasedControl.
         mPresenter.onRequestPurchasedBook(purchasedBookRequest);
     }
 
+    boolean isReqState = false;//加载更多 正在请求状态
+
     @Override
     public void onLoadMoreRequested() {
-        if (!purchasedResponseList.isEmpty()) {
-            if (page == 1 && purchasedResponseList.size() < Constant.PAGESIZE) {
-                mPurchasedAdapter.loadMoreEnd(true);
-            } else {
-                if (purchasedResponseList.size() < Constant.PAGESIZE) {
-                    mPurchasedAdapter.loadMoreEnd();
+        if (!isReqState) {
+            if (!purchasedResponseList.isEmpty()) {
+                if (page == 1 && purchasedResponseList.size() < Constant.PAGESIZE) {
+                    mPurchasedAdapter.loadMoreEnd(true);
                 } else {
-                    //等于10条
-                    page++;
-                    mPurchasedAdapter.loadMoreComplete();
-                    onRequestPurchasedBook();
+                    if (purchasedResponseList.size() < Constant.PAGESIZE) {
+                        mPurchasedAdapter.loadMoreEnd();
+                    } else {
+                        //等于10条
+                        page++;
+                        mPurchasedAdapter.loadMoreComplete();
+                        onRequestPurchasedBook();
+                        isReqState = true;
+                    }
                 }
+            } else {
+                mPurchasedAdapter.loadMoreEnd();
             }
-        } else {
-            mPurchasedAdapter.loadMoreEnd();
         }
     }
 
 
     @Override
     public void getPurchasedBookSuccess(PurchasedResponse purchasedResponse) {
+        isReqState = false;
         purchasedResponseList = purchasedResponse.getData();
         //加载更多这样设置
         if (!purchasedResponse.getData().isEmpty()) {

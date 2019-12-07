@@ -40,7 +40,7 @@ import butterknife.OnClick;
 /**
  * 评论详情
  */
-public class CommentDetailsActivity extends BaseActivity implements CommentDetailControl.CommentDetailView, CommentSoftKeyPopupWindow.CommentSoftKeyPopupWindowListener , BaseQuickAdapter.RequestLoadMoreListener{
+public class CommentDetailsActivity extends BaseActivity implements CommentDetailControl.CommentDetailView, CommentSoftKeyPopupWindow.CommentSoftKeyPopupWindowListener, BaseQuickAdapter.RequestLoadMoreListener {
 
     @Inject
     CommentDetailControl.PresenterCommentDetail mPresenter;
@@ -165,28 +165,34 @@ public class CommentDetailsActivity extends BaseActivity implements CommentDetai
         mPresenter.onRequestCommentDetail(commentDetailRequest);
     }
 
+    boolean isReqState = false;//加载更多 正在请求状态
+
     @Override
     public void onLoadMoreRequested() {
-        if (!commentDetailResponseList.isEmpty()) {
-            if (page == 1 && commentDetailResponseList.size() < Constant.PAGESIZE) {
-                mCommentDetailAdapter.loadMoreEnd(true);
-            } else {
-                if (commentDetailResponseList.size() < Constant.PAGESIZE) {
-                    mCommentDetailAdapter.loadMoreEnd();
+        if (!isReqState) {
+            if (!commentDetailResponseList.isEmpty()) {
+                if (page == 1 && commentDetailResponseList.size() < Constant.PAGESIZE) {
+                    mCommentDetailAdapter.loadMoreEnd(true);
                 } else {
-                    //等于10条
-                    page++;
-                    mCommentDetailAdapter.loadMoreComplete();
-                    onRequestCommentDetail();
+                    if (commentDetailResponseList.size() < Constant.PAGESIZE) {
+                        mCommentDetailAdapter.loadMoreEnd();
+                    } else {
+                        //等于10条
+                        page++;
+                        mCommentDetailAdapter.loadMoreComplete();
+                        onRequestCommentDetail();
+                        isReqState = true;
+                    }
                 }
+            } else {
+                mCommentDetailAdapter.loadMoreEnd();
             }
-        } else {
-            mCommentDetailAdapter.loadMoreEnd();
         }
     }
-    
+
     @Override
     public void getCommentDetailSuccess(CommentDetailResponse commentDetailResponse) {
+        isReqState = false;
         mCommentDetailResponse = commentDetailResponse;
         commentDetailResponseList = commentDetailResponse.getReview();
         //加载更多这样设置
@@ -318,5 +324,4 @@ public class CommentDetailsActivity extends BaseActivity implements CommentDetai
     }
 
 
-   
 }

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 空心 圆角 red_color_btn -->
+    <stroke android:width="@dimen/dp_1" android:color="@color/white" />
+    <corners android:radius="@dimen/dp_30"/>
+</shape>

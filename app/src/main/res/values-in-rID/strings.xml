@@ -74,6 +74,7 @@
     <string name="BookDetailActivity_detail_tv">Detail</string>
     <string name="BookDetailActivity_selection_tv">Pilih Episode</string>
     <string name="BookDetailActivity_add_bookshelf">telah masuk rak buku</string>
+    <string name="BookDetailActivity_add_bookshelf_ed">Ditambahkan ke rak buku</string>
 
     <string name="BookDetailFragment_book_desc_hint">Ringkasan cerita</string>
     <string name="BookDetailFragment_comment_num">Total komentar</string>

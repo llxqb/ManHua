@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/item_selection_layout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/item_selection_layout"
     android:layout_width="match_parent"
-    android:paddingBottom="@dimen/dp_10"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/dp_10">
 
     <ImageView
         android:id="@+id/cover_iv"
@@ -24,20 +24,23 @@
         android:layout_marginStart="@dimen/dp_20"
         android:layout_marginTop="@dimen/dp_12"
         android:scaleType="centerCrop"
-        android:visibility="gone"
         android:src="@mipmap/lock"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/title_tv"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_12"
         android:layout_marginTop="@dimen/dp_14"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:singleLine="true"
         android:textColor="@color/color_30"
         android:textSize="@dimen/sp_16"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/cover_iv"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -62,9 +65,9 @@
         android:layout_marginEnd="@dimen/dp_15"
         android:drawableStart="@mipmap/title_praise_gray"
         android:drawablePadding="@dimen/dp_5"
-        android:text="99"
         android:paddingTop="@dimen/dp_5"
         android:paddingBottom="@dimen/dp_5"
+        android:text="99"
         android:textColor="@color/color_80"
         android:textSize="@dimen/sp_11"
         app:layout_constraintEnd_toEndOf="parent"

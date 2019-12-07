@@ -118,7 +118,7 @@ public class MineFragment extends BaseFragment implements MineFragmentControl.Mi
             } else if (intent.getAction().equals(ActivityConstant.LOGIN_SUCCESS_UPDATE_DATA)) {
                 mLoginModel = mBuProcessor.getLoginModel();
                 onRequestMineInfo();
-            }else if(intent.getAction().equals(ActivityConstant.PAY_SUCCESS)){
+            } else if (intent.getAction().equals(ActivityConstant.PAY_SUCCESS)) {
                 onRequestMineInfo();
             }
         }
@@ -259,13 +259,17 @@ public class MineFragment extends BaseFragment implements MineFragmentControl.Mi
         } else {
             mMessageReadTv.setVisibility(View.VISIBLE);
         }
+        String signValue = mineInfoResponse.getSign_count() + getString(R.string.MineFragment_check_in_hint);//签到数
+        String signVipValue = mineInfoResponse.getVip_get_count() + getString(R.string.MineFragment_check_in_hint);//会员签到数
+        mCheckInNumTv.setText(signValue);
+        mVipCheckInNumTv.setText(signVipValue);
         setData(userinfoBean);
     }
 
 
     private void setData(MineInfoResponse.UserinfoBean userinfoBean) {
         if (userinfoBean != null) {
-            User user = UserUtil.tranLoginUser(userinfoBean,new Gson().toJson(userinfoBean.getBook_type()));
+            User user = UserUtil.tranLoginUser(userinfoBean, new Gson().toJson(userinfoBean.getBook_type()));
             mBuProcessor.setLoginUser(user);
             mUser = mBuProcessor.getUser();
 //            LogUtils.e("Mine: mUser:" + new Gson().toJson(mUser));

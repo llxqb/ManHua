@@ -62,7 +62,7 @@ public class SelectionDetailFragment extends BaseFragment implements SelectionFr
     private SelectionResponse mSelectionResponse;
     private SelectionResponse.AnthologyBean dataBean;
     private int clickPos;
-    private int mLoginModel;//1 是游客模式 2 是登录模式
+//    private int mLoginModel;//1 是游客模式 2 是登录模式
 
     public static SelectionDetailFragment getInstance(String bookId) {
         if (mSelectionDetailFragment == null) {
@@ -171,28 +171,34 @@ public class SelectionDetailFragment extends BaseFragment implements SelectionFr
         mPresenter.onRequestSelectionInfo(selectionRequest);
     }
 
+    boolean isReqState = false;//加载更多 正在请求状态
+
     @Override
     public void onLoadMoreRequested() {
-        if (!selectionResponseList.isEmpty()) {
-            if (page == 1 && selectionResponseList.size() < Constant.PAGESIZE) {
-                mSelectionAdapter.loadMoreEnd(true);
-            } else {
-                if (selectionResponseList.size() < Constant.PAGESIZE) {
-                    mSelectionAdapter.loadMoreEnd();
+        if(!isReqState){
+            if (!selectionResponseList.isEmpty()) {
+                if (page == 1 && selectionResponseList.size() < Constant.PAGESIZE) {
+                    mSelectionAdapter.loadMoreEnd(true);
                 } else {
-                    //等于10条
-                    page++;
-                    mSelectionAdapter.loadMoreComplete();
-                    onRequestSelectionInfo();
+                    if (selectionResponseList.size() < Constant.PAGESIZE) {
+                        mSelectionAdapter.loadMoreEnd();
+                    } else {
+                        //等于10条
+                        page++;
+                        mSelectionAdapter.loadMoreComplete();
+                        onRequestSelectionInfo();
+                        isReqState = true;
+                    }
                 }
+            } else {
+                mSelectionAdapter.loadMoreEnd();
             }
-        } else {
-            mSelectionAdapter.loadMoreEnd();
         }
     }
     
     @Override
     public void getSelectionInfoSuccess(SelectionResponse selectionResponse) {
+        isReqState = false;
         mSelectionResponse = selectionResponse;
         initSortList();
     }

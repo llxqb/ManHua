@@ -8,10 +8,10 @@ public class BookDetailInfoResponse {
 
 
     /**
-     * last_catalogue_id : 1
-     * detail : {"book_id":1,"book_name":"大国工程","des":"余庆阳一个搬砖二十年的老工程，梦回世纪之交，海河大学毕业，接老爸的班继续搬砖。","author":"和光万物","collect":9,"label":["重生过去","畅想未来"],"comment_count":10,"detail_cover":"","cost":0,"vip_cost":0,"state":1}
-     * comment : [{"comment_id":1,"user_id":1,"book_id":1,"content":"这本书真棒！","pics":[],"comment_time":1574077027,"like":5,"name":"测试","head_portrait":"http://www.baidu.com","is_like":0,"review":[{"review_id":1,"comment_id":1,"content":"这本书真棒！","pics":["https://caricature.oss-ap-southeast-5.aliyuncs.com/comment/20191118/5dd26de2b9ca8.png"],"review_time":1574077894,"user_id":1,"be_user_id":1,"user_name":"测试","user_head_portrait":"http://www.baidu.com","be_user_name":"测试","be_user_head_portrait":"http://www.baidu.com","like":1}],"review_count":1},{"comment_id":3,"user_id":5,"book_id":1,"content":"gshshsjs","pics":[],"comment_time":1574823457,"like":4,"name":"立刘","head_portrait":"https://img.pulaukomik.com/cover/20191126/5ddceda1625c9.jpg","is_like":0,"review":[],"review_count":0},{"comment_id":4,"user_id":5,"book_id":1,"content":"shhshs","pics":[null,null,null,null],"comment_time":1574824546,"like":4,"name":"立刘","head_portrait":"https://img.pulaukomik.com/cover/20191126/5ddceda1625c9.jpg","is_like":0,"review":[],"review_count":0}]
-     * history : {"id":9,"user_id":19,"book_id":1,"catalogue_id":1,"create_time":1575427677,"type":1,"bean":0,"state":1,"deletetime":0,"words":575,"sort":1}
+     * last_catalogue_id : 2
+     * detail : {"book_id":5,"book_name":"Hitungan mundur 7 hari ","des":"Hai！ Jika hidupmu tersisa 7 hari. apa hal yang ingin kamu lakukan？Dunia akhirat didepartemen kematian mengumumkan diadakannya percobaan pemberitahuan kematian, Dalam waktu pendek 7 hari ini, tidak peduli kamu pernah hidup di puncak dunia, atau sedamg berjuang melawan kehidupan. di dalam hati pasti selalu ada rintangan, ada kerinduan, ada penyesalan....Sebenarnya tidak penting bagaimana meninggalnya; yang penting adalah bagaimana menjalani hidup","author":"ake","collect":3002,"label":[" Fantasi","Romantis"],"comment_count":1,"detail_cover":"https://img.pulaukomik.com/book/15756236907282.png","cost":3,"vip_cost":2,"state":0}
+     * comment : [{"comment_id":29,"user_id":57,"book_id":5,"content":"hhhhh","pics":[],"comment_time":1575683324,"like":0,"name":"张怡","head_portrait":"https://img.pulaukomik.com/cover/20191207/5deb010029604.jpg","is_like":0,"review":[],"review_count":0}]
+     * history : {"id":49,"user_id":54,"book_id":5,"catalogue_id":2,"create_time":1575685416,"type":1,"bean":0,"state":1,"deletetime":0,"words":96,"sort":2}
      */
 
     private int last_catalogue_id;
@@ -53,17 +53,17 @@ public class BookDetailInfoResponse {
 
     public static class DetailBean {
         /**
-         * book_id : 1
-         * book_name : 大国工程
-         * des : 余庆阳一个搬砖二十年的老工程，梦回世纪之交，海河大学毕业，接老爸的班继续搬砖。
-         * author : 和光万物
-         * collect : 9
-         * label : ["重生过去","畅想未来"]
-         * comment_count : 10
-         * detail_cover :
-         * cost : 0
-         * vip_cost : 0
-         * state : 1
+         * book_id : 5
+         * book_name : Hitungan mundur 7 hari
+         * des : Hai！ Jika hidupmu tersisa 7 hari. apa hal yang ingin kamu lakukan？Dunia akhirat didepartemen kematian mengumumkan diadakannya percobaan pemberitahuan kematian, Dalam waktu pendek 7 hari ini, tidak peduli kamu pernah hidup di puncak dunia, atau sedamg berjuang melawan kehidupan. di dalam hati pasti selalu ada rintangan, ada kerinduan, ada penyesalan....Sebenarnya tidak penting bagaimana meninggalnya; yang penting adalah bagaimana menjalani hidup
+         * author : ake
+         * collect : 3002
+         * label : [" Fantasi","Romantis"]
+         * comment_count : 1
+         * detail_cover : https://img.pulaukomik.com/book/15756236907282.png
+         * cost : 3
+         * vip_cost : 2
+         * state : 0
          */
 
         private int book_id;
@@ -169,17 +169,17 @@ public class BookDetailInfoResponse {
 
     public static class HistoryBean {
         /**
-         * id : 9
-         * user_id : 19
-         * book_id : 1
-         * catalogue_id : 1
-         * create_time : 1575427677
+         * id : 49
+         * user_id : 54
+         * book_id : 5
+         * catalogue_id : 2
+         * create_time : 1575685416
          * type : 1
          * bean : 0
          * state : 1
          * deletetime : 0
-         * words : 575
-         * sort : 1
+         * words : 96
+         * sort : 2
          */
 
         private int id;
@@ -283,4 +283,129 @@ public class BookDetailInfoResponse {
         }
     }
 
+//    public static class CommentBean {
+//        /**
+//         * comment_id : 29
+//         * user_id : 57
+//         * book_id : 5
+//         * content : hhhhh
+//         * pics : []
+//         * comment_time : 1575683324
+//         * like : 0
+//         * name : 张怡
+//         * head_portrait : https://img.pulaukomik.com/cover/20191207/5deb010029604.jpg
+//         * is_like : 0
+//         * review : []
+//         * review_count : 0
+//         */
+//
+//        private int comment_id;
+//        private int user_id;
+//        private int book_id;
+//        private String content;
+//        private int comment_time;
+//        private int like;
+//        private String name;
+//        private String head_portrait;
+//        private int is_like;
+//        private int review_count;
+//        private List<?> pics;
+//        private List<?> review;
+//
+//        public int getComment_id() {
+//            return comment_id;
+//        }
+//
+//        public void setComment_id(int comment_id) {
+//            this.comment_id = comment_id;
+//        }
+//
+//        public int getUser_id() {
+//            return user_id;
+//        }
+//
+//        public void setUser_id(int user_id) {
+//            this.user_id = user_id;
+//        }
+//
+//        public int getBook_id() {
+//            return book_id;
+//        }
+//
+//        public void setBook_id(int book_id) {
+//            this.book_id = book_id;
+//        }
+//
+//        public String getContent() {
+//            return content;
+//        }
+//
+//        public void setContent(String content) {
+//            this.content = content;
+//        }
+//
+//        public int getComment_time() {
+//            return comment_time;
+//        }
+//
+//        public void setComment_time(int comment_time) {
+//            this.comment_time = comment_time;
+//        }
+//
+//        public int getLike() {
+//            return like;
+//        }
+//
+//        public void setLike(int like) {
+//            this.like = like;
+//        }
+//
+//        public String getName() {
+//            return name;
+//        }
+//
+//        public void setName(String name) {
+//            this.name = name;
+//        }
+//
+//        public String getHead_portrait() {
+//            return head_portrait;
+//        }
+//
+//        public void setHead_portrait(String head_portrait) {
+//            this.head_portrait = head_portrait;
+//        }
+//
+//        public int getIs_like() {
+//            return is_like;
+//        }
+//
+//        public void setIs_like(int is_like) {
+//            this.is_like = is_like;
+//        }
+//
+//        public int getReview_count() {
+//            return review_count;
+//        }
+//
+//        public void setReview_count(int review_count) {
+//            this.review_count = review_count;
+//        }
+//
+//        public List<?> getPics() {
+//            return pics;
+//        }
+//
+//        public void setPics(List<?> pics) {
+//            this.pics = pics;
+//        }
+//
+//        public List<?> getReview() {
+//            return review;
+//        }
+//
+//        public void setReview(List<?> review) {
+//            this.review = review;
+//        }
+//    }
 }
