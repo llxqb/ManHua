@@ -1,6 +1,7 @@
 package com.shushan.manhua.mvp.ui.adapter;
 
 import android.support.annotation.Nullable;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -31,5 +32,11 @@ public class ReadingChapterAdapter extends BaseQuickAdapter<SelectionResponse.An
         ImageView coverIv = helper.getView(R.id.cover_iv);
         mImageLoaderHelper.displayImage(mContext, item.getCatalogue_cover(), coverIv, Constant.LOADING_DEFAULT_2);
         helper.setText(R.id.title_tv, item.getCatalogue_name());
+        ImageView lockIv = helper.getView(R.id.lock_iv);
+        if (item.getType() == 1) {//1收费0免费
+            lockIv.setVisibility(View.VISIBLE);
+        } else {
+            lockIv.setVisibility(View.GONE);
+        }
     }
 }

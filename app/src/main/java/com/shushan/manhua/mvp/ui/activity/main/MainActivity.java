@@ -130,14 +130,15 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         checkPermissions();
     }
 
+    boolean isExitLogin = false;
+
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         if (intent.getBooleanExtra("exitLogin", false)) {
             mSharePreferenceUtil.setData("first_guide", true);//设置引导页为true
-            startActivitys(LoginActivity.class);
-            LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.LOGIN_SUCCESS_UPDATE_DATA));//TODO
-//            finish();
+            isExitLogin = true;
+            loginTouristMode();
         }
     }
 
@@ -205,8 +206,15 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 //(userinfoBean.getToken(), userinfoBean.getName(), userinfoBean.getHead_portrait(), userinfoBean.getVip(), userinfoBean.getVip_end_time(), userinfoBean.getChannel(), new Gson().toJson(userinfoBean.getBook_type())
         User user = UserUtil.tranLoginUser(userinfoBean);
         mBuProcessor.setLoginUser(user);
-        initMainView();
-        onReadingSettingRequest();
+        if (isExitLogin) {//是退出登录
+            isExitLogin = false;
+            startActivitys(LoginActivity.class);
+            LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.LOGIN_SUCCESS_UPDATE_DATA));
+//            finish();
+        } else {
+            initMainView();
+            onReadingSettingRequest();
+        }
     }
 
     /**

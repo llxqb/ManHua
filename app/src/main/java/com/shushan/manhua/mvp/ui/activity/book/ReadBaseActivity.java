@@ -41,6 +41,7 @@ import com.shushan.manhua.entity.request.ExchangeBarrageStyleRequest;
 import com.shushan.manhua.entity.request.PublishCommentRequest;
 import com.shushan.manhua.entity.request.ReadRecordingRequest;
 import com.shushan.manhua.entity.request.ReadingRequest;
+import com.shushan.manhua.entity.request.SelectionRequest;
 import com.shushan.manhua.entity.request.SendBarrageRequest;
 import com.shushan.manhua.entity.request.ShareTaskRequest;
 import com.shushan.manhua.entity.request.SupportRequest;
@@ -603,9 +604,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
                 onRequestReadingInfo();
                 break;
             case R.id.bottom_directory_ll: //目录
-                if (mSelectionResponse != null) {
-                    new ReadContentsPopupWindow(this, mSelectionResponse, this, mImageLoaderHelper).initPopWindow(mReadLayout);
-                }
+                onRequestSelectionInfo();
                 break;
             case R.id.bottom_comment_ll://评论
                 MoreCommentActivity.start(this, mBookId);
@@ -761,6 +760,30 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
             if (mBarrageStylePopupWindow != null) {
                 mBarrageStylePopupWindow.updateData(barrageStyleResponseList, mBarrageStyle);
             }
+        }
+    }
+
+    /**
+     * 请求漫画选集信息
+     */
+    private void onRequestSelectionInfo() {
+        SelectionRequest selectionRequest = new SelectionRequest();
+        selectionRequest.token = mBuProcessor.getToken();
+        selectionRequest.book_id = mBookId;
+        selectionRequest.orderby = "asc";
+        selectionRequest.page = String.valueOf(page);
+        selectionRequest.pagesize = "500";//
+        mPresenter.onRequestSelectionInfo(selectionRequest);
+    }
+
+    /**
+     * 请求漫画选集信息成功
+     */
+    @Override
+    public void getSelectionInfoSuccess(SelectionResponse selectionResponse) {
+        mSelectionResponse = selectionResponse;
+        if (mSelectionResponse != null) {
+            new ReadContentsPopupWindow(this, mSelectionResponse, this, mImageLoaderHelper).initPopWindow(mReadLayout);
         }
     }
 

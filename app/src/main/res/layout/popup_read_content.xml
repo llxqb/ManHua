@@ -49,6 +49,7 @@
             android:max="100"
             android:maxHeight="3.4dp"
             android:minHeight="3.4dp"
+            android:thumb="@mipmap/oval"
             android:paddingTop="@dimen/dp_10"
             android:paddingBottom="@dimen/dp_10"
             android:progress="0"

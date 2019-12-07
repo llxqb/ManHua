@@ -29,7 +29,7 @@ public class RecommendAdapter extends BaseQuickAdapter<RecommendBean, BaseViewHo
     protected void convert(BaseViewHolder helper, RecommendBean item) {
         helper.addOnClickListener(R.id.item_recommend_layout);
         ImageView imageView = helper.getView(R.id.book_iv);
-        mImageLoaderHelper.displayImage(mContext, item.getSquare_cover(), imageView, Constant.LOADING_DEFAULT_4);
+        mImageLoaderHelper.displayRoundedCornerImage(mContext, item.getSquare_cover(), imageView, 6, Constant.LOADING_DEFAULT_4);
         helper.setText(R.id.book_name_tv, item.getBook_name());
         helper.setText(R.id.book_desc_tv, DataUtils.ListToString(item.getLabel()));//label 标签
     }

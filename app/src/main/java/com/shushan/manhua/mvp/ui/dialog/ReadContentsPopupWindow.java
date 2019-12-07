@@ -15,7 +15,7 @@ import com.shushan.manhua.R;
 import com.shushan.manhua.entity.response.SelectionResponse;
 import com.shushan.manhua.help.ImageLoaderHelper;
 import com.shushan.manhua.mvp.ui.adapter.ReadingChapterAdapter;
-import com.shushan.manhua.mvp.utils.SystemUtils;
+import com.shushan.manhua.mvp.utils.LogUtils;
 
 
 /**
@@ -68,7 +68,10 @@ public class ReadContentsPopupWindow {
         readingChapterAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             SelectionResponse.AnthologyBean anthologyBean = (SelectionResponse.AnthologyBean) adapter.getItem(position);
             if (mPopupWindowListener != null) {
-                mPopupWindowListener.clickChapterBtnListener(anthologyBean.getCatalogue_id());
+                if (anthologyBean != null) {
+                    mPopupWindowListener.clickChapterBtnListener(anthologyBean.getCatalogue_id());
+                    mCustomPopWindow.dissmiss();
+                }
             }
         });
 
@@ -104,28 +107,34 @@ public class ReadContentsPopupWindow {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-
+//                // 当不滚动时处理
+//                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+//                    // 获取当前滚动到的条目位置
+//                    float firstIndex = linearLayoutManager.findFirstVisibleItemPosition();
+//                    LogUtils.e("Progress:" + (int)(firstIndex / (readingChapterAdapter.getItemCount() - 3) * 100));
+//                    LogUtils.e("Count:" + readingChapterAdapter.getItemCount());
+//                    mSeekBar.setProgress((int)(firstIndex / (readingChapterAdapter.getItemCount() - 3) * 100));
+//                }
             }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                //整体的总宽度，注意是整体，包括在显示区域之外的。
-                int range = recyclerView.computeHorizontalScrollRange();
-                float density = SystemUtils.getScreenDensity(mContext);
-                //计算出溢出部分的宽度，即屏幕外剩下的宽度
-                float maxEndX = range + (10 * density) + 5 - SystemUtils.getScreenWidth(mContext);
-                //滑动的距离
-                endX += dx;
-                //计算比例
-                float proportion = endX / maxEndX;
+                // 获取当前滚动到的条目位置
+                float firstIndex = linearLayoutManager.findFirstVisibleItemPosition();
+                mSeekBar.setProgress((int) (firstIndex / (readingChapterAdapter.getItemCount() - 3) * 100));
 
-                mSeekBar.setProgress((int) (proportion * 100));
-//                //计算滚动条宽度
-//                int transMaxRange = ((ViewGroup) mSeekBar.getParent()).getWidth() - mSeekBar.getWidth();
-//                //设置滚动条移动
-////                mSeekBar.setTranslationX(transMaxRange * proportion);
-//                LogUtils.e("proportion2:"+transMaxRange * proportion);
+//                //整体的总宽度，注意是整体，包括在显示区域之外的。
+//                int range = recyclerView.computeHorizontalScrollRange();
+//                float density = SystemUtils.getScreenDensity(mContext);
+//                //计算出溢出部分的宽度，即屏幕外剩下的宽度
+//                float maxEndX = range + (10 * density) + 5 - SystemUtils.getScreenWidth(mContext);
+//                //滑动的距离
+//                endX += dx;
+//                //计算比例
+//                float proportion = endX / maxEndX;
+//                LogUtils.e("endX:" + endX + " maxEndX:" + maxEndX + " proportion:" + (int) (proportion * 100));
+//                mSeekBar.setProgress((int) (proportion * 100));
             }
 
         });
@@ -154,6 +163,7 @@ public class ReadContentsPopupWindow {
         // 最后一个可见位置
         int lastItem = mRecyclerView.getChildLayoutPosition(mRecyclerView.getChildAt(mRecyclerView.getChildCount() - 1));
 
+        LogUtils.e("position:" + position + "  firstItem:" + firstItem);
         if (position < firstItem) {
             // 如果跳转位置在第一个可见位置之前，就smoothScrollToPosition可以直接跳转
             mRecyclerView.smoothScrollToPosition(position);

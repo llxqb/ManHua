@@ -10,10 +10,8 @@ import com.shushan.manhua.R;
 import com.shushan.manhua.entity.constants.ActivityConstant;
 import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.entity.request.BarrageListRequest;
-import com.shushan.manhua.entity.request.SelectionRequest;
 import com.shushan.manhua.entity.response.BarrageListResponse;
 import com.shushan.manhua.entity.response.ReadingInfoResponse;
-import com.shushan.manhua.entity.response.SelectionResponse;
 
 /**
  * 阅读页面
@@ -24,7 +22,6 @@ public class ReadActivity extends ReadBaseActivity {
     @Override
     public void initView() {
         super.initView();
-        onRequestSelectionInfo();
         onRequestBarrageList();
         onRequestBuyBarrageStyle();//请求购买的弹幕样式
     }
@@ -130,27 +127,6 @@ public class ReadActivity extends ReadBaseActivity {
         LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.UPDATE_BOOKSHELF));
     }
 
-
-    /**
-     * 请求漫画选集信息
-     */
-    private void onRequestSelectionInfo() {
-        SelectionRequest selectionRequest = new SelectionRequest();
-        selectionRequest.token = mBuProcessor.getToken();
-        selectionRequest.book_id = mBookId;
-        selectionRequest.orderby = "asc";
-        selectionRequest.page = String.valueOf(page);
-        selectionRequest.pagesize = String.valueOf(Constant.PAGESIZE);
-        mPresenter.onRequestSelectionInfo(selectionRequest);
-    }
-
-    /**
-     * 请求漫画选集信息成功
-     */
-    @Override
-    public void getSelectionInfoSuccess(SelectionResponse selectionResponse) {
-        mSelectionResponse = selectionResponse;
-    }
 
 
     /**

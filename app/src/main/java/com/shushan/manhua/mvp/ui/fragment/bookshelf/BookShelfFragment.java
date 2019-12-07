@@ -144,6 +144,8 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
     }
 
     private void initAdapter() {
+        mBookshelfRecyclerView.setNestedScrollingEnabled(false);
+        mRecommendRecyclerView.setNestedScrollingEnabled(false);
         mBookShelfAdapter = new BookShelfAdapter(bookShelfResponseList, mImageLoaderHelper);
         mBookshelfRecyclerView.setAdapter(mBookShelfAdapter);
         mBookshelfRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
@@ -155,7 +157,6 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
             LongDeleteActivity.start(getActivity(), (ArrayList<BookShelfResponse.BookrackBean>) mBookShelfResponse.getBookrack());
             return false;
         });
-
         mBookShelfAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             if (position == adapter.getItemCount() - 1) {
                 LocalBroadcastManager.getInstance(Objects.requireNonNull(getActivity())).sendBroadcast(new Intent(ActivityConstant.SWITCH_TO_HOME_PAGE));
@@ -166,7 +167,6 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
                 }
             }
         });
-
         mRecommendAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             RecommendBean dataBean = (RecommendBean) adapter.getItem(position);
             BookDetailActivity.start(getActivity(), String.valueOf(dataBean.getBook_id()));
