@@ -162,14 +162,14 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
             } else {
                 BookShelfResponse.BookrackBean bookrackBean = (BookShelfResponse.BookrackBean) adapter.getItem(position);
                 if (bookrackBean != null) {
-                    ReadActivity.start(getActivity(), String.valueOf(bookrackBean.getBook_id()), bookrackBean.getCatalogue_id(), bookrackBean.getDetail_cover());//阅读页面
+                    ReadActivity.start(getActivity(), String.valueOf(bookrackBean.getBook_id()), bookrackBean.getCatalogue_id());//阅读页面
                 }
             }
         });
 
         mRecommendAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             RecommendBean dataBean = (RecommendBean) adapter.getItem(position);
-            BookDetailActivity.start(getActivity(), String.valueOf(dataBean.getBook_id()), dataBean.getSquare_cover());
+            BookDetailActivity.start(getActivity(), String.valueOf(dataBean.getBook_id()));
         });
     }
 
@@ -188,7 +188,7 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
                 startActivitys(MemberCenterActivity.class);
                 break;
             case R.id.continue_read_rl://继续阅读
-                ReadActivity.start(getActivity(), String.valueOf(mBookShelfResponse.getLast_read().getBook_id()), mBookShelfResponse.getLast_read().getCatalogue_id(), mBookShelfResponse.getLast_read().getDetail_cover());//阅读页面
+                ReadActivity.start(getActivity(), String.valueOf(mBookShelfResponse.getLast_read().getBook_id()), mBookShelfResponse.getLast_read().getCatalogue_id());//阅读页面
                 break;
             case R.id.read_record_ll:
                 startActivitys(ReadingHistoryActivity.class);
@@ -228,7 +228,7 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
             mLastReadLayout.setVisibility(View.GONE);
         } else {
             mLastReadLayout.setVisibility(View.VISIBLE);
-            mImageLoaderHelper.displayImage(getActivity(), lastReadBean.getDetail_cover(), mRecentReadBookIv, Constant.LOADING_DEFAULT_2);
+            mImageLoaderHelper.displayImage(getActivity(), lastReadBean.getOblong_cover(), mRecentReadBookIv, Constant.LOADING_DEFAULT_2);
             mRecentReadBookNameTv.setText(lastReadBean.getBook_name());
             mRecentReadBookToChapterTv.setText("Bacaan terakhir ke Bab " + lastReadBean.getCatalogue_id());
         }

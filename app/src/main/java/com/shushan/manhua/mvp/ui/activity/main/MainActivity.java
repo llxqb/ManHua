@@ -136,7 +136,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         if (intent.getBooleanExtra("exitLogin", false)) {
             mSharePreferenceUtil.setData("first_guide", true);//设置引导页为true
             startActivitys(LoginActivity.class);
-            LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.LOGIN_SUCCESS_UPDATE_DATA));
+            LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.LOGIN_SUCCESS_UPDATE_DATA));//TODO
 //            finish();
         }
     }

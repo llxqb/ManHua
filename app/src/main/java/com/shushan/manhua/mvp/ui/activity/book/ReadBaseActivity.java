@@ -177,7 +177,6 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     private int mBarrageStyle = 0;
     public String mBookId;
     public int mCatalogueId;// 当前章节id
-    public String mBookCover;//书籍封面
     private boolean isBookDetailActivityTo = false;//是否是从书籍详情页跳转过来
     public ReadingPicAdapter mReadingPicAdapter;//章节图片adapter
     public ReadingCommentAdapter mReadingCommentAdapter;//评价adapter
@@ -204,11 +203,10 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     private CommentBean mCommentBean;
     private int clickPos;
 
-    public static void start(Context context, String bookId, int catalogueId, String bookCover) {
+    public static void start(Context context, String bookId, int catalogueId) {
         Intent intent = new Intent(context, ReadActivity.class);
         intent.putExtra("bookId", bookId);
         intent.putExtra("catalogueId", catalogueId);
-        intent.putExtra("bookCover", bookCover);
         context.startActivity(intent);
     }
 
@@ -237,7 +235,6 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
         if (getIntent() != null) {
             mBookId = getIntent().getStringExtra("bookId");
             mCatalogueId = getIntent().getIntExtra("catalogueId", 1);
-            mBookCover = getIntent().getStringExtra("bookCover");
             isBookDetailActivityTo = getIntent().getBooleanExtra("is_book_detail_activity", false);
         }
         mMessageEt.clearFocus();//让编辑框失去焦点 配合布局一起使用
@@ -552,7 +549,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
                 break;
             case R.id.common_right_tv: //全集    跳到详情
                 if (!isBookDetailActivityTo) {
-                    BookDetailActivity.start(this, mBookId, mBookCover);
+                    BookDetailActivity.start(this, mBookId);
                 }
                 finish();
                 break;

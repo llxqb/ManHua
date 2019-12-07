@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_purchased_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/dp_5"
@@ -20,7 +21,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_13"
         android:layout_toEndOf="@id/book_cover_iv"
-        android:text="急先锋"
         android:textColor="@color/color_30"
         android:textSize="@dimen/sp_16"
         android:textStyle="bold" />
@@ -34,7 +34,7 @@
         android:layout_marginStart="@dimen/dp_13"
         android:layout_marginTop="@dimen/dp_10"
         android:layout_toEndOf="@id/book_cover_iv"
-        android:text="已购买3话"
+        android:text="3 Chapter yang telah dibeli"
         android:textColor="@color/color_6d"
         android:textSize="@dimen/sp_13" />
 
@@ -46,7 +46,6 @@
         android:layout_marginStart="@dimen/dp_13"
         android:layout_marginTop="@dimen/dp_13"
         android:layout_toEndOf="@id/book_cover_iv"
-        android:text="全部33话"
         android:textColor="@color/color_6d"
         android:textSize="@dimen/sp_13" />
 

@@ -19,7 +19,6 @@ import com.shushan.manhua.di.modules.MessageModule;
 import com.shushan.manhua.di.modules.SentMessageFragmentModule;
 import com.shushan.manhua.entity.request.DeleteMessageRequest;
 import com.shushan.manhua.entity.request.MessageRequest;
-import com.shushan.manhua.entity.response.MessageResponse;
 import com.shushan.manhua.entity.response.SentMessageResponse;
 import com.shushan.manhua.mvp.ui.activity.book.BookDetailActivity;
 import com.shushan.manhua.mvp.ui.activity.book.CommentDetailsActivity;
@@ -81,7 +80,7 @@ public class SentMessageFragment extends BaseFragment implements SentMessageFrag
                     break;
                 case R.id.book_detail_ll://跳到书籍详情
                     if (dataBean != null) {
-                        BookDetailActivity.start(getActivity(), String.valueOf(dataBean.getBook_id()), dataBean.getDetail_cover());
+                        BookDetailActivity.start(getActivity(), String.valueOf(dataBean.getBook_id()));
                     }
                     break;
                 case R.id.delete_tv://删除

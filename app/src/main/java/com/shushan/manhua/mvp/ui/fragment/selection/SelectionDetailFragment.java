@@ -1,6 +1,5 @@
 package com.shushan.manhua.mvp.ui.fragment.selection;
 
-import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -23,6 +22,7 @@ import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.entity.request.SelectionRequest;
 import com.shushan.manhua.entity.request.SupportRequest;
 import com.shushan.manhua.entity.response.SelectionResponse;
+import com.shushan.manhua.mvp.ui.activity.book.ReadBaseActivity;
 import com.shushan.manhua.mvp.ui.adapter.SelectionAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseFragment;
 
@@ -43,12 +43,10 @@ import butterknife.Unbinder;
  * 漫画选集
  */
 
-public class SelectionDetailFragment extends BaseFragment implements SelectionFragmentControl.SelectionView , BaseQuickAdapter.RequestLoadMoreListener{
+public class SelectionDetailFragment extends BaseFragment implements SelectionFragmentControl.SelectionView, BaseQuickAdapter.RequestLoadMoreListener {
 
     @Inject
     SelectionFragmentControl.SelectionFragmentPresenter mPresenter;
-    @SuppressLint("StaticFieldLeak")
-    static SelectionDetailFragment mSelectionDetailFragment;
     @BindView(R.id.sort_tv)
     TextView mSortTv;
     @BindView(R.id.recycler_view)
@@ -63,16 +61,6 @@ public class SelectionDetailFragment extends BaseFragment implements SelectionFr
     private SelectionResponse.AnthologyBean dataBean;
     private int clickPos;
 //    private int mLoginModel;//1 是游客模式 2 是登录模式
-
-    public static SelectionDetailFragment getInstance(String bookId) {
-        if (mSelectionDetailFragment == null) {
-            mSelectionDetailFragment = new SelectionDetailFragment();
-        }
-        Bundle bd = new Bundle();
-        bd.putString("bookId", bookId);
-        mSelectionDetailFragment.setArguments(bd);
-        return mSelectionDetailFragment;
-    }
 
 
     @Nullable
@@ -102,6 +90,8 @@ public class SelectionDetailFragment extends BaseFragment implements SelectionFr
             clickPos = position;
             if (view.getId() == R.id.support_tv) {
                 onCommentSuggestRequest();
+            } else if (view.getId() == R.id.item_selection_layout) {
+                ReadBaseActivity.start(getActivity(), mBookId, dataBean.getCatalogue_id());
             }
         });
     }
@@ -112,29 +102,30 @@ public class SelectionDetailFragment extends BaseFragment implements SelectionFr
 
     @OnClick({R.id.sort_tv})
     public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.sort_tv:
-                if (sort == 1) {//进行正序排序
-                    sort = 0;
-                    Drawable drawable = getResources().getDrawable(R.mipmap.list_inverted_order);
-                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-                    mSortTv.setCompoundDrawables(null, null, drawable, null);
-                } else {//进行逆序排序
-                    sort = 1;
-                    Drawable drawable = getResources().getDrawable(R.mipmap.list_positive_sequence);
-                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-                    mSortTv.setCompoundDrawables(null, null, drawable, null);
-                }
-                initSortList();
-                break;
+        if (view.getId() == R.id.sort_tv) {
+            if (sort == 1) {//进行正序排序
+                sort = 0;
+                Drawable drawable = getResources().getDrawable(R.mipmap.list_positive_sequence);
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                mSortTv.setCompoundDrawables(null, null, drawable, null);
+                mSortTv.setText(getString(R.string.SelectionDetailFragment_sort_positive));
+            } else {//进行逆序排序
+                sort = 1;
+                Drawable drawable = getResources().getDrawable(R.mipmap.list_inverted_order);
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                mSortTv.setCompoundDrawables(null, null, drawable, null);
+                mSortTv.setText(getString(R.string.SelectionDetailFragment_sort_negative));
+            }
+            initSortList(mSelectionAdapter.getData(), 1);
         }
     }
 
     /**
      * 对列表正序 逆序排序
+     * isAllSort : 0 是 对一页排序  1 是对所有数据排序
      */
-    private void initSortList() {
-        if (mSelectionResponse != null) {
+    private void initSortList(List<SelectionResponse.AnthologyBean> selectionResponseList, int isAllSort) {
+        if (selectionResponseList != null) {
             Comparator<SelectionResponse.AnthologyBean> comparator = (dataBean1, dataBean2) -> {
                 // 按getRecommend从大到小排序
                 if (sort == 1) {
@@ -144,16 +135,13 @@ public class SelectionDetailFragment extends BaseFragment implements SelectionFr
                 }
             };
             //这里就会自动根据规则进行排序
-            Collections.sort(mSelectionResponse.getAnthology(), comparator);
-//            mSelectionAdapter.setNewData(mSelectionResponse.getAnthology());
-            selectionResponseList = mSelectionResponse.getAnthology();
+            Collections.sort(selectionResponseList, comparator);
             //加载更多这样设置
-            if (!mSelectionResponse.getAnthology().isEmpty()) {
-                if (page == 1) {
-                    mSelectionAdapter.setNewData(mSelectionResponse.getAnthology());
-                } else {
-                    mSelectionAdapter.addData(mSelectionResponse.getAnthology());
-                }
+            if (page == 1 || isAllSort == 1) {
+                mSelectionAdapter.setNewData(selectionResponseList);
+            } else {
+                mSelectionAdapter.addData(selectionResponseList);
+                mSelectionAdapter.loadMoreComplete();
             }
         }
     }
@@ -165,7 +153,11 @@ public class SelectionDetailFragment extends BaseFragment implements SelectionFr
         SelectionRequest selectionRequest = new SelectionRequest();
         selectionRequest.token = mBuProcessor.getToken();
         selectionRequest.book_id = mBookId;
-        selectionRequest.orderby = "asc";
+        if (sort == 0) {
+            selectionRequest.orderby = "asc";
+        } else {
+            selectionRequest.orderby = "desc";
+        }
         selectionRequest.page = String.valueOf(page);
         selectionRequest.pagesize = String.valueOf(Constant.PAGESIZE);
         mPresenter.onRequestSelectionInfo(selectionRequest);
@@ -175,7 +167,7 @@ public class SelectionDetailFragment extends BaseFragment implements SelectionFr
 
     @Override
     public void onLoadMoreRequested() {
-        if(!isReqState){
+        if (!isReqState) {
             if (!selectionResponseList.isEmpty()) {
                 if (page == 1 && selectionResponseList.size() < Constant.PAGESIZE) {
                     mSelectionAdapter.loadMoreEnd(true);
@@ -185,9 +177,9 @@ public class SelectionDetailFragment extends BaseFragment implements SelectionFr
                     } else {
                         //等于10条
                         page++;
-                        mSelectionAdapter.loadMoreComplete();
                         onRequestSelectionInfo();
                         isReqState = true;
+                        mSelectionAdapter.loadMoreComplete();
                     }
                 }
             } else {
@@ -195,12 +187,13 @@ public class SelectionDetailFragment extends BaseFragment implements SelectionFr
             }
         }
     }
-    
+
     @Override
     public void getSelectionInfoSuccess(SelectionResponse selectionResponse) {
         isReqState = false;
+        selectionResponseList = selectionResponse.getAnthology();
         mSelectionResponse = selectionResponse;
-        initSortList();
+        initSortList(selectionResponseList, 0);
     }
 
     /**

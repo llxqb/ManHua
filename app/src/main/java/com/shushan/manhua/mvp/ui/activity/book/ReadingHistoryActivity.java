@@ -158,7 +158,7 @@ public class ReadingHistoryActivity extends BaseActivity implements ReadingHisto
         ReadingHistoryRequest readingHistoryRequest = new ReadingHistoryRequest();
         readingHistoryRequest.token = mBuProcessor.getToken();
         readingHistoryRequest.page = "1";
-        readingHistoryRequest.pagesize = "100";
+        readingHistoryRequest.pagesize = "200";
         mPresenter.onRequestReadingHistory(readingHistoryRequest);
     }
 

@@ -16,6 +16,7 @@ import com.shushan.manhua.di.modules.PurchasedModule;
 import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.entity.request.PurchasedBookRequest;
 import com.shushan.manhua.entity.response.PurchasedResponse;
+import com.shushan.manhua.mvp.ui.activity.book.BookDetailActivity;
 import com.shushan.manhua.mvp.ui.adapter.PurchasedAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseActivity;
 
@@ -58,6 +59,10 @@ public class PurchasedActivity extends BaseActivity implements PurchasedControl.
         mPurchasedRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mPurchasedRecyclerView.setAdapter(mPurchasedAdapter);
         mPurchasedAdapter.setOnLoadMoreListener(this, mPurchasedRecyclerView);
+        mPurchasedAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            PurchasedResponse.DataBean dataBean = (PurchasedResponse.DataBean) adapter.getItem(position);
+            BookDetailActivity.start(PurchasedActivity.this, String.valueOf(dataBean.getBook_id()));
+        });
     }
 
     @Override
@@ -70,7 +75,6 @@ public class PurchasedActivity extends BaseActivity implements PurchasedControl.
     public void onViewClicked() {
         finish();
     }
-
 
     /**
      * 已购漫画
@@ -141,6 +145,4 @@ public class PurchasedActivity extends BaseActivity implements PurchasedControl.
                 .purchasedModule(new PurchasedModule(this, this))
                 .activityModule(new ActivityModule(this)).build().inject(this);
     }
-
-
 }

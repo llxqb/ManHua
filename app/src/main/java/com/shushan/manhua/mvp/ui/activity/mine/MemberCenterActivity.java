@@ -89,7 +89,6 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
     private List<MemberCenterResponse.VipinfoBean> buyResponseList = new ArrayList<>();
     private List<ProfitResponse> profitResponseList = new ArrayList<>();
     private BuyAdapter mBuyAdapter;
-    private MemberCenterResponse mMemberCenterResponse;
     private User mUser;
     private int mLoginModel;//1 是游客模式 2 是登录模式
     private GooglePayHelper mGooglePayHelper;
@@ -278,7 +277,6 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
 
     @Override
     public void getMemberCenterResponse(MemberCenterResponse memberCenterResponse) {
-        mMemberCenterResponse = memberCenterResponse;
         buyResponseList = memberCenterResponse.getVipinfo();
         MemberCenterResponse.UserinfoBean userinfoBean = memberCenterResponse.getUserinfo();
         setUserDate(userinfoBean);
@@ -297,9 +295,11 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
         if (memberCenterResponse.getVipget_state() == 0) {//0未领取1已领取
             mGetBeansTv.setText(getString(R.string.MemberCenterActivity_get_beans));
             mGetBeansTv.setBackgroundResource(R.drawable.gradient_get_beans_bg);
+            mGetBeansTv.setTextColor(getResources().getColor(R.color.white));
         } else {
             mGetBeansTv.setText(getString(R.string.MemberCenterActivity_get_beans_ed));
             mGetBeansTv.setBackgroundResource(R.drawable.bg_gray_round_solid_20);
+            mGetBeansTv.setTextColor(getResources().getColor(R.color.color999));
         }
 
         mUser.vip = userinfoBean.getVip();

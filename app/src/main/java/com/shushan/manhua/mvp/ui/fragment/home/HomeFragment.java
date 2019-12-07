@@ -76,7 +76,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentControl.Ho
         mRecyclerView.setAdapter(mHomeAdapter);
         mHomeAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             HomeResponse.BooksBean booksBean = (HomeResponse.BooksBean) adapter.getItem(position);
-            BookDetailActivity.start(getActivity(), String.valueOf(booksBean.getBook_id()), booksBean.getOblong_cover());
+            BookDetailActivity.start(getActivity(), String.valueOf(booksBean.getBook_id()));
         });
     }
 

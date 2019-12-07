@@ -1,6 +1,5 @@
 package com.shushan.manhua.mvp.ui.fragment.bookDetail;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -50,8 +49,6 @@ public class BookDetailFragment extends BaseFragment implements BookDetailFragme
 
     @Inject
     BookDetailFragmentControl.BookDetailFragmentPresenter mPresenter;
-    @SuppressLint("StaticFieldLeak")
-    static BookDetailFragment mBookDetailFragment;
     @BindView(R.id.desc_tv)
     TextView mDescTv;
     @BindView(R.id.author_tv)
@@ -72,15 +69,15 @@ public class BookDetailFragment extends BaseFragment implements BookDetailFragme
     private int clickPos;
     private int mLoginModel;//1 是游客模式 2 是登录模式
 
-    public static BookDetailFragment getInstance(String bookId) {
-        if (mBookDetailFragment == null) {
-            mBookDetailFragment = new BookDetailFragment();
-        }
-        Bundle bd = new Bundle();
-        bd.putString("bookId", bookId);
-        mBookDetailFragment.setArguments(bd);
-        return mBookDetailFragment;
-    }
+//    public static BookDetailFragment getInstance(String bookId) {
+//        if (mBookDetailFragment == null) {
+//            mBookDetailFragment = new BookDetailFragment();
+//        }
+//        Bundle bd = new Bundle();
+//        bd.putString("bookId", bookId);
+//        mBookDetailFragment.setArguments(bd);
+//        return mBookDetailFragment;
+//    }
 
     @Override
     public void onReceivePro(Context context, Intent intent) {
@@ -115,10 +112,12 @@ public class BookDetailFragment extends BaseFragment implements BookDetailFragme
         mLoginModel = mBuProcessor.getLoginModel();
         initEmptyView();
         mUser = mBuProcessor.getUser();
+        // Bundle bundle =this.getArguments();
         if (getArguments() != null) {
             mBookId = getArguments().getString("bookId");
             onRequestDetailInfo();
         }
+
         mReadingCommentAdapter = new BookDetailAdapter(readingCommendResponseList, mImageLoaderHelper);
         mCommentRecyclerView.setAdapter(mReadingCommentAdapter);
         mCommentRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

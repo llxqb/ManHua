@@ -3,10 +3,11 @@ package com.shushan.manhua.entity.response;
 import java.util.List;
 
 public class PurchasedResponse {
+
     /**
      * error : 0
      * msg : success
-     * data : [{"book_id":1,"catalogue_id":1,"buy_words":2,"book_name":"大国工程","words":575}]
+     * data : [{"book_id":5,"catalogue_id":39,"buy_words":1,"book_name":"Hitungan mundur 7 hari ","words":96,"oblong_cover":"https://img.pulaukomik.com/book/15756236893514.png"},{"book_id":4,"catalogue_id":10,"buy_words":1,"book_name":"倒数七天","words":5,"oblong_cover":"https://img.pulaukomik.com/book/15755934237250.png"},{"book_id":1,"catalogue_id":2,"buy_words":1,"book_name":"大国工程","words":575,"oblong_cover":""}]
      */
 
     private int error;
@@ -39,11 +40,12 @@ public class PurchasedResponse {
 
     public static class DataBean {
         /**
-         * book_id : 1
-         * catalogue_id : 1
-         * buy_words : 2
-         * book_name : 大国工程
-         * words : 575
+         * book_id : 5
+         * catalogue_id : 39
+         * buy_words : 1
+         * book_name : Hitungan mundur 7 hari
+         * words : 96
+         * oblong_cover : https://img.pulaukomik.com/book/15756236893514.png
          */
 
         private int book_id;
@@ -51,6 +53,7 @@ public class PurchasedResponse {
         private int buy_words;
         private String book_name;
         private int words;
+        private String oblong_cover;
 
         public int getBook_id() {
             return book_id;
@@ -90,6 +93,14 @@ public class PurchasedResponse {
 
         public void setWords(int words) {
             this.words = words;
+        }
+
+        public String getOblong_cover() {
+            return oblong_cover;
+        }
+
+        public void setOblong_cover(String oblong_cover) {
+            this.oblong_cover = oblong_cover;
         }
     }
 }

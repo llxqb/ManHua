@@ -2,6 +2,7 @@ package com.shushan.manhua.mvp.ui.activity.book;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -58,14 +59,12 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
     private List<String> labelResponseList = new ArrayList<>();
     String[] titles;
     String mBookId;
-    String mBookCover;
     private BookDetailInfoResponse mBookDetailInfoResponse;
     private LabelAdapter mLabelAdapter;
 
-    public static void start(Context context, String bookId, String bookCover) {
+    public static void start(Context context, String bookId) {
         Intent intent = new Intent(context, BookDetailActivity.class);
         intent.putExtra("bookId", bookId);
-        intent.putExtra("bookCover", bookCover);
         context.startActivity(intent);
     }
 
@@ -80,13 +79,10 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
     public void initView() {
         if (getIntent() != null) {
             mBookId = getIntent().getStringExtra("bookId");
-            mBookCover = getIntent().getStringExtra("bookCover");
-            mImageLoaderHelper.displayImage(this, mBookCover, mCoverIv, R.mipmap.default_detail);
             titles = new String[]{getResources().getString(R.string.BookDetailActivity_detail_tv), getResources().getString(R.string.BookDetailActivity_selection_tv)};
             mViewPager.setOffscreenPageLimit(2);
             mViewPager.setAdapter(new MyPageAdapter(getSupportFragmentManager()));
             mXTabLayout.setupWithViewPager(mViewPager);
-
             mLabelAdapter = new LabelAdapter(labelResponseList);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
             linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -117,14 +113,12 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
                         Intent intent = new Intent(this, ReadActivity.class);
                         intent.putExtra("bookId", mBookId);
                         intent.putExtra("catalogueId", historyBean.getCatalogue_id());
-                        intent.putExtra("bookCover", mBookCover);
                         intent.putExtra("is_book_detail_activity", true);
                         startActivity(intent);//继续阅读
                     } else {
                         Intent intent = new Intent(this, ReadActivity.class);
                         intent.putExtra("bookId", mBookId);
                         intent.putExtra("catalogueId", 1);
-                        intent.putExtra("bookCover", mBookCover);
                         intent.putExtra("is_book_detail_activity", true);
                         startActivity(intent);//阅读页面 章节默认第一章节;
                     }
@@ -148,6 +142,7 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
         mBookDetailInfoResponse = bookDetailInfoResponse;
         mLabelAdapter.setNewData(bookDetailInfoResponse.getDetail().getLabel());
         mBookTv.setText(mBookDetailInfoResponse.getDetail().getBook_name());
+        mImageLoaderHelper.displayImage(this, mBookDetailInfoResponse.getDetail().getDetail_cover(), mCoverIv, R.mipmap.default_detail);
         if (bookDetailInfoResponse.getDetail().getState() == 0) {//0未加入书架1已加入书架
             mAddBookshelfTv.setText(getString(R.string.BookDetailActivity_add_bookshelf));//BookDetailActivity_add_bookshelf_ed
         } else {
@@ -177,8 +172,12 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
 
         MyPageAdapter(FragmentManager fm) {
             super(fm);
-            BookDetailFragment bookDetailFragment = BookDetailFragment.getInstance(mBookId);
-            SelectionDetailFragment selectionDetailFragment = SelectionDetailFragment.getInstance(mBookId);
+            Bundle bundle = new Bundle();
+            bundle.putString("bookId", mBookId);
+            BookDetailFragment bookDetailFragment = new BookDetailFragment();
+            SelectionDetailFragment selectionDetailFragment = new SelectionDetailFragment();
+            bookDetailFragment.setArguments(bundle);//数据传递到fragment中
+            selectionDetailFragment.setArguments(bundle);//数据传递到fragment中
             fragments.add(bookDetailFragment);
             fragments.add(selectionDetailFragment);
         }

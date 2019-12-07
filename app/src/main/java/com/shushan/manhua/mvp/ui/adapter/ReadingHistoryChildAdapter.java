@@ -41,7 +41,7 @@ public class ReadingHistoryChildAdapter extends BaseQuickAdapter<ReadingHistoryR
             helper.setImageResource(R.id.check_iv, R.mipmap.history_delete_unchoose);
         }
         ImageView coverIv = helper.getView(R.id.cover_iv);
-        mImageLoaderHelper.displayImage(mContext, item.getDetail_cover(), coverIv, Constant.LOADING_DEFAULT_2);
+        mImageLoaderHelper.displayImage(mContext, item.getOblong_cover(), coverIv, Constant.LOADING_DEFAULT_2);
         helper.setText(R.id.book_name_tv, item.getBook_name());
         helper.setText(R.id.read_chapter_tv, "Baca untuk:" + item.getCatalogue_name());
         helper.setText(R.id.remaining_chapter_tv, "Bab " + item.getResidue_words() + ": Belum Dibaca");

@@ -9,8 +9,8 @@ public class BookShelfResponse  {
 
 
     /**
-     * last_read : {"id":8,"user_id":19,"book_id":1,"catalogue_id":2,"create_time":1575424393,"type":1,"bean":5,"state":1,"deletetime":0,"book_name":"大国工程","detail_cover":"","words":575,"catalogue_name":"第二话 青铜时代","sort":2,"residue_words":573}
-     * bookrack : [{"book_id":1,"book_name":"大国工程","detail_cover":"","comment_count":10,"like":0,"type":1,"create_time":1574142425,"catalogue_id":2,"catalogue_name":"第二话 青铜时代","is_like":0}]
+     * last_read : {"id":48,"user_id":54,"book_id":5,"catalogue_id":1,"create_time":1575685261,"type":1,"bean":0,"state":1,"deletetime":0,"book_name":"Hitungan mundur 7 hari ","oblong_cover":"https://img.pulaukomik.com/book/15756236893514.png","words":96,"catalogue_name":"第一话 纪元时代","sort":1,"residue_words":95}
+     * bookrack : [{"book_id":1,"book_name":"大国工程","detail_cover":"","comment_count":13,"like":0,"type":1,"create_time":1574142425,"catalogue_id":2,"catalogue_name":"第二话 青铜时代","is_like":0},{"book_id":4,"book_name":"倒数七天","detail_cover":"https://img.pulaukomik.com/book/15755934254648.png","comment_count":4,"like":0,"type":1,"create_time":1575613771,"catalogue_id":10,"catalogue_name":"第五话","is_like":0},{"book_id":3,"book_name":"测试网速zy","detail_cover":"https://img.pulaukomik.com/book/15755933491503.png","comment_count":20000,"like":100000,"type":2,"create_time":1575593984,"catalogue_id":4,"catalogue_name":"第二话 说啥呢","is_like":0},{"book_id":5,"book_name":"Hitungan mundur 7 hari ","detail_cover":"https://img.pulaukomik.com/book/15756236907282.png","comment_count":1,"like":200,"type":2,"create_time":1575689414,"catalogue_id":40,"catalogue_name":"Chapter 30 Efek kupu-kupu","is_like":0}]
      */
 
     private LastReadBean last_read;
@@ -34,21 +34,21 @@ public class BookShelfResponse  {
 
     public static class LastReadBean {
         /**
-         * id : 8
-         * user_id : 19
-         * book_id : 1
-         * catalogue_id : 2
-         * create_time : 1575424393
+         * id : 48
+         * user_id : 54
+         * book_id : 5
+         * catalogue_id : 1
+         * create_time : 1575685261
          * type : 1
-         * bean : 5
+         * bean : 0
          * state : 1
          * deletetime : 0
-         * book_name : 大国工程
-         * detail_cover :
-         * words : 575
-         * catalogue_name : 第二话 青铜时代
-         * sort : 2
-         * residue_words : 573
+         * book_name : Hitungan mundur 7 hari
+         * oblong_cover : https://img.pulaukomik.com/book/15756236893514.png
+         * words : 96
+         * catalogue_name : 第一话 纪元时代
+         * sort : 1
+         * residue_words : 95
          */
 
         private int id;
@@ -61,12 +61,11 @@ public class BookShelfResponse  {
         private int state;
         private int deletetime;
         private String book_name;
-        private String detail_cover;
+        private String oblong_cover;
         private int words;
         private String catalogue_name;
         private int sort;
         private int residue_words;
-
 
         public int getId() {
             return id;
@@ -148,12 +147,12 @@ public class BookShelfResponse  {
             this.book_name = book_name;
         }
 
-        public String getDetail_cover() {
-            return detail_cover;
+        public String getOblong_cover() {
+            return oblong_cover;
         }
 
-        public void setDetail_cover(String detail_cover) {
-            this.detail_cover = detail_cover;
+        public void setOblong_cover(String oblong_cover) {
+            this.oblong_cover = oblong_cover;
         }
 
         public int getWords() {
@@ -194,7 +193,7 @@ public class BookShelfResponse  {
          * book_id : 1
          * book_name : 大国工程
          * detail_cover :
-         * comment_count : 10
+         * comment_count : 13
          * like : 0
          * type : 1
          * create_time : 1574142425
@@ -228,6 +227,7 @@ public class BookShelfResponse  {
             catalogue_name = in.readString();
             is_like = in.readInt();
             isMore = in.readByte() != 0;
+            isCheck = in.readByte() != 0;
         }
 
         public static final Creator<BookrackBean> CREATOR = new Creator<BookrackBean>() {
@@ -343,6 +343,7 @@ public class BookShelfResponse  {
             dest.writeString(catalogue_name);
             dest.writeInt(is_like);
             dest.writeByte((byte) (isMore ? 1 : 0));
+            dest.writeByte((byte) (isCheck ? 1 : 0));
         }
     }
 }

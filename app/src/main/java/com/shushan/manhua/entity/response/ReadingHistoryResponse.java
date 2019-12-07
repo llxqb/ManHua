@@ -4,10 +4,11 @@ import java.util.List;
 
 public class ReadingHistoryResponse {
 
+
     /**
      * error : 0
      * msg : success
-     * data : [{"id":8,"user_id":19,"book_id":1,"catalogue_id":2,"create_time":1575424393,"type":1,"bean":5,"state":1,"deletetime":0,"book_name":"大国工程","detail_cover":"","words":575,"catalogue_name":"第二话 青铜时代","sort":2,"residue_words":573}]
+     * data : [{"id":48,"user_id":54,"book_id":5,"catalogue_id":1,"create_time":1575685261,"type":1,"bean":0,"state":1,"deletetime":0,"book_name":"Hitungan mundur 7 hari ","oblong_cover":"https://img.pulaukomik.com/book/15756236893514.png","words":96,"catalogue_name":"第一话 纪元时代","sort":1,"residue_words":95},{"id":44,"user_id":54,"book_id":4,"catalogue_id":10,"create_time":1575684751,"type":2,"bean":5,"state":1,"deletetime":0,"book_name":"倒数七天","oblong_cover":"https://img.pulaukomik.com/book/15755934237250.png","words":5,"catalogue_name":"第五话","sort":5,"residue_words":0},{"id":43,"user_id":54,"book_id":1,"catalogue_id":2,"create_time":1575682737,"type":2,"bean":5,"state":1,"deletetime":0,"book_name":"大国工程","oblong_cover":"","words":575,"catalogue_name":"第二话 青铜时代","sort":2,"residue_words":573}]
      */
 
     private int error;
@@ -40,21 +41,21 @@ public class ReadingHistoryResponse {
 
     public static class DataBean {
         /**
-         * id : 8
-         * user_id : 19
-         * book_id : 1
-         * catalogue_id : 2
-         * create_time : 1575424393
+         * id : 48
+         * user_id : 54
+         * book_id : 5
+         * catalogue_id : 1
+         * create_time : 1575685261
          * type : 1
-         * bean : 5
+         * bean : 0
          * state : 1
          * deletetime : 0
-         * book_name : 大国工程
-         * detail_cover :
-         * words : 575
-         * catalogue_name : 第二话 青铜时代
-         * sort : 2
-         * residue_words : 573
+         * book_name : Hitungan mundur 7 hari
+         * oblong_cover : https://img.pulaukomik.com/book/15756236893514.png
+         * words : 96
+         * catalogue_name : 第一话 纪元时代
+         * sort : 1
+         * residue_words : 95
          */
 
         private int id;
@@ -67,7 +68,7 @@ public class ReadingHistoryResponse {
         private int state;
         private int deletetime;
         private String book_name;
-        private String detail_cover;
+        private String oblong_cover;
         private int words;
         private String catalogue_name;
         private int sort;
@@ -155,12 +156,12 @@ public class ReadingHistoryResponse {
             this.book_name = book_name;
         }
 
-        public String getDetail_cover() {
-            return detail_cover;
+        public String getOblong_cover() {
+            return oblong_cover;
         }
 
-        public void setDetail_cover(String detail_cover) {
-            this.detail_cover = detail_cover;
+        public void setOblong_cover(String oblong_cover) {
+            this.oblong_cover = oblong_cover;
         }
 
         public int getWords() {
