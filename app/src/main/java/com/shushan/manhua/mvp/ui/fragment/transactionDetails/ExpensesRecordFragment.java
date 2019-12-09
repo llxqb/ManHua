@@ -103,7 +103,6 @@ public class ExpensesRecordFragment extends BaseFragment implements ExpensesReco
                     } else {
                         //等于10条
                         page++;
-                        mExpensesRecordAdapter.loadMoreComplete();
                         isReqState = true;
                         onRequestRechargeRecord();
                     }
@@ -126,6 +125,7 @@ public class ExpensesRecordFragment extends BaseFragment implements ExpensesReco
                 mExpensesRecordAdapter.setNewData(expensesRecordResponse.getData());
             } else {
                 mExpensesRecordAdapter.addData(expensesRecordResponse.getData());
+                mExpensesRecordAdapter.loadMoreComplete();
             }
         } else {
             if (page == 1) {

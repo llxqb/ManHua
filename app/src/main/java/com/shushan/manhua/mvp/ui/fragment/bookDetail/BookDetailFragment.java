@@ -24,7 +24,6 @@ import com.shushan.manhua.entity.constants.ActivityConstant;
 import com.shushan.manhua.entity.request.BookDetailRequest;
 import com.shushan.manhua.entity.request.SupportRequest;
 import com.shushan.manhua.entity.response.BookDetailInfoResponse;
-import com.shushan.manhua.entity.user.User;
 import com.shushan.manhua.mvp.ui.activity.book.MoreCommentActivity;
 import com.shushan.manhua.mvp.ui.activity.login.LoginActivity;
 import com.shushan.manhua.mvp.ui.adapter.BookDetailAdapter;
@@ -63,21 +62,10 @@ public class BookDetailFragment extends BaseFragment implements BookDetailFragme
     BookDetailAdapter mReadingCommentAdapter;
     private List<CommentBean> readingCommendResponseList = new ArrayList<>();
     private View mEmptyView;
-    private User mUser;
     private String mBookId;
     private CommentBean commentBean;
     private int clickPos;
     private int mLoginModel;//1 是游客模式 2 是登录模式
-
-//    public static BookDetailFragment getInstance(String bookId) {
-//        if (mBookDetailFragment == null) {
-//            mBookDetailFragment = new BookDetailFragment();
-//        }
-//        Bundle bd = new Bundle();
-//        bd.putString("bookId", bookId);
-//        mBookDetailFragment.setArguments(bd);
-//        return mBookDetailFragment;
-//    }
 
     @Override
     public void onReceivePro(Context context, Intent intent) {
@@ -111,13 +99,10 @@ public class BookDetailFragment extends BaseFragment implements BookDetailFragme
     public void initView() {
         mLoginModel = mBuProcessor.getLoginModel();
         initEmptyView();
-        mUser = mBuProcessor.getUser();
-        // Bundle bundle =this.getArguments();
-        if (getArguments() != null) {
+        if (getArguments() != null) {// Bundle bundle =this.getArguments();
             mBookId = getArguments().getString("bookId");
             onRequestDetailInfo();
         }
-
         mReadingCommentAdapter = new BookDetailAdapter(readingCommendResponseList, mImageLoaderHelper);
         mCommentRecyclerView.setAdapter(mReadingCommentAdapter);
         mCommentRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -160,10 +145,12 @@ public class BookDetailFragment extends BaseFragment implements BookDetailFragme
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.publish_comment_tv:
-                MoreCommentActivity.start(getActivity(), mBookId);
-                break;
             case R.id.more_comment_tv:
-                MoreCommentActivity.start(getActivity(), mBookId);
+                if (mLoginModel != 2) {
+                    toLogin();
+                } else {
+                    MoreCommentActivity.start(getActivity(), mBookId);
+                }
                 break;
         }
     }

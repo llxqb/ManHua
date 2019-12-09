@@ -143,9 +143,6 @@ public class CommentDetailsActivity extends BaseActivity implements CommentDetai
                 onCommentSuggestRequest(String.valueOf(mCommentDetailResponse.getComment_id()), "3");//主评论点赞
                 break;
             case R.id.comment_content_rl:
-                commentPos = 1;
-                showCommentPopupWindow("@" + mCommentDetailResponse.getName());
-                break;
             case R.id.publish_comment_tv:
                 commentPos = 1;
                 showCommentPopupWindow("@" + mCommentDetailResponse.getName());

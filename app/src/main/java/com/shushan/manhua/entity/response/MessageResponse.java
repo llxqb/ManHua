@@ -4,11 +4,10 @@ import java.util.List;
 
 public class MessageResponse {
 
-
     /**
      * error : 0
      * msg : success
-     * data : [{"comment_id":17,"book_id":1,"catalogue_id":0,"content":"haha","pics":[],"like":0,"book_name":"大国工程","detail_cover":"","catalogue_name":"","be_user_id":19,"reply_id":17,"name":"bee T","head_portrait":"https://img.pulaukomik.com/book/20191202/5de4bffdc40da.png","review_time":1575516903,"user_id":18,"review_id":19,"comment":{"content":"三十岁","pics":[],"name":"bee T","be_name":"Nuage Laboratoire"}},{"comment_id":8,"book_id":1,"catalogue_id":0,"content":"123123","pics":[],"like":0,"book_name":"大国工程","detail_cover":"","catalogue_name":"","be_user_id":19,"reply_id":8,"name":"bee T","head_portrait":"https://img.pulaukomik.com/book/20191202/5de4bffdc40da.png","review_time":1575516434,"user_id":18,"review_id":18,"comment":{"pics":{}}}]
+     * data : [{"id":1,"user_id":54,"msg_id":1,"send_time":1575364051,"status":1,"state":2,"title":"测试","content":"测试内容","system":3,"delete_time":0,"type":1}]
      */
 
     private int error;
@@ -41,145 +40,37 @@ public class MessageResponse {
 
     public static class DataBean {
         /**
-         * comment_id : 17
-         * book_id : 1
-         * catalogue_id : 0
-         * content : haha
-         * pics : []
-         * like : 0
-         * book_name : 大国工程
-         * detail_cover :
-         * catalogue_name :
-         * be_user_id : 19
-         * reply_id : 17
-         * name : bee T
-         * head_portrait : https://img.pulaukomik.com/book/20191202/5de4bffdc40da.png
-         * review_time : 1575516903
-         * user_id : 18
-         * review_id : 19
-         * comment : {"content":"三十岁","pics":[],"name":"bee T","be_name":"Nuage Laboratoire"}
+         * id : 1
+         * user_id : 54
+         * msg_id : 1
+         * send_time : 1575364051
+         * status : 1
+         * state : 2
+         * title : 测试
+         * content : 测试内容
+         * system : 3
+         * delete_time : 0
+         * type : 1
          */
 
-        private int comment_id;
-        private int book_id;
-        private int catalogue_id;
-        private String content;
-        private int like;
-        private String book_name;
-        private String detail_cover;
-        private String catalogue_name;
-        private int be_user_id;
-        private int reply_id;
-        private String name;
-        private String head_portrait;
-        private int review_time;
+        private int id;
         private int user_id;
-        private int review_id;
-        private CommentBean comment;
-        private List<?> pics;
+        private int msg_id;
+        private int send_time;
+        private int status;
+        private int state;
+        private String title;
+        private String content;
+        private int system;
+        private int delete_time;
+        private int type;
 
-        public int getComment_id() {
-            return comment_id;
+        public int getId() {
+            return id;
         }
 
-        public void setComment_id(int comment_id) {
-            this.comment_id = comment_id;
-        }
-
-        public int getBook_id() {
-            return book_id;
-        }
-
-        public void setBook_id(int book_id) {
-            this.book_id = book_id;
-        }
-
-        public int getCatalogue_id() {
-            return catalogue_id;
-        }
-
-        public void setCatalogue_id(int catalogue_id) {
-            this.catalogue_id = catalogue_id;
-        }
-
-        public String getContent() {
-            return content;
-        }
-
-        public void setContent(String content) {
-            this.content = content;
-        }
-
-        public int getLike() {
-            return like;
-        }
-
-        public void setLike(int like) {
-            this.like = like;
-        }
-
-        public String getBook_name() {
-            return book_name;
-        }
-
-        public void setBook_name(String book_name) {
-            this.book_name = book_name;
-        }
-
-        public String getDetail_cover() {
-            return detail_cover;
-        }
-
-        public void setDetail_cover(String detail_cover) {
-            this.detail_cover = detail_cover;
-        }
-
-        public String getCatalogue_name() {
-            return catalogue_name;
-        }
-
-        public void setCatalogue_name(String catalogue_name) {
-            this.catalogue_name = catalogue_name;
-        }
-
-        public int getBe_user_id() {
-            return be_user_id;
-        }
-
-        public void setBe_user_id(int be_user_id) {
-            this.be_user_id = be_user_id;
-        }
-
-        public int getReply_id() {
-            return reply_id;
-        }
-
-        public void setReply_id(int reply_id) {
-            this.reply_id = reply_id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getHead_portrait() {
-            return head_portrait;
-        }
-
-        public void setHead_portrait(String head_portrait) {
-            this.head_portrait = head_portrait;
-        }
-
-        public int getReview_time() {
-            return review_time;
-        }
-
-        public void setReview_time(int review_time) {
-            this.review_time = review_time;
+        public void setId(int id) {
+            this.id = id;
         }
 
         public int getUser_id() {
@@ -190,74 +81,76 @@ public class MessageResponse {
             this.user_id = user_id;
         }
 
-        public int getReview_id() {
-            return review_id;
+        public int getMsg_id() {
+            return msg_id;
         }
 
-        public void setReview_id(int review_id) {
-            this.review_id = review_id;
+        public void setMsg_id(int msg_id) {
+            this.msg_id = msg_id;
         }
 
-        public CommentBean getComment() {
-            return comment;
+        public int getSend_time() {
+            return send_time;
         }
 
-        public void setComment(CommentBean comment) {
-            this.comment = comment;
+        public void setSend_time(int send_time) {
+            this.send_time = send_time;
         }
 
-        public List<?> getPics() {
-            return pics;
+        public int getStatus() {
+            return status;
         }
 
-        public void setPics(List<?> pics) {
-            this.pics = pics;
+        public void setStatus(int status) {
+            this.status = status;
         }
 
-        public static class CommentBean {
-            /**
-             * content : 三十岁
-             * pics : []
-             * name : bee T
-             * be_name : Nuage Laboratoire
-             */
+        public int getState() {
+            return state;
+        }
 
-            private String content;
-            private String name;
-            private String be_name;
-            private List<?> pics;
+        public void setState(int state) {
+            this.state = state;
+        }
 
-            public String getContent() {
-                return content;
-            }
+        public String getTitle() {
+            return title;
+        }
 
-            public void setContent(String content) {
-                this.content = content;
-            }
+        public void setTitle(String title) {
+            this.title = title;
+        }
 
-            public String getName() {
-                return name;
-            }
+        public String getContent() {
+            return content;
+        }
 
-            public void setName(String name) {
-                this.name = name;
-            }
+        public void setContent(String content) {
+            this.content = content;
+        }
 
-            public String getBe_name() {
-                return be_name;
-            }
+        public int getSystem() {
+            return system;
+        }
 
-            public void setBe_name(String be_name) {
-                this.be_name = be_name;
-            }
+        public void setSystem(int system) {
+            this.system = system;
+        }
 
-            public List<?> getPics() {
-                return pics;
-            }
+        public int getDelete_time() {
+            return delete_time;
+        }
 
-            public void setPics(List<?> pics) {
-                this.pics = pics;
-            }
+        public void setDelete_time(int delete_time) {
+            this.delete_time = delete_time;
+        }
+
+        public int getType() {
+            return type;
+        }
+
+        public void setType(int type) {
+            this.type = type;
         }
     }
 }

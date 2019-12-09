@@ -69,7 +69,7 @@ public class NoticeMessageFragment extends BaseFragment implements NoticeMessage
 
     @Override
     public void initData() {
-//        onRequestMessageInfo();
+        onRequestMessageInfo();
     }
 
 

@@ -282,7 +282,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
         mReadingPicAdapter = new ReadingPicAdapter(bookPicList, mImageLoaderHelper);
         mPicRecyclerView.setLayoutManager(new LinearLayoutManager(this) {
             @Override
-            public void onMeasure(RecyclerView.Recycler recycler, RecyclerView.State state, int widthSpec, int heightSpec) {
+            public void onMeasure(@NonNull RecyclerView.Recycler recycler, @NonNull RecyclerView.State state, int widthSpec, int heightSpec) {
                 super.onMeasure(recycler, state, widthSpec, heightSpec);
                 picRvHeight = mPicRecyclerView.getHeight();
             }
@@ -307,12 +307,12 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
         mTurnPageFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_TURN_PAGE, true);
         if (click) {
             if (mTurnPageFlag) {
-                mTopBtn.setClickable(click);
-                mBottomBtn.setClickable(click);
+                mTopBtn.setClickable(true);
+                mBottomBtn.setClickable(true);
             }
         } else {
-            mTopBtn.setClickable(click);
-            mBottomBtn.setClickable(click);
+            mTopBtn.setClickable(false);
+            mBottomBtn.setClickable(false);
         }
     }
 
@@ -558,6 +558,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
                 onRequestSupport();
                 break;
             case R.id.add_bookshelf_tv://加入书架
+            case R.id.add_bookshelf_iv:
                 if (mReadingInfoResponse.getCatalogue().getState() == 1) {
                     showToast("telah masuk rak buku");//已加入书架
                 } else {
@@ -565,6 +566,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
                 }
                 break;
             case R.id.share_tv://分享
+            case R.id.bottom_share_ll:
                 new SharePopupWindow(this, this).initPopWindow(mReadLayout);
                 break;
             case R.id.last_chapter_ll://上一篇
@@ -585,9 +587,6 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
             case R.id.bottom_comment_ll://评论
                 MoreCommentActivity.start(this, mBookId);
                 break;
-            case R.id.bottom_share_ll://分享
-                new SharePopupWindow(this, this).initPopWindow(mReadLayout);
-                break;
             case R.id.bottom_setting_ll://设置
                 mReadSettingPopupWindow = new ReadSettingPopupWindow(this, this, mSharePreferenceUtil);
                 mReadSettingPopupWindow.initPopWindow(mReadLayout);
@@ -599,13 +598,6 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
                     // 滚动到底部
                     //sc.fullScroll(ScrollView.FOCUS_DOWN);
                 }));
-                break;
-            case R.id.add_bookshelf_iv://加入书架
-                if (mReadingInfoResponse.getCatalogue().getState() == 1) {
-                    showToast("telah masuk rak buku");//已加入书架
-                } else {
-                    onAddBookShelfRequest();
-                }
                 break;
             case R.id.top_btn:
                 upPageBtn();
@@ -951,7 +943,6 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
      */
     @Override
     public void getSendBarrageSuccess() {
-//        showToast("send success");
         addTvView();
     }
 

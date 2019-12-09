@@ -1,6 +1,5 @@
 package com.shushan.manhua.mvp.ui.fragment.moreComment;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -74,8 +73,6 @@ public class LatestCommentFragment extends BaseFragment implements LatestComment
 
     @Inject
     LatestCommentFragmentControl.LatestCommentFragmentPresenter mPresenter;
-    @SuppressLint("StaticFieldLeak")
-    private static LatestCommentFragment mLatestCommentFragment;
     @BindView(R.id.latest_comment_layout)
     RelativeLayout mLatestCommentLayout;
     @BindView(R.id.comment_tv)
@@ -103,17 +100,6 @@ public class LatestCommentFragment extends BaseFragment implements LatestComment
     private CommentBean commentBean;
     private int clickPos;
     private View mEmptyView;
-
-    public static LatestCommentFragment getInstance(String bookId) {
-        if (mLatestCommentFragment == null) {
-            mLatestCommentFragment = new LatestCommentFragment();
-        }
-        Bundle bd = new Bundle();
-        bd.putString("bookId", bookId);
-        mLatestCommentFragment.setArguments(bd);
-        return mLatestCommentFragment;
-    }
-
 
     @Nullable
     @Override
@@ -163,8 +149,6 @@ public class LatestCommentFragment extends BaseFragment implements LatestComment
                     onCommentSuggestRequest();
                     break;
                 case R.id.content_tv:
-                    showCommentPopupWindow("@" + commentBean.getName());
-                    break;
                 case R.id.item_comment_layout:
                     showCommentPopupWindow("@" + commentBean.getName());
                     break;
@@ -205,7 +189,7 @@ public class LatestCommentFragment extends BaseFragment implements LatestComment
 
     @Override
     public void onLoadMoreRequested() {
-        if(!isReqState){
+        if (!isReqState) {
             if (!readingCommendResponseList.isEmpty()) {
                 if (page == 1 && readingCommendResponseList.size() < Constant.PAGESIZE) {
                     mReadingCommentAdapter.loadMoreEnd(true);
@@ -327,7 +311,6 @@ public class LatestCommentFragment extends BaseFragment implements LatestComment
 
     @Override
     public void getPublishCommentSuccess() {
-        showToast("发布成功");
         //刷新页面
         LocalBroadcastManager.getInstance(Objects.requireNonNull(getActivity())).sendBroadcast(new Intent(ActivityConstant.UPDATE_COMMENT_LIST));
     }

@@ -1,6 +1,5 @@
 package com.shushan.manhua.mvp.ui.fragment.moreComment;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -73,8 +72,6 @@ public class HotCommentFragment extends BaseFragment implements HotCommentFragme
 
     @Inject
     HotCommentFragmentControl.HotCommentFragmentPresenter mPresenter;
-    @SuppressLint("StaticFieldLeak")
-    private static HotCommentFragment mHotCommentFragment;
     Unbinder unbinder;
     @BindView(R.id.hot_comment_layout)
     RelativeLayout mHotCommentLayout;
@@ -102,16 +99,6 @@ public class HotCommentFragment extends BaseFragment implements HotCommentFragme
     CommentBean mCommentBean;
     private int clickPos;
     private View mEmptyView;
-
-    public static HotCommentFragment getInstance(String bookId) {
-        if (mHotCommentFragment == null) {
-            mHotCommentFragment = new HotCommentFragment();
-        }
-        Bundle bd = new Bundle();
-        bd.putString("bookId", bookId);
-        mHotCommentFragment.setArguments(bd);
-        return mHotCommentFragment;
-    }
 
     @Nullable
     @Override
@@ -160,8 +147,6 @@ public class HotCommentFragment extends BaseFragment implements HotCommentFragme
                     onCommentSuggestRequest();
                     break;
                 case R.id.content_tv:
-                    showCommentPopupWindow("@" + mCommentBean.getName());
-                    break;
                 case R.id.item_comment_layout:
                     showCommentPopupWindow("@" + mCommentBean.getName());
                     break;
@@ -234,12 +219,11 @@ public class HotCommentFragment extends BaseFragment implements HotCommentFragme
                 mReadingCommentAdapter.loadMoreEnd();
             }
         }
-
     }
 
     @Override
     public void getCommentInfoSuccess(CommentListBean commentListBean) {
-        isReqState = true;
+        isReqState = false;
         readingCommendResponseList = commentListBean.getData();
         //加载更多这样设置
         if (!commentListBean.getData().isEmpty()) {
@@ -336,7 +320,6 @@ public class HotCommentFragment extends BaseFragment implements HotCommentFragme
 
     @Override
     public void getPublishCommentSuccess() {
-        showToast("发布成功");
         //刷新页面
         LocalBroadcastManager.getInstance(Objects.requireNonNull(getActivity())).sendBroadcast(new Intent(ActivityConstant.UPDATE_COMMENT_LIST));
     }

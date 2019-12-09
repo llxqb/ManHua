@@ -92,7 +92,6 @@ public class LongDeleteActivity extends BaseActivity implements LongDeleteContro
                 }
             });
         }
-
     }
 
     @Override
@@ -135,7 +134,11 @@ public class LongDeleteActivity extends BaseActivity implements LongDeleteContro
                         deletePosList.add(bookrackBean.getBook_id());
                     }
                 }
-                onRequestDeleteBook(new Gson().toJson(deletePosList));
+                if (deletePosList.size() > 0) {
+                    onRequestDeleteBook(new Gson().toJson(deletePosList));
+                } else {
+                    showToast("Pilih setidaknya satu");
+                }
                 break;
         }
     }

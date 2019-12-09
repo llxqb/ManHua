@@ -7,6 +7,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.ScrollView;
 
+import com.google.gson.Gson;
 import com.shushan.manhua.R;
 import com.shushan.manhua.entity.constants.ActivityConstant;
 import com.shushan.manhua.entity.constants.Constant;
@@ -87,7 +88,11 @@ public class ReadActivity extends ReadBaseActivity {
     public void getReadingInfoSuccess(ReadingInfoResponse readingInfoResponse) {
         mReadingInfoResponse = readingInfoResponse;
         ReadingInfoResponse.CatalogueBean catalogueBean = readingInfoResponse.getCatalogue();
-        mReadingPicAdapter.setNewData(catalogueBean.getCatalogue_content());
+        if (catalogueBean.getCatalogue_content() != null && !new Gson().toJson(catalogueBean.getCatalogue_content()).equals("[]")) {
+            mReadingPicAdapter.setNewData(catalogueBean.getCatalogue_content());
+        } else {
+            showToast("Isi bab kosong");//章节内容为空
+        }
         mReadingCommentAdapter.setNewData(readingInfoResponse.getComment());
         mRecommendAdapter.setNewData(readingInfoResponse.getCommend());
         bannerList = readingInfoResponse.getBanner();

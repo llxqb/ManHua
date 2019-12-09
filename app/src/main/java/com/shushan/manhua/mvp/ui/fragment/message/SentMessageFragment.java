@@ -94,7 +94,7 @@ public class SentMessageFragment extends BaseFragment implements SentMessageFrag
 
     @Override
     public void initData() {
-//        onRequestMessageInfo();
+        onRequestMessageInfo();
     }
 
     private void initEmptyView() {

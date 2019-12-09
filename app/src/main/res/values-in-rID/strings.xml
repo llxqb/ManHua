@@ -275,6 +275,7 @@
     <string name="PayReportErrorDialog_error_info2">Pembaruan pesanan gagal, silakan coba lagi</string><!--订单更新失败，请重试 -->
 
     <string name="ProtocolActivity_title">Perjanjian Pendaftaran Pengguna</string>
+    <string name="NoticeMessageAdapter_name">Asisten komik</string>
 
     <string name="ExpensesRecordAdapter_state0">Biaya penggunaan</string>
     <string name="ExpensesRecordAdapter_state1">Isis Ulang</string>

@@ -21,7 +21,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_10"
-        android:text="500漫豆"
         android:textColor="@color/first_text_color"
         android:textSize="@dimen/sp_17" />
 
@@ -30,7 +29,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_4"
-        android:text="+送250漫豆"
         android:textColor="@color/first_text_color"
         android:textSize="@dimen/sp_12" />
 
@@ -38,9 +36,7 @@
         android:id="@+id/money_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_6"
-        android:layout_marginBottom="@dimen/dp_7"
-        android:text="$ 4.99"
+        android:layout_marginTop="@dimen/dp_5"
         android:textColor="@color/white"
-        android:textSize="@dimen/sp_18" />
+        android:textSize="@dimen/sp_17" />
 </LinearLayout>

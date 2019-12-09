@@ -2,6 +2,7 @@ package com.shushan.manhua.mvp.ui.activity.book;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -34,7 +35,7 @@ public class MoreCommentActivity extends BaseActivity implements MoreCommentCont
     @BindView(R.id.view_pager)
     ViewPager mViewPager;
     String[] titles;
-    String bookId;
+    String mBookId;
 
     public static void start(Context context, String bookId) {//漫画id
         Intent intent = new Intent(context, MoreCommentActivity.class);
@@ -53,7 +54,7 @@ public class MoreCommentActivity extends BaseActivity implements MoreCommentCont
     @Override
     public void initView() {
         if (getIntent() != null) {
-            bookId = getIntent().getStringExtra("bookId");
+            mBookId = getIntent().getStringExtra("bookId");
             titles = new String[]{getString(R.string.MoreCommentActivity_latest_tv), getResources().getString(R.string.MoreCommentActivity_hot_tv)};
             mViewPager.setOffscreenPageLimit(2);
             mViewPager.setAdapter(new MyPageAdapter(getSupportFragmentManager()));
@@ -84,8 +85,12 @@ public class MoreCommentActivity extends BaseActivity implements MoreCommentCont
 
         MyPageAdapter(FragmentManager fm) {
             super(fm);
-            LatestCommentFragment latestCommentFragment = LatestCommentFragment.getInstance(bookId);
-            HotCommentFragment hotCommentFragment = HotCommentFragment.getInstance(bookId);
+            Bundle bundle = new Bundle();
+            bundle.putString("bookId", mBookId);
+            LatestCommentFragment latestCommentFragment = new LatestCommentFragment();
+            HotCommentFragment hotCommentFragment = new HotCommentFragment();
+            latestCommentFragment.setArguments(bundle);
+            hotCommentFragment.setArguments(bundle);
             fragments.add(latestCommentFragment);
             fragments.add(hotCommentFragment);
         }

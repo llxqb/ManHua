@@ -168,7 +168,7 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
 
 
     private class MyPageAdapter extends FragmentPagerAdapter {
-        private List<Fragment> fragments = new ArrayList<Fragment>();
+        private List<Fragment> fragments = new ArrayList<>();
 
         MyPageAdapter(FragmentManager fm) {
             super(fm);

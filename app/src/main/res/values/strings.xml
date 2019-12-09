@@ -275,6 +275,7 @@
     <string name="PayReportErrorDialog_error_info2" translatable="false">Order update failed, please try again</string><!--订单更新失败，请重试 -->
 
     <string name="ProtocolActivity_title">用户注册协议</string>
+    <string name="NoticeMessageAdapter_name">漫画小助手</string>
 
     <string name="ExpensesRecordAdapter_state0">消费</string>
     <string name="ExpensesRecordAdapter_state1">充值</string>
