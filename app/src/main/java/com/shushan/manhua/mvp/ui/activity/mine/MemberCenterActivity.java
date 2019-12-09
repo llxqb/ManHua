@@ -330,6 +330,7 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
     public void getReceivedBeanByVipSuccess() {
         mGetBeansTv.setText(getString(R.string.MemberCenterActivity_get_beans_ed));
         mGetBeansTv.setBackgroundResource(R.drawable.bg_gray_round_solid_20);
+        mGetBeansTv.setTextColor(getResources().getColor(R.color.color999));
         LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.UPDATE_PERSONAL_INFO));
     }
 

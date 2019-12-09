@@ -6,7 +6,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -37,9 +36,9 @@ public class CommonDialog extends BaseDialogFragment {
     @BindView(R.id.common_dialog_subtitle)
     TextView mCommonDialogSubtitle;
     @BindView(R.id.style1_left_btn)
-    Button mStyle1LeftBtn;
+    TextView mStyle1LeftBtn;
     @BindView(R.id.style1_right_btn)
-    Button mStyle1RightBtn;
+    TextView mStyle1RightBtn;
     @BindView(R.id.sure_tv)
     TextView mSureTv;
     @BindView(R.id.dialog_style1_ll)

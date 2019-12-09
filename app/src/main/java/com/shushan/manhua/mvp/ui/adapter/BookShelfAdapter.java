@@ -1,6 +1,7 @@
 package com.shushan.manhua.mvp.ui.adapter;
 
 import android.support.annotation.Nullable;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -29,10 +30,16 @@ public class BookShelfAdapter extends BaseQuickAdapter<BookShelfResponse.Bookrac
         helper.addOnClickListener(R.id.item_bookshelf_layout);
         if (item.isMore) {
             helper.setVisible(R.id.book_default_iv, true);
-            helper.setVisible(R.id.book_iv, false);
-            helper.setVisible(R.id.date_tv, false);
-            helper.setVisible(R.id.book_name_tv, false).setVisible(R.id.book_desc_tv, false);
-            helper.setVisible(R.id.support_tv, false).setVisible(R.id.comment_tv, false);
+//            helper.setVisible(R.id.book_iv, false);
+//            helper.setVisible(R.id.date_tv, false);
+//            helper.setVisible(R.id.book_name_tv, false).setVisible(R.id.book_desc_tv, false);
+//            helper.setVisible(R.id.support_tv, false).setVisible(R.id.comment_tv, false);
+            helper.getView(R.id.book_iv).setVisibility(View.GONE);
+            helper.getView(R.id.date_tv).setVisibility(View.GONE);
+            helper.getView(R.id.book_name_tv).setVisibility(View.GONE);
+            helper.getView(R.id.book_desc_tv).setVisibility(View.GONE);
+            helper.getView(R.id.support_tv).setVisibility(View.GONE);
+            helper.getView(R.id.comment_tv).setVisibility(View.GONE);
         } else {
             helper.setVisible(R.id.book_default_iv, false);
             helper.setVisible(R.id.book_iv, true);

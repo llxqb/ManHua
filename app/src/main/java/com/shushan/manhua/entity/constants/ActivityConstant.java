@@ -33,6 +33,10 @@ public class ActivityConstant {
      * 更新main
      */
     public static final String LOGIN_SUCCESS_UPDATE_DATA ="login_success_update_data";
+    /**
+     * 弹幕设置开关更新
+     */
+    public static final String UPDATE_BARRAGE_SETTING ="update_barrage_setting";
 
 
 }

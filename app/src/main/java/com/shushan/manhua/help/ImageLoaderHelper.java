@@ -1,11 +1,17 @@
 package com.shushan.manhua.help;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.support.annotation.NonNull;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
+import com.shushan.manhua.mvp.utils.SystemUtils;
 import com.shushan.manhua.mvp.utils.TranTools;
 import com.shushan.manhua.mvp.views.GlideRoundTransform;
 
@@ -99,5 +105,32 @@ public class ImageLoaderHelper extends GlideLoader {
         Glide.with(context).load(path).apply(options).into(imageView);
     }
 
+    /**
+     * 图片宽度铺满，自动适应高度
+     */
+    public void displayAutoMatchImage(Context context, Object path, ImageView imageView, int loadPic) {
+        RequestOptions options = new RequestOptions()
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                .error(loadPic)
+                .skipMemoryCache(true)
+                .placeholder(loadPic)
+                .dontAnimate();
+//        Glide.with(context).load(path).apply(options).into(imageView);
 
+        //图片宽度铺满，自动适应高度
+        Glide.with(context).asBitmap().load(path).apply(options).into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(@NonNull Bitmap resource, Transition<? super Bitmap> transition) {
+                imageView.setImageBitmap(resource);
+                float width = SystemUtils.getScreenWidth(context);
+                float scale = width / resource.getWidth();
+                int afterWidth = (int) (resource.getWidth() * scale);
+                int afterHeight = (int) (resource.getHeight() * scale);
+                ViewGroup.LayoutParams lp = imageView.getLayoutParams();
+                lp.width = afterWidth;
+                lp.height = afterHeight;
+                imageView.setLayoutParams(lp);
+            }
+        });
+    }
 }

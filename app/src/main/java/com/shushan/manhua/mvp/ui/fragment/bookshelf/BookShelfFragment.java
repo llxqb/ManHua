@@ -39,7 +39,6 @@ import com.shushan.manhua.mvp.ui.activity.mine.MemberCenterActivity;
 import com.shushan.manhua.mvp.ui.adapter.BookShelfAdapter;
 import com.shushan.manhua.mvp.ui.adapter.RecommendAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseFragment;
-import com.shushan.manhua.mvp.utils.LogUtils;
 import com.shushan.manhua.mvp.utils.StatusBarUtil;
 
 import java.util.ArrayList;
@@ -223,7 +222,7 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
         }
         mBookShelfResponse = bookShelfResponse;
         BookShelfResponse.LastReadBean lastReadBean = bookShelfResponse.getLast_read();
-        LogUtils.e("lastReadBean:" + new Gson().toJson(lastReadBean));
+//        LogUtils.e("lastReadBean:" + new Gson().toJson(lastReadBean));
         if (lastReadBean == null || new Gson().toJson(lastReadBean).equals("{}") || lastReadBean.getBook_id() == 0) {
             mLastReadLayout.setVisibility(View.GONE);
         } else {

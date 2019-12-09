@@ -18,6 +18,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -156,6 +157,10 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     RecyclerView mRecommendRecyclerView;
     @BindView(R.id.comment_recycler_view)
     RecyclerView mCommentRecyclerView;
+    @BindView(R.id.top_btn)
+    Button mTopBtn;
+    @BindView(R.id.bottom_btn)
+    Button mBottomBtn;
     //    boolean mBarrage;//是否弹幕
     List<BannerBean> bannerList = new ArrayList<>();
     private List<RecommendBean> readingRecommendResponseList = new ArrayList<>();//推荐list
@@ -203,6 +208,8 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     public int mLoginModel;//1 是游客模式 2 是登录模式
     private CommentBean mCommentBean;
     private int clickPos;
+    //    private boolean isClickTopOrBottomLayout = false;
+    public ReadSettingPopupWindow mReadSettingPopupWindow;//弹幕设置弹框
 
     public static void start(Context context, String bookId, int catalogueId) {
         Intent intent = new Intent(context, ReadActivity.class);
@@ -241,7 +248,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
         mMessageEt.clearFocus();//让编辑框失去焦点 配合布局一起使用
         onKeyBoardListener();
         initAdapter();
-        initScrollView();
+//        initScrollView();
         onRequestReadingInfo();
     }
 
@@ -283,55 +290,31 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
         mPicRecyclerView.setAdapter(mReadingPicAdapter);
         mReadingPicAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             SoftKeyboardUtil.hideSoftKeyboard(this);
+            if (mReadBottomLl.getVisibility() == View.VISIBLE) {
+                sheClickHiddenLayout(true);
+            } else {
+                sheClickHiddenLayout(false);
+            }
             showFunction();
         });
     }
 
-
-    float yDown = 0;
-    float yUp = 0;
-
-//    @Override
-//    public boolean dispatchTouchEvent(MotionEvent event) {
-//        //mViewWidth 是整个屏幕的宽度
-//        int mViewWidth = SystemUtils.getScreenWidth(ReadBaseActivity.this);
-//        int mViewHeight = SystemUtils.getScreenHeight(ReadBaseActivity.this);
-//        //就是在屏幕的一半+100和-100之间的宽度 同理高度
-//        boolean isCenterOfX = event.getX() < mViewWidth / 2 + 150
-//                && event.getX() > mViewWidth / 2 - 150;
-//        boolean isCenterOfY = event.getY() < mViewHeight / 2 + 150
-//                && event.getY() > mViewHeight / 2 - 150;
-//        boolean top = event.getY() < mViewHeight / 2 - 150;
-//        boolean bottom = event.getY() > mViewHeight / 2 + 150;
-//        boolean center = isCenterOfX && isCenterOfY;
-//        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-//            yDown = event.getY();
-//        } else if (event.getAction() == MotionEvent.ACTION_UP) {
-//            yUp = event.getY();
-//            //判断是点击还是滑动
-//            if ((yUp - yDown) <= 20 && (yUp - yDown) >= -20) { //点击
-//                //如果点击的位置是在这个方形之间
-//                //必须要点击之后手指离开才进行监听
-//                if (top) {
-//                    SoftKeyboardUtil.hideSoftKeyboard(ReadBaseActivity.this);
-//                    hideFunction();
-//                    upPageBtn();
-//                } else if (center) {
-//                    SoftKeyboardUtil.hideSoftKeyboard(ReadBaseActivity.this);
-//                    showFunction();
-//                } else if (bottom) {
-//                    SoftKeyboardUtil.hideSoftKeyboard(ReadBaseActivity.this);
-//                    hideFunction();
-//                    downPageBtn();
-//                }
-//                return true;
-//            }
-//        }
-//
-////        this.getParent().requestDisallowInterceptTouchEvent(true);
-//        return super.dispatchTouchEvent(event);
-////        return super.onTouchEvent(event);
-//    }
+    /**
+     * 设置隐藏布局不可点击
+     * * @param click   false: 点击隐藏上下区域 失去焦点  true :有焦点
+     */
+    public void sheClickHiddenLayout(boolean click) {
+        mTurnPageFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_TURN_PAGE);
+        if (click) {
+            if (mTurnPageFlag) {
+                mTopBtn.setClickable(click);
+                mBottomBtn.setClickable(click);
+            }
+        } else {
+            mTopBtn.setClickable(click);
+            mBottomBtn.setClickable(click);
+        }
+    }
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -350,13 +333,14 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
                 if (mReadBottomLl.getVisibility() == View.VISIBLE) {
                     showFunction();
                 }
+                sheClickHiddenLayout(false);
             } else {
                 isBarrageState = true;
-            }
-            //显示弹幕
-            for (BarrageListResponse.DataBean dataBean : mBarrageListResponse.getData()) {
-                if (scrollY > Double.parseDouble(dataBean.getYcoord()) - 10 && scrollY < Double.parseDouble(dataBean.getYcoord()) + 10) {
-                    showTvView(dataBean);
+                //显示弹幕
+                for (BarrageListResponse.DataBean dataBean : mBarrageListResponse.getData()) {
+                    if (scrollY > Double.parseDouble(dataBean.getYcoord()) - 10 && scrollY < Double.parseDouble(dataBean.getYcoord()) + 10) {
+                        showTvView(dataBean);
+                    }
                 }
             }
         });
@@ -542,7 +526,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
 
     @OnClick({R.id.common_left_iv, R.id.common_right_tv, R.id.bottom_directory_ll, R.id.last_chapter_iv, R.id.next_chapter_iv, R.id.barrage_ll, R.id.send_message_left_iv, R.id.send_message_right_iv,
             R.id.support_tv, R.id.add_bookshelf_tv, R.id.share_tv, R.id.last_chapter_ll, R.id.next_chapter_ll, R.id.bottom_comment_ll, R.id.bottom_share_ll, R.id.bottom_setting_ll,
-            R.id.back_top_iv, R.id.add_bookshelf_iv})
+            R.id.back_top_iv, R.id.add_bookshelf_iv, R.id.top_btn, R.id.bottom_btn})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.common_left_iv:
@@ -613,16 +597,15 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
                 new SharePopupWindow(this, this).initPopWindow(mReadLayout);
                 break;
             case R.id.bottom_setting_ll://设置
-                new ReadSettingPopupWindow(this, this, mSharePreferenceUtil).initPopWindow(mReadLayout);
+                mReadSettingPopupWindow = new ReadSettingPopupWindow(this, this, mSharePreferenceUtil);
+                mReadSettingPopupWindow.initPopWindow(mReadLayout);
                 break;
             case R.id.back_top_iv:// 让页面返回顶部
-                mNestedScrollView.post(() -> mNestedScrollView.post(new Runnable() {
-                    public void run() {
-                        // 滚动至顶部
-                        mNestedScrollView.fullScroll(ScrollView.FOCUS_UP);
-                        // 滚动到底部
-                        //sc.fullScroll(ScrollView.FOCUS_DOWN);
-                    }
+                mNestedScrollView.post(() -> mNestedScrollView.post(() -> {
+                    // 滚动至顶部
+                    mNestedScrollView.fullScroll(ScrollView.FOCUS_UP);
+                    // 滚动到底部
+                    //sc.fullScroll(ScrollView.FOCUS_DOWN);
                 }));
                 break;
             case R.id.add_bookshelf_iv://加入书架
@@ -631,6 +614,12 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
                 } else {
                     onAddBookShelfRequest();
                 }
+                break;
+            case R.id.top_btn:
+                upPageBtn();
+                break;
+            case R.id.bottom_btn:
+                downPageBtn();
                 break;
         }
     }
@@ -666,23 +655,6 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
         //这里 只会跳到购买
         //去购买漫豆
         startActivitys(BuyActivity.class);
-//        if (mUser.vip == 1) {
-//            if (mUser.bean >= 3) {
-//                //去使用
-//                onRequestReadRecording(3);
-//            } else {
-//                //去购买漫豆
-//                startActivitys(BuyActivity.class);
-//            }
-//        } else {
-//            if (mUser.bean >= 5) {
-//                //去使用
-//                onRequestReadRecording(5);
-//            } else {
-//                //去购买漫豆
-//                startActivitys(BuyActivity.class);
-//            }
-//        }
     }
 
     /**
@@ -819,9 +791,14 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
      * 屏幕向上点击
      */
     private void upPageBtn() {
-        mCurrentHeight = mCurrentHeight - SystemUtils.getScreenHeight(this) * 3 / 4;
-        LogUtils.e("mCurrentHeight:" + mCurrentHeight + " picRvHeight:" + picRvHeight);
-        if (mCurrentHeight < picRvHeight && mCurrentHeight > 0) {
+        if (mCurrentHeight > 0) {
+            mCurrentHeight = mCurrentHeight - SystemUtils.getScreenHeight(this) * 3 / 4;
+            LogUtils.e("mCurrentHeight:" + mCurrentHeight + " picRvHeight:" + picRvHeight);
+        }
+        if (mCurrentHeight <= 0) {
+            // 滚动至顶部
+            mNestedScrollView.fullScroll(ScrollView.FOCUS_UP);
+        } else if (mCurrentHeight < picRvHeight) {
             mNestedScrollView.smoothScrollTo(0, mCurrentHeight);
         }
     }
@@ -843,7 +820,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
      */
     @Override
     public void pageTurningBtnListener(boolean pageTurning) {
-
+        sheClickHiddenLayout(pageTurning);//可以点击上下翻页
     }
 
     /**

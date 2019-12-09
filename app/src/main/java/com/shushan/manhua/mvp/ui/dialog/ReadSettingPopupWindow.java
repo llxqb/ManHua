@@ -34,6 +34,29 @@ public class ReadSettingPopupWindow {
         mSharePreferenceUtil = sharePreferenceUtil;
     }
 
+    public void updateSetting() {
+        boolean pageTurning = mSharePreferenceUtil.getBooleanData(Constant.IS_TURN_PAGE, true);
+        boolean nightModel = mSharePreferenceUtil.getBooleanData(Constant.IS_NIGHT_MODEL, false);
+        boolean barrageSwitch = mSharePreferenceUtil.getBooleanData(Constant.IS_BARRAGE, true);
+
+        if (pageTurning) {
+            pageTurningIv.setImageResource(R.mipmap.switch_open);
+        } else {
+            pageTurningIv.setImageResource(R.mipmap.switch_close);
+        }
+        if (nightModel) {
+            nightModelIv.setImageResource(R.mipmap.switch_open);
+        } else {
+            nightModelIv.setImageResource(R.mipmap.switch_close);
+        }
+        if (barrageSwitch) {
+            barrageSwitchIv.setImageResource(R.mipmap.switch_open);
+        } else {
+            barrageSwitchIv.setImageResource(R.mipmap.switch_close);
+        }
+    }
+
+
     public void initPopWindow(View view) {
         View contentView = LayoutInflater.from(mContext).inflate(R.layout.popup_read_setting, null);
         //处理popWindow 显示内容
@@ -53,7 +76,7 @@ public class ReadSettingPopupWindow {
         nightModelIv = contentView.findViewById(R.id.night_model_iv);
         barrageSwitchIv = contentView.findViewById(R.id.barrage_switch_iv);
         TextView moreTv = contentView.findViewById(R.id.more_tv);
-        boolean pageTurning = mSharePreferenceUtil.getBooleanData(Constant.IS_TURN_PAGE, false);
+        boolean pageTurning = mSharePreferenceUtil.getBooleanData(Constant.IS_TURN_PAGE, true);
         boolean nightModel = mSharePreferenceUtil.getBooleanData(Constant.IS_NIGHT_MODEL, false);
         boolean barrageSwitch = mSharePreferenceUtil.getBooleanData(Constant.IS_BARRAGE, true);
 
@@ -83,7 +106,7 @@ public class ReadSettingPopupWindow {
                     mSharePreferenceUtil.setData(Constant.IS_TURN_PAGE, true);
                     pageTurningIv.setImageResource(R.mipmap.switch_open);
                 }
-                mPopupWindowListener.pageTurningBtnListener(pageTurning1);
+                mPopupWindowListener.pageTurningBtnListener(!pageTurning1);
             }
         });
         nightModelIv.setOnClickListener(v -> {

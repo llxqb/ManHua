@@ -36,8 +36,21 @@ public class ReadActivity extends ReadBaseActivity {
                     setIsRecharge();//重新判断
                 }
                 onRequestBuyBarrageStyle();
-            } else if (intent.getAction().equals(ActivityConstant.LOGIN_SUCCESS_UPDATE_DATA)) {
+            } else if (intent.getAction().equals(ActivityConstant.LOGIN_SUCCESS_UPDATE_DATA)) {//登录成功
                 mLoginModel = mBuProcessor.getLoginModel();
+            } else if (intent.getAction().equals(ActivityConstant.UPDATE_BARRAGE_SETTING)) {//更新了弹幕设置
+                mBarrageFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_BARRAGE);
+                mTurnPageFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_TURN_PAGE);
+                mNightModelFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_NIGHT_MODEL);
+                if (mBarrageFlag) {
+                    mBarrageIv.setImageResource(R.mipmap.barrage_open);
+                } else {
+                    mBarrageIv.setImageResource(R.mipmap.barrage_close);
+                }
+                sheClickHiddenLayout(mTurnPageFlag);//可以点击上下翻页
+                if (mReadSettingPopupWindow != null) {
+                    mReadSettingPopupWindow.updateSetting();
+                }
             }
         }
         super.onReceivePro(context, intent);
@@ -48,15 +61,16 @@ public class ReadActivity extends ReadBaseActivity {
         super.addFilter();
         mFilter.addAction(ActivityConstant.PAY_SUCCESS);
         mFilter.addAction(ActivityConstant.LOGIN_SUCCESS_UPDATE_DATA);
+        mFilter.addAction(ActivityConstant.UPDATE_BARRAGE_SETTING);
     }
 
 
     @Override
     public void initData() {
         super.initData();
-        mBarrageFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_BARRAGE);
-        mTurnPageFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_TURN_PAGE);
-        mNightModelFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_NIGHT_MODEL);
+        mTurnPageFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_TURN_PAGE, true);
+        mNightModelFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_NIGHT_MODEL, false);
+        mBarrageFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_BARRAGE, true);
         mTransparency = mSharePreferenceUtil.getIntData(Constant.TRANSPARENCY, 80);
         mPlaySpeed = mSharePreferenceUtil.getIntData(Constant.PLAY_SPEED, 80);
         if (mBarrageFlag) {
@@ -64,6 +78,7 @@ public class ReadActivity extends ReadBaseActivity {
         } else {
             mBarrageIv.setImageResource(R.mipmap.barrage_close);
         }
+        sheClickHiddenLayout(false);//默认不可点击上下翻页
     }
 
 
@@ -84,6 +99,10 @@ public class ReadActivity extends ReadBaseActivity {
             setSupportState();
         }
         setIsRecharge();
+        mCommonTitleTv.setText(catalogueBean.getCatalogue_name());
+//        mNestedScrollView.post(() -> mNestedScrollView.post(() -> {
+//            mNestedScrollView.fullScroll(ScrollView.FOCUS_UP);  // 滚动至顶部
+//        }));
     }
 
     private void setIsRecharge() {
@@ -126,7 +145,6 @@ public class ReadActivity extends ReadBaseActivity {
     public void getAddBookShelfSuccess() {
         LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.UPDATE_BOOKSHELF));
     }
-
 
 
     /**

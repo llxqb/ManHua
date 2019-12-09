@@ -7,6 +7,7 @@ import android.widget.ImageView;
 
 import com.shushan.manhua.R;
 import com.shushan.manhua.entity.BannerBean;
+import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.help.ImageLoaderHelper;
 import com.zhouwei.mzbanner.holder.MZViewHolder;
 
@@ -33,8 +34,7 @@ public class BannerReadingViewHolder implements MZViewHolder<BannerBean> {
     @Override
     public void onBind(Context context, int position, BannerBean item) {
         // 数据绑定
-//        Glide.with(context).load(item.getBanner_pic()).into(mImageView);
-//        mImageLoaderHelper.displayImage(context, Constant.LOADING_DEFAULT_3, mImageView, Constant.LOADING_DEFAULT_3);
+        mImageLoaderHelper.displayAutoMatchImage(context, item.getBanner_pic(), mImageView, Constant.LOADING_DEFAULT_3);
 
         //page点击事件
         mImageView.setOnClickListener(new View.OnClickListener() {
