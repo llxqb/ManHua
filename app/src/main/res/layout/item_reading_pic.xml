@@ -2,14 +2,31 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/item_reading_pic"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
+    <!--    <ImageView-->
+    <!--        android:id="@+id/resizableImageView"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:adjustViewBounds="true"-->
+    <!--        android:contentDescription="@string/app_name"-->
+    <!--        android:scaleType="fitXY" />-->
+
+
+    <!--    <WebView-->
+    <!--        android:id="@+id/webView"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        />-->
+    <!--    <com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView-->
+    <!--        android:id="@+id/img_iv"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"/>-->
     <ImageView
-        android:id="@+id/resizableImageView"
+        android:id="@+id/img_iv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:contentDescription="@string/app_name"
-        android:scaleType="fitXY" />
-
+        android:scaleType="matrix"
+        android:src="@mipmap/read_default" />
 </LinearLayout>

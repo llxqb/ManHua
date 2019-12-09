@@ -248,7 +248,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
         mMessageEt.clearFocus();//让编辑框失去焦点 配合布局一起使用
         onKeyBoardListener();
         initAdapter();
-//        initScrollView();
+        initScrollView();
         onRequestReadingInfo();
     }
 
@@ -304,7 +304,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
      * * @param click   false: 点击隐藏上下区域 失去焦点  true :有焦点
      */
     public void sheClickHiddenLayout(boolean click) {
-        mTurnPageFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_TURN_PAGE);
+        mTurnPageFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_TURN_PAGE, true);
         if (click) {
             if (mTurnPageFlag) {
                 mTopBtn.setClickable(click);
@@ -321,13 +321,13 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     private void initScrollView() {
         mNestedScrollView.setOnScrollChangeListener((View.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
 //            LogUtils.e("scrollY:" + scrollY + " oldScrollY:" + oldScrollY);
+            mCurrentHeight = scrollY;
             hideFunction();//滑动时隐藏功能键
             if (scrollY < oldScrollY) {//往上滑显示返回顶部按钮
                 mBackTopIv.setVisibility(View.VISIBLE);
             } else {
                 mBackTopIv.setVisibility(View.INVISIBLE);
             }
-            mCurrentHeight = scrollY;
             if (scrollY >= mPicRecyclerView.getHeight()) {//设置隐藏功能键
                 isBarrageState = false;
                 if (mReadBottomLl.getVisibility() == View.VISIBLE) {
@@ -568,21 +568,13 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
                 new SharePopupWindow(this, this).initPopWindow(mReadLayout);
                 break;
             case R.id.last_chapter_ll://上一篇
-                if (mCatalogueId > 1) {
-                    mCatalogueId = mCatalogueId - 1;
-                    onRequestReadingInfo();
-                }
-                break;
-            case R.id.next_chapter_ll://下一篇
-                mCatalogueId = mCatalogueId + 1;
-                onRequestReadingInfo();
-                break;
             case R.id.last_chapter_iv: //上一话
                 if (mCatalogueId > 1) {
                     mCatalogueId = mCatalogueId - 1;
                     onRequestReadingInfo();
                 }
                 break;
+            case R.id.next_chapter_ll://下一篇
             case R.id.next_chapter_iv: //下一话
                 mCatalogueId = mCatalogueId + 1;
                 onRequestReadingInfo();

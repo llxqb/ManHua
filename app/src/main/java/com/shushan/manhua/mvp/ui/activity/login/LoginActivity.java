@@ -1,7 +1,6 @@
 package com.shushan.manhua.mvp.ui.activity.login;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.widget.CheckBox;
@@ -29,7 +28,6 @@ import com.shushan.manhua.mvp.utils.SystemUtils;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class LoginActivity extends BaseActivity implements LoginControl.LoginView {
@@ -197,11 +195,4 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
                 .activityModule(new ActivityModule(this)).build().inject(this);
     }
 
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 }

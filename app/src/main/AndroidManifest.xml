@@ -27,6 +27,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
+        android:hardwareAccelerated="false"
+        android:largeHeap="true"
         tools:targetApi="n">
         <activity android:name=".mvp.ui.activity.splash.ProtocolActivity"
             />

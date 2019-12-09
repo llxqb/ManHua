@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.LocalBroadcastManager;
+import android.widget.ScrollView;
 
 import com.shushan.manhua.R;
 import com.shushan.manhua.entity.constants.ActivityConstant;
@@ -100,9 +101,10 @@ public class ReadActivity extends ReadBaseActivity {
         }
         setIsRecharge();
         mCommonTitleTv.setText(catalogueBean.getCatalogue_name());
-//        mNestedScrollView.post(() -> mNestedScrollView.post(() -> {
-//            mNestedScrollView.fullScroll(ScrollView.FOCUS_UP);  // 滚动至顶部
-//        }));
+        mNestedScrollView.post(() -> mNestedScrollView.post(() -> {
+            picRvHeight = mPicRecyclerView.getHeight();
+            mNestedScrollView.fullScroll(ScrollView.FOCUS_UP);  // 滚动至顶部
+        }));
     }
 
     private void setIsRecharge() {
