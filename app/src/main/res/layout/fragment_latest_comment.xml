@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/latest_comment_layout"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/swipe_ly"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/comment_bottom_layout" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <RelativeLayout
+        android:id="@+id/latest_comment_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/comment_bottom_layout"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="@dimen/dp_10" />
+        android:layout_height="match_parent">
+
+        <include layout="@layout/comment_bottom_layout" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/comment_bottom_layout"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="@dimen/dp_10" />
+    </RelativeLayout>
 
 
-</RelativeLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

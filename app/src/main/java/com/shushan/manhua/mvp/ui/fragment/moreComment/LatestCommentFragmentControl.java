@@ -23,6 +23,8 @@ public class LatestCommentFragmentControl {
         void getPublishCommentSuccess();
 
         void getSuggestSuccess();
+
+        void getPublishCommentUserSuccess();
     }
 
     public interface LatestCommentFragmentPresenter extends Presenter<LatestCommentView> {

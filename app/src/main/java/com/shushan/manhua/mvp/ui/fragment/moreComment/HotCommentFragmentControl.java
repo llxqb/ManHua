@@ -23,6 +23,8 @@ public class HotCommentFragmentControl {
         void getPublishCommentSuccess();
 
         void getSupportSuccess();
+
+        void getPublishCommentUserSuccess();
     }
 
     public interface HotCommentFragmentPresenter extends Presenter<HotCommentView> {

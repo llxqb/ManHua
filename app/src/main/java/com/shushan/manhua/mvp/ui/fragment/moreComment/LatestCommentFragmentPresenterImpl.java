@@ -156,7 +156,7 @@ public class LatestCommentFragmentPresenterImpl implements LatestCommentFragment
     private void publishCommentUserSuccess(ResponseData responseData) {
         mLatestCommentView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 0) {
-//            mLatestCommentView.getSuggestSuccess();
+            mLatestCommentView.getPublishCommentUserSuccess();
         } else {
             mLatestCommentView.showToast(responseData.errorMsg);
         }

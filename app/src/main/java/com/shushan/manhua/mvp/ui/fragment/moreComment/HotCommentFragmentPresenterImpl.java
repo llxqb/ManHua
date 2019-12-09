@@ -159,12 +159,12 @@ public class HotCommentFragmentPresenterImpl implements HotCommentFragmentContro
     private void publishCommentUserSuccess(ResponseData responseData) {
         mHotCommentView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 0) {
-//            mHotCommentView.getSuggestSuccess();
+            mHotCommentView.getPublishCommentUserSuccess();
         } else {
             mHotCommentView.showToast(responseData.errorMsg);
         }
     }
-    
+
     @Override
     public void onCreate() {
 

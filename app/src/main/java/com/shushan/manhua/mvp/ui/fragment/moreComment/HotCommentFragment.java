@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -68,11 +69,13 @@ import butterknife.Unbinder;
  */
 
 public class HotCommentFragment extends BaseFragment implements HotCommentFragmentControl.HotCommentView, CommentSoftKeyPopupWindow.CommentSoftKeyPopupWindowListener, TakePhoto.TakeResultListener,
-        InvokeListener, BaseQuickAdapter.RequestLoadMoreListener {
+        InvokeListener, BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
 
     @Inject
     HotCommentFragmentControl.HotCommentFragmentPresenter mPresenter;
     Unbinder unbinder;
+    @BindView(R.id.swipe_ly)
+    SwipeRefreshLayout mSwipeLy;
     @BindView(R.id.hot_comment_layout)
     RelativeLayout mHotCommentLayout;
     @BindView(R.id.comment_tv)
@@ -129,6 +132,8 @@ public class HotCommentFragment extends BaseFragment implements HotCommentFragme
 
     @Override
     public void initView() {
+        mSwipeLy.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
+        mSwipeLy.setOnRefreshListener(this);
         File file = new File(Objects.requireNonNull(getActivity()).getExternalCacheDir(), System.currentTimeMillis() + ".png");
         uri = Uri.fromFile(file);
         if (getArguments() != null) {
@@ -163,8 +168,6 @@ public class HotCommentFragment extends BaseFragment implements HotCommentFragme
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.comment_content_rl:
-                showCommentPopupWindow(getString(R.string.BarrageStylePopupWindow_comment_hint));
-                break;
             case R.id.publish_comment_tv:
                 showCommentPopupWindow(getString(R.string.BarrageStylePopupWindow_comment_hint));
                 break;
@@ -176,10 +179,15 @@ public class HotCommentFragment extends BaseFragment implements HotCommentFragme
      * 显示评论弹框PopupWindow
      */
     private void showCommentPopupWindow(String editHintContent) {
-        mCommentSoftKeyPopupWindow = new CommentSoftKeyPopupWindow(getActivity(), this, photoList,editHintContent);
+        mCommentSoftKeyPopupWindow = new CommentSoftKeyPopupWindow(getActivity(), this, photoList, editHintContent);
         mCommentSoftKeyPopupWindow.initPopWindow(mHotCommentLayout);
     }
 
+    @Override
+    public void onRefresh() {
+        page = 1;
+        onRequestCommentInfo();
+    }
 
     /**
      * 请求评论列表
@@ -200,7 +208,7 @@ public class HotCommentFragment extends BaseFragment implements HotCommentFragme
 
     @Override
     public void onLoadMoreRequested() {
-        if(!isReqState){
+        if (!isReqState) {
             if (!readingCommendResponseList.isEmpty()) {
                 if (page == 1 && readingCommendResponseList.size() < Constant.PAGESIZE) {
                     mReadingCommentAdapter.loadMoreEnd(true);
@@ -223,6 +231,9 @@ public class HotCommentFragment extends BaseFragment implements HotCommentFragme
 
     @Override
     public void getCommentInfoSuccess(CommentListBean commentListBean) {
+        if (mSwipeLy.isRefreshing()) {
+            mSwipeLy.setRefreshing(false);
+        }
         isReqState = false;
         readingCommendResponseList = commentListBean.getData();
         //加载更多这样设置
@@ -342,6 +353,12 @@ public class HotCommentFragment extends BaseFragment implements HotCommentFragme
     }
 
     @Override
+    public void getPublishCommentUserSuccess() {
+        //刷新页面
+        LocalBroadcastManager.getInstance(Objects.requireNonNull(getActivity())).sendBroadcast(new Intent(ActivityConstant.UPDATE_COMMENT_LIST));
+    }
+
+    @Override
     public void switchFunctionByCommentSoftKeyBtnListener() {
 
     }
@@ -426,7 +443,6 @@ public class HotCommentFragment extends BaseFragment implements HotCommentFragme
         emptyIv.setImageResource(R.mipmap.default_page_comment);
         emptyTv.setText(getResources().getString(R.string.BookDetailFragment_empty_tv));
     }
-
 
 
     private void initializeInjector() {

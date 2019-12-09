@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -69,10 +70,12 @@ import butterknife.Unbinder;
  */
 
 public class LatestCommentFragment extends BaseFragment implements LatestCommentFragmentControl.LatestCommentView, CommentSoftKeyPopupWindow.CommentSoftKeyPopupWindowListener,
-        TakePhoto.TakeResultListener, InvokeListener, BaseQuickAdapter.RequestLoadMoreListener {
+        TakePhoto.TakeResultListener, InvokeListener, BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
 
     @Inject
     LatestCommentFragmentControl.LatestCommentFragmentPresenter mPresenter;
+    @BindView(R.id.swipe_ly)
+    SwipeRefreshLayout mSwipeLy;
     @BindView(R.id.latest_comment_layout)
     RelativeLayout mLatestCommentLayout;
     @BindView(R.id.comment_tv)
@@ -131,6 +134,8 @@ public class LatestCommentFragment extends BaseFragment implements LatestComment
 
     @Override
     public void initView() {
+        mSwipeLy.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
+        mSwipeLy.setOnRefreshListener(this);
         File file = new File(Objects.requireNonNull(getActivity()).getExternalCacheDir(), System.currentTimeMillis() + ".png");
         uri = Uri.fromFile(file);
         if (getArguments() != null) {
@@ -165,12 +170,16 @@ public class LatestCommentFragment extends BaseFragment implements LatestComment
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.comment_content_rl:
-                showCommentPopupWindow(getString(R.string.BarrageStylePopupWindow_comment_hint));
-                break;
             case R.id.publish_comment_tv:
                 showCommentPopupWindow(getString(R.string.BarrageStylePopupWindow_comment_hint));
                 break;
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        page = 1;
+        onRequestCommentInfo();
     }
 
     private void onRequestCommentInfo() {
@@ -212,6 +221,9 @@ public class LatestCommentFragment extends BaseFragment implements LatestComment
 
     @Override
     public void getCommentInfoSuccess(CommentListBean commentListBean) {
+        if (mSwipeLy.isRefreshing()) {
+            mSwipeLy.setRefreshing(false);
+        }
         isReqState = false;
         readingCommendResponseList = commentListBean.getData();
         //加载更多这样设置
@@ -331,6 +343,11 @@ public class LatestCommentFragment extends BaseFragment implements LatestComment
         mReadingCommentAdapter.notifyItemChanged(clickPos, commentBean.getLike());//局部刷新
     }
 
+    @Override
+    public void getPublishCommentUserSuccess() {
+        //刷新页面
+        LocalBroadcastManager.getInstance(Objects.requireNonNull(getActivity())).sendBroadcast(new Intent(ActivityConstant.UPDATE_COMMENT_LIST));
+    }
 
     /**
      * 显示评论弹框PopupWindow
