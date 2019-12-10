@@ -71,11 +71,19 @@ public class SelectChannelDialog extends BaseDialogFragment {
                 initChooseState();
                 chooseSex = 1;
                 mChooseWriteMaleIv.setVisibility(View.VISIBLE);
+                if (mSelectChannelDialogListener != null) {
+                    mSelectChannelDialogListener.selectChannelBtnOkListener(chooseSex);
+                }
+                closeDialog();
                 break;
             case R.id.channel_female_tv:
                 initChooseState();
                 chooseSex = 2;
                 mChooseWriteFemaleIv.setVisibility(View.VISIBLE);
+                if (mSelectChannelDialogListener != null) {
+                    mSelectChannelDialogListener.selectChannelBtnOkListener(chooseSex);
+                }
+                closeDialog();
                 break;
             case R.id.sure_tv:
                 if (chooseSex != 0) {

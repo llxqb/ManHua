@@ -85,10 +85,10 @@ public class PaySelectDialog extends BaseDialogFragment {
 //        AniCreator.getInstance().apply_animation_translate(mRechargeDialogLayout, AniCreator.ANIMATION_MODE_POPUP, View.VISIBLE, false, null);
         unbinder = ButterKnife.bind(this, view);
         //默认UniPinPay
-        payType = 3;
-        mUniPinPayIv.setImageResource(R.mipmap.pay_hibeans_choose);
-        mUniPinPayTv.setTextColor(Objects.requireNonNull(getActivity()).getResources().getColor(R.color.color_blue_btn));
-        String moneyValue = getResources().getString(R.string.money_yn) + ynMoney;
+        payType = 1;
+        mGooglePayIv.setImageResource(R.mipmap.pay_hibeans_choose);
+        mGooglePayTv.setTextColor(Objects.requireNonNull(getActivity()).getResources().getColor(R.color.color_blue_btn));
+        String moneyValue = getResources().getString(R.string.money) + mMoney;
         mMoneyTv.setText(moneyValue);
         return view;
     }

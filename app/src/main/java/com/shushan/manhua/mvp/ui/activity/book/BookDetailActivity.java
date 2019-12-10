@@ -108,20 +108,11 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
                 break;
             case R.id.start_reading_tv:
                 if (mBookDetailInfoResponse != null) {
-                    BookDetailInfoResponse.HistoryBean historyBean = mBookDetailInfoResponse.getHistory();
-                    if (historyBean != null && historyBean.getCatalogue_id() != 0) {
-                        Intent intent = new Intent(this, ReadActivity.class);
-                        intent.putExtra("bookId", mBookId);
-                        intent.putExtra("catalogueId", historyBean.getCatalogue_id());
-                        intent.putExtra("is_book_detail_activity", true);
-                        startActivity(intent);//继续阅读
-                    } else {
-                        Intent intent = new Intent(this, ReadActivity.class);
-                        intent.putExtra("bookId", mBookId);
-                        intent.putExtra("catalogueId", 1);
-                        intent.putExtra("is_book_detail_activity", true);
-                        startActivity(intent);//阅读页面 章节默认第一章节;
-                    }
+                    Intent intent = new Intent(this, ReadActivity.class);
+                    intent.putExtra("bookId", mBookId);
+                    intent.putExtra("catalogueId", mBookDetailInfoResponse.getLast_catalogue_id());
+                    intent.putExtra("is_book_detail_activity", true);
+                    startActivity(intent);//阅读页面 章节默认第一章节;
                 }
                 break;
         }

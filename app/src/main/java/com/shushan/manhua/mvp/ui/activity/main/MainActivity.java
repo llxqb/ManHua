@@ -93,7 +93,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     @Override
     public void initView() {
         mMainBottomNavigation.setItemIconTintList(null);
-        LogUtils.e("mUser:" + new Gson().toJson(mUser));
+//        LogUtils.e("mUser:" + new Gson().toJson(mUser));
         if (!mBuProcessor.isSetChannel()) {
             showSelectChannelDialog();
             onRequestManHuaType();
@@ -184,7 +184,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
     @Override
     public void selectManHuaTypeBtnOkListener(String chooseListStr) {
-        LogUtils.e("chooseListStr:" + chooseListStr);
+//        LogUtils.e("chooseListStr:" + chooseListStr);
         mSharePreferenceUtil.setData(Constant.BOOK_TYPE, chooseListStr);//[1,2,3]喜欢的类型
         loginTouristMode();
     }

@@ -4,21 +4,21 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
+import com.umeng.facebook.CallbackManager;
+import com.umeng.facebook.FacebookCallback;
+import com.umeng.facebook.FacebookException;
+import com.umeng.facebook.FacebookSdk;
+import com.umeng.facebook.login.LoginManager;
+import com.umeng.facebook.login.LoginResult;
 
 import java.util.Collections;
 
-//import com.umeng.facebook.CallbackManager;
-//import com.umeng.facebook.FacebookCallback;
-//import com.umeng.facebook.FacebookException;
-//import com.umeng.facebook.FacebookSdk;
-//import com.umeng.facebook.login.LoginManager;
-//import com.umeng.facebook.login.LoginResult;
+//import com.facebook.CallbackManager;
+//import com.facebook.FacebookCallback;
+//import com.facebook.FacebookException;
+//import com.facebook.FacebookSdk;
+//import com.facebook.login.LoginManager;
+//import com.facebook.login.LoginResult;
 
 public class FacebookLoginHelper {
     public CallbackManager mFaceBookCallBack;
