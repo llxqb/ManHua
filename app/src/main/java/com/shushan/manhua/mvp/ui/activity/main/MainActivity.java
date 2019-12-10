@@ -204,8 +204,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         mBuProcessor.setLoginUser(user);
         if (isExitLogin) {//是退出登录
             isExitLogin = false;
-            startActivitys(LoginActivity.class);
             LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.LOGIN_SUCCESS_UPDATE_DATA));
+            startActivitys(LoginActivity.class);
 //            finish();
         } else {
             initMainView();

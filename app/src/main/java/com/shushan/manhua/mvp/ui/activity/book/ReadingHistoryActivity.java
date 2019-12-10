@@ -182,7 +182,6 @@ public class ReadingHistoryActivity extends BaseActivity implements ReadingHisto
 
     @Override
     public void getDeleteReadingHistorySuccess() {
-        showToast("删除成功");
         onRequestReadingHistory();
     }
 

@@ -64,6 +64,8 @@
                     android:drawablePadding="@dimen/dp_5"
                     android:gravity="center"
                     android:text="@string/ReadActivity_support"
+                    android:paddingTop="@dimen/dp_5"
+                    android:paddingBottom="@dimen/dp_5"
                     android:textColor="@color/color_30" />
 
                 <TextView
@@ -74,6 +76,8 @@
                     android:drawableTop="@mipmap/cartoon_chapter_add_bookshelf"
                     android:drawablePadding="@dimen/dp_5"
                     android:gravity="center"
+                    android:paddingTop="@dimen/dp_5"
+                    android:paddingBottom="@dimen/dp_5"
                     android:text="@string/ReadActivity_add_bookshelf" />
 
                 <TextView
@@ -84,6 +88,8 @@
                     android:drawableTop="@mipmap/cartoon_chapter_share"
                     android:drawablePadding="@dimen/dp_5"
                     android:gravity="center"
+                    android:paddingTop="@dimen/dp_5"
+                    android:paddingBottom="@dimen/dp_5"
                     android:text="@string/ReadActivity_share" />
 
 

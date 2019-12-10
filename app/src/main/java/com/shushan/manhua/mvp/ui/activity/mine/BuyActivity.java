@@ -172,7 +172,9 @@ public class BuyActivity extends BaseActivity implements BuyControl.BuyView, Pay
                 if (mLoginModel != 2) {
                     showTouristsLoginDialog();
                 } else {
-                    showPayChooseDialog();
+//                    showPayChooseDialog();
+                    mPayType = 1;
+                    GooglePayChoose();
                 }
                 break;
         }
@@ -196,7 +198,9 @@ public class BuyActivity extends BaseActivity implements BuyControl.BuyView, Pay
 
     @Override
     public void touristsModelPurchaseBtnOkListener() {
-        showPayChooseDialog();
+//        showPayChooseDialog();
+        mPayType = 1;
+        GooglePayChoose();
     }
 
     /**

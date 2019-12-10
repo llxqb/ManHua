@@ -225,7 +225,9 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
                 if (mLoginModel != 2) {
                     showTouristsLoginDialog();
                 } else {
-                    showPayChooseDialog();
+//                    showPayChooseDialog();
+                    mPayType = 1;
+                    GooglePayChoose();
                 }
                 break;
             case R.id.common_back_iv:
@@ -263,7 +265,9 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
 
     @Override
     public void touristsModelPurchaseBtnOkListener() {
-        showPayChooseDialog();
+//        showPayChooseDialog();
+        mPayType = 1;
+        GooglePayChoose();
     }
 
     /**

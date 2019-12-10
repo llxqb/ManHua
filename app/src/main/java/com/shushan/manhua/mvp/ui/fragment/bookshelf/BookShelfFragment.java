@@ -107,10 +107,18 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
                 //更新推荐数据
                 onRecommendInfo();
             } else if (intent.getAction().equals(ActivityConstant.LOGIN_SUCCESS_UPDATE_DATA)) {
-                mShelfLayout.setVisibility(View.VISIBLE);
-                mShelfEmptyLayout.setVisibility(View.GONE);
-                onRequestBookShelfInfo();
-                onRecommendInfo();
+                //1 是游客模式 2 是登录模式
+                int mLoginModel = mBuProcessor.getLoginModel();
+                if (mLoginModel != 2) {
+                    mShelfLayout.setVisibility(View.GONE);
+                    mShelfEmptyLayout.setVisibility(View.VISIBLE);
+                    mLastReadLayout.setVisibility(View.GONE);
+                } else {
+                    mShelfLayout.setVisibility(View.VISIBLE);
+                    mShelfEmptyLayout.setVisibility(View.GONE);
+                    onRequestBookShelfInfo();
+                    onRecommendInfo();
+                }
             }
         }
         super.onReceivePro(context, intent);
