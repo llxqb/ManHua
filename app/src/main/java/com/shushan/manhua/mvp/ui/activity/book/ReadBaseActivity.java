@@ -257,6 +257,12 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
         mRecommendRecyclerView.setAdapter(mRecommendAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        mRecommendAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            RecommendBean dataBean = (RecommendBean) adapter.getItem(position);
+            if (dataBean != null) {
+                BookDetailActivity.start(ReadBaseActivity.this, String.valueOf(dataBean.getBook_id()));
+            }
+        });
         mRecommendRecyclerView.setLayoutManager(linearLayoutManager);
         mReadingCommentAdapter = new ReadingCommentAdapter(readingCommendResponseList, mImageLoaderHelper);
         mCommentRecyclerView.setAdapter(mReadingCommentAdapter);
@@ -739,7 +745,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     public void getSelectionInfoSuccess(SelectionResponse selectionResponse) {
         mSelectionResponse = selectionResponse;
         if (mSelectionResponse != null) {
-            new ReadContentsPopupWindow(this, mSelectionResponse, this, mImageLoaderHelper).initPopWindow(mReadLayout);
+            new ReadContentsPopupWindow(this, mSelectionResponse, this, mUser.vip, mImageLoaderHelper).initPopWindow(mReadLayout);
         }
     }
 

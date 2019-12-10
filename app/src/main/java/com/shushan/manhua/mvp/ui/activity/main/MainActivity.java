@@ -18,9 +18,11 @@ import com.shushan.manhua.di.modules.MainModule;
 import com.shushan.manhua.entity.constants.ActivityConstant;
 import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.entity.request.LoginTouristModeRequest;
+import com.shushan.manhua.entity.request.PaySwitchRequest;
 import com.shushan.manhua.entity.request.ReadingSettingRequest;
 import com.shushan.manhua.entity.response.BookTypeResponse;
 import com.shushan.manhua.entity.response.LoginTouristModeResponse;
+import com.shushan.manhua.entity.response.PaySwitchResponse;
 import com.shushan.manhua.entity.user.User;
 import com.shushan.manhua.help.DialogFactory;
 import com.shushan.manhua.mvp.ui.activity.login.LoginActivity;
@@ -113,6 +115,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         mMainViewpager.setOffscreenPageLimit(fragments.size());
         mMainViewpager.setAdapter(adapter);
         mMainBottomNavigation.setOnNavigationItemSelectedListener(this);
+        onRequestPaySwitch();
     }
 
     @Override
@@ -139,6 +142,20 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         }
     }
 
+    /**
+     * 查询开关，应对过审
+     */
+    private void onRequestPaySwitch() {
+        PaySwitchRequest paySwitchRequest = new PaySwitchRequest();
+        paySwitchRequest.token = mBuProcessor.getToken();
+        paySwitchRequest.version = SystemUtils.getVersionName(this);
+        mPresenter.onRequestPaySwitch(paySwitchRequest);
+    }
+
+    @Override
+    public void getPaySwitchSuccess(PaySwitchResponse paySwitchResponse) {
+        mSharePreferenceUtil.setData("paySwitch", paySwitchResponse.getPay_switch());
+    }
 
     /**
      * 第一次选择频道
@@ -212,6 +229,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             onReadingSettingRequest();
         }
     }
+
 
     /**
      * 设置阅读偏好

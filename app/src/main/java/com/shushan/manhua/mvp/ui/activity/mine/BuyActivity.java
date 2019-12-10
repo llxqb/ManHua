@@ -94,6 +94,7 @@ public class BuyActivity extends BaseActivity implements BuyControl.BuyView, Pay
     private Purchase mPurchase;//google支付
     private CreateOrderAHDIResponse mCreateOrderAHDIResponse;//
     private CreateOrderByUniPinResponse mCreateOrderByUniPinResponse;
+    private int paySwitch;//过审开关
 
     @Override
     protected void initContentView() {
@@ -108,7 +109,9 @@ public class BuyActivity extends BaseActivity implements BuyControl.BuyView, Pay
     public void onReceivePro(Context context, Intent intent) {
         if (intent.getAction() != null) {
             if (intent.getAction().equals(ActivityConstant.LOGIN_SUCCESS_UPDATE_DATA)) {
+                mUser = mBuProcessor.getUser();
                 mLoginModel = mBuProcessor.getLoginModel();
+                onRequestData();
             }
         }
         super.onReceivePro(context, intent);
@@ -125,6 +128,7 @@ public class BuyActivity extends BaseActivity implements BuyControl.BuyView, Pay
         //初始化google支付
         mGooglePayHelper = new GooglePayHelper(this, this);
         iabHelper = mGooglePayHelper.initGooglePay();
+        paySwitch = mSharePreferenceUtil.getIntData("paySwitch", 1);
         initAdapter();
     }
 
@@ -172,9 +176,12 @@ public class BuyActivity extends BaseActivity implements BuyControl.BuyView, Pay
                 if (mLoginModel != 2) {
                     showTouristsLoginDialog();
                 } else {
-//                    showPayChooseDialog();
-                    mPayType = 1;
-                    GooglePayChoose();
+                    if (paySwitch == 0) {
+                        showPayChooseDialog();
+                    } else {
+                        mPayType = 1;
+                        GooglePayChoose();
+                    }
                 }
                 break;
         }
@@ -199,8 +206,12 @@ public class BuyActivity extends BaseActivity implements BuyControl.BuyView, Pay
     @Override
     public void touristsModelPurchaseBtnOkListener() {
 //        showPayChooseDialog();
-        mPayType = 1;
-        GooglePayChoose();
+        if (paySwitch == 0) {
+            showPayChooseDialog();
+        } else {
+            mPayType = 1;
+            GooglePayChoose();
+        }
     }
 
     /**
@@ -300,7 +311,7 @@ public class BuyActivity extends BaseActivity implements BuyControl.BuyView, Pay
     @Override
     public void getCreateOrderGoogleSuccess(CreateOrderResponse createOrderResponse) {
         //3 . 购买漫豆
-        mGooglePayHelper.queryGoods(DataUtils.uppercaseToLowercase(createOrderResponse.getProduct_id()), createOrderResponse.getOrder_no(),false);
+        mGooglePayHelper.queryGoods(DataUtils.uppercaseToLowercase(createOrderResponse.getProduct_id()), createOrderResponse.getOrder_no(), false);
     }
 
     //4.购买漫豆成功

@@ -2,9 +2,11 @@ package com.shushan.manhua.mvp.ui.activity.main;
 
 
 import com.shushan.manhua.entity.request.LoginTouristModeRequest;
+import com.shushan.manhua.entity.request.PaySwitchRequest;
 import com.shushan.manhua.entity.request.ReadingSettingRequest;
 import com.shushan.manhua.entity.response.BookTypeResponse;
 import com.shushan.manhua.entity.response.LoginTouristModeResponse;
+import com.shushan.manhua.entity.response.PaySwitchResponse;
 import com.shushan.manhua.mvp.presenter.LoadDataView;
 import com.shushan.manhua.mvp.presenter.Presenter;
 
@@ -17,6 +19,8 @@ public class MainControl {
         void getManHuaTypeSuccess(BookTypeResponse bookTypeResponse);
 
         void getLoginTouristModeSuccess(LoginTouristModeResponse loginTouristModeResponse);
+
+        void getPaySwitchSuccess(PaySwitchResponse paySwitchResponse);
     }
 
     public interface PresenterMain extends Presenter<MainView> {
@@ -34,6 +38,11 @@ public class MainControl {
          * 设置阅读偏好
          */
         void onReadingSettingRequest(ReadingSettingRequest readingSettingRequest);
+
+        /**
+         * 查询开关，应对过审
+         */
+        void onRequestPaySwitch(PaySwitchRequest paySwitchRequest);
     }
 
 }

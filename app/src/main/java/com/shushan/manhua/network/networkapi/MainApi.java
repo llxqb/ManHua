@@ -29,6 +29,12 @@ public interface MainApi {
     Observable<String> onReadingSettingRequest(@Body String request);
 
     /**
+     * 查询开关，应对过审
+     */
+    @POST("cartoon/user/search_switch")
+    Observable<String> onRequestPaySwitch(@Body String request);
+
+    /**
      * 请求首页信息
      */
     @POST("cartoon")

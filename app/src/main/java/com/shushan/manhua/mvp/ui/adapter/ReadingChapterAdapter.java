@@ -19,6 +19,13 @@ import java.util.List;
 public class ReadingChapterAdapter extends BaseQuickAdapter<SelectionResponse.AnthologyBean, BaseViewHolder> {
 
     private ImageLoaderHelper mImageLoaderHelper;
+    private int mVipCost;
+    private int mIsVip;
+
+    public void setVipCost(int isVip, int vipCost) {
+        mIsVip = isVip;
+        mVipCost = vipCost;
+    }
 
     public ReadingChapterAdapter(@Nullable List<SelectionResponse.AnthologyBean> data, ImageLoaderHelper imageLoaderHelper) {
         super(R.layout.item_reading_chapter, data);
@@ -33,10 +40,14 @@ public class ReadingChapterAdapter extends BaseQuickAdapter<SelectionResponse.An
         mImageLoaderHelper.displayImage(mContext, item.getCatalogue_cover(), coverIv, Constant.LOADING_DEFAULT_2);
         helper.setText(R.id.title_tv, item.getCatalogue_name());
         ImageView lockIv = helper.getView(R.id.lock_iv);
-        if (item.getType() == 1) {//1收费0免费
-            lockIv.setVisibility(View.VISIBLE);
-        } else {
+        if (item.getType() == 0) {//1收费0免费
             lockIv.setVisibility(View.GONE);
+        } else {
+            if (mIsVip == 1 && mVipCost == 0) {
+                lockIv.setVisibility(View.GONE);
+            } else {
+                lockIv.setVisibility(View.VISIBLE);
+            }
         }
     }
 }

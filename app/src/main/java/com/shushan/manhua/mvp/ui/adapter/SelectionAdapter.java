@@ -23,10 +23,17 @@ import java.util.List;
 public class SelectionAdapter extends BaseQuickAdapter<SelectionResponse.AnthologyBean, BaseViewHolder> {
 
     private ImageLoaderHelper mImageLoaderHelper;
+    private int mVipCost;
+    private int mIsVip;
 
     public SelectionAdapter(@Nullable List<SelectionResponse.AnthologyBean> data, ImageLoaderHelper imageLoaderHelper) {
         super(R.layout.item_selection, data);
         mImageLoaderHelper = imageLoaderHelper;
+    }
+
+    public void setVipCost(int isVip, int vipCost) {
+        mIsVip = isVip;
+        mVipCost = vipCost;
     }
 
     @Override
@@ -55,10 +62,14 @@ public class SelectionAdapter extends BaseQuickAdapter<SelectionResponse.Antholo
         helper.setText(R.id.support_tv, String.valueOf(item.getLike()));
 
         ImageView lockIv = helper.getView(R.id.lock_iv);
-        if (item.getType() == 1) {//1收费0免费
-            lockIv.setVisibility(View.VISIBLE);
-        } else {
+        if (item.getType() == 0) {//1收费0免费
             lockIv.setVisibility(View.GONE);
+        } else {
+            if (mIsVip == 1 && mVipCost == 0) {
+                lockIv.setVisibility(View.GONE);
+            } else {
+                lockIv.setVisibility(View.VISIBLE);
+            }
         }
         TextView suggestNumTv = helper.getView(R.id.support_tv);
         if (item.getIs_like() == 0) {//未点赞

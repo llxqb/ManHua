@@ -15,6 +15,7 @@ public class SelectionResponse {
     private int residue_words;
     private int words;
     private int last_catalogue_id;
+    private int vip_cost;
     private List<AnthologyBean> anthology;
 
     public int getResidue_words() {
@@ -47,6 +48,14 @@ public class SelectionResponse {
 
     public void setAnthology(List<AnthologyBean> anthology) {
         this.anthology = anthology;
+    }
+
+    public int getVip_cost() {
+        return vip_cost;
+    }
+
+    public void setVip_cost(int vip_cost) {
+        this.vip_cost = vip_cost;
     }
 
     public static class AnthologyBean {

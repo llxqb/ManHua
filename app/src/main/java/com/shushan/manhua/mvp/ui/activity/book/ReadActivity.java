@@ -2,6 +2,7 @@ package com.shushan.manhua.mvp.ui.activity.book;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.LocalBroadcastManager;
@@ -15,6 +16,8 @@ import com.shushan.manhua.entity.request.BarrageListRequest;
 import com.shushan.manhua.entity.response.BarrageListResponse;
 import com.shushan.manhua.entity.response.ReadingInfoResponse;
 
+import bolts.AppLinks;
+
 /**
  * 阅读页面
  */
@@ -24,6 +27,7 @@ public class ReadActivity extends ReadBaseActivity {
     @Override
     public void initView() {
         super.initView();
+        getFbDeepLink(getIntent());
         onRequestBarrageList();
         onRequestBuyBarrageStyle();//请求购买的弹幕样式
     }
@@ -84,6 +88,27 @@ public class ReadActivity extends ReadBaseActivity {
     }
 
 
+    /**
+     * facebook深度链接
+     */
+    private String getFbDeepLink(Intent intent) {
+        try {
+            Uri targetUrl = AppLinks.getTargetUrlFromInboundIntent(this, intent);
+            if (targetUrl != null) {
+                String url = targetUrl.toString();
+                if (url.contains("harebook://com.sywl.hare/read")) {
+                    String book_id_key = "bookId";
+                    String bookId = url.substring(url.indexOf(book_id_key) + book_id_key.length() + 1);
+                    return bookId;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+
     @Override
     public void getReadingInfoSuccess(ReadingInfoResponse readingInfoResponse) {
         mReadingInfoResponse = readingInfoResponse;
@@ -93,6 +118,9 @@ public class ReadActivity extends ReadBaseActivity {
         } else {
             showToast("Isi bab kosong");//章节内容为空
         }
+        mUser.bean = catalogueBean.getUserbean();
+        mBuProcessor.setLoginUser(mUser);
+        mUser = mBuProcessor.getUser();
         mReadingCommentAdapter.setNewData(readingInfoResponse.getComment());
         mRecommendAdapter.setNewData(readingInfoResponse.getCommend());
         bannerList = readingInfoResponse.getBanner();
@@ -114,17 +142,18 @@ public class ReadActivity extends ReadBaseActivity {
 
     private void setIsRecharge() {
         //是否免费 0 免费 1 收费1
-        if (mReadingInfoResponse.getCatalogue().getType() != 0) {//收费
+        ReadingInfoResponse.CatalogueBean catalogueBean = mReadingInfoResponse.getCatalogue();
+        if (catalogueBean.getType() != 0) {//收费
             if (mUser.vip == 0) {//非VIP
-                if (mUser.bean >= 5) {
-                    onRequestReadRecording(5);//消耗漫豆
+                if (mUser.bean >= catalogueBean.getCost()) {
+                    onRequestReadRecording(catalogueBean.getCost());//消耗漫豆
                 } else {
                     //进行弹框
                     showRechargeDialog();
                 }
             } else {
-                if (mUser.bean >= 3) {
-                    onRequestReadRecording(3);
+                if (mUser.bean >= catalogueBean.getVip_cost()) {
+                    onRequestReadRecording(catalogueBean.getVip_cost());
                 } else {
                     //进行弹框
                     showRechargeDialog();

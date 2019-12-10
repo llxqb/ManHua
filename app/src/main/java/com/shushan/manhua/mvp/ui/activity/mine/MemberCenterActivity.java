@@ -111,6 +111,7 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
     private Purchase mPurchase;//google支付
     private CreateOrderAHDIResponse mCreateOrderAHDIResponse;//
     private CreateOrderByUniPinResponse mCreateOrderByUniPinResponse;
+    private int paySwitch;//过审开关
 
     @Override
     protected void initContentView() {
@@ -149,6 +150,7 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
         //初始化google支付
         mGooglePayHelper = new GooglePayHelper(this, this);
         iabHelper = mGooglePayHelper.initGooglePay();
+        paySwitch = mSharePreferenceUtil.getIntData("paySwitch", 1);
         initRecyclerView();
         onRequestMemberCenter();
     }
@@ -225,9 +227,12 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
                 if (mLoginModel != 2) {
                     showTouristsLoginDialog();
                 } else {
-//                    showPayChooseDialog();
-                    mPayType = 1;
-                    GooglePayChoose();
+                    if (paySwitch == 0) {
+                        showPayChooseDialog();
+                    } else {
+                        mPayType = 1;
+                        GooglePayChoose();
+                    }
                 }
                 break;
             case R.id.common_back_iv:
@@ -266,8 +271,12 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
     @Override
     public void touristsModelPurchaseBtnOkListener() {
 //        showPayChooseDialog();
-        mPayType = 1;
-        GooglePayChoose();
+        if (paySwitch == 0) {
+            showPayChooseDialog();
+        } else {
+            mPayType = 1;
+            GooglePayChoose();
+        }
     }
 
     /**

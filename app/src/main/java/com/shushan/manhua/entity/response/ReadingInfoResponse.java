@@ -82,6 +82,7 @@ public class ReadingInfoResponse {
         private int sort;
         private int cost;
         private int vip_cost;
+        private int userbean;
         private int is_like;
         private int state;
         private int count;
@@ -159,6 +160,14 @@ public class ReadingInfoResponse {
 
         public void setVip_cost(int vip_cost) {
             this.vip_cost = vip_cost;
+        }
+
+        public int getUserbean() {
+            return userbean;
+        }
+
+        public void setUserbean(int userbean) {
+            this.userbean = userbean;
         }
 
         public int getIs_like() {

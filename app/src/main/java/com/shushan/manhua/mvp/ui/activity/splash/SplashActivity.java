@@ -1,10 +1,14 @@
 package com.shushan.manhua.mvp.ui.activity.splash;
 
+import android.net.Uri;
+import android.util.Log;
 import android.view.WindowManager;
 
+import com.facebook.applinks.AppLinkData;
 import com.shushan.manhua.ManHuaApplication;
 import com.shushan.manhua.R;
 import com.shushan.manhua.entity.user.BuProcessor;
+import com.shushan.manhua.mvp.ui.activity.book.ReadBaseActivity;
 import com.shushan.manhua.mvp.ui.activity.main.MainActivity;
 import com.shushan.manhua.mvp.ui.base.BaseActivity;
 
@@ -33,13 +37,57 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void initView() {
-
+        getDelayFbDeepLink();
     }
 
     @Override
     public void initData() {
 
     }
+
+
+    /**
+     * facebook 延迟深度链接
+     */
+    private void getDelayFbDeepLink() {
+        AppLinkData.fetchDeferredAppLinkData(this, new AppLinkData.CompletionHandler() {
+            @Override
+            public void onDeferredAppLinkDataFetched(final AppLinkData appLinkData) {
+                Log.i("byl", "-----------targetUrl: " + appLinkData);
+                if (appLinkData != null) {
+                    Uri targetUrl = appLinkData.getTargetUri();
+                    Log.i("byl", "-----------targetUrl: " + targetUrl);
+                    if (targetUrl != null) {
+                        String url = targetUrl.toString();
+                        if (url.contains("harebook://com.sywl.hare/read")) {
+//                            "book_id":"13","catalogue_id":"143"
+                            String bookId = "13";
+                            int catalogueId = 143;
+//                            String book_id_key = "bookId";
+//                            String book_title_key = "title";
+//                            String bookTitle = "";
+//                            String book_id = url.substring(url.indexOf(book_id_key) + book_id_key.length() + 1);
+//                            if (url.contains("title")) {
+//                                bookTitle = url.substring(url.indexOf(book_title_key) + book_title_key.length() + 1);
+//                            }
+//                            if (TextUtils.isEmpty(book_id)) {
+//                                return;
+//                            }
+
+/////////这里获取到参数后跳转到对应的页面
+//                            Intent i = new Intent(SplashActivity.this, ReadActivity.class);
+//                            i.putExtra("bookId", book_id);
+//                            i.putExtra("title", bookTitle);
+//                            startActivity(i);
+
+                            ReadBaseActivity.start(SplashActivity.this, bookId, catalogueId);
+                        }
+                    }
+                }
+            }
+        });
+    }
+
 
     @Override
     protected void onStart() {

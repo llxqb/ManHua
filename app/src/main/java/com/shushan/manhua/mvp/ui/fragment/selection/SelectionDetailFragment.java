@@ -194,6 +194,7 @@ public class SelectionDetailFragment extends BaseFragment implements SelectionFr
         selectionResponseList = selectionResponse.getAnthology();
         mSelectionResponse = selectionResponse;
         initSortList(selectionResponseList, 0);
+        mSelectionAdapter.setVipCost(mBuProcessor.getUser().vip, selectionResponse.getVip_cost());
     }
 
     /**

@@ -27,11 +27,13 @@ public class ReadContentsPopupWindow {
     private CustomPopWindow mCustomPopWindow;
     private SelectionResponse mSelectionResponse;
     private ImageLoaderHelper mImageLoaderHelper;
+    private int mIsVip;
 
-    public ReadContentsPopupWindow(Activity context, SelectionResponse selectionResponse, ReadContentsPopupWindowListener popupWindowListener, ImageLoaderHelper imageLoaderHelper) {
+    public ReadContentsPopupWindow(Activity context, SelectionResponse selectionResponse, ReadContentsPopupWindowListener popupWindowListener, int isVip, ImageLoaderHelper imageLoaderHelper) {
         mContext = context;
         mPopupWindowListener = popupWindowListener;
         this.mSelectionResponse = selectionResponse;
+        mIsVip = isVip;
         mImageLoaderHelper = imageLoaderHelper;
     }
 
@@ -61,6 +63,7 @@ public class ReadContentsPopupWindow {
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(readingChapterAdapter);
+        readingChapterAdapter.setVipCost(mIsVip, mSelectionResponse.getVip_cost());
 //        bookNumTv.setText("");
 //        Total 20 chapter,10 chapter belum dibaca
         String totalValue = "Total " + mSelectionResponse.getWords() + " chapter," + mSelectionResponse.getResidue_words() + " chapter belum dibaca";
@@ -92,14 +95,13 @@ public class ReadContentsPopupWindow {
                 //停止拖动
             }
         });
-
         preChapterIv.setOnClickListener(v -> {
-            smoothMoveToPosition(recyclerView, 0);
             mSeekBar.setProgress(0);
+            smoothMoveToPosition(recyclerView, 0);
         });
         nextChapterIv.setOnClickListener(v -> {
-            smoothMoveToPosition(recyclerView, mSelectionResponse.getAnthology().size());
             mSeekBar.setProgress(100);
+            smoothMoveToPosition(recyclerView, mSelectionResponse.getAnthology().size());
         });
 
 //这里的mRvHx是需要绑定滚动条的RecyclerView

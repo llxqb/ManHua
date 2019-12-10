@@ -5,9 +5,11 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.shushan.manhua.R;
 import com.shushan.manhua.entity.request.LoginTouristModeRequest;
+import com.shushan.manhua.entity.request.PaySwitchRequest;
 import com.shushan.manhua.entity.request.ReadingSettingRequest;
 import com.shushan.manhua.entity.response.BookTypeResponse;
 import com.shushan.manhua.entity.response.LoginTouristModeResponse;
+import com.shushan.manhua.entity.response.PaySwitchResponse;
 import com.shushan.manhua.help.RetryWithDelay;
 import com.shushan.manhua.mvp.model.MainModel;
 import com.shushan.manhua.mvp.model.ResponseData;
@@ -92,6 +94,7 @@ public class MainPresenterImpl implements MainControl.PresenterMain {
             mMainView.showToast(responseData.errorMsg);
         }
     }
+
     /**
      * 设置阅读偏好
      */
@@ -115,6 +118,34 @@ public class MainPresenterImpl implements MainControl.PresenterMain {
 //                LoginTouristModeResponse response = (LoginTouristModeResponse) responseData.parsedData;
 //                mMainView.getLoginTouristModeSuccess(response);
 //            }
+        } else {
+            mMainView.showToast(responseData.errorMsg);
+        }
+    }
+
+    /**
+     * 查询开关，应对过审
+     */
+    @Override
+    public void onRequestPaySwitch(PaySwitchRequest paySwitchRequest) {
+        mMainView.showLoading(mContext.getResources().getString(R.string.loading));
+        Disposable disposable = mMainModel.onRequestPaySwitch(paySwitchRequest).compose(mMainView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
+                .subscribe(this::requestPaySwitchSuccess, throwable -> mMainView.showErrMessage(throwable),
+                        () -> mMainView.dismissLoading());
+        mMainView.addSubscription(disposable);
+    }
+
+    /**
+     * 查询开关，应对过审 成功
+     */
+    private void requestPaySwitchSuccess(ResponseData responseData) {
+        mMainView.judgeToken(responseData.resultCode);
+        if (responseData.resultCode == 0) {
+            responseData.parseData(PaySwitchResponse.class);
+            if (responseData.parsedData != null) {
+                PaySwitchResponse response = (PaySwitchResponse) responseData.parsedData;
+                mMainView.getPaySwitchSuccess(response);
+            }
         } else {
             mMainView.showToast(responseData.errorMsg);
         }

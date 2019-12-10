@@ -5,6 +5,7 @@ import com.shushan.manhua.entity.request.BookShelfInfoRequest;
 import com.shushan.manhua.entity.request.HomeInfoRequest;
 import com.shushan.manhua.entity.request.LoginTouristModeRequest;
 import com.shushan.manhua.entity.request.MineRequest;
+import com.shushan.manhua.entity.request.PaySwitchRequest;
 import com.shushan.manhua.entity.request.ReadingSettingRequest;
 import com.shushan.manhua.entity.request.RecommendRequest;
 import com.shushan.manhua.entity.request.UnReadMessageRequest;
@@ -50,6 +51,12 @@ public class MainModel {
      */
     public Observable<ResponseData> onReadingSettingRequest(ReadingSettingRequest request) {
         return mMainApi.onReadingSettingRequest(new Gson().toJson(request)).map(mTransform::transformCommon);
+    }
+    /**
+     * 查询开关，应对过审
+     */
+    public Observable<ResponseData> onRequestPaySwitch(PaySwitchRequest request) {
+        return mMainApi.onRequestPaySwitch(new Gson().toJson(request)).map(mTransform::transformCommon);
     }
 
     /**
