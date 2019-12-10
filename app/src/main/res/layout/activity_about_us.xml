@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".mvp.ui.activity.setting.AboutUsActivity">
+
+    <include layout="@layout/common_toolbar" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp_10"
+        android:text="Pulau komik adalah aplikasi membaca komik di ponsel yang bisa dibuka dimana saja, di dalamnya terdapat banyak komik yang resmi, berkualitas bagus, dan berwarna-warni, di sini kamu bisa membaca komik sepuasmu tanpa henti, kami setiap harinya akan menyediakan untukmu bermacam-macam komik terbaru, kamu bisa membaca komik kapanpun dan dimanapun sesukamu"
+        android:textColor="@color/first_text_color"
+        android:textSize="@dimen/sp_16" />
+</LinearLayout>

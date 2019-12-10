@@ -31,6 +31,7 @@ public class ProtocolActivity extends BaseActivity {
     @Override
     protected void initContentView() {
         setContentView(R.layout.activity_protocol);
+        setStatusBar();
     }
 
     @Override

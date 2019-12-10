@@ -9,6 +9,7 @@ import com.shushan.manhua.R;
 import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.help.DialogFactory;
 import com.shushan.manhua.mvp.ui.activity.main.MainActivity;
+import com.shushan.manhua.mvp.ui.activity.splash.ProtocolActivity;
 import com.shushan.manhua.mvp.ui.base.BaseActivity;
 import com.shushan.manhua.mvp.ui.dialog.CommonDialog;
 import com.shushan.manhua.mvp.utils.DataCleanManager;
@@ -67,10 +68,10 @@ public class SettingActivity extends BaseActivity implements CommonDialog.Common
                 showToast("Versi saat ini:" + SystemUtils.getVersionName(this));
                 break;
             case R.id.protocol_ll://用户协议
-//                showToast("用户协议");
+                startActivitys(ProtocolActivity.class);
                 break;
             case R.id.about_us_ll://关于我们
-//                showToast("关于我们");
+                startActivitys(AboutUsActivity.class);
                 break;
             case R.id.exit_tv:
                 commonDialogClickType = 2;

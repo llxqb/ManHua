@@ -57,7 +57,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     public static final int SWITCH_TEACHER_PAGE = 1;
     public static final int SWITCH_MINE_PAGE = 2;
 
-    private User mUser;
     private BookTypeResponse mBookTypeResponse;//选择漫画类型
 
     public static void start(Context context, int switchPage) {
@@ -70,7 +69,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     protected void initContentView() {
         setContentView(R.layout.activity_main);
         initInjectData();
-        mUser = mBuProcessor.getUser();
     }
 
     @Override
@@ -96,7 +94,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 //        LogUtils.e("mUser:" + new Gson().toJson(mUser));
         if (!mBuProcessor.isSetChannel()) {
             showSelectChannelDialog();
-            onRequestManHuaType();
         } else if (mBuProcessor.getToken() == null) {
             loginTouristMode();
         } else {
@@ -144,19 +141,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
 
     /**
-     * 请求漫画类型
-     */
-    private void onRequestManHuaType() {
-        mPresenter.onRequestManHuaType();
-    }
-
-    @Override
-    public void getManHuaTypeSuccess(BookTypeResponse bookTypeResponse) {
-        mBookTypeResponse = bookTypeResponse;
-    }
-
-
-    /**
      * 第一次选择频道
      */
     private void showSelectChannelDialog() {
@@ -168,9 +152,21 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     @Override
     public void selectChannelBtnOkListener(int sex) {
         mSharePreferenceUtil.setData(Constant.CHANNEL, String.valueOf(sex));
-        showSelectManHuaTypeDialog();
+        onRequestManHuaType();
     }
 
+    /**
+     * 请求漫画类型
+     */
+    private void onRequestManHuaType() {
+        mPresenter.onRequestManHuaType();
+    }
+
+    @Override
+    public void getManHuaTypeSuccess(BookTypeResponse bookTypeResponse) {
+        mBookTypeResponse = bookTypeResponse;
+        showSelectManHuaTypeDialog();
+    }
 
     /**
      * 第一次选择漫画类型
@@ -242,7 +238,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             if (permission) {
 //                reqLoginInfo();
             } else {
-                showToast("请允许权限");
+                showToast("Harap izinkan izin");
             }
         });
     }
