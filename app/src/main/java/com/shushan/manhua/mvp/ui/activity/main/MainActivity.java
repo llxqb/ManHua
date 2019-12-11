@@ -120,6 +120,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
     @Override
     public void initData() {
+        SystemUtils.getMinDp(this);
         if (getIntent() != null) {
             int switchPage = getIntent().getIntExtra("switchPage", 0);
             if (switchPage == SWITCH_TEACHER_PAGE) {

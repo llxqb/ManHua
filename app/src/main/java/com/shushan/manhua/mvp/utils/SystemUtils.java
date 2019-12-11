@@ -91,7 +91,6 @@ public class SystemUtils {
         } else {
             smallestWidthDP = heightDP;
         }
-        Log.e("SystemUtils", "手机最小宽度为:" + smallestWidthDP);
     }
 
     /**

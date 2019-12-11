@@ -2,34 +2,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/item_reading_pic"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center_horizontal"
-    android:gravity="center_horizontal"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:gravity="center"
     android:orientation="vertical">
 
-    <!--    <ImageView-->
-    <!--        android:id="@+id/resizableImageView"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:adjustViewBounds="true"-->
-    <!--        android:contentDescription="@string/app_name"-->
-    <!--        android:scaleType="fitXY" />-->
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/app_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@mipmap/app_load"
+        android:visibility="gone" />
 
-
-    <!--    <WebView-->
-    <!--        android:id="@+id/webView"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        />-->
-    <!--    <com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView-->
-    <!--        android:id="@+id/img_iv"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"/>-->
-    <ImageView
+    <com.shushan.manhua.mvp.views.ResizableImageView
         android:id="@+id/img_iv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:scaleType="matrix"
         android:src="@mipmap/read_default" />
+
+
 </LinearLayout>

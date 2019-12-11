@@ -129,9 +129,9 @@ public class SelectionDetailFragment extends BaseFragment implements SelectionFr
             Comparator<SelectionResponse.AnthologyBean> comparator = (dataBean1, dataBean2) -> {
                 // 按getRecommend从大到小排序
                 if (sort == 1) {
-                    return dataBean2.getCatalogue_id() - dataBean1.getCatalogue_id();
+                    return dataBean2.getSort() - dataBean1.getSort();
                 } else {
-                    return dataBean1.getCatalogue_id() - dataBean2.getCatalogue_id();
+                    return dataBean1.getSort() - dataBean2.getSort();
                 }
             };
             //这里就会自动根据规则进行排序

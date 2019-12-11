@@ -15,7 +15,6 @@ import com.shushan.manhua.R;
 import com.shushan.manhua.entity.response.SelectionResponse;
 import com.shushan.manhua.help.ImageLoaderHelper;
 import com.shushan.manhua.mvp.ui.adapter.ReadingChapterAdapter;
-import com.shushan.manhua.mvp.utils.LogUtils;
 
 
 /**
@@ -51,6 +50,7 @@ public class ReadContentsPopupWindow {
     }
 
     private float endX = 0;
+    boolean isScrolling = false;//是否正在滑动
 
     private void handlePopListView(View contentView) {
         RecyclerView recyclerView = contentView.findViewById(R.id.recycler_view);
@@ -81,8 +81,10 @@ public class ReadContentsPopupWindow {
         mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                //正在拖动
-                smoothMoveToPosition(recyclerView, progress * mSelectionResponse.getAnthology().size() / 100);
+                if (!isScrolling) {
+                    //正在拖动
+                    smoothMoveToPosition(recyclerView, progress * mSelectionResponse.getAnthology().size() / 100);
+                }
             }
 
             @Override
@@ -104,6 +106,7 @@ public class ReadContentsPopupWindow {
             smoothMoveToPosition(recyclerView, mSelectionResponse.getAnthology().size());
         });
 
+
 //这里的mRvHx是需要绑定滚动条的RecyclerView
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -117,11 +120,13 @@ public class ReadContentsPopupWindow {
 //                    LogUtils.e("Count:" + readingChapterAdapter.getItemCount());
 //                    mSeekBar.setProgress((int)(firstIndex / (readingChapterAdapter.getItemCount() - 3) * 100));
 //                }
+                isScrolling = false;
             }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+                isScrolling = true;
                 // 获取当前滚动到的条目位置
                 float firstIndex = linearLayoutManager.findFirstVisibleItemPosition();
                 mSeekBar.setProgress((int) (firstIndex / (readingChapterAdapter.getItemCount() - 3) * 100));
@@ -165,7 +170,7 @@ public class ReadContentsPopupWindow {
         // 最后一个可见位置
         int lastItem = mRecyclerView.getChildLayoutPosition(mRecyclerView.getChildAt(mRecyclerView.getChildCount() - 1));
 
-        LogUtils.e("position:" + position + "  firstItem:" + firstItem);
+//        LogUtils.e("position:" + position + "  firstItem:" + firstItem);
         if (position < firstItem) {
             // 如果跳转位置在第一个可见位置之前，就smoothScrollToPosition可以直接跳转
             mRecyclerView.smoothScrollToPosition(position);

@@ -1,15 +1,27 @@
 package com.shushan.manhua.mvp.ui.adapter;
 
+import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
-import android.widget.ImageView;
+import android.util.Log;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.shushan.manhua.R;
 import com.shushan.manhua.entity.response.ReadingInfoResponse;
 import com.shushan.manhua.help.ImageLoaderHelper;
+import com.shushan.manhua.mvp.utils.SystemUtils;
+import com.shushan.manhua.mvp.views.ResizableImageView;
 
 import java.util.List;
+
+import pl.droidsonroids.gif.GifImageView;
 
 /**
  * 漫画章节图片adapter
@@ -27,53 +39,41 @@ public class ReadingPicAdapter extends BaseQuickAdapter<ReadingInfoResponse.Cata
     @Override
     protected void convert(BaseViewHolder helper, ReadingInfoResponse.CatalogueBean.CatalogueContentBean item) {
         helper.addOnClickListener(R.id.item_reading_pic);
-//        ImageView picIv = helper.getView(R.id.resizableImageView);
-//        mImageLoaderHelper.displayImage(mContext, item.getUrl(), picIv, R.mipmap.read_default);//Constant.LOADING_DEFAULT_4
+        GifImageView gifImageView = helper.getView(R.id.app_loading);
+        ResizableImageView imgIv = helper.getView(R.id.img_iv);
+//        gifImageView.setVisibility(View.VISIBLE);
+//        imgIv.setVisibility(View.GONE);
 
-        ImageView imgIv = helper.getView(R.id.img_iv);
-        mImageLoaderHelper.displayImage(mContext, item.getUrl(), imgIv, R.mipmap.read_default);//Constant.LOADING_DEFAULT_4
+        int width = SystemUtils.getScreenWidth(mContext);
+        //计算放大比例
+        float sy = width / item.getWidth();
+        int height = (int) (item.getHeight() * sy);
 
-//        Glide.with(mContext) .asBitmap().load(item.getUrl())
-//                .into(new SimpleTarget<Bitmap>() {
-//                    @Override
-//                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-//                        imgIv.setImageBitmap(resource);
-//                    }
-//                });
+        RequestOptions options = new RequestOptions()
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                .error(R.mipmap.read_default)
+                .skipMemoryCache(true)
+                .placeholder(R.mipmap.read_default)
+                .override(width, height)
+                .dontAnimate();
 
-//        ImageView imgIv = helper.getView(R.id.img_iv);
-//        RequestOptions options = new RequestOptions()
-//                .override(item.getWidth(), item.getHeight())
-//                .placeholder(Constant.LOADING_DEFAULT_4)
-//                .error(Constant.LOADING_DEFAULT_4);
-//        Glide.with(mContext)
-//                .load(item.getUrl())
-//                .apply(options)
-//                .into(imgIv);
+        Glide.with(mContext).load(item.getUrl()).apply(options)
+                .listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        Log.e("LogInterceptor", "e:" + e.toString());
+//                        gifImageView.setVisibility(View.GONE);
+//                        imgIv.setVisibility(View.VISIBLE);
+                        return false;
+                    }
 
-//        mImageLoaderHelper.displayAutoMatchImage(mContext, item.getUrl(), imgIv, R.mipmap.read_default);//Constant.LOADING_DEFAULT_4
-//        imgIv.setMaxWidth(item.getWidth());
-//        imgIv.setMaxHeight(item.getHeight());
-//        imgIv.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CUSTOM);
-//        imgIv.setMinScale(1.0F);//最小显示比例
-//        imgIv.setMaxScale(10.0F);//最大显示比例（太大了图片显示会失真，因为一般微博长图的宽度不会太宽）
-
-//下载图片保存到本地
-//        Glide.with(mContext).asBitmap().load(item.getUrl())
-//                .into(new SimpleTarget<Bitmap>() {
-//                    @Override
-//                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-//                        imgIv.setImage(ImageSource.bitmap(resource));
-//                    }
-//                });
-
-//        webView.getSettings().setSupportZoom(true);//缩放
-//        webView.getSettings().setBuiltInZoomControls(true);
-//        webView.getSettings().setDisplayZoomControls(false);//不显示控制器
-//        webView.getSettings().setUseWideViewPort(true);
-//        webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
-//        webView.getSettings().setLoadWithOverviewMode(true);
-//        webView.loadUrl(item.getUrl());
-
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        Log.e("LogInterceptor", "resource:" + resource.getMinimumWidth());
+//                        gifImageView.setVisibility(View.GONE);
+//                        imgIv.setVisibility(View.VISIBLE);
+                        return false;
+                    }
+                }).into(imgIv);
     }
 }

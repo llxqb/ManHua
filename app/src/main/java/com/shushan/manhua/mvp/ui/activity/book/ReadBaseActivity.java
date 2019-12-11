@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.shushan.manhua.BuildConfig;
 import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerReadComponent;
 import com.shushan.manhua.di.modules.ActivityModule;
@@ -285,6 +286,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
             }
         });
         //图片adapter
+        mPicRecyclerView.setNestedScrollingEnabled(false);//解决ScrollView+RecyclerView的滑动冲突问题
         mReadingPicAdapter = new ReadingPicAdapter(bookPicList, mImageLoaderHelper);
         mPicRecyclerView.setLayoutManager(new LinearLayoutManager(this) {
             @Override
@@ -343,9 +345,11 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
             } else {
                 isBarrageState = true;
                 //显示弹幕
-                for (BarrageListResponse.DataBean dataBean : mBarrageListResponse.getData()) {
-                    if (scrollY > Double.parseDouble(dataBean.getYcoord()) - 10 && scrollY < Double.parseDouble(dataBean.getYcoord()) + 10) {
-                        showTvView(dataBean);
+                if (mBarrageListResponse != null) {
+                    for (BarrageListResponse.DataBean dataBean : mBarrageListResponse.getData()) {
+                        if (scrollY > Double.parseDouble(dataBean.getYcoord()) - 10 && scrollY < Double.parseDouble(dataBean.getYcoord()) + 10) {
+                            showTvView(dataBean);
+                        }
                     }
                 }
             }
@@ -1250,10 +1254,9 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
         //分享到facebook
         SnsPlatform snsPlatform = SHARE_MEDIA.FACEBOOK.toSnsPlatform();
         //分享链接
-        UMWeb web = new UMWeb("https://www.baidu.com/");
-        web.setTitle("hello");
+        UMWeb web = new UMWeb(BuildConfig.MAN_HUA_BASE_URL + "/download.html ");
+//        web.setTitle("download");
         web.setThumb(new UMImage(this, R.mipmap.logo));
-        web.setDescription("hello 123456");
         new ShareAction(this)
                 .withMedia(web)
                 .setPlatform(snsPlatform.mPlatform)
@@ -1262,22 +1265,15 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     }
 
     private void shareWhatsApp() {
-        //分享到WhatsApp
-//        SnsPlatform snsPlatform = SHARE_MEDIA.WHATSAPP.toSnsPlatform();
-//        //分享链接
-//        UMWeb web = new UMWeb("https://www.baidu.com/");
-//        web.setTitle("hello");
-//        web.setThumb(new UMImage(this, R.mipmap.logo));
-//        web.setDescription("hello 123456");
-//        new ShareAction(this)
-//                .withMedia(web)
-//                .setPlatform(snsPlatform.mPlatform)
-//                .setCallback(new MyUMShareListener(this)).share();
+        SnsPlatform snsPlatform = SHARE_MEDIA.WHATSAPP.toSnsPlatform();
+        //分享链接
+        UMWeb web = new UMWeb(BuildConfig.MAN_HUA_BASE_URL + "/download.html ");
+//        web.setTitle("download");
+        web.setThumb(new UMImage(this, R.mipmap.logo));
         new ShareAction(this)
-                .setPlatform(SHARE_MEDIA.WHATSAPP)//传入平台
-                .withText("hello")//分享内容
-                .setCallback(new MyUMShareListener(this, this))//回调监听器
-                .share();
+                .withMedia(web)
+                .setPlatform(snsPlatform.mPlatform)
+                .setCallback(new MyUMShareListener(this, this)).share();
     }
 
     @Override
