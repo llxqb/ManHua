@@ -3,6 +3,7 @@ package com.shushan.manhua.listener;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.shushan.manhua.mvp.utils.LogUtils;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
@@ -26,7 +27,8 @@ public class MyUMShareListener implements UMShareListener {
 
     @Override
     public void onResult(SHARE_MEDIA share_media) {
-//        Toast.makeText(mContext, "success", Toast.LENGTH_LONG).show();
+        LogUtils.e("success()");
+        Toast.makeText(mContext, "success", Toast.LENGTH_LONG).show();
         if (mShareResultListener != null) {
             mShareResultListener.shareSuccess();
         }
@@ -34,11 +36,12 @@ public class MyUMShareListener implements UMShareListener {
 
     @Override
     public void onError(SHARE_MEDIA share_media, Throwable throwable) {
-
+        LogUtils.e("onError()");
     }
 
     @Override
     public void onCancel(SHARE_MEDIA share_media) {
+        LogUtils.e("cancel()");
         Toast.makeText(mContext, "cancel", Toast.LENGTH_LONG).show();
     }
 

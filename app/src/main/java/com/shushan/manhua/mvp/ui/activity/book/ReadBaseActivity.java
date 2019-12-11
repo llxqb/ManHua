@@ -1260,8 +1260,8 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
         new ShareAction(this)
                 .withMedia(web)
                 .setPlatform(snsPlatform.mPlatform)
-                .setCallback(new MyUMShareListener(this, this)).share();
-
+                .setCallback(null).share();
+        onShareTaskRequest();
     }
 
     private void shareWhatsApp() {
@@ -1273,7 +1273,8 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
         new ShareAction(this)
                 .withMedia(web)
                 .setPlatform(snsPlatform.mPlatform)
-                .setCallback(new MyUMShareListener(this, this)).share();
+                .setCallback(null).share();
+        onShareTaskRequest();
     }
 
     @Override

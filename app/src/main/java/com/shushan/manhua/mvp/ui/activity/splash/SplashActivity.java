@@ -1,7 +1,6 @@
 package com.shushan.manhua.mvp.ui.activity.splash;
 
 import android.net.Uri;
-import android.util.Log;
 import android.view.WindowManager;
 
 import com.facebook.applinks.AppLinkData;
@@ -50,19 +49,14 @@ public class SplashActivity extends BaseActivity {
      * facebook 延迟深度链接
      */
     private void getDelayFbDeepLink() {
-        AppLinkData.fetchDeferredAppLinkData(this, new AppLinkData.CompletionHandler() {
-            @Override
-            public void onDeferredAppLinkDataFetched(final AppLinkData appLinkData) {
-                Log.i("byl", "-----------targetUrl: " + appLinkData);
-                if (appLinkData != null) {
-                    Uri targetUrl = appLinkData.getTargetUri();
-                    Log.i("byl", "-----------targetUrl: " + targetUrl);
-                    if (targetUrl != null) {
-                        String url = targetUrl.toString();
-                        if (url.contains("harebook://com.sywl.hare/read")) {
-//                            "book_id":"13","catalogue_id":"143"
-                            String bookId = "13";
-                            int catalogueId = 143;
+        AppLinkData.fetchDeferredAppLinkData(this, appLinkData -> {
+            if (appLinkData != null) {
+                Uri targetUrl = appLinkData.getTargetUri();
+                if (targetUrl != null) {
+                    String url = targetUrl.toString();
+                    if (url.contains("pulaukomik://com.shushan.manhua/read")) {
+                        String bookId = "book_id";
+                        String catalogueId = "catalogue_id";
 //                            String book_id_key = "bookId";
 //                            String book_title_key = "title";
 //                            String bookTitle = "";
@@ -73,15 +67,13 @@ public class SplashActivity extends BaseActivity {
 //                            if (TextUtils.isEmpty(book_id)) {
 //                                return;
 //                            }
-
 /////////这里获取到参数后跳转到对应的页面
 //                            Intent i = new Intent(SplashActivity.this, ReadActivity.class);
 //                            i.putExtra("bookId", book_id);
 //                            i.putExtra("title", bookTitle);
 //                            startActivity(i);
-
-                            ReadBaseActivity.start(SplashActivity.this, bookId, catalogueId);
-                        }
+                        ReadBaseActivity.start(SplashActivity.this, bookId, Integer.parseInt(catalogueId));
+                        finish();
                     }
                 }
             }

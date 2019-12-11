@@ -12,6 +12,7 @@
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusableInTouchMode="true"
             android:paddingBottom="@dimen/dp_10">
 
             <com.shushan.manhua.mvp.views.ResizableImageView

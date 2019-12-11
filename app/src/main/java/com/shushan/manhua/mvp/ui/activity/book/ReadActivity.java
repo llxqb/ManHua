@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.LocalBroadcastManager;
+import android.view.View;
 import android.widget.ScrollView;
 
 import com.google.gson.Gson;
@@ -91,21 +92,22 @@ public class ReadActivity extends ReadBaseActivity {
     /**
      * facebook深度链接
      */
-    private String getFbDeepLink(Intent intent) {
+    private void getFbDeepLink(Intent intent) {
         try {
             Uri targetUrl = AppLinks.getTargetUrlFromInboundIntent(this, intent);
             if (targetUrl != null) {
                 String url = targetUrl.toString();
-                if (url.contains("harebook://com.sywl.hare/read")) {
-                    String book_id_key = "bookId";
-                    String bookId = url.substring(url.indexOf(book_id_key) + book_id_key.length() + 1);
-                    return bookId;
+                if (url.contains("pulaukomik://com.shushan.manhua/read")) {
+                    String bookId = "book_id";
+                    String catalogueId = "catalogue_id";
+                    mBookId = bookId;
+                    mCatalogueId = Integer.parseInt(catalogueId);
+                    onRequestReadingInfo();
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "";
     }
 
 
@@ -136,6 +138,7 @@ public class ReadActivity extends ReadBaseActivity {
         mCommonTitleTv.setText(catalogueBean.getCatalogue_name());
         mNestedScrollView.post(() -> mNestedScrollView.post(() -> {
             picRvHeight = mPicRecyclerView.getHeight();
+            mNestedScrollView.setVisibility(View.VISIBLE);
             mNestedScrollView.fullScroll(ScrollView.FOCUS_UP);  // 滚动至顶部
         }));
     }

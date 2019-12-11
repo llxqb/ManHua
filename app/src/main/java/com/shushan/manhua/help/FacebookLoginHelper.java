@@ -72,7 +72,7 @@ public class FacebookLoginHelper {
 
                     @Override
                     public void onError(FacebookException error) {
-                        Log.e("ddd", "onError()");
+                        Log.e("ddd", "onError():"+error.toString());
 //                        if (loginSuccessListener != null) {
 //                            loginSuccessListener.onError(error);
 //                        }
