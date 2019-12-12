@@ -30,10 +30,6 @@ public class BookShelfAdapter extends BaseQuickAdapter<BookShelfResponse.Bookrac
         helper.addOnClickListener(R.id.item_bookshelf_layout);
         if (item.isMore) {
             helper.setVisible(R.id.book_default_iv, true);
-//            helper.setVisible(R.id.book_iv, false);
-//            helper.setVisible(R.id.date_tv, false);
-//            helper.setVisible(R.id.book_name_tv, false).setVisible(R.id.book_desc_tv, false);
-//            helper.setVisible(R.id.support_tv, false).setVisible(R.id.comment_tv, false);
             helper.getView(R.id.book_iv).setVisibility(View.GONE);
             helper.getView(R.id.date_tv).setVisibility(View.GONE);
             helper.getView(R.id.book_name_tv).setVisibility(View.GONE);
@@ -48,8 +44,12 @@ public class BookShelfAdapter extends BaseQuickAdapter<BookShelfResponse.Bookrac
             helper.setVisible(R.id.support_tv, true).setVisible(R.id.comment_tv, true);
         }
         ImageView imageView = helper.getView(R.id.book_iv);
-        mImageLoaderHelper.displayRoundedCornerImage(mContext, item.getDetail_cover(), imageView,6, Constant.LOADING_DEFAULT_1);
-        helper.setText(R.id.date_tv, DateUtil.getTimeChinString(item.getCreate_time(), DateUtil.TIME_YYMMDD));
+        mImageLoaderHelper.displayRoundedCornerImage(mContext, item.getDetail_cover(), imageView, 6, Constant.LOADING_DEFAULT_1);
+        if (item.getType() == 2) {// 1连载中2完结
+            helper.setText(R.id.date_tv, "Selesai");
+        } else {
+            helper.setText(R.id.date_tv, DateUtil.getTimeChinString(item.getCreate_time(), DateUtil.TIME_YYMMDD));
+        }
         helper.setText(R.id.book_name_tv, item.getBook_name());
         helper.setText(R.id.book_desc_tv, item.getCatalogue_name());
         helper.setText(R.id.support_tv, String.valueOf(item.getLike()));

@@ -73,10 +73,19 @@ public class ReadingHistoryActivity extends BaseActivity implements ReadingHisto
         mHistoryRecordRecyclerView.setAdapter(mReadingHistoryChildAdapter);
         mReadingHistoryChildAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             ReadingHistoryResponse.DataBean dataBean = (ReadingHistoryResponse.DataBean) adapter.getItem(position);
-            if (dataBean != null) {
-                dataBean.isCheck = !dataBean.isCheck;
+            switch (view.getId()) {
+                case R.id.check_iv:
+                    if (dataBean != null) {
+                        dataBean.isCheck = !dataBean.isCheck;
+                        adapter.notifyDataSetChanged();
+                    }
+                    break;
+                case R.id.item_reading_history_layout:
+                    if (dataBean != null) {
+                        ReadBaseActivity.start(this, String.valueOf(dataBean.getBook_id()), dataBean.getCatalogue_id());
+                    }
+                    break;
             }
-            adapter.notifyDataSetChanged();
         });
     }
 

@@ -235,7 +235,7 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
             mLastReadLayout.setVisibility(View.GONE);
         } else {
             mLastReadLayout.setVisibility(View.VISIBLE);
-            mImageLoaderHelper.displayImage(getActivity(), lastReadBean.getOblong_cover(), mRecentReadBookIv, Constant.LOADING_DEFAULT_2);
+            mImageLoaderHelper.displayRoundedCornerImage(getActivity(), lastReadBean.getOblong_cover(), mRecentReadBookIv, 3, Constant.LOADING_DEFAULT_2);
             mRecentReadBookNameTv.setText(lastReadBean.getBook_name());
             mRecentReadBookToChapterTv.setText("Bacaan terakhir ke Bab " + lastReadBean.getCatalogue_id());
         }

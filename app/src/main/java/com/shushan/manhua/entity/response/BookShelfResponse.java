@@ -195,7 +195,7 @@ public class BookShelfResponse  {
          * detail_cover :
          * comment_count : 13
          * like : 0
-         * type : 1
+         * type : 1        1连载中2完结
          * create_time : 1574142425
          * catalogue_id : 2
          * catalogue_name : 第二话 青铜时代

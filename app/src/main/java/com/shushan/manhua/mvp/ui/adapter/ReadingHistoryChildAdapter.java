@@ -28,7 +28,7 @@ public class ReadingHistoryChildAdapter extends BaseQuickAdapter<ReadingHistoryR
 
     @Override
     protected void convert(BaseViewHolder helper, ReadingHistoryResponse.DataBean item) {
-        helper.addOnClickListener(R.id.check_iv);
+        helper.addOnClickListener(R.id.check_iv).addOnClickListener(R.id.item_reading_history_layout);
         ImageView checkIv = helper.getView(R.id.check_iv);
         if (item.isEditState) {
             checkIv.setVisibility(View.VISIBLE);

@@ -6,6 +6,7 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Point;
 import android.location.LocationManager;
 import android.net.wifi.WifiInfo;
@@ -243,6 +244,18 @@ public class SystemUtils {
      */
     public static int getScreenHeight(Context context) {
         return context.getResources().getDisplayMetrics().heightPixels;
+    }
+
+    /**
+     * 获取状态栏高度
+     * @param context
+     * @return
+     */
+    public static int getStatusBarHeight(Context context) {
+        Resources resources = context.getResources();
+        int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
+        int height = resources.getDimensionPixelSize(resourceId);
+        return height;
     }
 
     /**
