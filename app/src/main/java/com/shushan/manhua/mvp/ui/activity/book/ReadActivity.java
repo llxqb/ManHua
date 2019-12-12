@@ -114,6 +114,7 @@ public class ReadActivity extends ReadBaseActivity {
     @Override
     public void getReadingInfoSuccess(ReadingInfoResponse readingInfoResponse) {
         mReadingInfoResponse = readingInfoResponse;
+        mNestedScrollView.fullScroll(ScrollView.FOCUS_UP);  // 滚动至顶部
         ReadingInfoResponse.CatalogueBean catalogueBean = readingInfoResponse.getCatalogue();
         if (catalogueBean.getCatalogue_content() != null && !new Gson().toJson(catalogueBean.getCatalogue_content()).equals("[]")) {
             mReadingPicAdapter.setNewData(catalogueBean.getCatalogue_content());
@@ -185,17 +186,6 @@ public class ReadActivity extends ReadBaseActivity {
         LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.UPDATE_BOOKSHELF));
     }
 
-
-    /**
-     * 请求弹幕列表
-     */
-    private void onRequestBarrageList() {
-        BarrageListRequest barrageListRequest = new BarrageListRequest();
-        barrageListRequest.token = mBuProcessor.getToken();
-        barrageListRequest.book_id = mBookId;
-        barrageListRequest.catalogue_id = String.valueOf(mCatalogueId);
-        mPresenter.getBarrageListRequest(barrageListRequest);
-    }
 
     /**
      * 获取弹幕列表成功

@@ -38,6 +38,7 @@ import com.shushan.manhua.entity.RecommendBean;
 import com.shushan.manhua.entity.constants.ActivityConstant;
 import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.entity.request.AddBookShelfRequest;
+import com.shushan.manhua.entity.request.BarrageListRequest;
 import com.shushan.manhua.entity.request.BuyBarrageStyleRequest;
 import com.shushan.manhua.entity.request.ExchangeBarrageStyleRequest;
 import com.shushan.manhua.entity.request.PublishCommentRequest;
@@ -286,7 +287,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
             }
         });
         //图片adapter
-        mPicRecyclerView.setNestedScrollingEnabled(false);//解决ScrollView+RecyclerView的滑动冲突问题
+        mNestedScrollView.setNestedScrollingEnabled(false);//解决ScrollView+RecyclerView的滑动冲突问题
         mReadingPicAdapter = new ReadingPicAdapter(bookPicList, mImageLoaderHelper);
         mPicRecyclerView.setLayoutManager(new LinearLayoutManager(this) {
             @Override
@@ -581,15 +582,19 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
                 break;
             case R.id.last_chapter_ll://上一篇
             case R.id.last_chapter_iv: //上一话
-                if (mCatalogueId > 1) {
-                    mCatalogueId = mCatalogueId - 1;
+                if (mReadingInfoResponse != null) {
+                    mCatalogueId = mReadingInfoResponse.getCatalogue().getPre_catalogue_id();
                     onRequestReadingInfo();
+                    onRequestBarrageList();
                 }
                 break;
             case R.id.next_chapter_ll://下一篇
             case R.id.next_chapter_iv: //下一话
-                mCatalogueId = mCatalogueId + 1;
-                onRequestReadingInfo();
+                if (mReadingInfoResponse != null) {
+                    mCatalogueId = mReadingInfoResponse.getCatalogue().getNext_catalogue_id();
+                    onRequestReadingInfo();
+                    onRequestBarrageList();
+                }
                 break;
             case R.id.bottom_directory_ll: //目录
                 onRequestSelectionInfo();
@@ -616,6 +621,17 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
                 downPageBtn();
                 break;
         }
+    }
+
+    /**
+     * 请求弹幕列表
+     */
+    public void onRequestBarrageList() {
+        BarrageListRequest barrageListRequest = new BarrageListRequest();
+        barrageListRequest.token = mBuProcessor.getToken();
+        barrageListRequest.book_id = mBookId;
+        barrageListRequest.catalogue_id = String.valueOf(mCatalogueId);
+        mPresenter.getBarrageListRequest(barrageListRequest);
     }
 
 

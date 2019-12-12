@@ -4,6 +4,7 @@ package com.shushan.manhua.di;
 import com.shushan.manhua.ManHuaApplication;
 import com.shushan.manhua.mvp.ui.activity.book.BarrageSettingActivity;
 import com.shushan.manhua.mvp.ui.activity.book.LookPhotoActivity;
+import com.shushan.manhua.mvp.ui.activity.main.TestActivity;
 import com.shushan.manhua.mvp.ui.activity.setting.SettingActivity;
 import com.shushan.manhua.mvp.ui.activity.splash.SplashActivity;
 import com.shushan.manhua.mvp.ui.base.BaseActivity;
@@ -27,4 +28,6 @@ public interface ComponetGraph {
     void inject(LookPhotoActivity lookPhotoActivity);//查看大图
 
     void inject(SplashActivity splashActivity);//启动页
+
+    void inject(TestActivity testActivity);//启动页
 }

@@ -4,30 +4,29 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/black"
-    android:gravity="center"
     android:orientation="vertical">
 
     <FrameLayout
         android:id="@+id/app_loading_fl"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_600">
+        android:layout_height="@dimen/dp_600"
+        android:visibility="gone">
 
         <pl.droidsonroids.gif.GifImageView
             android:id="@+id/app_loading"
-            android:layout_width="@dimen/dp_100"
-            android:layout_height="@dimen/dp_120"
+            android:layout_width="@dimen/dp_96"
+            android:layout_height="@dimen/dp_114"
             android:layout_gravity="center"
             android:background="@mipmap/app_load" />
 
     </FrameLayout>
 
 
-    <com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
+    <ImageView
         android:id="@+id/img_iv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@mipmap/read_default"
-        android:visibility="gone" />
-
+        android:adjustViewBounds="true"
+        android:src="@mipmap/read_default" />
 
 </LinearLayout>

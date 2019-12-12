@@ -32,7 +32,7 @@ public class ImageLoaderHelper extends GlideLoader {
     public void displayImage(Context context, Object path, ImageView imageView) {
         RequestOptions options = new RequestOptions()
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                .skipMemoryCache(true)
+                .skipMemoryCache(true)//禁用内存缓存
                 .dontAnimate();
         Glide.with(context).load(path).apply(options).into(imageView);
     }

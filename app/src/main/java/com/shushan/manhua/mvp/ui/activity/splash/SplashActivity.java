@@ -57,21 +57,6 @@ public class SplashActivity extends BaseActivity {
                     if (url.contains("pulaukomik://com.shushan.manhua/read")) {
                         String bookId = "book_id";
                         String catalogueId = "catalogue_id";
-//                            String book_id_key = "bookId";
-//                            String book_title_key = "title";
-//                            String bookTitle = "";
-//                            String book_id = url.substring(url.indexOf(book_id_key) + book_id_key.length() + 1);
-//                            if (url.contains("title")) {
-//                                bookTitle = url.substring(url.indexOf(book_title_key) + book_title_key.length() + 1);
-//                            }
-//                            if (TextUtils.isEmpty(book_id)) {
-//                                return;
-//                            }
-/////////这里获取到参数后跳转到对应的页面
-//                            Intent i = new Intent(SplashActivity.this, ReadActivity.class);
-//                            i.putExtra("bookId", book_id);
-//                            i.putExtra("title", bookTitle);
-//                            startActivity(i);
                         ReadBaseActivity.start(SplashActivity.this, bookId, Integer.parseInt(catalogueId));
                         finish();
                     }
