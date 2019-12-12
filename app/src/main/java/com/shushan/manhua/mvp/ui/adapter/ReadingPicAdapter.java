@@ -40,8 +40,7 @@ public class ReadingPicAdapter extends BaseQuickAdapter<ReadingInfoResponse.Cata
     @SuppressLint("CheckResult")
     @Override
     protected void convert(BaseViewHolder helper, ReadingInfoResponse.CatalogueBean.CatalogueContentBean item) {
-        helper.addOnClickListener(R.id.item_reading_pic);
-
+        helper.addOnClickListener(R.id.img_iv);
         int width = SystemUtils.getScreenWidth(mContext);
         //计算放大比例
         float sy = width / item.getWidth();

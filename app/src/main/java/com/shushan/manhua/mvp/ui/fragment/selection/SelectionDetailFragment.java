@@ -116,7 +116,9 @@ public class SelectionDetailFragment extends BaseFragment implements SelectionFr
                 mSortTv.setCompoundDrawables(null, null, drawable, null);
                 mSortTv.setText(getString(R.string.SelectionDetailFragment_sort_negative));
             }
-            initSortList(mSelectionAdapter.getData(), 1);
+            page = 1;
+            onRequestSelectionInfo();//从0开始排序
+//            initSortList(mSelectionAdapter.getData(), 1);
         }
     }
 
