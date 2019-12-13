@@ -288,7 +288,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
             }
         });
         //图片adapter
-        mNestedScrollView.setNestedScrollingEnabled(false);//解决ScrollView+RecyclerView的滑动冲突问题
+        mPicRecyclerView.setNestedScrollingEnabled(false);//解决ScrollView+RecyclerView的滑动冲突问题
         mReadingPicAdapter = new ReadingPicAdapter(bookPicList, mImageLoaderHelper);
         mPicRecyclerView.setLayoutManager(new LinearLayoutManager(this) {
             @Override
