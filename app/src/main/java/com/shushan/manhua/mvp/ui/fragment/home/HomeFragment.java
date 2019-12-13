@@ -89,6 +89,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentControl.Ho
     private void initBanner() {
         // 设置数据
         mBanner.setDelayedTime(4000);//切换时间
+        mBanner.setIndicatorPadding(0,0,0,30);
         mBanner.setPages(bannerList, (MZHolderCreator<BannerViewHolder>) () -> new BannerViewHolder(mImageLoaderHelper));
     }
 

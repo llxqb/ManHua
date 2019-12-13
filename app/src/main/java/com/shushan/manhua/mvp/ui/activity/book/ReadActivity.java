@@ -13,11 +13,8 @@ import com.google.gson.Gson;
 import com.shushan.manhua.R;
 import com.shushan.manhua.entity.constants.ActivityConstant;
 import com.shushan.manhua.entity.constants.Constant;
-import com.shushan.manhua.entity.request.BarrageListRequest;
 import com.shushan.manhua.entity.response.BarrageListResponse;
 import com.shushan.manhua.entity.response.ReadingInfoResponse;
-
-import bolts.AppLinks;
 
 /**
  * 阅读页面
@@ -28,7 +25,9 @@ public class ReadActivity extends ReadBaseActivity {
     @Override
     public void initView() {
         super.initView();
-        getFbDeepLink(getIntent());
+        if (getIntent() != null) {
+            getFbDeepLink(getIntent());
+        }
         onRequestBarrageList();
         onRequestBuyBarrageStyle();//请求购买的弹幕样式
     }
@@ -94,12 +93,14 @@ public class ReadActivity extends ReadBaseActivity {
      */
     private void getFbDeepLink(Intent intent) {
         try {
-            Uri targetUrl = AppLinks.getTargetUrlFromInboundIntent(this, intent);
+            Uri targetUrl = intent.getData();
             if (targetUrl != null) {
                 String url = targetUrl.toString();
+//                LogUtils.e("url:" + url);
                 if (url.contains("pulaukomik://com.shushan.manhua/read")) {
-                    String bookId = "book_id";
-                    String catalogueId = "catalogue_id";
+                    String bookId = targetUrl.getQueryParameter("book_id");
+                    String catalogueId = targetUrl.getQueryParameter("catalogue_id");
+//                    LogUtils.e("bookId1:" + bookId + "  catalogueId1:" + catalogueId);
                     mBookId = bookId;
                     mCatalogueId = Integer.parseInt(catalogueId);
                     onRequestReadingInfo();

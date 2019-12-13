@@ -212,6 +212,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     private int clickPos;
     //    private boolean isClickTopOrBottomLayout = false;
     public ReadSettingPopupWindow mReadSettingPopupWindow;//弹幕设置弹框
+//    public Intent mIntent;
 
     public static void start(Context context, String bookId, int catalogueId) {
         Intent intent = new Intent(context, ReadActivity.class);

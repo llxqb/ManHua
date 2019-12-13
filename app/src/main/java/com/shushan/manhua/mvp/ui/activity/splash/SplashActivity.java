@@ -54,6 +54,7 @@ public class SplashActivity extends BaseActivity {
                 Uri targetUrl = appLinkData.getTargetUri();
                 if (targetUrl != null) {
                     String url = targetUrl.toString();
+//                    LogUtils.e("url:" + url );
                     if (url.contains("pulaukomik://com.shushan.manhua/read")) {
                         String bookId = "book_id";
                         String catalogueId = "catalogue_id";

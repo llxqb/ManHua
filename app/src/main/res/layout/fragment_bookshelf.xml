@@ -111,7 +111,7 @@
 
                         <TextView
                             android:id="@+id/recent_read_book_name_tv"
-                            android:layout_width="@dimen/dp_130"
+                            android:layout_width="@dimen/dp_148"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/dp_10"
                             android:layout_toEndOf="@id/recent_read_book_iv"
@@ -121,7 +121,7 @@
 
                         <TextView
                             android:id="@+id/recent_read_book_to_chapter_tv"
-                            android:layout_width="@dimen/dp_130"
+                            android:layout_width="@dimen/dp_148"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/recent_read_book_name_tv"
                             android:layout_marginStart="@dimen/dp_10"

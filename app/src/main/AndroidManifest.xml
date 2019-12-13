@@ -29,7 +29,9 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
-        <activity android:name=".mvp.ui.activity.main.TestActivity"></activity>
+        <activity
+            android:name=".mvp.ui.activity.main.TestActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".mvp.ui.activity.setting.AboutUsActivity"
             android:screenOrientation="portrait" />
