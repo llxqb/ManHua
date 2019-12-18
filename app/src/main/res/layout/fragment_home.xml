@@ -19,12 +19,34 @@
             app:middle_page_cover="false"
             app:open_mz_mode="true" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
+        <!--        <android.support.v7.widget.RecyclerView-->
+        <!--            android:id="@+id/recycler_view"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="@dimen/dp_10"-->
+        <!--            android:layout_marginBottom="@dimen/dp_10" />-->
+
+
+        <com.androidkun.xtablayout.XTabLayout
+            android:id="@+id/xTabLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_10"
-            android:layout_marginBottom="@dimen/dp_10" />
+            android:layout_height="@dimen/dp_40"
+            android:layout_gravity="center"
+            app:xTabIndicatorColor="@color/color_30"
+            app:xTabIndicatorHeight="@dimen/dp_4"
+            app:xTabMode="fixed"
+            app:xTabIndicatorWidth="@dimen/dp_20"
+            app:xTabSelectedTextColor="@color/color_30"
+            app:xTabSelectedTextSize="@dimen/sp_13"
+            app:xTabTextColor="@color/color_9b"
+            app:xTabTextSelectedBold="true"
+            app:xTabTextSize="@dimen/sp_13" />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
+
 
 </android.support.v4.widget.NestedScrollView>

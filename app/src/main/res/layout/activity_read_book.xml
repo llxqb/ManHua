@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".mvp.ui.activity.book.ReadBookActivity">
+
+
+    <include layout="@layout/common_toolbar" />
+
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_100"
+        android:padding="@dimen/dp_12"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/pre_chapter_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="上一章"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/next_chapter_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_12"
+            android:text="下一章"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginEnd="@dimen/dp_10"
+            android:max="100"
+            android:maxHeight="3.4dp"
+            android:minHeight="3.4dp"
+            android:progress="50"
+            android:progressDrawable="@drawable/bg_adjust_seek_bar"
+            android:thumb="@mipmap/oval"
+            app:layout_constraintEnd_toStartOf="@id/next_chapter_tv"
+            app:layout_constraintStart_toEndOf="@id/pre_chapter_tv"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/directory_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_8"
+            android:layout_marginTop="@dimen/dp_12"
+            android:drawableTop="@mipmap/my_install"
+            android:drawablePadding="@dimen/dp_6"
+            android:gravity="center"
+            android:text="目录"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pre_chapter_tv" />
+
+        <TextView
+            android:id="@+id/read_model_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_8"
+            android:layout_marginTop="@dimen/dp_12"
+            android:drawableTop="@mipmap/my_install"
+            android:drawablePadding="@dimen/dp_6"
+            android:gravity="center"
+            android:text="夜间"
+            app:layout_constraintEnd_toStartOf="@id/setting_tv"
+            app:layout_constraintStart_toEndOf="@id/directory_tv"
+            app:layout_constraintTop_toBottomOf="@id/pre_chapter_tv" />
+
+        <TextView
+            android:id="@+id/setting_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_8"
+            android:layout_marginTop="@dimen/dp_12"
+            android:drawableTop="@mipmap/my_install"
+            android:drawablePadding="@dimen/dp_6"
+            android:gravity="center"
+            android:text="设置"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pre_chapter_tv" />
+    </android.support.constraint.ConstraintLayout>
+
+
+</android.support.constraint.ConstraintLayout>

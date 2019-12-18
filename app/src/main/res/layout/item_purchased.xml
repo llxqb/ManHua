@@ -22,6 +22,7 @@
         android:layout_marginStart="@dimen/dp_13"
         android:layout_toEndOf="@id/book_cover_iv"
         android:textColor="@color/color_30"
+        android:singleLine="true"
         android:textSize="@dimen/sp_16"
         android:textStyle="bold" />
 
@@ -32,9 +33,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/book_name_tv"
         android:layout_marginStart="@dimen/dp_13"
-        android:layout_marginTop="@dimen/dp_10"
+        android:singleLine="true"
+        android:layout_marginTop="@dimen/dp_8"
         android:layout_toEndOf="@id/book_cover_iv"
-        android:text="3 Chapter yang telah dibeli"
         android:textColor="@color/color_6d"
         android:textSize="@dimen/sp_13" />
 
@@ -44,7 +45,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/buy_num_tv"
         android:layout_marginStart="@dimen/dp_13"
-        android:layout_marginTop="@dimen/dp_13"
+        android:layout_marginTop="@dimen/dp_10"
+        android:singleLine="true"
         android:layout_toEndOf="@id/book_cover_iv"
         android:textColor="@color/color_6d"
         android:textSize="@dimen/sp_13" />

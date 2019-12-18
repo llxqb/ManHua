@@ -30,6 +30,19 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
         <activity
+            android:name=".mvp.ui.activity.txtreaderlib.ui.HwTxtPlayActivity"
+            android:theme="@style/HwTxtFullScreen">
+            <intent-filter>
+                <data android:scheme="txt" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+
+        </activity>
+
+        <activity android:name=".mvp.ui.activity.book.ReadBookActivity"/>
+        <activity
             android:name=".mvp.ui.activity.main.TestActivity"
             android:screenOrientation="portrait" />
         <activity

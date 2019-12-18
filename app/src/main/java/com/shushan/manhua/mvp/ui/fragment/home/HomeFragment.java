@@ -3,29 +3,26 @@ package com.shushan.manhua.mvp.ui.fragment.home;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.androidkun.xtablayout.XTabLayout;
 import com.shushan.manhua.ManHuaApplication;
 import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerHomeFragmentComponent;
 import com.shushan.manhua.di.modules.HomeFragmentModule;
 import com.shushan.manhua.di.modules.MainModule;
-import com.shushan.manhua.entity.BannerBean;
-import com.shushan.manhua.entity.request.HomeInfoRequest;
 import com.shushan.manhua.entity.response.HomeResponse;
 import com.shushan.manhua.entity.user.User;
-import com.shushan.manhua.mvp.ui.activity.book.BookDetailActivity;
-import com.shushan.manhua.mvp.ui.adapter.BannerViewHolder;
-import com.shushan.manhua.mvp.ui.adapter.HomeAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseFragment;
 import com.shushan.manhua.mvp.utils.StatusBarUtil;
 import com.zhouwei.mzbanner.MZBannerView;
-import com.zhouwei.mzbanner.holder.MZHolderCreator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,13 +44,13 @@ public class HomeFragment extends BaseFragment implements HomeFragmentControl.Ho
     HomeFragmentControl.homeFragmentPresenter mPresenter;
     @BindView(R.id.banner)
     MZBannerView mBanner;
-    @BindView(R.id.recycler_view)
-    RecyclerView mRecyclerView;
+    @BindView(R.id.xTabLayout)
+    XTabLayout mXTabLayout;
+    @BindView(R.id.view_pager)
+    ViewPager mViewPager;
     Unbinder unbinder;
     private User mUser;
-    private HomeAdapter mHomeAdapter;
-    private List<HomeResponse.BooksBean> homeResponseList = new ArrayList<>();
-    List<BannerBean> bannerList = new ArrayList<>();
+    String[] titles;
 
     @Nullable
     @Override
@@ -71,14 +68,10 @@ public class HomeFragment extends BaseFragment implements HomeFragmentControl.Ho
 
     @Override
     public void initView() {
-        mRecyclerView.setNestedScrollingEnabled(false);//解决ScrollView+RecyclerView的滑动冲突问题
-        mHomeAdapter = new HomeAdapter(homeResponseList, mImageLoaderHelper);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.setAdapter(mHomeAdapter);
-        mHomeAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-            HomeResponse.BooksBean booksBean = (HomeResponse.BooksBean) adapter.getItem(position);
-            BookDetailActivity.start(getActivity(), String.valueOf(booksBean.getBook_id()));
-        });
+        titles = new String[]{getResources().getString(R.string.HomeFragment_title_comic), getResources().getString(R.string.HomeFragment_title_novel)};
+        mViewPager.setOffscreenPageLimit(2);
+        mViewPager.setAdapter(new MyPageAdapter(Objects.requireNonNull(getActivity()).getSupportFragmentManager()));
+        mXTabLayout.setupWithViewPager(mViewPager);
     }
 
     @Override
@@ -88,30 +81,57 @@ public class HomeFragment extends BaseFragment implements HomeFragmentControl.Ho
 
     private void initBanner() {
         // 设置数据
-        mBanner.setDelayedTime(4000);//切换时间
-        mBanner.setIndicatorPadding(0,0,0,30);
-        mBanner.setPages(bannerList, (MZHolderCreator<BannerViewHolder>) () -> new BannerViewHolder(mImageLoaderHelper));
+//        mBanner.setDelayedTime(4000);//切换时间
+//        mBanner.setIndicatorPadding(0,0,0,30);
+//        mBanner.setPages(bannerList, (MZHolderCreator<BannerViewHolder>) () -> new BannerViewHolder(mImageLoaderHelper));
     }
 
     /**
      * 请求首页数据
      */
     private void onRequestHome() {
-        HomeInfoRequest homeInfoRequest = new HomeInfoRequest();
-        if (mUser != null) {
-            homeInfoRequest.token = mUser.token;
-        }
-        homeInfoRequest.channel = mBuProcessor.getChannel();
-        homeInfoRequest.book_type = mBuProcessor.getbookType();
-        mPresenter.onRequestHomeInfo(homeInfoRequest);
+//        HomeInfoRequest homeInfoRequest = new HomeInfoRequest();
+//        if (mUser != null) {
+//            homeInfoRequest.token = mUser.token;
+//        }
+//        homeInfoRequest.channel = mBuProcessor.getChannel();
+//        homeInfoRequest.book_type = mBuProcessor.getbookType();
+//        mPresenter.onRequestHomeInfo(homeInfoRequest);
     }
 
     @Override
     public void getHomeInfoSuccess(HomeResponse homeResponse) {
-        bannerList = homeResponse.getBanner();
-        initBanner();
-        mHomeAdapter.setNewData(homeResponse.getBooks());
+//        bannerList = homeResponse.getBanner();
+//        initBanner();
+//        mHomeAdapter.setNewData(homeResponse.getBooks());
+    }
 
+
+    private class MyPageAdapter extends FragmentPagerAdapter {
+        private List<Fragment> fragments = new ArrayList<Fragment>();
+
+        MyPageAdapter(FragmentManager fm) {
+            super(fm);
+            HomeComicFragment homeComicFragment = new HomeComicFragment();//漫画
+            HomeNovelFragment homeNovelFragment = new HomeNovelFragment();//小说
+            fragments.add(homeComicFragment);
+            fragments.add(homeNovelFragment);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return fragments.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return titles.length;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return titles[position];
+        }
     }
 
     private void initializeInjector() {

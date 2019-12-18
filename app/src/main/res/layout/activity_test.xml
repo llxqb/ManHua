@@ -7,8 +7,10 @@
     android:orientation="vertical"
     tools:context=".mvp.ui.activity.main.TestActivity">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/pic_recycler_view"
+    <com.shushan.manhua.mvp.ui.activity.txtreaderlib.main.TxtReaderView
+        android:id="@+id/activity_hwtxtplay_readerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent" />
+
+
 </LinearLayout>

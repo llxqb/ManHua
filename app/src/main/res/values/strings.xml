@@ -279,4 +279,8 @@
     <string name="ExpensesRecordAdapter_state6">hadiah anggota</string>
     <string name="ExpensesRecordAdapter_state7">kirim komentar langsung</string>
     <string name="ExpensesRecordAdapter_state8">tukar model komentar langsung</string>
+
+
+    <string name="HomeFragment_title_comic">komik</string>
+    <string name="HomeFragment_title_novel">novel</string>
 </resources>
