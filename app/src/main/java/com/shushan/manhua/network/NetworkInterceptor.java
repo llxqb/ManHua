@@ -4,7 +4,6 @@ package com.shushan.manhua.network;
 import android.support.annotation.NonNull;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
 
 import okhttp3.Interceptor;
 import okhttp3.Request;
@@ -25,15 +24,20 @@ public class NetworkInterceptor implements Interceptor {
     @NonNull
     @Override
     public Response intercept(@NonNull Chain chain) throws IOException {
-        Charset UTF8 = Charset.forName("UTF-8");
-        Request originalRequest = chain.request();
-        // get new request, add request header
-        Request updateRequest = originalRequest.newBuilder()
-                .removeHeader("Accept-Encoding")
-                .header("Accept-Encoding", "identity")
+//        Charset UTF8 = Charset.forName("UTF-8");
+//        Request originalRequest = chain.request();
+//        // get new request, add request header
+//        Request updateRequest = originalRequest.newBuilder()
+//                .removeHeader("Accept-Encoding")
+//                .header("Accept-Encoding", "identity")
+//                .build();
+//        Response response = chain.proceed(updateRequest);
+//        LogUtils.e("respBody:" + new Gson().toJson(response.body().contentLength()));
+//        return response;
+        Request request = chain.request().newBuilder()
+                .addHeader("Accept-Encoding", "identity")
                 .build();
-        Response response = chain.proceed(updateRequest);
-//        LogUtils.e("respBody:" + respBody);
-        return response;
+        return chain.proceed(request);
+
     }
 }

@@ -4,7 +4,7 @@
     android:id="@+id/item_selection_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/ripple_write_bg"
+    android:background="@drawable/ripple_trans_bg"
     android:paddingBottom="@dimen/dp_10">
 
     <android.support.constraint.ConstraintLayout

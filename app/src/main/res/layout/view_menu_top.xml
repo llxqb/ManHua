@@ -25,5 +25,5 @@
         android:maxLines="1"
         android:text=""
         android:textColor="#ffffff"
-        android:textSize="17sp" />
+        android:textSize="@dimen/dp_16" />
 </LinearLayout>

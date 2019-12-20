@@ -23,7 +23,7 @@
             android:maxLines="1"
             android:paddingTop="@dimen/dp_10"
             android:paddingBottom="@dimen/dp_10"
-            android:text="第一章"
+            android:text="Chapter One"
             android:textColor="#666666" />
 
         <LinearLayout
@@ -32,6 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+            android:visibility="gone"
             android:orientation="horizontal">
 
             <View
@@ -50,7 +51,7 @@
                 android:paddingTop="@dimen/dp_10"
                 android:paddingEnd="@dimen/dp_10"
                 android:paddingBottom="@dimen/dp_10"
-                android:text="章节"
+                android:visibility="gone"
                 android:textColor="#858582" />
         </LinearLayout>
 
@@ -91,7 +92,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/dp_8"
-            android:text="上一章"
+            android:text="@string/read_book_pre_chapter"
             android:textColor="@color/first_text_color"
             android:textSize="@dimen/sp_10"
             app:layout_constraintStart_toStartOf="parent"
@@ -104,7 +105,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_12"
             android:padding="@dimen/dp_8"
-            android:text="下一章"
+            android:text="@string/read_book_next_chapter"
             android:textColor="@color/first_text_color"
             android:textSize="@dimen/sp_10"
             app:layout_constraintEnd_toEndOf="parent"
@@ -135,7 +136,7 @@
             android:drawableTop="@mipmap/night_novel_directory"
             android:drawablePadding="@dimen/dp_6"
             android:gravity="center"
-            android:text="目录"
+            android:text="@string/read_book_mune"
             android:textColor="@color/first_text_color"
             android:textSize="@dimen/sp_10"
             app:layout_constraintStart_toStartOf="parent"
@@ -150,7 +151,7 @@
             android:drawableTop="@mipmap/night_mode"
             android:drawablePadding="@dimen/dp_6"
             android:gravity="center"
-            android:text="夜间"
+            android:text="@string/read_book_mode"
             android:textColor="@color/first_text_color"
             android:textSize="@dimen/sp_10"
             app:layout_constraintEnd_toStartOf="@id/activity_hwtxtplay_setting_text"
@@ -166,7 +167,7 @@
             android:drawableTop="@mipmap/novel_settings"
             android:drawablePadding="@dimen/dp_6"
             android:gravity="center"
-            android:text="设置"
+            android:text="@string/read_book_setting"
             android:textColor="@color/first_text_color"
             android:textSize="@dimen/sp_10"
             app:layout_constraintEnd_toEndOf="parent"
@@ -216,10 +217,10 @@
             android:id="@+id/activity_hwtxtplay_selected_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginStart="@dimen/dp_10"
             android:paddingTop="@dimen/dp_10"
             android:paddingBottom="@dimen/dp_10"
-            android:text="选中0个字"
+            android:text="Select 0 words"
             android:textColor="#aaffffff" />
 
         <TextView
@@ -228,11 +229,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/dp_5"
-            android:clickable="true"
             android:onClick="onCopyText"
             android:paddingTop="@dimen/dp_10"
             android:paddingBottom="@dimen/dp_10"
-            android:text="复制"
+            android:text="copy"
             android:textColor="#ffffff" />
     </RelativeLayout>
 

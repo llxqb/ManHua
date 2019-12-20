@@ -291,5 +291,8 @@
     <string name="read_book_page">membalik halaman</string>
     <string name="read_book_page_up_down">membalik atas bawah halaman</string>
     <string name="read_book_page_left_right">membalik kanan kiri halaman</string>
-
+    <string name="read_book_pre_chapter">chapter sebelumnya</string>
+    <string name="read_book_next_chapter">chapter selanjutnya</string>
+    <string name="read_book_mune">Direktori</string>
+    <string name="read_book_setting">Siapkan</string>
 </resources>

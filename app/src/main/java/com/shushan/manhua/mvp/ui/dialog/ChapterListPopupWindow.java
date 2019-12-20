@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.shushan.manhua.R;
 import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.entity.response.ReadingBookResponse;
@@ -31,7 +30,6 @@ import java.util.List;
  * 章节列表PopupWindow
  */
 public class ChapterListPopupWindow {
-
     private Activity mContext;
     private ChapterListPopupWindowListener mPopupWindowListener;
     private CustomPopWindow mCustomPopWindow;
@@ -88,38 +86,33 @@ public class ChapterListPopupWindow {
         mBookNameTv.setText(mReadingBookResponse.getCatalogue().getBook_name());
         String totalWords = "Total " + mSelectionResponse.getWords() + " bab";
         mTotalChapterNumTv.setText(totalWords);
-
         mSelectionAdapter = new SelectionAdapter(mSelectionResponse.getAnthology(), mImageLoaderHelper, true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mRecyclerView.setAdapter(mSelectionAdapter);
-        mSelectionAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                SelectionResponse.AnthologyBean anthologyBean = (SelectionResponse.AnthologyBean) adapter.getItem(position);
-                if (mPopupWindowListener != null) {
+        mSelectionAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            SelectionResponse.AnthologyBean anthologyBean = (SelectionResponse.AnthologyBean) adapter.getItem(position);
+            if (mPopupWindowListener != null) {
+                if (anthologyBean != null) {
                     mPopupWindowListener.switchChapterPage(anthologyBean.getCatalogue_id());
                     mCustomPopWindow.dissmiss();
                 }
             }
         });
-        mSortTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (sort == 1) {//进行正序排序
-                    sort = 0;
-                    Drawable drawable = mContext.getResources().getDrawable(R.mipmap.list_positive_sequence);
-                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-                    mSortTv.setCompoundDrawables(null, null, drawable, null);
-                    mSortTv.setText(mContext.getString(R.string.SelectionDetailFragment_sort_positive));
-                } else {//进行逆序排序
-                    sort = 1;
-                    Drawable drawable = mContext.getResources().getDrawable(R.mipmap.list_inverted_order);
-                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-                    mSortTv.setCompoundDrawables(null, null, drawable, null);
-                    mSortTv.setText(mContext.getString(R.string.SelectionDetailFragment_sort_negative));
-                }
-                initSortList(mSelectionResponse.getAnthology());
+        mSortTv.setOnClickListener(v -> {
+            if (sort == 1) {//进行正序排序
+                sort = 0;
+                Drawable drawable = mContext.getResources().getDrawable(R.mipmap.list_positive_sequence);
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                mSortTv.setCompoundDrawables(null, null, drawable, null);
+                mSortTv.setText(mContext.getString(R.string.SelectionDetailFragment_sort_positive));
+            } else {//进行逆序排序
+                sort = 1;
+                Drawable drawable = mContext.getResources().getDrawable(R.mipmap.list_inverted_order);
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                mSortTv.setCompoundDrawables(null, null, drawable, null);
+                mSortTv.setText(mContext.getString(R.string.SelectionDetailFragment_sort_negative));
             }
+            initSortList(mSelectionResponse.getAnthology());
         });
 
     }
@@ -157,6 +150,4 @@ public class ChapterListPopupWindow {
     public interface ChapterListPopupWindowListener {
         void switchChapterPage(int chapterId);
     }
-
-
 }

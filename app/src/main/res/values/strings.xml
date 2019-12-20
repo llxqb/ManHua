@@ -291,4 +291,8 @@
     <string name="read_book_page">翻页</string>
     <string name="read_book_page_up_down">上下翻页</string>
     <string name="read_book_page_left_right">左右翻页</string>
+    <string name="read_book_pre_chapter">上一章</string>
+    <string name="read_book_next_chapter">下一章</string>
+    <string name="read_book_mune">目录</string>
+    <string name="read_book_setting">设置</string>
 </resources>

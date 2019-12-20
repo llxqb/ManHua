@@ -1,5 +1,7 @@
 package com.shushan.manhua.help;
 
+import com.shushan.manhua.network.NetworkInterceptor;
+
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -21,13 +23,14 @@ public class ApiHelper {
         this(30, 30, 30);
     }
 
-    public ApiHelper(int connTimeout, int readTimeout, int writeTimeout) {
+    private ApiHelper(int connTimeout, int readTimeout, int writeTimeout) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .connectTimeout(connTimeout, TimeUnit.SECONDS)
-//                .addInterceptor(new NetworkInterceptor())
                 .readTimeout(readTimeout, TimeUnit.SECONDS)
                 .writeTimeout(writeTimeout, TimeUnit.SECONDS);
+        builder.addInterceptor(new NetworkInterceptor());
         mHttpClient = builder.build();
+
     }
 
     public static ApiHelper getInstance() {

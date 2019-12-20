@@ -2,6 +2,7 @@ package com.shushan.manhua.mvp.ui.activity.book;
 
 
 import com.shushan.manhua.entity.request.AddBookShelfRequest;
+import com.shushan.manhua.entity.request.ReadRecordingRequest;
 import com.shushan.manhua.entity.request.ReadingBookRequest;
 import com.shushan.manhua.entity.request.SelectionRequest;
 import com.shushan.manhua.entity.response.ReadingBookResponse;
@@ -17,6 +18,8 @@ public class ReadBookControl {
     public interface ReadBookView extends LoadDataView {
         void getReadingBookInfoSuccess(ReadingBookResponse readingBookResponse);
 
+        void getReadRecordingSuccess();
+
         void getSelectionInfoSuccess(SelectionResponse selectionResponse);
 
         void getAddBookShelfSuccess();
@@ -28,6 +31,12 @@ public class ReadBookControl {
          * 小说阅读
          */
         void onRequestBookInfo(ReadingBookRequest readingBookRequest);
+        /**
+         * 使用漫豆  购买阅读非免费章节
+         * 上传阅读记录
+         */
+        void onRequestReadRecording(ReadRecordingRequest readRecordingRequest);
+
         /**
          * 请求书籍选集信息
          */
