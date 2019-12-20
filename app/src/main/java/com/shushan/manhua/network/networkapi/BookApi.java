@@ -1,8 +1,13 @@
 package com.shushan.manhua.network.networkapi;
 
 import io.reactivex.Observable;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Streaming;
+import retrofit2.http.Url;
 
 /**
  * Created by li.liu on 2017/4/27.
@@ -131,4 +136,18 @@ public interface BookApi {
     @POST("cartoon/user/delReadHistory")
     Observable<String> onDeleteReadingHistoryRequest(@Body String request);
 
+    /**
+     * 小说阅读
+     */
+    @POST("cartoon/book/novelRead")
+    Observable<String> onRequestBookInfo(@Body String request);
+    /**
+     * 下载文件
+     *
+     * @param fileUrl
+     * @return
+     */
+    @Streaming //大文件时要加不然会OOM
+    @GET
+    Call<ResponseBody> downloadFile(@Url String fileUrl);
 }

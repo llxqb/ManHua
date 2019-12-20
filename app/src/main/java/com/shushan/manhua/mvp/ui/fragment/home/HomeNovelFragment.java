@@ -15,14 +15,13 @@ import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerHomeFragmentComponent;
 import com.shushan.manhua.di.modules.HomeFragmentModule;
 import com.shushan.manhua.di.modules.MainModule;
-import com.shushan.manhua.entity.BannerBean;
 import com.shushan.manhua.entity.request.HomeInfoRequest;
+import com.shushan.manhua.entity.response.BannerResponse;
 import com.shushan.manhua.entity.response.HomeResponse;
 import com.shushan.manhua.entity.user.User;
 import com.shushan.manhua.mvp.ui.activity.book.BookDetailActivity;
 import com.shushan.manhua.mvp.ui.adapter.HomeAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseFragment;
-import com.shushan.manhua.mvp.utils.StatusBarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,14 +47,12 @@ public class HomeNovelFragment extends BaseFragment implements HomeFragmentContr
     private User mUser;
     private HomeAdapter mHomeAdapter;
     private List<HomeResponse.BooksBean> homeResponseList = new ArrayList<>();
-    List<BannerBean> bannerList = new ArrayList<>();
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_novel, container, false);
         initializeInjector();
-        StatusBarUtil.setTransparentForImageViewInFragment(getActivity(), null);
         unbinder = ButterKnife.bind(this, view);
         mUser = mBuProcessor.getUser();
         initView();
@@ -72,7 +69,9 @@ public class HomeNovelFragment extends BaseFragment implements HomeFragmentContr
         mRecyclerView.setAdapter(mHomeAdapter);
         mHomeAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             HomeResponse.BooksBean booksBean = (HomeResponse.BooksBean) adapter.getItem(position);
-            BookDetailActivity.start(getActivity(), String.valueOf(booksBean.getBook_id()));
+            if (booksBean != null) {
+                BookDetailActivity.start(getActivity(), String.valueOf(booksBean.getBook_id()));
+            }
         });
     }
 
@@ -87,18 +86,21 @@ public class HomeNovelFragment extends BaseFragment implements HomeFragmentContr
      */
     private void onRequestHome() {
         HomeInfoRequest homeInfoRequest = new HomeInfoRequest();
-        if (mUser != null) {
-            homeInfoRequest.token = mUser.token;
-        }
+        homeInfoRequest.token = mBuProcessor.getToken();
         homeInfoRequest.channel = mBuProcessor.getChannel();
         homeInfoRequest.book_type = mBuProcessor.getbookType();
+        homeInfoRequest.genre = "2";
         mPresenter.onRequestHomeInfo(homeInfoRequest);
     }
 
     @Override
     public void getHomeInfoSuccess(HomeResponse homeResponse) {
-        bannerList = homeResponse.getBanner();
-//        mHomeAdapter.setNewData(homeResponse.getBooks());
+        mHomeAdapter.setNewData(homeResponse.getBooks());
+    }
+
+    @Override
+    public void getBannerSuccess(BannerResponse bannerResponse) {
+
     }
 
 

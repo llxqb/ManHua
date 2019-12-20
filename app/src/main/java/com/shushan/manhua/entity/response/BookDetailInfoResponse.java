@@ -75,6 +75,7 @@ public class BookDetailInfoResponse {
         private String detail_cover;
         private int cost;
         private int vip_cost;
+        private int genre;
         private int state;
         private List<String> label;
 
@@ -156,6 +157,14 @@ public class BookDetailInfoResponse {
 
         public void setState(int state) {
             this.state = state;
+        }
+
+        public int getGenre() {
+            return genre;
+        }
+
+        public void setGenre(int genre) {
+            this.genre = genre;
         }
 
         public List<String> getLabel() {

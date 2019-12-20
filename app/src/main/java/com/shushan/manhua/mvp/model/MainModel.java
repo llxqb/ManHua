@@ -52,11 +52,19 @@ public class MainModel {
     public Observable<ResponseData> onReadingSettingRequest(ReadingSettingRequest request) {
         return mMainApi.onReadingSettingRequest(new Gson().toJson(request)).map(mTransform::transformCommon);
     }
+
     /**
      * 查询开关，应对过审
      */
     public Observable<ResponseData> onRequestPaySwitch(PaySwitchRequest request) {
         return mMainApi.onRequestPaySwitch(new Gson().toJson(request)).map(mTransform::transformCommon);
+    }
+
+    /**
+     * 首页banner
+     */
+    public Observable<ResponseData> onRequestBanner() {
+        return mMainApi.onRequestBanner().map(mTransform::transformCommon);
     }
 
     /**

@@ -61,6 +61,7 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
     String mBookId;
     private BookDetailInfoResponse mBookDetailInfoResponse;
     private LabelAdapter mLabelAdapter;
+    private boolean mIsBook;//是否是小说  false 漫画  true 小说
 
     public static void start(Context context, String bookId) {
         Intent intent = new Intent(context, BookDetailActivity.class);
@@ -80,9 +81,6 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
         if (getIntent() != null) {
             mBookId = getIntent().getStringExtra("bookId");
             titles = new String[]{getResources().getString(R.string.BookDetailActivity_detail_tv), getResources().getString(R.string.BookDetailActivity_selection_tv)};
-            mViewPager.setOffscreenPageLimit(2);
-            mViewPager.setAdapter(new MyPageAdapter(getSupportFragmentManager()));
-            mXTabLayout.setupWithViewPager(mViewPager);
             mLabelAdapter = new LabelAdapter(labelResponseList);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
             linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -108,11 +106,15 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
                 break;
             case R.id.start_reading_tv:
                 if (mBookDetailInfoResponse != null) {
-                    Intent intent = new Intent(this, ReadActivity.class);
-                    intent.putExtra("bookId", mBookId);
-                    intent.putExtra("catalogueId", mBookDetailInfoResponse.getLast_catalogue_id());
-                    intent.putExtra("is_book_detail_activity", true);
-                    startActivity(intent);//阅读页面 章节默认第一章节;
+                    if (mBookDetailInfoResponse.getDetail().getGenre() == 1) {
+                        Intent intent = new Intent(this, ReadActivity.class);
+                        intent.putExtra("bookId", mBookId);
+                        intent.putExtra("catalogueId", mBookDetailInfoResponse.getLast_catalogue_id());
+                        intent.putExtra("is_book_detail_activity", true);
+                        startActivity(intent);//阅读页面 章节默认第一章节;
+                    } else if (mBookDetailInfoResponse.getDetail().getGenre() == 2) {
+                        ReadBookActivity.start(this, mBookId, mBookDetailInfoResponse.getLast_catalogue_id());
+                    }
                 }
                 break;
         }
@@ -139,6 +141,10 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
         } else {
             mAddBookshelfTv.setText(getString(R.string.BookDetailActivity_add_bookshelf_ed));
         }
+        mIsBook = bookDetailInfoResponse.getDetail().getGenre() != 1; //1 漫画  2 小说
+        mViewPager.setOffscreenPageLimit(2);
+        mViewPager.setAdapter(new MyPageAdapter(getSupportFragmentManager()));
+        mXTabLayout.setupWithViewPager(mViewPager);
     }
 
     /**
@@ -165,6 +171,7 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
             super(fm);
             Bundle bundle = new Bundle();
             bundle.putString("bookId", mBookId);
+            bundle.putBoolean("isBook", mIsBook);
             BookDetailFragment bookDetailFragment = new BookDetailFragment();
             SelectionDetailFragment selectionDetailFragment = new SelectionDetailFragment();
             bookDetailFragment.setArguments(bundle);//数据传递到fragment中

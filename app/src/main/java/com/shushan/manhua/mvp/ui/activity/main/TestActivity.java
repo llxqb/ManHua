@@ -4,7 +4,6 @@ import android.os.Environment;
 
 import com.shushan.manhua.ManHuaApplication;
 import com.shushan.manhua.R;
-import com.shushan.manhua.mvp.ui.activity.txtreaderlib.ui.HwTxtPlayActivity;
 import com.shushan.manhua.mvp.ui.base.BaseActivity;
 
 /**
@@ -22,8 +21,8 @@ public class TestActivity extends BaseActivity {
     @Override
     public void initView() {
 //        TxtConfig.saveIsOnVerticalPageMode(this, false);
-        HwTxtPlayActivity.loadTxtFile(this, FilePath);
-//        HwTxtPlayActivity.loadStr(this,"");
+//        ReadBookActivity.loadTxtFile(this, FilePath);
+//        ReadBookActivity.loadStr(this,"");
     }
 
     @Override

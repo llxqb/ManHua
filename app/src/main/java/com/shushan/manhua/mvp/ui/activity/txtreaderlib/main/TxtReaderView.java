@@ -509,6 +509,15 @@ public class TxtReaderView extends TxtReaderBaseView {
     }
 
     /**
+     * 上下翻页
+     */
+    public void setPageSwitchByTopBottom() {
+        TxtConfig.saveSwitchByTranslate(getContext(), false);
+        getTxtReaderContext().getTxtConfig().Page_Switch_Mode = TxtConfig.PAGE_SWITCH_MODE_COVER;
+        drawer = new NormalPageDrawer(this, readerContext, mScroller);
+    }
+
+    /**
      * 保存当前进度到数据库，建议退出时调用
      */
     public void saveCurrentProgress() {

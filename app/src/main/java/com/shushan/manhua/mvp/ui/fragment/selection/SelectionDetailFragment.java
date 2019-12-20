@@ -23,6 +23,7 @@ import com.shushan.manhua.entity.request.SelectionRequest;
 import com.shushan.manhua.entity.request.SupportRequest;
 import com.shushan.manhua.entity.response.SelectionResponse;
 import com.shushan.manhua.mvp.ui.activity.book.ReadBaseActivity;
+import com.shushan.manhua.mvp.ui.activity.book.ReadBookActivity;
 import com.shushan.manhua.mvp.ui.adapter.SelectionAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseFragment;
 
@@ -55,13 +56,13 @@ public class SelectionDetailFragment extends BaseFragment implements SelectionFr
     private SelectionAdapter mSelectionAdapter;
     private List<SelectionResponse.AnthologyBean> selectionResponseList = new ArrayList<>();
     private String mBookId;
+
     private int page = 1;
     private int sort = 0;//sort 0: 正序  1 ：逆序
-    private SelectionResponse mSelectionResponse;
     private SelectionResponse.AnthologyBean dataBean;
     private int clickPos;
-//    private int mLoginModel;//1 是游客模式 2 是登录模式
-
+    //    private int mLoginModel;//1 是游客模式 2 是登录模式
+    private boolean mIsBook;
 
     @Nullable
     @Override
@@ -79,9 +80,10 @@ public class SelectionDetailFragment extends BaseFragment implements SelectionFr
     public void initView() {
         if (getArguments() != null) {
             mBookId = getArguments().getString("bookId");
+            mIsBook = getArguments().getBoolean("isBook", false);
             onRequestSelectionInfo();
         }
-        mSelectionAdapter = new SelectionAdapter(selectionResponseList, mImageLoaderHelper);
+        mSelectionAdapter = new SelectionAdapter(selectionResponseList, mImageLoaderHelper, mIsBook);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mSelectionAdapter);
         mSelectionAdapter.setOnLoadMoreListener(this, mRecyclerView);
@@ -91,7 +93,11 @@ public class SelectionDetailFragment extends BaseFragment implements SelectionFr
             if (view.getId() == R.id.support_tv) {
                 onCommentSuggestRequest();
             } else if (view.getId() == R.id.item_selection_layout) {
-                ReadBaseActivity.start(getActivity(), mBookId, dataBean.getCatalogue_id());
+                if (mIsBook) {
+                    ReadBookActivity.start(getActivity(), mBookId, dataBean.getCatalogue_id());
+                } else {
+                    ReadBaseActivity.start(getActivity(), mBookId, dataBean.getCatalogue_id());
+                }
             }
         });
     }
@@ -126,7 +132,7 @@ public class SelectionDetailFragment extends BaseFragment implements SelectionFr
      * 对列表正序 逆序排序
      * isAllSort : 0 是 对一页排序  1 是对所有数据排序
      */
-    private void initSortList(List<SelectionResponse.AnthologyBean> selectionResponseList, int isAllSort) {
+    private void initSortList(List<SelectionResponse.AnthologyBean> selectionResponseList) {
         if (selectionResponseList != null) {
             Comparator<SelectionResponse.AnthologyBean> comparator = (dataBean1, dataBean2) -> {
                 // 按getRecommend从大到小排序
@@ -139,7 +145,7 @@ public class SelectionDetailFragment extends BaseFragment implements SelectionFr
             //这里就会自动根据规则进行排序
             Collections.sort(selectionResponseList, comparator);
             //加载更多这样设置
-            if (page == 1 || isAllSort == 1) {
+            if (page == 1) {
                 mSelectionAdapter.setNewData(selectionResponseList);
             } else {
                 mSelectionAdapter.addData(selectionResponseList);
@@ -194,8 +200,7 @@ public class SelectionDetailFragment extends BaseFragment implements SelectionFr
     public void getSelectionInfoSuccess(SelectionResponse selectionResponse) {
         isReqState = false;
         selectionResponseList = selectionResponse.getAnthology();
-        mSelectionResponse = selectionResponse;
-        initSortList(selectionResponseList, 0);
+        initSortList(selectionResponseList);
         mSelectionAdapter.setVipCost(mBuProcessor.getUser().vip, selectionResponse.getVip_cost());
     }
 

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.shushan.manhua.R;
 import com.shushan.manhua.entity.request.HomeInfoRequest;
+import com.shushan.manhua.entity.response.BannerResponse;
 import com.shushan.manhua.entity.response.HomeResponse;
 import com.shushan.manhua.help.RetryWithDelay;
 import com.shushan.manhua.mvp.model.MainModel;
@@ -53,6 +54,34 @@ public class HomeFragmentPresenterImpl implements HomeFragmentControl.homeFragme
             if (responseData.parsedData != null) {
                 HomeResponse response = (HomeResponse) responseData.parsedData;
                 mHomeView.getHomeInfoSuccess(response);
+            }
+        } else {
+            mHomeView.showToast(responseData.errorMsg);
+        }
+    }
+
+    /**
+     * 首页banner
+     */
+    @Override
+    public void onRequestBanner() {
+        mHomeView.showLoading(mContext.getResources().getString(R.string.loading));
+        Disposable disposable = mHomeFragmentModel.onRequestBanner().compose(mHomeView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
+                .subscribe(this::requestBannerSuccess, throwable -> mHomeView.showErrMessage(throwable),
+                        () -> mHomeView.dismissLoading());
+        mHomeView.addSubscription(disposable);
+    }
+
+    /**
+     * 首页banner 成功
+     */
+    private void requestBannerSuccess(ResponseData responseData) {
+        mHomeView.judgeToken(responseData.resultCode);
+        if (responseData.resultCode == 0) {
+            responseData.parseData(BannerResponse.class);
+            if (responseData.parsedData != null) {
+                BannerResponse response = (BannerResponse) responseData.parsedData;
+                mHomeView.getBannerSuccess(response);
             }
         } else {
             mHomeView.showToast(responseData.errorMsg);

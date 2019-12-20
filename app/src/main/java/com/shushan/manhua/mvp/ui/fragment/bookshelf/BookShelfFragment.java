@@ -33,6 +33,7 @@ import com.shushan.manhua.entity.response.RecommendResponse;
 import com.shushan.manhua.mvp.ui.activity.book.BookDetailActivity;
 import com.shushan.manhua.mvp.ui.activity.book.LongDeleteActivity;
 import com.shushan.manhua.mvp.ui.activity.book.ReadActivity;
+import com.shushan.manhua.mvp.ui.activity.book.ReadBookActivity;
 import com.shushan.manhua.mvp.ui.activity.book.ReadingHistoryActivity;
 import com.shushan.manhua.mvp.ui.activity.login.LoginActivity;
 import com.shushan.manhua.mvp.ui.activity.mine.MemberCenterActivity;
@@ -170,7 +171,11 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
             } else {
                 BookShelfResponse.BookrackBean bookrackBean = (BookShelfResponse.BookrackBean) adapter.getItem(position);
                 if (bookrackBean != null) {
-                    ReadActivity.start(getActivity(), String.valueOf(bookrackBean.getBook_id()), bookrackBean.getCatalogue_id());//阅读页面
+                    if(bookrackBean.getGenre()==1){
+                        ReadActivity.start(getActivity(), String.valueOf(bookrackBean.getBook_id()), bookrackBean.getCatalogue_id());//阅读页面
+                    }else if(bookrackBean.getGenre()==2){
+                        ReadBookActivity.start(getActivity(), String.valueOf(bookrackBean.getBook_id()), bookrackBean.getCatalogue_id());
+                    }
                 }
             }
         });
@@ -195,7 +200,13 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
                 startActivitys(MemberCenterActivity.class);
                 break;
             case R.id.continue_read_rl://继续阅读
-                ReadActivity.start(getActivity(), String.valueOf(mBookShelfResponse.getLast_read().getBook_id()), mBookShelfResponse.getLast_read().getCatalogue_id());//阅读页面
+                if (mBookShelfResponse != null) {
+                    if (mBookShelfResponse.getLast_read().getGenre() == 1) {// 类型1漫画（默认）2小说
+                        ReadActivity.start(getActivity(), String.valueOf(mBookShelfResponse.getLast_read().getBook_id()), mBookShelfResponse.getLast_read().getCatalogue_id());//阅读页面
+                    } else {//小说
+//                        ReadBookActivity.loadTxtFile(this, FilePath);
+                    }
+                }
                 break;
             case R.id.read_record_ll:
                 startActivitys(ReadingHistoryActivity.class);

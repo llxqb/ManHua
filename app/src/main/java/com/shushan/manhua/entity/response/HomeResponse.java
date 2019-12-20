@@ -29,10 +29,10 @@ public class HomeResponse {
 
     public static class BooksBean {
         /**
-         * book_id : 1
-         * book_name : 大国工程
-         * label : ["重生过去","畅想未来"]
-         * oblong_cover :
+         * book_id : 13
+         * book_name :  Istri lembut di Pernikahan Kilat Tuan He
+         * label : ["Perkotaan","Romantis"]
+         * oblong_cover : https://img.pulaukomik.com/book/15759497236747.png
          */
 
         private int book_id;

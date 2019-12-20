@@ -15,6 +15,7 @@ public class RecommendBean {
     private List<String> label;
     private String square_cover;//书架推荐
     private String oblong_cover;//阅读
+    private int genre;
 
     public int getBook_id() {
         return book_id;
@@ -54,5 +55,13 @@ public class RecommendBean {
 
     public void setOblong_cover(String oblong_cover) {
         this.oblong_cover = oblong_cover;
+    }
+
+    public int getGenre() {
+        return genre;
+    }
+
+    public void setGenre(int genre) {
+        this.genre = genre;
     }
 }

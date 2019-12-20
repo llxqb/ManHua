@@ -21,6 +21,7 @@ public class MainControl {
         void getLoginTouristModeSuccess(LoginTouristModeResponse loginTouristModeResponse);
 
         void getPaySwitchSuccess(PaySwitchResponse paySwitchResponse);
+
     }
 
     public interface PresenterMain extends Presenter<MainView> {
@@ -43,6 +44,7 @@ public class MainControl {
          * 查询开关，应对过审
          */
         void onRequestPaySwitch(PaySwitchRequest paySwitchRequest);
+
     }
 
 }

@@ -48,6 +48,7 @@ public class BookShelfResponse  {
          * words : 96
          * catalogue_name : 第一话 纪元时代
          * sort : 1
+         * genre: 1  类型1漫画（默认）2小说
          * residue_words : 95
          */
 
@@ -65,6 +66,7 @@ public class BookShelfResponse  {
         private int words;
         private String catalogue_name;
         private int sort;
+        private int genre;
         private int residue_words;
 
         public int getId() {
@@ -179,6 +181,14 @@ public class BookShelfResponse  {
             this.sort = sort;
         }
 
+        public int getGenre() {
+            return genre;
+        }
+
+        public void setGenre(int genre) {
+            this.genre = genre;
+        }
+
         public int getResidue_words() {
             return residue_words;
         }
@@ -214,6 +224,7 @@ public class BookShelfResponse  {
         private int is_like;
         public boolean isMore;
         public boolean isCheck;
+        private int genre;
 
         protected BookrackBean(Parcel in) {
             book_id = in.readInt();
@@ -222,6 +233,7 @@ public class BookShelfResponse  {
             comment_count = in.readInt();
             like = in.readInt();
             type = in.readInt();
+            genre = in.readInt();
             create_time = in.readInt();
             catalogue_id = in.readInt();
             catalogue_name = in.readString();
@@ -309,6 +321,14 @@ public class BookShelfResponse  {
             this.catalogue_id = catalogue_id;
         }
 
+        public int getGenre() {
+            return genre;
+        }
+
+        public void setGenre(int genre) {
+            this.genre = genre;
+        }
+
         public String getCatalogue_name() {
             return catalogue_name;
         }
@@ -338,6 +358,7 @@ public class BookShelfResponse  {
             dest.writeInt(comment_count);
             dest.writeInt(like);
             dest.writeInt(type);
+            dest.writeInt(genre);
             dest.writeInt(create_time);
             dest.writeInt(catalogue_id);
             dest.writeString(catalogue_name);

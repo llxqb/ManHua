@@ -8,7 +8,7 @@ import com.shushan.manhua.ManHuaApplication;
 import com.shushan.manhua.R;
 import com.shushan.manhua.entity.user.BuProcessor;
 import com.shushan.manhua.mvp.ui.activity.book.ReadBaseActivity;
-import com.shushan.manhua.mvp.ui.activity.main.TestActivity;
+import com.shushan.manhua.mvp.ui.activity.main.MainActivity;
 import com.shushan.manhua.mvp.ui.base.BaseActivity;
 
 import java.util.concurrent.Executors;
@@ -81,7 +81,7 @@ public class SplashActivity extends BaseActivity {
 //                startActivitys(MainActivity.class);
 //                finish();
 //            }
-            startActivitys(TestActivity.class);
+            startActivitys(MainActivity.class);
             finish();
         }, 500, TimeUnit.MILLISECONDS);
     }

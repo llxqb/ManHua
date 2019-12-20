@@ -46,6 +46,9 @@ public class Constant {
     public static final String IS_NIGHT_MODEL = "night_model";//是否夜间模式开关
     public static final String TRANSPARENCY = "transparency";//透明度
     public static final String PLAY_SPEED= "play_speed";//播放速度
+    public static final String LING_SYSTEM= "ling_system";//跟随系统亮度
+    public static final String SET_LING= "set_ling";//设置亮度值
+    public static final String READ_PAGE_MODEL= "read_page_model";//阅读翻页模式
 
     /**
      * 登录模式： 游客模式 1、 账号登录 2

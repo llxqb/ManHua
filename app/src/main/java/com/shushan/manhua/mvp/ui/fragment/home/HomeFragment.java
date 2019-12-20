@@ -18,11 +18,14 @@ import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerHomeFragmentComponent;
 import com.shushan.manhua.di.modules.HomeFragmentModule;
 import com.shushan.manhua.di.modules.MainModule;
+import com.shushan.manhua.entity.BannerBean;
+import com.shushan.manhua.entity.response.BannerResponse;
 import com.shushan.manhua.entity.response.HomeResponse;
-import com.shushan.manhua.entity.user.User;
+import com.shushan.manhua.mvp.ui.adapter.BannerViewHolder;
 import com.shushan.manhua.mvp.ui.base.BaseFragment;
 import com.shushan.manhua.mvp.utils.StatusBarUtil;
 import com.zhouwei.mzbanner.MZBannerView;
+import com.zhouwei.mzbanner.holder.MZHolderCreator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,8 +52,8 @@ public class HomeFragment extends BaseFragment implements HomeFragmentControl.Ho
     @BindView(R.id.view_pager)
     ViewPager mViewPager;
     Unbinder unbinder;
-    private User mUser;
     String[] titles;
+    private List<BannerBean> bannerList = new ArrayList<>();
 
     @Nullable
     @Override
@@ -59,7 +62,6 @@ public class HomeFragment extends BaseFragment implements HomeFragmentControl.Ho
         initializeInjector();
         StatusBarUtil.setTransparentForImageViewInFragment(getActivity(), null);
         unbinder = ButterKnife.bind(this, view);
-        mUser = mBuProcessor.getUser();
         initView();
         initData();
         return view;
@@ -70,42 +72,38 @@ public class HomeFragment extends BaseFragment implements HomeFragmentControl.Ho
     public void initView() {
         titles = new String[]{getResources().getString(R.string.HomeFragment_title_comic), getResources().getString(R.string.HomeFragment_title_novel)};
         mViewPager.setOffscreenPageLimit(2);
-        mViewPager.setAdapter(new MyPageAdapter(Objects.requireNonNull(getActivity()).getSupportFragmentManager()));
+        mViewPager.setAdapter(new MyPageAdapter(getChildFragmentManager()));//子fragment用getChildFragmentManager()
         mXTabLayout.setupWithViewPager(mViewPager);
     }
 
     @Override
     public void initData() {
-        onRequestHome();
+        onRequestBanner();
     }
 
     private void initBanner() {
         // 设置数据
-//        mBanner.setDelayedTime(4000);//切换时间
-//        mBanner.setIndicatorPadding(0,0,0,30);
-//        mBanner.setPages(bannerList, (MZHolderCreator<BannerViewHolder>) () -> new BannerViewHolder(mImageLoaderHelper));
+        mBanner.setDelayedTime(4000);//切换时间
+        mBanner.setIndicatorPadding(0, 0, 0, 30);
+        mBanner.setPages(bannerList, (MZHolderCreator<BannerViewHolder>) () -> new BannerViewHolder(mImageLoaderHelper));
     }
 
     /**
-     * 请求首页数据
+     * 首页banner
      */
-    private void onRequestHome() {
-//        HomeInfoRequest homeInfoRequest = new HomeInfoRequest();
-//        if (mUser != null) {
-//            homeInfoRequest.token = mUser.token;
-//        }
-//        homeInfoRequest.channel = mBuProcessor.getChannel();
-//        homeInfoRequest.book_type = mBuProcessor.getbookType();
-//        mPresenter.onRequestHomeInfo(homeInfoRequest);
+    private void onRequestBanner() {
+        mPresenter.onRequestBanner();
+    }
+
+    @Override
+    public void getBannerSuccess(BannerResponse bannerResponse) {
+        bannerList = bannerResponse.getBanner();
+        initBanner();
     }
 
     @Override
     public void getHomeInfoSuccess(HomeResponse homeResponse) {
-//        bannerList = homeResponse.getBanner();
-//        initBanner();
-//        mHomeAdapter.setNewData(homeResponse.getBooks());
     }
-
 
     private class MyPageAdapter extends FragmentPagerAdapter {
         private List<Fragment> fragments = new ArrayList<Fragment>();

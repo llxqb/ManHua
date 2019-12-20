@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/popup_chapter_list_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:paddingStart="@dimen/dp_16"
+    android:paddingTop="@dimen/dp_32"
+    android:paddingEnd="@dimen/dp_12">
+
+    <ImageView
+        android:id="@+id/book_cover_iv"
+        android:layout_width="@dimen/dp_99"
+        android:layout_height="@dimen/dp_60"
+        android:src="@mipmap/default_graph_2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/book_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_10"
+        android:maxLines="2"
+        android:text="name"
+        android:textColor="@color/color_30"
+        android:textSize="@dimen/sp_16"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/book_cover_iv"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/total_chapter_num_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_8"
+        android:text="共100章"
+        android:textColor="@color/color_80"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintStart_toEndOf="@id/book_cover_iv"
+        app:layout_constraintTop_toBottomOf="@id/book_name_tv" />
+
+
+    <TextView
+        android:id="@+id/chapter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_40"
+        android:text="Chapter"
+        android:textColor="@color/color_30"
+        android:textSize="@dimen/sp_22"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/book_cover_iv" />
+
+    <TextView
+        android:id="@+id/sort_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_42"
+        android:drawableEnd="@mipmap/list_positive_sequence"
+        android:drawablePadding="@dimen/dp_4"
+        android:padding="@dimen/dp_4"
+        android:text="Urutan positif"
+        android:textColor="@color/color_80"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/book_cover_iv" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/dp_10"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/chapter" />
+</android.support.constraint.ConstraintLayout>

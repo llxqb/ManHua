@@ -2,6 +2,7 @@ package com.shushan.manhua.mvp.ui.fragment.home;
 
 
 import com.shushan.manhua.entity.request.HomeInfoRequest;
+import com.shushan.manhua.entity.response.BannerResponse;
 import com.shushan.manhua.entity.response.HomeResponse;
 import com.shushan.manhua.mvp.presenter.LoadDataView;
 import com.shushan.manhua.mvp.presenter.Presenter;
@@ -12,7 +13,9 @@ import com.shushan.manhua.mvp.presenter.Presenter;
 
 public class HomeFragmentControl {
     public interface HomeView extends LoadDataView {
-        void  getHomeInfoSuccess(HomeResponse homeResponse);
+        void getHomeInfoSuccess(HomeResponse homeResponse);
+
+        void getBannerSuccess(BannerResponse bannerResponse);
     }
 
     public interface homeFragmentPresenter extends Presenter<HomeView> {
@@ -21,6 +24,10 @@ public class HomeFragmentControl {
          */
         void onRequestHomeInfo(HomeInfoRequest homeInfoRequest);
 
+        /**
+         * 首页banner
+         */
+        void onRequestBanner();
     }
 
 

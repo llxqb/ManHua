@@ -29,7 +29,7 @@ public class LogInterceptor implements Interceptor {
     private Context mContext;
 
     public LogInterceptor(Context context) {
-        mContext =context;
+        mContext = context;
     }
 
     @NonNull
@@ -54,7 +54,7 @@ public class LogInterceptor implements Interceptor {
 
         String TAG = "LogInterceptor";
         Log.d(TAG, String.format("发送请求\nmethod：%s\nurl：%s\nheaders: %s\nbody：%s",
-                mContext+ " "+request.method(), request.url(), request.headers(), reqBody));
+                mContext + " " + request.method(), request.url(), request.headers(), reqBody));
 
 
         // 打印返回报文

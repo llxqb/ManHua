@@ -4,23 +4,26 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
 import com.shushan.manhua.ManHuaApplication;
 import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerHomeFragmentComponent;
 import com.shushan.manhua.di.modules.HomeFragmentModule;
 import com.shushan.manhua.di.modules.MainModule;
-import com.shushan.manhua.entity.BannerBean;
 import com.shushan.manhua.entity.request.HomeInfoRequest;
+import com.shushan.manhua.entity.response.BannerResponse;
 import com.shushan.manhua.entity.response.HomeResponse;
 import com.shushan.manhua.entity.user.User;
+import com.shushan.manhua.mvp.ui.activity.book.BookDetailActivity;
 import com.shushan.manhua.mvp.ui.adapter.HomeAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseFragment;
-import com.shushan.manhua.mvp.utils.StatusBarUtil;
+import com.shushan.manhua.mvp.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,13 +49,12 @@ public class HomeComicFragment extends BaseFragment implements HomeFragmentContr
     private User mUser;
     private HomeAdapter mHomeAdapter;
     private List<HomeResponse.BooksBean> homeResponseList = new ArrayList<>();
-    List<BannerBean> bannerList = new ArrayList<>();
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_comic, container, false);
-        StatusBarUtil.setTransparentForImageViewInFragment(getActivity(), null);
+//        StatusBarUtil.setTransparentForImageViewInFragment(getActivity(), null);
         initializeInjector();
         unbinder = ButterKnife.bind(this, view);
         mUser = mBuProcessor.getUser();
@@ -64,6 +66,15 @@ public class HomeComicFragment extends BaseFragment implements HomeFragmentContr
 
     @Override
     public void initView() {
+        mHomeAdapter = new HomeAdapter(homeResponseList, mImageLoaderHelper);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.setAdapter(mHomeAdapter);
+        mHomeAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            HomeResponse.BooksBean booksBean = (HomeResponse.BooksBean) adapter.getItem(position);
+            if(booksBean!=null){
+                BookDetailActivity.start(getActivity(), String.valueOf(booksBean.getBook_id()));
+            }
+        });
     }
 
     @Override
@@ -77,18 +88,21 @@ public class HomeComicFragment extends BaseFragment implements HomeFragmentContr
      */
     private void onRequestHome() {
         HomeInfoRequest homeInfoRequest = new HomeInfoRequest();
-        if (mUser != null) {
-            homeInfoRequest.token = mUser.token;
-        }
+        homeInfoRequest.token = mBuProcessor.getToken();
         homeInfoRequest.channel = mBuProcessor.getChannel();
         homeInfoRequest.book_type = mBuProcessor.getbookType();
+        homeInfoRequest.genre = "1";
         mPresenter.onRequestHomeInfo(homeInfoRequest);
     }
 
     @Override
     public void getHomeInfoSuccess(HomeResponse homeResponse) {
-        bannerList = homeResponse.getBanner();
-//        mHomeAdapter.setNewData(homeResponse.getBooks());
+        LogUtils.e("homeResponse111:" + new Gson().toJson(homeResponse));
+        mHomeAdapter.setNewData(homeResponse.getBooks());
+    }
+
+    @Override
+    public void getBannerSuccess(BannerResponse bannerResponse) {
     }
 
 

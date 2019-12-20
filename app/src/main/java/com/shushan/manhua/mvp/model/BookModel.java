@@ -12,6 +12,7 @@ import com.shushan.manhua.entity.request.DeleteReadingHistoryRequest;
 import com.shushan.manhua.entity.request.ExchangeBarrageStyleRequest;
 import com.shushan.manhua.entity.request.PublishCommentUserRequest;
 import com.shushan.manhua.entity.request.ReadRecordingRequest;
+import com.shushan.manhua.entity.request.ReadingBookRequest;
 import com.shushan.manhua.entity.request.ReadingHistoryRequest;
 import com.shushan.manhua.entity.request.SendBarrageRequest;
 import com.shushan.manhua.entity.request.ShareTaskRequest;
@@ -106,6 +107,7 @@ public class BookModel {
     public Observable<ResponseData> onRequestPublishComment(PublishCommentRequest request) {
         return mBookApi.onRequestPublishComment(mGson.toJson(request)).map(mTransform::transformCommon);
     }
+
     /**
      * 请求分享任务
      */
@@ -175,6 +177,7 @@ public class BookModel {
     public Observable<ResponseData> onRequestReadingHistory(ReadingHistoryRequest request) {
         return mBookApi.onRequestReadingHistory(mGson.toJson(request)).map(mTransform::transformListType);
     }
+
     /**
      * 删除阅读历史
      */
@@ -182,5 +185,10 @@ public class BookModel {
         return mBookApi.onDeleteReadingHistoryRequest(mGson.toJson(request)).map(mTransform::transformListType);
     }
 
-
+    /**
+     * 小说阅读
+     */
+    public Observable<ResponseData> onRequestBookInfo(ReadingBookRequest request) {
+        return mBookApi.onRequestBookInfo(mGson.toJson(request)).map(mTransform::transformCommon);
+    }
 }

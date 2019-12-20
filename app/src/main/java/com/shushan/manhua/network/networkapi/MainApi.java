@@ -35,6 +35,12 @@ public interface MainApi {
     Observable<String> onRequestPaySwitch(@Body String request);
 
     /**
+     * 首页banner
+     */
+    @POST("cartoon/index/banner")
+    Observable<String> onRequestBanner();
+
+    /**
      * 请求首页信息
      */
     @POST("cartoon")

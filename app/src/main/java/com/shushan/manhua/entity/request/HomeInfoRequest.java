@@ -10,4 +10,8 @@ public class HomeInfoRequest {
      * [1,2,3]用户选定喜欢漫画类型数组
      */
     public String book_type;
+    /**
+     * 类型1漫画（默认）2小说
+     */
+    public String genre;
 }
