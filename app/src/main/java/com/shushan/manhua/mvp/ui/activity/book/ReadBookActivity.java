@@ -15,6 +15,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -23,6 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.shushan.manhua.BuildConfig;
 import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerReadBookComponent;
 import com.shushan.manhua.di.modules.ActivityModule;
@@ -33,11 +35,13 @@ import com.shushan.manhua.entity.request.AddBookShelfRequest;
 import com.shushan.manhua.entity.request.ReadRecordingRequest;
 import com.shushan.manhua.entity.request.ReadingBookRequest;
 import com.shushan.manhua.entity.request.SelectionRequest;
+import com.shushan.manhua.entity.request.ShareTaskRequest;
 import com.shushan.manhua.entity.response.ReadingBookResponse;
 import com.shushan.manhua.entity.response.SelectionResponse;
 import com.shushan.manhua.entity.user.User;
 import com.shushan.manhua.help.DialogFactory;
 import com.shushan.manhua.listener.DownloadListener;
+import com.shushan.manhua.mvp.ui.activity.login.LoginActivity;
 import com.shushan.manhua.mvp.ui.activity.mine.BuyActivity;
 import com.shushan.manhua.mvp.ui.activity.txtreaderlib.bean.TxtChar;
 import com.shushan.manhua.mvp.ui.activity.txtreaderlib.bean.TxtMsg;
@@ -49,11 +53,18 @@ import com.shushan.manhua.mvp.ui.activity.txtreaderlib.main.TxtConfig;
 import com.shushan.manhua.mvp.ui.activity.txtreaderlib.main.TxtReaderView;
 import com.shushan.manhua.mvp.ui.base.BaseActivity;
 import com.shushan.manhua.mvp.ui.dialog.ChapterListPopupWindow;
+import com.shushan.manhua.mvp.ui.dialog.ExitReadingBookPopupWindow;
 import com.shushan.manhua.mvp.ui.dialog.ReadUseCoinDialog;
+import com.shushan.manhua.mvp.ui.dialog.SharePopupWindow;
 import com.shushan.manhua.mvp.utils.BrightnessTools;
 import com.shushan.manhua.mvp.utils.DownloadUtil;
 import com.shushan.manhua.mvp.utils.FileUtils;
 import com.shushan.manhua.mvp.utils.LogUtils;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
+import com.umeng.socialize.shareboard.SnsPlatform;
 
 import java.io.File;
 
@@ -65,7 +76,8 @@ import butterknife.OnClick;
 /**
  * 阅读小说
  */
-public class ReadBookActivity extends BaseActivity implements ReadBookControl.ReadBookView, ChapterListPopupWindow.ChapterListPopupWindowListener, ReadUseCoinDialog.ReadUseCoinDialogListener {
+public class ReadBookActivity extends BaseActivity implements ReadBookControl.ReadBookView, ChapterListPopupWindow.ChapterListPopupWindowListener,
+        ReadUseCoinDialog.ReadUseCoinDialogListener, SharePopupWindow.PopupWindowShareListener, ExitReadingBookPopupWindow.PopupWindowListener {
 
     @Inject
     ReadBookControl.PresenterReadBook mPresenter;
@@ -159,6 +171,7 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
     private ChapterListPopupWindow mChapterListPopupWindow;
     private User mUser;
     private ReadUseCoinDialog mReadUseCoinDialog;//非免费章节 弹出购买弹框
+    public int mLoginModel;//1 是游客模式 2 是登录模式
 
     public static void start(Context context, String bookId, int catalogueId) {
         Intent intent = new Intent(context, ReadBookActivity.class);
@@ -172,6 +185,7 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
         setContentView(R.layout.activity_read_book);
         initInjectData();
         mUser = mBuProcessor.getUser();
+        mLoginModel = mBuProcessor.getLoginModel();
     }
 
     @Override
@@ -184,7 +198,7 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
                     setIsRecharge();//重新判断
                 }
             } else if (intent.getAction().equals(ActivityConstant.LOGIN_SUCCESS_UPDATE_DATA)) {//登录成功
-//                mLoginModel = mBuProcessor.getLoginModel();
+                mLoginModel = mBuProcessor.getLoginModel();
             }
         }
         super.onReceivePro(context, intent);
@@ -208,9 +222,12 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
 
     @Override
     public void initData() {
+        init();
+        registerListener();
         boolean lingSystem = mSharePreferenceUtil.getBooleanData(Constant.LING_SYSTEM, true);
         int lingValue = mSharePreferenceUtil.getIntData(Constant.SET_LING, BrightnessTools.getScreenBrightness(this));
         int readPageModel = mSharePreferenceUtil.getIntData(Constant.READ_PAGE_MODEL, 0);
+        boolean nightModelFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_NIGHT_MODEL, false);////夜间模式
         if (lingSystem) {
             mMenuBrightnessSystem.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.novel_settings_oval_choose), null, null, null);
         } else {
@@ -223,6 +240,11 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
         } else {
             mMenuPageModel1Tv.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.novel_settings_oval), null, null, null);
             mMenuPageModel2Tv.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.novel_settings_oval_choose), null, null, null);
+        }
+        if (nightModelFlag) {
+            mReadModelTv.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.night_mode_choose), null, null);
+        } else {
+            mReadModelTv.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.night_mode), null, null);
         }
     }
 
@@ -240,6 +262,7 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
     protected String ContentStr = null;
     protected String FilePath = null;
     protected String FileName = null;
+    private boolean isFirstLoadActivity = true;
 
     @Override
     public void getReadingBookInfoSuccess(ReadingBookResponse readingBookResponse) {
@@ -258,9 +281,7 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
                     FilePath = DownloadUtil.PATH_CHALLENGE_VIDEO + DownloadUtil.fileName + urlPath.substring(i);
                 }
             }
-            init();
             loadFile();
-            registerListener();
         }
         setIsRecharge();
     }
@@ -301,8 +322,6 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
 
     /**
      * 阅读上报
-     *
-     * @param beans
      */
     private int useBean;
 
@@ -395,9 +414,7 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
                 runOnUiThread(() -> {
                     dismissLoading();
                     FilePath = localPath;
-                    init();
                     loadFile();
-                    registerListener();
                 });
             }
 
@@ -435,7 +452,6 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
                 showToast("file fail");
                 return;
             }
-
         }
         mHandler.postDelayed(() -> {
             //延迟加载避免闪一下的情况出现
@@ -446,13 +462,18 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
     }
 
     /**
-     *
+     * 加载文件
      */
     protected void loadOurFile() {
         mTxtReaderView.loadTxtFile(FilePath, new ILoadListener() {
             @Override
             public void onSuccess() {
                 if (!hasExisted) {
+                    if (!isFirstLoadActivity) {
+                        mTxtReaderView.loadFromProgress(0);//设置当前进度到最开始位置
+                    } else {
+                        isFirstLoadActivity = false;
+                    }
                     onLoadDataSuccess();
                 }
             }
@@ -604,6 +625,7 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
     protected void setPageChangeListener() {
         mTxtReaderView.setPageChangeListener(progress -> {
             int p = (int) (progress * 1000);
+//            LogUtils.e("p:" + p / 10);
             mChapterSeekBar.setProgress(p / 10);
             mChapterNameText.setText(mReadingBookResponse.getCatalogue().getCatalogue_name());
         });
@@ -637,38 +659,16 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
 
     protected void setSeekBarListener() {
         //章节
-//        mSeekBar.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View view, MotionEvent motionEvent) {
-//                if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-//                    mTxtReaderView.loadFromProgress(mSeekBar.getProgress());
-//                    Gone(mChapterMsgView);
-//                }
-//                return false;
-//            }
-//        });
-//        mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, final int progress, boolean fromUser) {
-//                if (fromUser) {
-//                    mHandler.post(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            onShowChapterMsg(progress);
-//                        }
-//                    });
-//                }
-//            }
-//
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar) {
-//            }
-//
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar) {
-//                Gone(mChapterMsgView);
-//            }
-//        });
+        mChapterSeekBar.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    mTxtReaderView.loadFromProgress(mChapterSeekBar.getProgress());
+                    Gone(mChapterMsgView);
+                }
+                return false;
+            }
+        });
         //亮度
         mMenuSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
@@ -692,7 +692,7 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @OnClick({R.id.collection_iv, R.id.pre_chapter_tv, R.id.next_chapter_tv, R.id.directory_tv, R.id.read_model_tv, R.id.activity_hwtxtplay_setting_text,
-            R.id.txtreadr_menu_brightness_system, R.id.txtreadr_menu_page_model1_tv, R.id.txtreadr_menu_page_model2_tv})
+            R.id.txtreadr_menu_brightness_system, R.id.txtreadr_menu_page_model1_tv, R.id.txtreadr_menu_page_model2_tv, R.id.share_iv})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.directory_tv://目录
@@ -710,18 +710,38 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
                     mChapterListPopupWindow.setBackGroundColor(mTxtReaderView.getBackgroundColor());
                 }
                 break;
-            case R.id.collection_iv://收藏
-                onAddBookShelfRequest();
+            case R.id.collection_iv://加入书架
+                if (mLoginModel != 2) {
+                    showToast(getString(R.string.please_login_hint));
+                    startActivitys(LoginActivity.class);
+                } else {
+                    onAddBookShelfRequest();
+                }
                 break;
             case R.id.pre_chapter_tv://上一章
-                mCatalogueId = mReadingBookResponse.getCatalogue().getPre_catalogue_id();
-                onRequestBookInfo();
+                if (mReadingBookResponse != null) {
+                    mCatalogueId = mReadingBookResponse.getCatalogue().getPre_catalogue_id();
+                    onRequestBookInfo();
+                }
                 break;
             case R.id.next_chapter_tv://下一章
-                mCatalogueId = mReadingBookResponse.getCatalogue().getNext_catalogue_id();
-                onRequestBookInfo();
+                if (mReadingBookResponse != null) {
+                    mCatalogueId = mReadingBookResponse.getCatalogue().getNext_catalogue_id();
+                    onRequestBookInfo();
+                }
                 break;
             case R.id.read_model_tv:
+                boolean nightModelFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_NIGHT_MODEL, false);//夜间模式
+                mSharePreferenceUtil.setData(Constant.IS_NIGHT_MODEL, !nightModelFlag);
+                if (nightModelFlag) {
+                    mReadModelTv.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.night_mode), null, null);
+                    //设置白天模式
+                    Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 110);//屏幕亮度值范围必须位于：0～255
+                } else {
+                    mReadModelTv.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.night_mode_choose), null, null);
+                    //设置夜间模式
+                    Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 25);//屏幕亮度值范围必须位于：0～255
+                }
                 break;
             case R.id.activity_hwtxtplay_setting_text://设置
                 Show(mTopMenu, mBottomMenu, mCoverView);
@@ -738,6 +758,9 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
                 mSharePreferenceUtil.setData(Constant.READ_PAGE_MODEL, 1);
                 mMenuPageModel1Tv.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.novel_settings_oval), null, null, null);
                 mMenuPageModel2Tv.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.novel_settings_oval_choose), null, null, null);
+                break;
+            case R.id.share_iv:
+                new SharePopupWindow(this, this).initPopWindow(mReadBookLayout);
                 break;
 
         }
@@ -783,7 +806,7 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
 
 
     private void onCurrentSelectedText(String SelectedText) {
-        mSelectedText.setText("选中" + (SelectedText + "").length() + "个文字");
+        mSelectedText.setText("select" + (SelectedText + "").length() + "words");
         CurrentSelectedText = SelectedText;
     }
 
@@ -817,7 +840,6 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
     public void switchChapterPage(int chapterId) {
         LogUtils.e("chapterId:" + chapterId);
         mCatalogueId = chapterId;
-//        mTxtReaderView.loadFromProgress(chapter.getStartParagraphIndex(), 0);
         onRequestBookInfo();
     }
 
@@ -840,6 +862,61 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
         finish();
     }
 
+    @Override
+    public void shareFacebookBtnListener() {
+        shareFacebook();
+    }
+
+    @Override
+    public void shareWhatsAppBtnListener() {
+        shareWhatsApp();
+    }
+
+    private void shareFacebook() {
+        //分享到facebook
+        SnsPlatform snsPlatform = SHARE_MEDIA.FACEBOOK.toSnsPlatform();
+        //分享链接
+        UMWeb web = new UMWeb(BuildConfig.MAN_HUA_BASE_URL + "/download.html ");
+//        web.setTitle("download");
+        web.setThumb(new UMImage(this, R.mipmap.logo));
+        new ShareAction(this)
+                .withMedia(web)
+                .setPlatform(snsPlatform.mPlatform)
+                .setCallback(null).share();
+        onShareTaskRequest();
+    }
+
+    private void shareWhatsApp() {
+        SnsPlatform snsPlatform = SHARE_MEDIA.WHATSAPP.toSnsPlatform();
+        //分享链接
+        UMWeb web = new UMWeb(BuildConfig.MAN_HUA_BASE_URL + "/download.html ");
+//        web.setTitle("download");
+        web.setThumb(new UMImage(this, R.mipmap.logo));
+        new ShareAction(this)
+                .withMedia(web)
+                .setPlatform(snsPlatform.mPlatform)
+                .setCallback(null).share();
+        onShareTaskRequest();
+    }
+
+    /**
+     * 上传分享成功
+     */
+    private void onShareTaskRequest() {
+        ShareTaskRequest shareTaskRequest = new ShareTaskRequest();
+        shareTaskRequest.token = mBuProcessor.getToken();
+        mPresenter.onRequestShareTask(shareTaskRequest);
+    }
+
+    @Override
+    public void addBookShelf() {
+        onAddBookShelfRequest();
+    }
+
+    @Override
+    public void exitReading() {
+        finish();
+    }
 
     private class TextSettingClickListener implements View.OnClickListener {
         private Boolean Bold;
@@ -942,7 +1019,7 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
     }
 
     public void BackClick(View view) {
-        finish();
+        onBackPressed();
     }
 
     public void onCopyText(View view) {
@@ -958,8 +1035,12 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        finish();
+//        super.onBackPressed();
+        if (mReadingBookResponse.getCatalogue().getState() == 1) {
+            finish();
+        } else {
+            new ExitReadingBookPopupWindow(this, this).initPopWindow(mReadBookLayout);
+        }
     }
 
     @Override

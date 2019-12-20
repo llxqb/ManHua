@@ -71,10 +71,10 @@
 
     <!-- 小说阅读器-->
     <color name="hwtxtreader_bottom_menu_textclor">#ffffff</color>
-    <color name="hwtxtreader_styleclor1">#d0cdc4</color>
-    <color name="hwtxtreader_styleclor2">#ccebcc</color>
-    <color name="hwtxtreader_styleclor3">#d4c7a5</color>
-    <color name="hwtxtreader_styleclor4">#393330</color>
-    <color name="hwtxtreader_styleclor5">#00141f</color>
+    <color name="hwtxtreader_styleclor1">#F5F5F8</color>
+    <color name="hwtxtreader_styleclor2">#F0F0FD</color>
+    <color name="hwtxtreader_styleclor3">#EEFBF0</color>
+    <color name="hwtxtreader_styleclor4">#FBF6E9</color>
+    <color name="hwtxtreader_styleclor5">#000000</color>
 
 </resources>

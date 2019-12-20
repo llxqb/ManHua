@@ -5,6 +5,7 @@ import com.shushan.manhua.entity.request.AddBookShelfRequest;
 import com.shushan.manhua.entity.request.ReadRecordingRequest;
 import com.shushan.manhua.entity.request.ReadingBookRequest;
 import com.shushan.manhua.entity.request.SelectionRequest;
+import com.shushan.manhua.entity.request.ShareTaskRequest;
 import com.shushan.manhua.entity.response.ReadingBookResponse;
 import com.shushan.manhua.entity.response.SelectionResponse;
 import com.shushan.manhua.mvp.presenter.LoadDataView;
@@ -46,6 +47,11 @@ public class ReadBookControl {
          * 加入书架
          */
         void onAddBookShelfRequest(AddBookShelfRequest addBookShelfRequest);
+
+        /**
+         * 请求分享任务
+         */
+        void onRequestShareTask(ShareTaskRequest shareTaskRequest);
     }
 
 }

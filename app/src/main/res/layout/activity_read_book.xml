@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/read_book_layout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/read_book_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -23,8 +23,15 @@
             android:maxLines="1"
             android:paddingTop="@dimen/dp_10"
             android:paddingBottom="@dimen/dp_10"
-            android:text="Chapter One"
             android:textColor="#666666" />
+
+        <ImageView
+            android:id="@+id/share_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:padding="@dimen/dp_10"
+            android:src="@mipmap/share_reading_book" />
 
         <LinearLayout
             android:id="@+id/activity_hwtxtplay_chpatermenu"
@@ -32,15 +39,14 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:visibility="gone"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <View
                 android:layout_width="@dimen/dp_7"
                 android:layout_height="@dimen/dp_7"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="@dimen/dp_5"
-                android:layout_toLeftOf="@+id/activity_hwtxtplay_chapter_menutext"
                 android:background="@drawable/shape_little_ball" />
 
             <TextView
@@ -51,8 +57,8 @@
                 android:paddingTop="@dimen/dp_10"
                 android:paddingEnd="@dimen/dp_10"
                 android:paddingBottom="@dimen/dp_10"
-                android:visibility="gone"
-                android:textColor="#858582" />
+                android:textColor="#858582"
+                android:visibility="gone" />
         </LinearLayout>
 
 
@@ -73,7 +79,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="@dimen/dp_20"
-        android:layout_marginBottom="@dimen/dp_140"
+        android:layout_marginBottom="@dimen/dp_150"
         android:src="@mipmap/night_mode_like" />
 
     <android.support.constraint.ConstraintLayout
@@ -83,7 +89,7 @@
         android:layout_alignParentBottom="true"
         android:background="@color/app_bg_color"
         android:paddingStart="@dimen/dp_10"
-        android:paddingTop="@dimen/dp_4"
+        android:paddingTop="@dimen/dp_2"
         android:paddingEnd="@dimen/dp_10"
         android:paddingBottom="@dimen/dp_10">
 
@@ -94,6 +100,7 @@
             android:padding="@dimen/dp_8"
             android:text="@string/read_book_pre_chapter"
             android:textColor="@color/first_text_color"
+            android:gravity="center"
             android:textSize="@dimen/sp_10"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -108,6 +115,7 @@
             android:text="@string/read_book_next_chapter"
             android:textColor="@color/first_text_color"
             android:textSize="@dimen/sp_10"
+            android:gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -115,7 +123,7 @@
             android:id="@+id/chapter_seekBar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_2"
+            android:layout_marginTop="@dimen/dp_6"
             android:max="100"
             android:maxHeight="3.4dp"
             android:minHeight="3.4dp"
@@ -131,7 +139,7 @@
             android:id="@+id/directory_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_8"
+            android:layout_marginStart="@dimen/dp_20"
             android:layout_marginTop="@dimen/dp_12"
             android:drawableTop="@mipmap/night_novel_directory"
             android:drawablePadding="@dimen/dp_6"
@@ -163,7 +171,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_12"
-            android:layout_marginEnd="@dimen/dp_8"
+            android:layout_marginEnd="@dimen/dp_20"
             android:drawableTop="@mipmap/novel_settings"
             android:drawablePadding="@dimen/dp_6"
             android:gravity="center"

@@ -571,10 +571,14 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
                 break;
             case R.id.add_bookshelf_tv://加入书架
             case R.id.add_bookshelf_iv:
-                if (mReadingInfoResponse.getCatalogue().getState() == 1) {
-                    showToast("telah masuk rak buku");//已加入书架
+                if (mLoginModel != 2) {
+                    toLogin();
                 } else {
-                    onAddBookShelfRequest();
+                    if (mReadingInfoResponse.getCatalogue().getState() == 1) {
+                        showToast("telah masuk rak buku");//已加入书架
+                    } else {
+                        onAddBookShelfRequest();
+                    }
                 }
                 break;
             case R.id.share_tv://分享

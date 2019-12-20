@@ -167,17 +167,17 @@
 
     <string name="EditNameDialog_nick">Nama akun</string>
     <string name="EditNameDialog_nick_hint">Isi nama panggilan</string>
-    <string name="EditNameDialog_cancel">Batalkan</string>
+    <string name="EditNameDialog_cancel">batal</string>
     <string name="EditNameDialog_sure">Oke</string>
 
     <string name="EditSexDialog_name">Kelamin</string>
     <string name="EditSexDialog_hint">Silakan pilih jenis kelamin Anda</string>
-    <string name="EditSexDialog_cancel">Batalkan</string>
+    <string name="EditSexDialog_cancel">batal</string>
     <string name="EditSexDialog_sure">Oke</string>
 
     <string name="AvatarPopupWindow_photo">Ambil gambar</string>
     <string name="AvatarPopupWindow_album">Album foto</string>
-    <string name="AvatarPopupWindow_cancel">Batalkan</string>
+    <string name="AvatarPopupWindow_cancel">batal</string>
 
     <string name="MessageActivity_title">Informasi saya</string>
     <string name="MessageActivity_SentMessage">Komentar yang\nsaya kirimkan</string>
@@ -240,7 +240,7 @@
     <string name="BarrageSettingActivity_play_speed">Kecepatan memainkan</string>
 
     <string name="SelectDialogUtil_date_title">Pilih tanggal</string>
-    <string name="SelectDialogUtil_cancel">Batalkan</string>
+    <string name="SelectDialogUtil_cancel">batal</string>
     <string name="SelectDialogUtil_sure">Oke</string>
 
 
@@ -281,18 +281,21 @@
     <string name="ExpensesRecordAdapter_state8">tukar model komentar langsung</string>
 
 <!--    漫画 komik、小说novel、夜间mode malam、亮度kecerahan、跟随系统 sesuai sistem、背景 latar belakang、字号Ukuran tulisan、翻页 membalik halaman、上下翻页membalik atas bawah halaman、左右翻页 membalik kanan kiri halaman-->
-    <string name="HomeFragment_title_comic">漫画</string>
-    <string name="HomeFragment_title_novel">小说</string>
-    <string name="read_book_mode">夜间</string>
-    <string name="read_book_brightness">亮度</string>
-    <string name="read_book_system">跟随系统</string>
-    <string name="read_book_bg">背景</string>
-    <string name="read_book_text_size">字号</string>
-    <string name="read_book_page">翻页</string>
-    <string name="read_book_page_up_down">上下翻页</string>
-    <string name="read_book_page_left_right">左右翻页</string>
-    <string name="read_book_pre_chapter">上一章</string>
-    <string name="read_book_next_chapter">下一章</string>
-    <string name="read_book_mune">目录</string>
-    <string name="read_book_setting">设置</string>
+    <string name="HomeFragment_title_comic">komik</string>
+    <string name="HomeFragment_title_novel">novel</string>
+    <string name="read_book_mode">mode malam</string>
+    <string name="read_book_brightness">kecerahan</string>
+    <string name="read_book_system">sesuai sistem</string>
+    <string name="read_book_bg">latar belakang</string>
+    <string name="read_book_text_size">Ukuran tulisan</string>
+    <string name="read_book_page">membalik halaman</string>
+    <string name="read_book_page_up_down">membalik atas bawah halaman</string>
+    <string name="read_book_page_left_right">membalik kanan kiri halaman</string>
+    <string name="read_book_pre_chapter">chapter \nsebelumnya</string>
+    <string name="read_book_next_chapter">chapter \nselanjutnya</string>
+    <string name="read_book_mune">Direktori</string>
+    <string name="read_book_setting">Siapkan</string>
+    <string name="read_book_exit_title">Masukkan ke rak buku, akan memudahkanmu mencari buku ini nantinya</string>
+    <string name="read_book_add_bookshelf">masukkan ke rak buku</string>
+    <string name="read_book_exit">Keluar dari membaca</string>
 </resources>

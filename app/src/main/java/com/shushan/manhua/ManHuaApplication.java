@@ -66,7 +66,8 @@ public class ManHuaApplication extends Application {
     public void logActivatedAppEvent() {
         //初始化Facebook SDK
         FacebookSdk.setApplicationId(getResources().getString(R.string.facebook_app_id));
-        FacebookSdk.sdkInitialize(getApplicationContext());
+//        FacebookSdk.sdkInitialize(getApplicationContext());
+        com.umeng.facebook.FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger logger = AppEventsLogger.newLogger(this);
         logger.logEvent(AppEventsConstants.EVENT_NAME_ACTIVATED_APP);
     }

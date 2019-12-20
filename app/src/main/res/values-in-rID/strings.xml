@@ -167,17 +167,17 @@
 
     <string name="EditNameDialog_nick">Nama akun</string>
     <string name="EditNameDialog_nick_hint">Isi nama panggilan</string>
-    <string name="EditNameDialog_cancel">Batalkan</string>
+    <string name="EditNameDialog_cancel">batal</string>
     <string name="EditNameDialog_sure">Oke</string>
 
     <string name="EditSexDialog_name">Kelamin</string>
     <string name="EditSexDialog_hint">Silakan pilih jenis kelamin Anda</string>
-    <string name="EditSexDialog_cancel">Batalkan</string>
+    <string name="EditSexDialog_cancel">batal</string>
     <string name="EditSexDialog_sure">Oke</string>
 
     <string name="AvatarPopupWindow_photo">Ambil gambar</string>
     <string name="AvatarPopupWindow_album">Album foto</string>
-    <string name="AvatarPopupWindow_cancel">Batalkan</string>
+    <string name="AvatarPopupWindow_cancel">batal</string>
 
     <string name="MessageActivity_title">Informasi saya</string>
     <string name="MessageActivity_SentMessage">Komentar yang\nsaya kirimkan</string>
@@ -240,7 +240,7 @@
     <string name="BarrageSettingActivity_play_speed">Kecepatan memainkan</string>
 
     <string name="SelectDialogUtil_date_title">Pilih tanggal</string>
-    <string name="SelectDialogUtil_cancel">Batalkan</string>
+    <string name="SelectDialogUtil_cancel">batal</string>
     <string name="SelectDialogUtil_sure">Oke</string>
 
 
@@ -291,8 +291,11 @@
     <string name="read_book_page">membalik halaman</string>
     <string name="read_book_page_up_down">membalik atas bawah halaman</string>
     <string name="read_book_page_left_right">membalik kanan kiri halaman</string>
-    <string name="read_book_pre_chapter">chapter sebelumnya</string>
-    <string name="read_book_next_chapter">chapter selanjutnya</string>
+    <string name="read_book_pre_chapter">chapter \nsebelumnya</string>
+    <string name="read_book_next_chapter">chapter \nselanjutnya</string>
     <string name="read_book_mune">Direktori</string>
     <string name="read_book_setting">Siapkan</string>
+    <string name="read_book_exit_title">Masukkan ke rak buku, akan memudahkanmu mencari buku ini nantinya</string>
+    <string name="read_book_add_bookshelf">masukkan ke rak buku</string>
+    <string name="read_book_exit">Keluar dari membaca</string>
 </resources>

@@ -134,7 +134,7 @@
             android:layout_height="wrap_content"
             android:text="@string/read_book_bg"
             android:textColor="@color/color_30"
-            android:textSize="@dimen/sp_15" />
+            android:textSize="@dimen/sp_16" />
 
         <RelativeLayout
             android:layout_width="0dp"
@@ -143,8 +143,8 @@
 
             <View
                 android:id="@+id/hwtxtreader_menu_style1"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="@dimen/dp_25"
+                android:layout_height="@dimen/dp_25"
                 android:layout_centerInParent="true"
                 android:background="@drawable/round_read1_360" />
         </RelativeLayout>
@@ -156,8 +156,8 @@
 
             <View
                 android:id="@+id/hwtxtreader_menu_style2"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="@dimen/dp_25"
+                android:layout_height="@dimen/dp_25"
                 android:layout_centerInParent="true"
                 android:background="@drawable/round_read2_360" />
         </RelativeLayout>
@@ -169,8 +169,8 @@
 
             <View
                 android:id="@+id/hwtxtreader_menu_style3"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="@dimen/dp_25"
+                android:layout_height="@dimen/dp_25"
                 android:layout_centerInParent="true"
                 android:background="@drawable/round_read3_360" />
         </RelativeLayout>
@@ -182,8 +182,8 @@
 
             <View
                 android:id="@+id/hwtxtreader_menu_style4"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="@dimen/dp_25"
+                android:layout_height="@dimen/dp_25"
                 android:layout_centerInParent="true"
                 android:background="@drawable/round_read4_360" />
         </RelativeLayout>
@@ -195,8 +195,8 @@
 
             <View
                 android:id="@+id/hwtxtreader_menu_style5"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="@dimen/dp_25"
+                android:layout_height="@dimen/dp_25"
                 android:layout_centerInParent="true"
                 android:background="@drawable/round_read5_360" />
         </RelativeLayout>
@@ -414,10 +414,9 @@
                 android:drawableStart="@mipmap/novel_settings_oval"
                 android:drawablePadding="@dimen/dp_6"
                 android:gravity="center"
-                android:paddingStart="@dimen/dp_12"
+                android:textSize="@dimen/sp_10"
                 android:textColor="@color/color_30"
                 android:paddingTop="@dimen/dp_8"
-                android:paddingEnd="@dimen/dp_12"
                 android:paddingBottom="@dimen/dp_8"
                 android:text="@string/read_book_page_up_down" />
 
@@ -428,6 +427,7 @@
                 android:drawableStart="@mipmap/novel_settings_oval"
                 android:drawablePadding="@dimen/dp_6"
                 android:gravity="center"
+                android:textSize="@dimen/sp_10"
                 android:paddingStart="@dimen/dp_12"
                 android:paddingTop="@dimen/dp_8"
                 android:textColor="@color/color_30"
