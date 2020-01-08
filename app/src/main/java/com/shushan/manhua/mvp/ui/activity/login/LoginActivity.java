@@ -1,10 +1,13 @@
 package com.shushan.manhua.mvp.ui.activity.login;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.widget.CheckBox;
 
+import com.facebook.appevents.AppEventsConstants;
+import com.facebook.appevents.AppEventsLogger;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
@@ -54,7 +57,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
 
     @Override
     public void initData() {
-
+        logViewContentEvent();
     }
 
     @OnClick({R.id.login_google_tv, R.id.login_facebook_tv, R.id.protocol_tv})
@@ -163,11 +166,25 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
             user.token = userinfoBean.getToken();
             user.vip = userinfoBean.getVip();
             mBuProcessor.setLoginUser(user);
+            logCompleteRegistrationEvent("完成注册");
             //刷新main数据 刷新
             LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.LOGIN_SUCCESS_UPDATE_DATA));
 //            startActivitys(MainActivity.class);
             finish();
         }
+    }
+
+
+    /**
+     * 完成注册
+     * This function assumes logger is an instance of AppEventsLogger and has been
+     * created using AppEventsLogger.newLogger() call.
+     */
+    public void logCompleteRegistrationEvent (String registrationMethod) {
+        Bundle params = new Bundle();
+        params.putString(AppEventsConstants.EVENT_PARAM_REGISTRATION_METHOD, registrationMethod);
+        AppEventsLogger logger = AppEventsLogger.newLogger(this);
+        logger.logEvent(AppEventsConstants.EVENT_NAME_COMPLETED_REGISTRATION, params);
     }
 
 //    /**
@@ -187,6 +204,19 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
 //            }
 //        });
 //    }
+
+
+    /**
+     * 查看内容
+     * This function assumes logger is an instance of AppEventsLogger and has been
+     * created using AppEventsLogger.newLogger() call.
+     */
+    public void logViewContentEvent() {
+        AppEventsLogger logger = AppEventsLogger.newLogger(this);
+        Bundle params = new Bundle();
+        params.putString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE, "登录页面");
+        logger.logEvent(AppEventsConstants.EVENT_NAME_VIEWED_CONTENT, params);
+    }
 
 
     private void initInjectData() {

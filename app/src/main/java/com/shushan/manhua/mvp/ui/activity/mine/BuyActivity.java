@@ -3,6 +3,7 @@ package com.shushan.manhua.mvp.ui.activity.mine;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
@@ -12,6 +13,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.ahdi.sdk.payment.AhdiPay;
+import com.facebook.appevents.AppEventsConstants;
+import com.facebook.appevents.AppEventsLogger;
 import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerBuyComponent;
 import com.shushan.manhua.di.modules.ActivityModule;
@@ -95,6 +98,11 @@ public class BuyActivity extends BaseActivity implements BuyControl.BuyView, Pay
     private CreateOrderAHDIResponse mCreateOrderAHDIResponse;//
     private CreateOrderByUniPinResponse mCreateOrderByUniPinResponse;
     private int paySwitch;//过审开关
+    /**
+     * 上传fb sdk
+     * 支付金额
+     */
+    private String payMoney;
 
     @Override
     protected void initContentView() {
@@ -125,6 +133,7 @@ public class BuyActivity extends BaseActivity implements BuyControl.BuyView, Pay
 
     @Override
     public void initView() {
+        logViewContentEvent();
         //初始化google支付
         mGooglePayHelper = new GooglePayHelper(this, this);
         iabHelper = mGooglePayHelper.initGooglePay();
@@ -273,6 +282,7 @@ public class BuyActivity extends BaseActivity implements BuyControl.BuyView, Pay
 
     @Override
     public void payType(int payType) {
+        payMoney = mBeaninfoBean.getPrice();
         mPayType = payType;
         switch (payType) {
             case 1:
@@ -346,7 +356,7 @@ public class BuyActivity extends BaseActivity implements BuyControl.BuyView, Pay
     public void getPayFinishGoogleUploadSuccess() {
         //查询用户信息-->更新用户信息(我的-首页接口)
 //        requestHomeUserInfo();
-//        logAddPaymentInfoEvent(true);
+        logAddPaymentInfoEvent(true);
         onRequestData();
     }
 
@@ -415,7 +425,7 @@ public class BuyActivity extends BaseActivity implements BuyControl.BuyView, Pay
     @Override
     public void getPayFinishAHDIUploadSuccess() {
         //查询用户信息-->更新用户信息(我的-首页接口)
-//        logAddPaymentInfoEvent(true);
+        logAddPaymentInfoEvent(true);
         onRequestData();
     }
 
@@ -493,7 +503,7 @@ public class BuyActivity extends BaseActivity implements BuyControl.BuyView, Pay
     @Override
     public void getPayFinishUploadByUniPinSuccess() {
         //查询用户信息-->更新用户信息(我的-首页接口)
-//        logAddPaymentInfoEvent(true);
+        logAddPaymentInfoEvent(true);
         onRequestData();
     }
 
@@ -564,6 +574,31 @@ public class BuyActivity extends BaseActivity implements BuyControl.BuyView, Pay
         }
     }
 
+    /**
+     * 记录facebook 支付成功后数据
+     * This function assumes logger is an instance of AppEventsLogger and has been
+     * created using AppEventsLogger.newLogger() call.
+     */
+    public void logAddPaymentInfoEvent(boolean success) {
+        AppEventsLogger logger = AppEventsLogger.newLogger(this);
+        Bundle params = new Bundle();
+        params.putString(AppEventsConstants.EVENT_PARAM_CURRENCY, "USD");
+        params.putString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE, "购买漫豆");
+        params.putInt(AppEventsConstants.EVENT_PARAM_SUCCESS, success ? 1 : 0);
+        logger.logEvent(AppEventsConstants.EVENT_NAME_PURCHASED, Double.parseDouble(payMoney), params);
+    }
+
+    /**
+     * 查看内容
+     * This function assumes logger is an instance of AppEventsLogger and has been
+     * created using AppEventsLogger.newLogger() call.
+     */
+    public void logViewContentEvent() {
+        AppEventsLogger logger = AppEventsLogger.newLogger(this);
+        Bundle params = new Bundle();
+        params.putString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE, "充值中心");
+        logger.logEvent(AppEventsConstants.EVENT_NAME_VIEWED_CONTENT, params);
+    }
 
     private void initInjectData() {
         DaggerBuyComponent.builder().appComponent(getAppComponent())

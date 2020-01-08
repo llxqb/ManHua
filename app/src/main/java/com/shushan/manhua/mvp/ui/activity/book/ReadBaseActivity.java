@@ -26,6 +26,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.appevents.AppEventsConstants;
+import com.facebook.appevents.AppEventsLogger;
 import com.google.gson.Gson;
 import com.shushan.manhua.BuildConfig;
 import com.shushan.manhua.R;
@@ -109,7 +111,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
- * 阅读页面父类
+ * 阅读漫画页面父类
  */
 public abstract class ReadBaseActivity extends BaseActivity implements ReadControl.ReadView, ReadUseCoinDialog.ReadUseCoinDialogListener, ReadBeansExchangeDialog.ReadBeansExchangeDialogListener,
         ReadOpenVipDialog.ReadOpenVipDialogListener, ReadSettingPopupWindow.ReadSettingPopupWindowListener, BarrageStylePopupWindow.BarrageStylePopupWindowListener,
@@ -132,7 +134,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
     @BindView(R.id.barrage_iv)
     ImageView mBarrageIv;//弹幕开关
     @BindView(R.id.send_message_ll)
-    LinearLayout mSendMessageLl;
+    RelativeLayout mSendMessageLl;
     @BindView(R.id.send_message_left_iv)
     ImageView mSendMessageLeftIv;
     @BindView(R.id.send_message_right_iv)
@@ -228,6 +230,19 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
         super.onCreate(savedInstanceState);
         File file = new File(getExternalCacheDir(), System.currentTimeMillis() + ".png");
         uri = Uri.fromFile(file);
+        logViewContentEvent();
+    }
+
+    /**
+     * 查看内容
+     * This function assumes logger is an instance of AppEventsLogger and has been
+     * created using AppEventsLogger.newLogger() call.
+     */
+    public void logViewContentEvent() {
+        AppEventsLogger logger = AppEventsLogger.newLogger(this);
+        Bundle params = new Bundle();
+        params.putString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE, "阅读漫画页面");
+        logger.logEvent(AppEventsConstants.EVENT_NAME_VIEWED_CONTENT, params);
     }
 
 

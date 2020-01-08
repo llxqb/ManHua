@@ -4,12 +4,18 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 
+import com.facebook.appevents.AppEventsConstants;
+import com.facebook.appevents.AppEventsLogger;
+import com.facebook.applinks.AppLinkData;
 import com.google.gson.Gson;
 import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerMainComponent;
@@ -25,6 +31,7 @@ import com.shushan.manhua.entity.response.LoginTouristModeResponse;
 import com.shushan.manhua.entity.response.PaySwitchResponse;
 import com.shushan.manhua.entity.user.User;
 import com.shushan.manhua.help.DialogFactory;
+import com.shushan.manhua.mvp.ui.activity.book.ReadBaseActivity;
 import com.shushan.manhua.mvp.ui.activity.login.LoginActivity;
 import com.shushan.manhua.mvp.ui.adapter.MyFragmentAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseActivity;
@@ -94,10 +101,10 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     public void initView() {
         mMainBottomNavigation.setItemIconTintList(null);
 //        LogUtils.e("mUser:" + new Gson().toJson(mUser));
-        if (!mBuProcessor.isSetChannel()) {
-            showSelectChannelDialog();
-        } else if (mBuProcessor.getToken() == null) {
+        if (mBuProcessor.getToken() == null) {
             loginTouristMode();
+        } else if (!mBuProcessor.isSetChannel()) {
+            showSelectChannelDialog();
         } else {
             initMainView();
         }
@@ -120,6 +127,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
     @Override
     public void initData() {
+        logViewContentEvent();
         SystemUtils.getMinDp(this);
         if (getIntent() != null) {
             int switchPage = getIntent().getIntExtra("switchPage", 0);
@@ -141,6 +149,28 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             isExitLogin = true;
             loginTouristMode();
         }
+    }
+
+    /**
+     * facebook 延迟深度链接
+     */
+    private void getDelayFbDeepLink() {
+        AppLinkData.fetchDeferredAppLinkData(this, appLinkData -> {
+            if (appLinkData != null) {
+                Uri targetUrl = appLinkData.getTargetUri();
+                if (targetUrl != null) {
+                    String url = targetUrl.toString();
+                    if (url.contains("pulaukomik://com.shushan.manhua/read")) {
+                        String bookId = targetUrl.getQueryParameter("book_id");
+                        String catalogueId = targetUrl.getQueryParameter("catalogue_id");
+                        if (!TextUtils.isEmpty(bookId) && !TextUtils.isEmpty(catalogueId)) {
+                            ReadBaseActivity.start(MainActivity.this, bookId, Integer.parseInt(catalogueId));
+                            finish();
+                        }
+                    }
+                }
+            }
+        });
     }
 
     /**
@@ -200,7 +230,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     public void selectManHuaTypeBtnOkListener(String chooseListStr) {
 //        LogUtils.e("chooseListStr:" + chooseListStr);
         mSharePreferenceUtil.setData(Constant.BOOK_TYPE, chooseListStr);//[1,2,3]喜欢的类型
-        loginTouristMode();
+        initMainView();
+        onReadingSettingRequest();
     }
 
     /**
@@ -226,8 +257,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             startActivitys(LoginActivity.class);
 //            finish();
         } else {
-            initMainView();
-            onReadingSettingRequest();
+            getDelayFbDeepLink();
+            showSelectChannelDialog();
         }
     }
 
@@ -322,6 +353,18 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         } else {
             finish();
         }
+    }
+
+    /**
+     * 查看内容
+     * This function assumes logger is an instance of AppEventsLogger and has been
+     * created using AppEventsLogger.newLogger() call.
+     */
+    public void logViewContentEvent() {
+        AppEventsLogger logger = AppEventsLogger.newLogger(this);
+        Bundle params = new Bundle();
+        params.putString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE, "首页");
+        logger.logEvent(AppEventsConstants.EVENT_NAME_VIEWED_CONTENT, params);
     }
 
 

@@ -417,6 +417,7 @@
                 android:textSize="@dimen/sp_10"
                 android:textColor="@color/color_30"
                 android:paddingTop="@dimen/dp_8"
+                android:visibility="gone"
                 android:paddingBottom="@dimen/dp_8"
                 android:text="@string/read_book_page_up_down" />
 
@@ -424,14 +425,14 @@
                 android:id="@+id/txtreadr_menu_page_model2_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableStart="@mipmap/novel_settings_oval"
+                android:drawableStart="@mipmap/novel_settings_oval_choose"
                 android:drawablePadding="@dimen/dp_6"
                 android:gravity="center"
                 android:textSize="@dimen/sp_10"
-                android:paddingStart="@dimen/dp_12"
                 android:paddingTop="@dimen/dp_8"
                 android:textColor="@color/color_30"
                 android:paddingEnd="@dimen/dp_12"
+                android:paddingStart="@dimen/dp_2"
                 android:paddingBottom="@dimen/dp_8"
                 android:text="@string/read_book_page_left_right" />
         </LinearLayout>

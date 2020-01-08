@@ -12,19 +12,6 @@
         android:layout_height="wrap_content"
         android:background="#ffffff">
 
-        <TextView
-            android:id="@+id/activity_hwtxtplay_chaptername"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_10"
-            android:layout_marginEnd="@dimen/dp_5"
-            android:layout_toStartOf="@+id/activity_hwtxtplay_chpatermenu"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:paddingTop="@dimen/dp_10"
-            android:paddingBottom="@dimen/dp_10"
-            android:textColor="#666666" />
-
         <ImageView
             android:id="@+id/share_iv"
             android:layout_width="wrap_content"
@@ -32,6 +19,20 @@
             android:layout_alignParentEnd="true"
             android:padding="@dimen/dp_10"
             android:src="@mipmap/share_reading_book" />
+
+        <TextView
+            android:id="@+id/activity_hwtxtplay_chaptername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginEnd="@dimen/dp_5"
+            android:layout_toStartOf="@+id/share_iv"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingTop="@dimen/dp_10"
+            android:paddingBottom="@dimen/dp_10"
+            android:textColor="#666666" />
+
 
         <LinearLayout
             android:id="@+id/activity_hwtxtplay_chpatermenu"

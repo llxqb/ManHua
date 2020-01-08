@@ -3,6 +3,7 @@ package com.shushan.manhua.mvp.ui.activity.mine;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
@@ -15,6 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ahdi.sdk.payment.AhdiPay;
+import com.facebook.appevents.AppEventsConstants;
+import com.facebook.appevents.AppEventsLogger;
 import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerMemberCenterComponent;
 import com.shushan.manhua.di.modules.ActivityModule;
@@ -112,6 +115,11 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
     private CreateOrderAHDIResponse mCreateOrderAHDIResponse;//
     private CreateOrderByUniPinResponse mCreateOrderByUniPinResponse;
     private int paySwitch;//过审开关
+    /**
+     * 上传fb sdk
+     * 支付金额
+     */
+    private String payMoney;
 
     @Override
     protected void initContentView() {
@@ -140,6 +148,7 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
 
     @Override
     public void initView() {
+        logViewContentEvent();
         if (mUser.vip == 0) {
             mVipLayout.setVisibility(View.GONE);
             mNoVipLayout.setVisibility(View.VISIBLE);
@@ -361,6 +370,7 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
     @Override
     public void payType(int payType) {
         mPayType = payType;
+        payMoney = mVipInfoBean.getPrice();
         switch (payType) {
             case 1:
                 GooglePayChoose();
@@ -436,7 +446,7 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
     public void getPayFinishGoogleUploadSuccess() {
         //查询用户信息-->更新用户信息(我的-首页接口)
 //        requestHomeUserInfo();
-//        logAddPaymentInfoEvent(true);
+        logAddPaymentInfoEvent(true);
         onRequestMemberCenter();
     }
 
@@ -505,7 +515,7 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
     public void getPayFinishAHDIUploadSuccess() {
         //查询用户信息-->更新用户信息(我的-首页接口)
 //        requestHomeUserInfo();
-//        logAddPaymentInfoEvent(true);
+        logAddPaymentInfoEvent(true);
         onRequestMemberCenter();
     }
 
@@ -585,7 +595,7 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
     public void getPayFinishUploadByUniPinSuccess() {
         //查询用户信息-->更新用户信息(我的-首页接口)
 //        requestHomeUserInfo();
-//        logAddPaymentInfoEvent(true);
+        logAddPaymentInfoEvent(true);
         onRequestMemberCenter();
     }
 
@@ -657,6 +667,33 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
                 iabHelper.handleActivityResult(requestCode, resultCode, data);
             }
         }
+    }
+
+    /**
+     * 记录facebook 支付成功后数据
+     * This function assumes logger is an instance of AppEventsLogger and has been
+     * created using AppEventsLogger.newLogger() call.
+     */
+    public void logAddPaymentInfoEvent(boolean success) {
+        AppEventsLogger logger = AppEventsLogger.newLogger(this);
+        Bundle params = new Bundle();
+        params.putString(AppEventsConstants.EVENT_PARAM_CURRENCY, "USD");
+        params.putString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE, "购买vip");
+        params.putInt(AppEventsConstants.EVENT_PARAM_SUCCESS, success ? 1 : 0);
+        logger.logEvent(AppEventsConstants.EVENT_NAME_PURCHASED, Double.parseDouble(payMoney), params);
+
+    }
+
+    /**
+     * 查看内容
+     * This function assumes logger is an instance of AppEventsLogger and has been
+     * created using AppEventsLogger.newLogger() call.
+     */
+    public void logViewContentEvent() {
+        AppEventsLogger logger = AppEventsLogger.newLogger(this);
+        Bundle params = new Bundle();
+        params.putString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE, "会员中心");
+        logger.logEvent(AppEventsConstants.EVENT_NAME_VIEWED_CONTENT, params);
     }
 
 

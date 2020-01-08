@@ -210,7 +210,7 @@
 
 
     <!-- 编辑区域-->
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/send_message_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -220,12 +220,28 @@
         android:paddingTop="@dimen/dp_14"
         android:paddingBottom="@dimen/dp_14">
 
+        <TextView
+            android:id="@+id/send_tv"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_8"
+            android:layout_marginTop="@dimen/dp_3"
+            android:layout_marginEnd="@dimen/dp_4"
+            android:padding="@dimen/dp_5"
+            android:singleLine="true"
+            android:layout_alignParentEnd="true"
+            android:text="@string/ReadActivity_send"
+            android:textColor="@color/first_text_color"
+            android:textSize="@dimen/sp_12" />
+
         <RelativeLayout
-            android:layout_width="@dimen/dp_280"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/dp_32"
             android:layout_marginStart="@dimen/dp_10"
             android:background="@drawable/bg_line_round_stroke_30"
             android:focusable="true"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@id/send_tv"
             android:focusableInTouchMode="true"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -260,26 +276,14 @@
                 android:background="@null"
                 android:gravity="start|center_vertical"
                 android:hint="@string/ReadActivity_barrage_hint"
-                android:paddingStart="@dimen/dp_6"
-                android:paddingEnd="@dimen/dp_6"
+                android:singleLine="true"
+                android:paddingStart="@dimen/dp_4"
+                android:paddingEnd="@dimen/dp_4"
                 android:textColor="@color/color_80"
                 android:textSize="@dimen/sp_14" />
 
         </RelativeLayout>
-
-        <TextView
-            android:id="@+id/send_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_8"
-            android:layout_marginTop="@dimen/dp_3"
-            android:layout_marginEnd="@dimen/dp_4"
-            android:padding="@dimen/dp_5"
-            android:singleLine="true"
-            android:text="@string/ReadActivity_send"
-            android:textColor="@color/first_text_color"
-            android:textSize="@dimen/sp_12" />
-    </LinearLayout>
+    </RelativeLayout>
 
 
     <!-- 底部布局-->

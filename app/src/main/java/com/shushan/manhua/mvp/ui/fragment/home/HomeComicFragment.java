@@ -99,6 +99,7 @@ public class HomeComicFragment extends BaseFragment implements HomeFragmentContr
     public void getHomeInfoSuccess(HomeResponse homeResponse) {
         LogUtils.e("homeResponse111:" + new Gson().toJson(homeResponse));
         mHomeAdapter.setNewData(homeResponse.getBooks());
+
     }
 
     @Override

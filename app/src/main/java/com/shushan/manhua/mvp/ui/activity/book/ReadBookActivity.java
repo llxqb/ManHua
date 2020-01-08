@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.RequiresApi;
@@ -24,6 +25,8 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.facebook.appevents.AppEventsConstants;
+import com.facebook.appevents.AppEventsLogger;
 import com.shushan.manhua.BuildConfig;
 import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerReadBookComponent;
@@ -218,6 +221,19 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
             mCatalogueId = getIntent().getIntExtra("catalogueId", 1);
             onRequestBookInfo();
         }
+        logViewContentEvent();
+    }
+
+    /**
+     * 查看内容
+     * This function assumes logger is an instance of AppEventsLogger and has been
+     * created using AppEventsLogger.newLogger() call.
+     */
+    public void logViewContentEvent() {
+        AppEventsLogger logger = AppEventsLogger.newLogger(this);
+        Bundle params = new Bundle();
+        params.putString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE, "阅读小说页面");
+        logger.logEvent(AppEventsConstants.EVENT_NAME_VIEWED_CONTENT, params);
     }
 
     @Override
@@ -234,13 +250,13 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
             mMenuBrightnessSystem.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.novel_settings_oval), null, null, null);
         }
         mMenuSeekBar.setProgress(lingValue);
-        if (readPageModel == 0) {
-            mMenuPageModel1Tv.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.novel_settings_oval_choose), null, null, null);
-            mMenuPageModel2Tv.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.novel_settings_oval), null, null, null);
-        } else {
-            mMenuPageModel1Tv.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.novel_settings_oval), null, null, null);
-            mMenuPageModel2Tv.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.novel_settings_oval_choose), null, null, null);
-        }
+//        if (readPageModel == 0) {
+//            mMenuPageModel1Tv.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.novel_settings_oval_choose), null, null, null);
+//            mMenuPageModel2Tv.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.novel_settings_oval), null, null, null);
+//        } else {
+//            mMenuPageModel1Tv.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.novel_settings_oval), null, null, null);
+//            mMenuPageModel2Tv.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.novel_settings_oval_choose), null, null, null);
+//        }
         if (nightModelFlag) {
             mReadModelTv.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.night_mode_choose), null, null);
         } else {
@@ -384,6 +400,7 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
 
     @Override
     public void getAddBookShelfSuccess() {
+        showToast("success");
         LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.UPDATE_BOOKSHELF));
     }
 
@@ -446,6 +463,7 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
 
 
     protected void loadFile() {
+        TxtConfig.saveIsOnVerticalPageMode(this, false);
         TxtConfig.savePageSwitchDuration(this, 400);
         if (ContentStr == null) {
             if (TextUtils.isEmpty(FilePath) || !(new File(FilePath).exists())) {
@@ -527,7 +545,7 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
         //mTxtReaderView.setLeftSlider(new MuiLeftSlider());//修改左滑动条
         //mTxtReaderView.setRightSlider(new MuiRightSlider());//修改右滑动条
         //字体初始化
-        onTextSettingUi(mTxtReaderView.getTxtReaderContext().getTxtConfig().Bold);
+//        onTextSettingUi(mTxtReaderView.getTxtReaderContext().getTxtConfig().Bold);
         //翻页初始化
         onPageSwitchSettingUi(mTxtReaderView.getTxtReaderContext().getTxtConfig().Page_Switch_Mode);
         //保存的翻页模式
@@ -659,15 +677,12 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
 
     protected void setSeekBarListener() {
         //章节
-        mChapterSeekBar.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                    mTxtReaderView.loadFromProgress(mChapterSeekBar.getProgress());
-                    Gone(mChapterMsgView);
-                }
-                return false;
+        mChapterSeekBar.setOnTouchListener((view, motionEvent) -> {
+            if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                mTxtReaderView.loadFromProgress(mChapterSeekBar.getProgress());
+                Gone(mChapterMsgView);
             }
+            return false;
         });
         //亮度
         mMenuSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -731,17 +746,7 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
                 }
                 break;
             case R.id.read_model_tv:
-                boolean nightModelFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_NIGHT_MODEL, false);//夜间模式
-                mSharePreferenceUtil.setData(Constant.IS_NIGHT_MODEL, !nightModelFlag);
-                if (nightModelFlag) {
-                    mReadModelTv.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.night_mode), null, null);
-                    //设置白天模式
-                    Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 110);//屏幕亮度值范围必须位于：0～255
-                } else {
-                    mReadModelTv.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.night_mode_choose), null, null);
-                    //设置夜间模式
-                    Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 25);//屏幕亮度值范围必须位于：0～255
-                }
+                checkPermissions(3, 0);
                 break;
             case R.id.activity_hwtxtplay_setting_text://设置
                 Show(mTopMenu, mBottomMenu, mCoverView);
@@ -755,19 +760,19 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
                 mMenuPageModel2Tv.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.novel_settings_oval), null, null, null);
                 break;
             case R.id.txtreadr_menu_page_model2_tv:///阅读页面模式  上下翻页
-                mSharePreferenceUtil.setData(Constant.READ_PAGE_MODEL, 1);
-                mMenuPageModel1Tv.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.novel_settings_oval), null, null, null);
-                mMenuPageModel2Tv.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.novel_settings_oval_choose), null, null, null);
+//                mSharePreferenceUtil.setData(Constant.READ_PAGE_MODEL, 1);
+//                mMenuPageModel1Tv.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.novel_settings_oval), null, null, null);
+//                mMenuPageModel2Tv.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.novel_settings_oval_choose), null, null, null);
                 break;
             case R.id.share_iv:
                 new SharePopupWindow(this, this).initPopWindow(mReadBookLayout);
                 break;
-
         }
     }
 
     /**
      * 检查app 权限
+     * flag 1: 亮度跟随系统   2:mMenuSeekBar 调节亮度  3 ：切换夜间模式
      */
     @RequiresApi(api = Build.VERSION_CODES.M)
     @SuppressLint("CheckResult")
@@ -799,6 +804,18 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
                     mSharePreferenceUtil.setData(Constant.SET_LING, progress);
                     mSharePreferenceUtil.setData(Constant.LING_SYSTEM, false);
                     mMenuBrightnessSystem.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.novel_settings_oval), null, null, null);
+                } else if (flag == 3) {
+                    boolean nightModelFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_NIGHT_MODEL, false);//夜间模式
+                    mSharePreferenceUtil.setData(Constant.IS_NIGHT_MODEL, !nightModelFlag);
+                    if (nightModelFlag) {
+                        mReadModelTv.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.night_mode), null, null);
+                        //设置白天模式
+                        Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 110);//屏幕亮度值范围必须位于：0～255
+                    } else {
+                        mReadModelTv.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.night_mode_choose), null, null);
+                        //设置夜间模式
+                        Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 25);//屏幕亮度值范围必须位于：0～255
+                    }
                 }
             }
         }
@@ -989,6 +1006,7 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
 
         @Override
         public void onClick(View view) {
+            LogUtils.e("BgColor:" + BgColor + " TextColor:" + TextColor);
             mTxtReaderView.setStyle(BgColor, TextColor);
             mTopDecoration.setBackgroundColor(BgColor);
             mBottomDecoration.setBackgroundColor(BgColor);
@@ -1024,7 +1042,7 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
 
     public void onCopyText(View view) {
         if (!TextUtils.isEmpty(CurrentSelectedText)) {
-            showToast("已经复制到粘贴板");
+            showToast("Disalin ke papan tulis");
             ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
             cm.setText(CurrentSelectedText + "");
         }

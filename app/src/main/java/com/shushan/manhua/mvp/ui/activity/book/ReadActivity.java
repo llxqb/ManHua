@@ -17,7 +17,7 @@ import com.shushan.manhua.entity.response.BarrageListResponse;
 import com.shushan.manhua.entity.response.ReadingInfoResponse;
 
 /**
- * 阅读页面
+ * 阅读漫画页面
  */
 public class ReadActivity extends ReadBaseActivity {
 
@@ -30,6 +30,7 @@ public class ReadActivity extends ReadBaseActivity {
         }
         onRequestBarrageList();
         onRequestBuyBarrageStyle();//请求购买的弹幕样式
+        logViewContentEvent();
     }
 
     @Override

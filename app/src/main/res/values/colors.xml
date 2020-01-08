@@ -77,4 +77,10 @@
     <color name="hwtxtreader_styleclor4">#FBF6E9</color>
     <color name="hwtxtreader_styleclor5">#000000</color>
 
+    <color name="hwtxtreader_text_styleclor1">#4a453a</color>
+    <color name="hwtxtreader_text_styleclor2">#505550</color>
+    <color name="hwtxtreader_text_styleclor3">#453e33</color>
+    <color name="hwtxtreader_text_styleclor4">#8f8e88</color>
+    <color name="hwtxtreader_text_styleclor5">#27576c</color>
+
 </resources>
