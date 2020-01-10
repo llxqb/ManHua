@@ -241,7 +241,7 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
         init();
         registerListener();
         boolean lingSystem = mSharePreferenceUtil.getBooleanData(Constant.LING_SYSTEM, true);
-        int lingValue = mSharePreferenceUtil.getIntData(Constant.SET_LING, BrightnessTools.getScreenBrightness(this));
+        int lingValue = mSharePreferenceUtil.getIntData(Constant.SET_LING, BrightnessTools.getSystemLing(this));
         int readPageModel = mSharePreferenceUtil.getIntData(Constant.READ_PAGE_MODEL, 0);
         boolean nightModelFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_NIGHT_MODEL, false);////夜间模式
         if (lingSystem) {
@@ -772,32 +772,38 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
                 if (flag == 1) {
                     boolean lingSystem = mSharePreferenceUtil.getBooleanData(Constant.LING_SYSTEM, false);
                     if (lingSystem) {
+                        //不跟随系统
                         mSharePreferenceUtil.setData(Constant.LING_SYSTEM, false);
                         mMenuBrightnessSystem.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.novel_settings_oval), null, null, null);
+                        mMenuSeekBar.setProgress(BrightnessTools.getWindowBrightness(mSharePreferenceUtil));
+                        BrightnessTools.setWindowBrightness(BrightnessTools.getWindowBrightness(mSharePreferenceUtil), this, mSharePreferenceUtil);
                     } else {
                         mSharePreferenceUtil.setData(Constant.LING_SYSTEM, true);
                         mMenuBrightnessSystem.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.novel_settings_oval_choose), null, null, null);
-                        LogUtils.e("ScreenBrightness:" + BrightnessTools.getScreenBrightness(this));
-                        mMenuSeekBar.setProgress(BrightnessTools.getScreenBrightness(this));
+                        int SystemLing = BrightnessTools.getSystemLing(this);
+                        LogUtils.e("SystemLing:" + SystemLing);
+                        mMenuSeekBar.setProgress(SystemLing * 100 / 255);
+                        BrightnessTools.setWindowBrightness(SystemLing, this, mSharePreferenceUtil);
                     }
-                    BrightnessTools.setBrightness(this, BrightnessTools.getScreenBrightness(this));
                 } else if (flag == 2) {
-                    LogUtils.e("progress:" + progress);
-                    BrightnessTools.setBrightness(ReadBookActivity.this, progress);
-                    mSharePreferenceUtil.setData(Constant.SET_LING, progress);
                     mSharePreferenceUtil.setData(Constant.LING_SYSTEM, false);
                     mMenuBrightnessSystem.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.novel_settings_oval), null, null, null);
+                    BrightnessTools.setWindowBrightness(progress * 255 / 100, this, mSharePreferenceUtil);
                 } else if (flag == 3) {
                     boolean nightModelFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_NIGHT_MODEL, false);//夜间模式
                     mSharePreferenceUtil.setData(Constant.IS_NIGHT_MODEL, !nightModelFlag);
+                    mSharePreferenceUtil.setData(Constant.LING_SYSTEM, false);
+                    mMenuBrightnessSystem.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.novel_settings_oval), null, null, null);
                     if (nightModelFlag) {
                         mReadModelTv.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.night_mode), null, null);
                         //设置白天模式
-                        Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 110);//屏幕亮度值范围必须位于：0～255
+                        BrightnessTools.setWindowBrightness(110, this, mSharePreferenceUtil);
+                        mMenuSeekBar.setProgress(110 * 100 / 255);
                     } else {
                         mReadModelTv.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.night_mode_choose), null, null);
                         //设置夜间模式
-                        Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 25);//屏幕亮度值范围必须位于：0～255
+                        BrightnessTools.setWindowBrightness(25, this, mSharePreferenceUtil);
+                        mMenuSeekBar.setProgress(25 * 100 / 255);
                     }
                 }
             }
@@ -1043,6 +1049,8 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
         } else {
             if (!isAddBookshelf) {
                 new ExitReadingBookPopupWindow(this, this).initPopWindow(mReadBookLayout);
+            } else {
+                finish();
             }
         }
     }

@@ -16,7 +16,6 @@ import android.view.MenuItem;
 import com.facebook.appevents.AppEventsConstants;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.applinks.AppLinkData;
-import com.google.gson.Gson;
 import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerMainComponent;
 import com.shushan.manhua.di.modules.ActivityModule;
@@ -163,6 +162,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                     if (url.contains("pulaukomik://com.shushan.manhua/read")) {
                         String bookId = targetUrl.getQueryParameter("book_id");
                         String catalogueId = targetUrl.getQueryParameter("catalogue_id");
+                        LogUtils.e("bookId:" + bookId + " catalogueId:" + catalogueId);
                         if (!TextUtils.isEmpty(bookId) && !TextUtils.isEmpty(catalogueId)) {
                             ReadBaseActivity.start(MainActivity.this, bookId, Integer.parseInt(catalogueId));
                             finish();
@@ -245,7 +245,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
     @Override
     public void getLoginTouristModeSuccess(LoginTouristModeResponse loginTouristModeResponse) {
-        LogUtils.e("loginTouristModeResponse" + new Gson().toJson(loginTouristModeResponse));
+//        LogUtils.e("loginTouristModeResponse" + new Gson().toJson(loginTouristModeResponse));
         mSharePreferenceUtil.setData(Constant.LOGIN_MODEL, 1);
         LoginTouristModeResponse.UserinfoBean userinfoBean = loginTouristModeResponse.getUserinfo();
 //(userinfoBean.getToken(), userinfoBean.getName(), userinfoBean.getHead_portrait(), userinfoBean.getVip(), userinfoBean.getVip_end_time(), userinfoBean.getChannel(), new Gson().toJson(userinfoBean.getBook_type())

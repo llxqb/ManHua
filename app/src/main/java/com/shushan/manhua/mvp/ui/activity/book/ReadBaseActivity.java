@@ -15,6 +15,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -262,12 +263,14 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
             mBookId = getIntent().getStringExtra("bookId");
             mCatalogueId = getIntent().getIntExtra("catalogueId", 1);
             isBookDetailActivityTo = getIntent().getBooleanExtra("is_book_detail_activity", false);
+            if (!TextUtils.isEmpty(mBookId)) {
+                onRequestReadingInfo();
+            }
         }
         mMessageEt.clearFocus();//让编辑框失去焦点 配合布局一起使用
         onKeyBoardListener();
         initAdapter();
         initScrollView();
-        onRequestReadingInfo();
     }
 
     private void initAdapter() {
