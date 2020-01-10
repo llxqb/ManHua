@@ -92,8 +92,11 @@
         android:drawablePadding="@dimen/dp_6"
         android:padding="@dimen/dp_10"
         android:singleLine="true"
+        android:layout_marginStart="@dimen/dp_8"
         android:textColor="@color/color_30"
         android:textSize="@dimen/sp_15"
         app:layout_constraintTop_toTopOf="parent" />
+
+
 
 </android.support.constraint.ConstraintLayout>

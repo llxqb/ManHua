@@ -110,6 +110,8 @@ public class TxtBitmapUtil {
                         } else {
                             paint.setColor(defaultColor);
                         }
+                    }else {
+                        paint.setColor(defaultColor);
                     }
                     canvas.drawText(txtChar.getValueStr(), x, y, paint);
                     txtChar.Left = (int) x;

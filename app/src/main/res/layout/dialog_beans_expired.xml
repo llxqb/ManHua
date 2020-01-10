@@ -58,7 +58,6 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/dp_12"
-                android:text="09-09 00:00 失效"
                 android:textColor="#FF9100"
                 android:textSize="@dimen/sp_13" />
 

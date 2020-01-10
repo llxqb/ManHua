@@ -154,15 +154,15 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
     @BindView(R.id.txtreadr_menu_textsetting2_translate)
     LinearLayout mMenuTranslateSelectedLayout;
     @BindView(R.id.hwtxtreader_menu_style1)
-    View mMenuStyle1;
+    LinearLayout mMenuStyle1;
     @BindView(R.id.hwtxtreader_menu_style2)
-    View mMenuStyle2;
+    LinearLayout mMenuStyle2;
     @BindView(R.id.hwtxtreader_menu_style3)
-    View mMenuStyle3;
+    LinearLayout mMenuStyle3;
     @BindView(R.id.hwtxtreader_menu_style4)
-    View mMenuStyle4;
+    LinearLayout mMenuStyle4;
     @BindView(R.id.hwtxtreader_menu_style5)
-    View mMenuStyle5;
+    LinearLayout mMenuStyle5;
     @BindView(R.id.txtreadr_menu_page_model1_tv)
     TextView mMenuPageModel1Tv;
     @BindView(R.id.txtreadr_menu_page_model2_tv)
@@ -198,8 +198,8 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
                 mUser = mBuProcessor.getUser();
                 if (mReadUseCoinDialog != null) {
                     mReadUseCoinDialog.closeDialog();
-                    setIsRecharge();//重新判断
                 }
+                onRequestBookInfo();
             } else if (intent.getAction().equals(ActivityConstant.LOGIN_SUCCESS_UPDATE_DATA)) {//登录成功
                 mLoginModel = mBuProcessor.getLoginModel();
             }
@@ -282,49 +282,30 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
 
     @Override
     public void getReadingBookInfoSuccess(ReadingBookResponse readingBookResponse) {
-        mReadingBookResponse = readingBookResponse;
-        String urlPath = readingBookResponse.getCatalogue().getNovel_url();
-        FileName = readingBookResponse.getCatalogue().getBook_name();
-        String localFilePath = DownloadUtil.checkFileIsExist(urlPath);
-        if (TextUtils.isEmpty(localFilePath)) {
-            if (TextUtils.isEmpty(DownloadUtil.checkFileIsExist(urlPath))) {
-                downloadVideo(urlPath); //处理具体下载过程
-            }
+        if (readingBookResponse.getCatalogue().getCatalogue_id() == 0) {
+            showRechargeDialog(); //进行弹框
         } else {
-            if (FileUtils.createOrExistsDir(DownloadUtil.PATH_CHALLENGE_VIDEO)) {
-                int i = urlPath.lastIndexOf('/');//一定是找最后一个'/'出现的位置
-                if (i != -1) {
-                    FilePath = DownloadUtil.PATH_CHALLENGE_VIDEO + DownloadUtil.fileName + urlPath.substring(i);
-                }
-            }
-            loadFile();
-        }
-        setIsRecharge();
-    }
-
-    private void setIsRecharge() {
-        //是否免费 0 免费 1 收费1
-        ReadingBookResponse.CatalogueBean catalogueBean = mReadingBookResponse.getCatalogue();
-        if (catalogueBean.getType() != 0) {//收费
-            if (mUser.vip == 0) {//非VIP
-                if (mUser.bean >= catalogueBean.getCost()) {
-                    onRequestReadRecording(catalogueBean.getCost());//消耗漫豆
-                } else {
-                    //进行弹框
-                    showRechargeDialog();
+            mReadingBookResponse = readingBookResponse;
+            String urlPath = readingBookResponse.getCatalogue().getNovel_url();
+            FileName = readingBookResponse.getCatalogue().getBook_name();
+            String localFilePath = DownloadUtil.checkFileIsExist(urlPath);
+            if (TextUtils.isEmpty(localFilePath)) {
+                if (TextUtils.isEmpty(DownloadUtil.checkFileIsExist(urlPath))) {
+                    downloadVideo(urlPath); //处理具体下载过程
                 }
             } else {
-                if (mUser.bean >= catalogueBean.getVip_cost()) {
-                    onRequestReadRecording(catalogueBean.getVip_cost());
-                } else {
-                    //进行弹框
-                    showRechargeDialog();
+                if (FileUtils.createOrExistsDir(DownloadUtil.PATH_CHALLENGE_VIDEO)) {
+                    int i = urlPath.lastIndexOf('/');//一定是找最后一个'/'出现的位置
+                    if (i != -1) {
+                        FilePath = DownloadUtil.PATH_CHALLENGE_VIDEO + DownloadUtil.fileName + urlPath.substring(i);
+                    }
                 }
+                loadFile();
             }
-        } else {
             onRequestReadRecording(0);
         }
     }
+
 
     /**
      * 非免费章节 显示使用漫豆弹框
@@ -401,6 +382,7 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
     @Override
     public void getAddBookShelfSuccess() {
         showToast("success");
+        isAddBookshelf = true;
         LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.UPDATE_BOOKSHELF));
     }
 
@@ -536,6 +518,7 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
 
 
     protected void initWhenLoadDone() {
+        TxtConfig.saveIsOnVerticalPageMode(this, false);
         if (mTxtReaderView.getTxtReaderContext().getFileMsg() != null) {
             FileName = mTxtReaderView.getTxtReaderContext().getFileMsg().FileName;
         }
@@ -1006,7 +989,6 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
 
         @Override
         public void onClick(View view) {
-            LogUtils.e("BgColor:" + BgColor + " TextColor:" + TextColor);
             mTxtReaderView.setStyle(BgColor, TextColor);
             mTopDecoration.setBackgroundColor(BgColor);
             mBottomDecoration.setBackgroundColor(BgColor);
@@ -1051,13 +1033,17 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
         Gone(ClipboardView);
     }
 
+    private boolean isAddBookshelf = false;
+
     @Override
     public void onBackPressed() {
 //        super.onBackPressed();
         if (mReadingBookResponse.getCatalogue().getState() == 1) {
             finish();
         } else {
-            new ExitReadingBookPopupWindow(this, this).initPopWindow(mReadBookLayout);
+            if (!isAddBookshelf) {
+                new ExitReadingBookPopupWindow(this, this).initPopWindow(mReadBookLayout);
+            }
         }
     }
 

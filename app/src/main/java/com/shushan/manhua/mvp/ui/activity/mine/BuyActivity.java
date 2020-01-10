@@ -354,8 +354,8 @@ public class BuyActivity extends BaseActivity implements BuyControl.BuyView, Pay
 
     @Override
     public void getPayFinishGoogleUploadSuccess() {
+        showToast("Pembelian yang berhasil");
         //查询用户信息-->更新用户信息(我的-首页接口)
-//        requestHomeUserInfo();
         logAddPaymentInfoEvent(true);
         onRequestData();
     }
@@ -502,6 +502,7 @@ public class BuyActivity extends BaseActivity implements BuyControl.BuyView, Pay
      */
     @Override
     public void getPayFinishUploadByUniPinSuccess() {
+        showToast("Pembelian yang berhasil");
         //查询用户信息-->更新用户信息(我的-首页接口)
         logAddPaymentInfoEvent(true);
         onRequestData();

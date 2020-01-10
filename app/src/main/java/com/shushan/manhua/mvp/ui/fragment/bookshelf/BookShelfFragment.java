@@ -174,7 +174,7 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
                     if(bookrackBean.getGenre()==1){
                         ReadActivity.start(getActivity(), String.valueOf(bookrackBean.getBook_id()), bookrackBean.getCatalogue_id());//阅读页面
                     }else if(bookrackBean.getGenre()==2){
-                        ReadBookActivity.start(getActivity(), String.valueOf(bookrackBean.getBook_id()), bookrackBean.getCatalogue_id());
+                        ReadBookActivity.start(getActivity(), String.valueOf(bookrackBean.getBook_id()), bookrackBean.getCatalogue_id());//小说页面
                     }
                 }
             }

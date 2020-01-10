@@ -93,7 +93,21 @@ public class SelectionAdapter extends BaseQuickAdapter<SelectionResponse.Antholo
             comicLayout.setVisibility(View.GONE);
             bookChapterTv.setVisibility(View.VISIBLE);
             helper.setText(R.id.book_chapter_tv, item.getCatalogue_name());
+            if (item.getType() == 0) {//1收费0免费
+                Drawable drawable = mContext.getResources().getDrawable(R.drawable.bg_app_color_360);
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                bookChapterTv.setCompoundDrawables(drawable, null, null, null);
+            } else {
+                if (mIsVip == 1 && mVipCost == 0) {
+                    Drawable drawable = mContext.getResources().getDrawable(R.drawable.bg_app_color_360);
+                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                    bookChapterTv.setCompoundDrawables(drawable, null, null, null);
+                } else {
+                    Drawable drawable = mContext.getResources().getDrawable(R.mipmap.lock_book);
+                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                    bookChapterTv.setCompoundDrawables(drawable, null, null, null);
+                }
+            }
         }
-
     }
 }

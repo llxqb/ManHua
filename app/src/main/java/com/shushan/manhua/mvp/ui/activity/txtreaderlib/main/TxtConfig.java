@@ -57,7 +57,7 @@ public class TxtConfig {
     //public Boolean SwitchByTranslate = true;//是否平移切换
     public Boolean VerticalPageMode = false;
     public Boolean Bold = false;//是否加粗
-    public Boolean ShowSpecialChar = true;//是否显示特殊符号，对于数字、英文，可以显示特定颜色
+    public Boolean ShowSpecialChar = false;//是否显示特殊符号，对于数字、英文，可以显示特定颜色
     public float CenterClickArea = 0.35f;//0~1,中间点击区域占View宽度的百分比，区域为高为宽两倍的矩形，如果为1f，说明点击翻页将不起效果
     public int PageSwitchDuration = 400;//页面滑动时间间隔，毫秒，建议不要低于200
 
@@ -263,7 +263,7 @@ public class TxtConfig {
 
     public static Boolean IsShowSpecialChar(Context context) {
         SharedPreferences share = getS(context);
-        return share.getBoolean(C_SHOW_SPECIAL_CHAR, true);
+        return share.getBoolean(C_SHOW_SPECIAL_CHAR, false);
     }
 
     public static void saveIsOnVerticalPageMode(Context context, Boolean IsOnVerticalPageMode) {

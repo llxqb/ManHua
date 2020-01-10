@@ -444,6 +444,7 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
 
     @Override
     public void getPayFinishGoogleUploadSuccess() {
+        showToast("success");
         //查询用户信息-->更新用户信息(我的-首页接口)
 //        requestHomeUserInfo();
         logAddPaymentInfoEvent(true);
@@ -593,6 +594,7 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
      */
     @Override
     public void getPayFinishUploadByUniPinSuccess() {
+        showToast("success");
         //查询用户信息-->更新用户信息(我的-首页接口)
 //        requestHomeUserInfo();
         logAddPaymentInfoEvent(true);
