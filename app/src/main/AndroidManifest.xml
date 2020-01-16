@@ -30,19 +30,6 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
         <activity
-            android:name=".mvp.ui.activity.txtreaderlib.ui.HwTxtPlayActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/HwTxtFullScreen">
-            <intent-filter>
-                <data android:scheme="txt" />
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="text/plain" />
-            </intent-filter>
-
-        </activity>
-
-        <activity
             android:name=".mvp.ui.activity.book.ReadBookActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HwTxtFullScreen" />
@@ -129,7 +116,6 @@
                 android:autoVerify="true"
                 tools:ignore="UnusedAttribute">
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
@@ -142,7 +128,13 @@
         <activity
             android:name=".mvp.ui.activity.main.MainActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="pulaukomik" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".mvp.ui.activity.login.LoginActivity"
             android:screenOrientation="portrait" /> <!-- facebook 分享/登录 @string/facebook_app_id -->

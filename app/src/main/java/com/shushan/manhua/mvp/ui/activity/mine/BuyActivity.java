@@ -48,7 +48,9 @@ import com.shushan.manhua.mvp.utils.StatusBarUtil;
 import com.shushan.manhua.mvp.utils.googlePayUtils.IabHelper;
 import com.shushan.manhua.mvp.utils.googlePayUtils.Purchase;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -147,6 +149,7 @@ public class BuyActivity extends BaseActivity implements BuyControl.BuyView, Pay
         mBuyBeansRecyclerView.setAdapter(mBuyBeansAdapter);
         mBuyBeansAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             mBeaninfoBean = (VoucherCenterResponse.BeaninfoBean) adapter.getItem(position);
+            payMoney = mBeaninfoBean.getPrice();
             for (VoucherCenterResponse.BeaninfoBean beaninfoBean1 : buyBeansResponseList) {
                 if (beaninfoBean1.isCheck) {
                     beaninfoBean1.isCheck = false;
@@ -243,6 +246,7 @@ public class BuyActivity extends BaseActivity implements BuyControl.BuyView, Pay
                 mBeaninfoBean = beaninfoBean;
                 String moneyValue = "$ " + beaninfoBean.getPrice();
                 mMoneyTv.setText(moneyValue);
+                payMoney = beaninfoBean.getPrice();
             }
         }
         mBuyBeansAdapter.setNewData(voucherCenterResponse.getBeaninfo());
@@ -282,7 +286,6 @@ public class BuyActivity extends BaseActivity implements BuyControl.BuyView, Pay
 
     @Override
     public void payType(int payType) {
-        payMoney = mBeaninfoBean.getPrice();
         mPayType = payType;
         switch (payType) {
             case 1:
@@ -299,6 +302,7 @@ public class BuyActivity extends BaseActivity implements BuyControl.BuyView, Pay
 
     //1.创建订单
     private void GooglePayChoose() {
+        logInitiateCheckoutEvent();
         createOrderGoogle(String.valueOf(mBeaninfoBean.getBeans_id()), mBeaninfoBean.getPrice());
     }
 
@@ -377,6 +381,7 @@ public class BuyActivity extends BaseActivity implements BuyControl.BuyView, Pay
 
     //AHDI 创建订单
     private void AHDIPayChoose() {
+        logInitiateCheckoutEvent();
         createOrderAHDI(String.valueOf(mBeaninfoBean.getBeans_id()), String.valueOf(mBeaninfoBean.getYn_price()));
     }
 
@@ -443,6 +448,7 @@ public class BuyActivity extends BaseActivity implements BuyControl.BuyView, Pay
 
     private void UNiPinPayChoose() {
         //2.创建订单 - UniPin支付
+        logInitiateCheckoutEvent();
         createOrderByUniPin(String.valueOf(mBeaninfoBean.getBeans_id()), String.valueOf(mBeaninfoBean.getYn_price()));
     }
 
@@ -581,13 +587,16 @@ public class BuyActivity extends BaseActivity implements BuyControl.BuyView, Pay
      * created using AppEventsLogger.newLogger() call.
      */
     public void logAddPaymentInfoEvent(boolean success) {
-        AppEventsLogger logger = AppEventsLogger.newLogger(this);
+//        AppEventsLogger logger = AppEventsLogger.newLogger(this);
         Bundle params = new Bundle();
         params.putString(AppEventsConstants.EVENT_PARAM_CURRENCY, "USD");
         params.putString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE, "购买漫豆");
-        params.putInt(AppEventsConstants.EVENT_PARAM_SUCCESS, success ? 1 : 0);
-        logger.logEvent(AppEventsConstants.EVENT_NAME_PURCHASED, Double.parseDouble(payMoney), params);
+//        params.putInt(AppEventsConstants.EVENT_PARAM_VALUE_TO_SUM, payMoney);
+//        logger.logEvent(AppEventsConstants.EVENT_NAME_PURCHASED, Double.parseDouble(payMoney), params);
+        AppEventsLogger logger = AppEventsLogger.newLogger(this);
+        logger.logPurchase(BigDecimal.valueOf(Double.parseDouble(payMoney)), Currency.getInstance("USD"), params);
     }
+
 
     /**
      * 查看内容
@@ -600,6 +609,24 @@ public class BuyActivity extends BaseActivity implements BuyControl.BuyView, Pay
         params.putString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE, "充值中心");
         logger.logEvent(AppEventsConstants.EVENT_NAME_VIEWED_CONTENT, params);
     }
+
+    /**
+     * This function assumes logger is an instance of AppEventsLogger and has been
+     * created using AppEventsLogger.newLogger() call.
+     * 发起结账
+     */
+    public void logInitiateCheckoutEvent() {
+        AppEventsLogger logger = AppEventsLogger.newLogger(this);
+        Bundle params = new Bundle();
+//        params.putString(AppEventsConstants.EVENT_PARAM_CONTENT, contentData);
+//        params.putString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, contentId);
+        params.putString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE, "发起结账");
+//        params.putInt(AppEventsConstants.EVENT_PARAM_NUM_ITEMS, numItems);
+//        params.putInt(AppEventsConstants.EVENT_PARAM_PAYMENT_INFO_AVAILABLE, paymentInfoAvailable ? 1 : 0);
+        params.putString(AppEventsConstants.EVENT_PARAM_CURRENCY, "USD");
+        logger.logEvent(AppEventsConstants.EVENT_NAME_INITIATED_CHECKOUT, Double.parseDouble(payMoney), params);
+    }
+
 
     private void initInjectData() {
         DaggerBuyComponent.builder().appComponent(getAppComponent())

@@ -53,7 +53,9 @@ import com.shushan.manhua.mvp.utils.googlePayUtils.IabHelper;
 import com.shushan.manhua.mvp.utils.googlePayUtils.Purchase;
 import com.shushan.manhua.mvp.views.CircleImageView;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -120,6 +122,7 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
      * 支付金额
      */
     private String payMoney;
+    private boolean isSubscriptionFlag;//是否是google订阅
 
     @Override
     protected void initContentView() {
@@ -170,6 +173,7 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
         mRecyclerView.setAdapter(mBuyAdapter);
         mBuyAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             mVipInfoBean = (MemberCenterResponse.VipinfoBean) adapter.getItem(position);
+            payMoney = mVipInfoBean.getPrice();
             for (MemberCenterResponse.VipinfoBean vipinfoBean1 : buyResponseList) {
                 if (vipinfoBean1.isCheck) {
                     vipinfoBean1.isCheck = false;
@@ -307,6 +311,7 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
             if (i == 0) {
                 vipinfoBean.isCheck = true;
                 mVipInfoBean = vipinfoBean;
+                payMoney = vipinfoBean.getPrice();
             }
         }
         mBuyAdapter.setNewData(memberCenterResponse.getVipinfo());
@@ -370,7 +375,6 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
     @Override
     public void payType(int payType) {
         mPayType = payType;
-        payMoney = mVipInfoBean.getPrice();
         switch (payType) {
             case 1:
                 GooglePayChoose();
@@ -386,6 +390,7 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
 
     //1.创建订单
     private void GooglePayChoose() {
+        logInitiateCheckoutEvent();
         createOrderGoogle(String.valueOf(mVipInfoBean.getVipinfo_id()), mVipInfoBean.getPrice());
     }
 
@@ -409,8 +414,10 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
     public void getCreateOrderGoogleSuccess(CreateOrderResponse createOrderResponse) {
         //3 . 购买漫豆
         if (createOrderResponse.getProduct_id().equals("pulaukomik_appstore_subscription")) {//订阅
+            isSubscriptionFlag = true;
             mGooglePayHelper.queryGoods(DataUtils.uppercaseToLowercase(createOrderResponse.getProduct_id()), createOrderResponse.getOrder_no(), true);
         } else {
+            isSubscriptionFlag = false;
             mGooglePayHelper.queryGoods(DataUtils.uppercaseToLowercase(createOrderResponse.getProduct_id()), createOrderResponse.getOrder_no(), false);
         }
     }
@@ -445,9 +452,11 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
     @Override
     public void getPayFinishGoogleUploadSuccess() {
         showToast("success");
-        //查询用户信息-->更新用户信息(我的-首页接口)
-//        requestHomeUserInfo();
-        logAddPaymentInfoEvent(true);
+        if (isSubscriptionFlag) {
+            logSubscribeEvent(mPurchase.getOrderId());
+        } else {
+            logAddPaymentInfoEvent(true);
+        }
         onRequestMemberCenter();
     }
 
@@ -467,6 +476,7 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
 
     //AHDI 创建订单
     private void AHDIPayChoose() {
+        logInitiateCheckoutEvent();
         createOrderAHDI(String.valueOf(mVipInfoBean.getVipinfo_id()), String.valueOf(mVipInfoBean.getYn_price()));
     }
 
@@ -534,6 +544,7 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
 
     private void UNiPinPayChoose() {
         //2.创建订单 - UniPin支付
+        logInitiateCheckoutEvent();
         createOrderByUniPin(String.valueOf(mVipInfoBean.getVipinfo_id()), String.valueOf(mVipInfoBean.getYn_price()));
     }
 
@@ -677,13 +688,28 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
      * created using AppEventsLogger.newLogger() call.
      */
     public void logAddPaymentInfoEvent(boolean success) {
-        AppEventsLogger logger = AppEventsLogger.newLogger(this);
+//        AppEventsLogger logger = AppEventsLogger.newLogger(this);
         Bundle params = new Bundle();
         params.putString(AppEventsConstants.EVENT_PARAM_CURRENCY, "USD");
         params.putString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE, "购买vip");
-        params.putInt(AppEventsConstants.EVENT_PARAM_SUCCESS, success ? 1 : 0);
-        logger.logEvent(AppEventsConstants.EVENT_NAME_PURCHASED, Double.parseDouble(payMoney), params);
+//        params.putInt(AppEventsConstants.EVENT_PARAM_SUCCESS, success ? 1 : 0);
+//        logger.logEvent(AppEventsConstants.EVENT_NAME_PURCHASED, Double.parseDouble(payMoney), params);
+        AppEventsLogger logger = AppEventsLogger.newLogger(this);
+        logger.logPurchase(BigDecimal.valueOf(Double.parseDouble(payMoney)), Currency.getInstance("USD"), params);
+    }
 
+
+    /**
+     * 订阅成功
+     * This function assumes logger is an instance of AppEventsLogger and has been
+     * created using AppEventsLogger.newLogger() call.
+     */
+    public void logSubscribeEvent(String orderId) {
+        AppEventsLogger logger = AppEventsLogger.newLogger(this);
+        Bundle params = new Bundle();
+        params.putString(AppEventsConstants.EVENT_PARAM_ORDER_ID, orderId);
+        params.putString(AppEventsConstants.EVENT_PARAM_CURRENCY, "USD");
+        logger.logEvent(AppEventsConstants.EVENT_NAME_SUBSCRIBE, Double.parseDouble(payMoney), params);
     }
 
     /**
@@ -698,6 +724,22 @@ public class MemberCenterActivity extends BaseActivity implements MemberCenterCo
         logger.logEvent(AppEventsConstants.EVENT_NAME_VIEWED_CONTENT, params);
     }
 
+    /**
+     * This function assumes logger is an instance of AppEventsLogger and has been
+     * created using AppEventsLogger.newLogger() call.
+     * 发起结账
+     */
+    public void logInitiateCheckoutEvent() {
+        AppEventsLogger logger = AppEventsLogger.newLogger(this);
+        Bundle params = new Bundle();
+//        params.putString(AppEventsConstants.EVENT_PARAM_CONTENT, contentData);
+//        params.putString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, contentId);
+        params.putString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE, "发起结账");
+//        params.putInt(AppEventsConstants.EVENT_PARAM_NUM_ITEMS, numItems);
+//        params.putInt(AppEventsConstants.EVENT_PARAM_PAYMENT_INFO_AVAILABLE, paymentInfoAvailable ? 1 : 0);
+        params.putString(AppEventsConstants.EVENT_PARAM_CURRENCY, "USD");
+        logger.logEvent(AppEventsConstants.EVENT_NAME_INITIATED_CHECKOUT, Double.parseDouble(payMoney), params);
+    }
 
     private void initInjectData() {
         DaggerMemberCenterComponent.builder().appComponent(getAppComponent())

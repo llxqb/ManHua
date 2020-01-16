@@ -33,6 +33,7 @@ public class LoginResponse {
         private int vip_end_time;
         private int channel;
         private String book_type;
+        private int is_first;//0 登录  1 注册
 
         public String getName() {
             return name;
@@ -88,6 +89,14 @@ public class LoginResponse {
 
         public void setBook_type(String book_type) {
             this.book_type = book_type;
+        }
+
+        public int getIs_first() {
+            return is_first;
+        }
+
+        public void setIs_first(int is_first) {
+            this.is_first = is_first;
         }
     }
 }

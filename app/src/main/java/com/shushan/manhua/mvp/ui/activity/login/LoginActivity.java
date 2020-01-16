@@ -11,6 +11,7 @@ import com.facebook.appevents.AppEventsLogger;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.shushan.manhua.BuildConfig;
 import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerLoginComponent;
 import com.shushan.manhua.di.modules.ActivityModule;
@@ -25,6 +26,7 @@ import com.shushan.manhua.help.FacebookLoginHelper;
 import com.shushan.manhua.help.GoogleLoginHelper;
 import com.shushan.manhua.mvp.ui.activity.splash.ProtocolActivity;
 import com.shushan.manhua.mvp.ui.base.BaseActivity;
+import com.shushan.manhua.mvp.utils.LogUtils;
 import com.shushan.manhua.mvp.utils.StatusBarUtil;
 import com.shushan.manhua.mvp.utils.SystemUtils;
 
@@ -39,7 +41,6 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
     LoginControl.PresenterLogin mPresenterLogin;
     @BindView(R.id.check_box)
     CheckBox mCheckBox;
-    private User mUser;
     private FacebookLoginHelper faceBookLoginManager;
 
     @Override
@@ -47,7 +48,6 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
         setContentView(R.layout.activity_login);
         StatusBarUtil.setTransparentForImageView(this, null);
         initInjectData();
-        mUser = mBuProcessor.getUser();
     }
 
     @Override
@@ -166,7 +166,12 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
             user.token = userinfoBean.getToken();
             user.vip = userinfoBean.getVip();
             mBuProcessor.setLoginUser(user);
-            logCompleteRegistrationEvent("完成注册");
+            if (userinfoBean.getIs_first() == 1) {//注册
+                LogUtils.e("debug:" + BuildConfig.DEBUG);
+                if (!BuildConfig.DEBUG) {
+                    logCompleteRegistrationEvent("完成注册");
+                }
+            }
             //刷新main数据 刷新
             LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.LOGIN_SUCCESS_UPDATE_DATA));
 //            startActivitys(MainActivity.class);
@@ -180,7 +185,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
      * This function assumes logger is an instance of AppEventsLogger and has been
      * created using AppEventsLogger.newLogger() call.
      */
-    public void logCompleteRegistrationEvent (String registrationMethod) {
+    public void logCompleteRegistrationEvent(String registrationMethod) {
         Bundle params = new Bundle();
         params.putString(AppEventsConstants.EVENT_PARAM_REGISTRATION_METHOD, registrationMethod);
         AppEventsLogger logger = AppEventsLogger.newLogger(this);
