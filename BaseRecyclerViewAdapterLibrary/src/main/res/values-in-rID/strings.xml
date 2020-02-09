@@ -1,0 +1,5 @@
+<resources>
+    <string name="brvah_loading">Loading…</string>
+    <string name="brvah_load_failed">memuat lebih banyak gagal</string>
+    <string name="brvah_load_end">Tidak ada lagi data</string>
+</resources>

@@ -1,0 +1,10 @@
+<resources>
+    <string name="pickerview_cancel">Batalkan</string>
+    <string name="pickerview_submit">Oke</string>
+    <string name="pickerview_year">Tahun</string>
+    <string name="pickerview_month">Bulan</string>
+    <string name="pickerview_day">Hari</string>
+    <string name="pickerview_hours">Jam</string>
+    <string name="pickerview_minutes">Poin</string>
+    <string name="pickerview_seconds">Kedua</string>
+</resources>
