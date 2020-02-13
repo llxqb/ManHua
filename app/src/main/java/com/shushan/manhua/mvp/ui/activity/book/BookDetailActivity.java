@@ -48,6 +48,8 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
     ImageView mCoverIv;
     @BindView(R.id.book_tv)
     TextView mBookTv;
+    @BindView(R.id.title_tv)
+    TextView mTitleTv;
     @BindView(R.id.label_recycler_view)
     RecyclerView mLabelRecyclerView;
     @BindView(R.id.add_bookshelf_tv)
@@ -95,13 +97,13 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
     }
 
 
-    @OnClick({R.id.common_left_iv, R.id.add_bookshelf_tv, R.id.start_reading_tv})
+    @OnClick({R.id.common_left_iv, R.id.add_bookshelf_layout, R.id.start_reading_tv})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.common_left_iv:
                 finish();
                 break;
-            case R.id.add_bookshelf_tv:
+            case R.id.add_bookshelf_layout:
                 onAddBookShelfRequest();
                 break;
             case R.id.start_reading_tv:
@@ -135,6 +137,7 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
         mBookDetailInfoResponse = bookDetailInfoResponse;
         mLabelAdapter.setNewData(bookDetailInfoResponse.getDetail().getLabel());
         mBookTv.setText(mBookDetailInfoResponse.getDetail().getBook_name());
+        mTitleTv.setText(mBookDetailInfoResponse.getDetail().getBook_name());
         mImageLoaderHelper.displayImage(this, mBookDetailInfoResponse.getDetail().getDetail_cover(), mCoverIv, R.mipmap.default_detail);
         if (bookDetailInfoResponse.getDetail().getState() == 0) {//0未加入书架1已加入书架
             mAddBookshelfTv.setText(getString(R.string.BookDetailActivity_add_bookshelf));//BookDetailActivity_add_bookshelf_ed

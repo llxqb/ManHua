@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
@@ -19,6 +20,7 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -270,6 +272,7 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
         mMessageEt.clearFocus();//让编辑框失去焦点 配合布局一起使用
         onKeyBoardListener();
         initAdapter();
+        showFunction();//默认全屏显示
         initScrollView();
     }
 
@@ -308,13 +311,20 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
         //图片adapter
         mPicRecyclerView.setNestedScrollingEnabled(false);//解决ScrollView+RecyclerView的滑动冲突问题
         mReadingPicAdapter = new ReadingPicAdapter(bookPicList, mImageLoaderHelper);
-        mPicRecyclerView.setLayoutManager(new LinearLayoutManager(this) {
-            @Override
-            public void onMeasure(@NonNull RecyclerView.Recycler recycler, @NonNull RecyclerView.State state, int widthSpec, int heightSpec) {
-                super.onMeasure(recycler, state, widthSpec, heightSpec);
-                picRvHeight = mPicRecyclerView.getHeight();
-            }
-        });
+        mPicRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        ViewTreeObserver viewTreeObserver = mPicRecyclerView.getViewTreeObserver();
+//        viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//            @Override
+//            public void onGlobalLayout() {
+//                //移除监听，只用于布局初始化
+//                mPicRecyclerView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+//                picRvHeight = mPicRecyclerView.getHeight();
+//                LogUtils.e("picRvHeight:" + picRvHeight);
+//                if (picRvHeight > 0) mNestedScrollView.post(() -> {
+//                    mNestedScrollView.fullScroll(ScrollView.FOCUS_UP); // 滚动至顶部
+//                });
+//            }
+//        });
         mPicRecyclerView.setAdapter(mReadingPicAdapter);
         mReadingPicAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             SoftKeyboardUtil.hideSoftKeyboard(this);
@@ -1120,7 +1130,6 @@ public abstract class ReadBaseActivity extends BaseActivity implements ReadContr
         if (mCommentSoftKeyPopupWindow != null) {
             mCommentSoftKeyPopupWindow.dismissPopupWindow();
         }
-//        onRequestReadingInfo();// 更新章节详情  数据太多
     }
 
     /**

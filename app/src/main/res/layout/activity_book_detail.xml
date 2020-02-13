@@ -4,88 +4,182 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/app_bg_color"
     android:orientation="vertical"
     tools:context=".mvp.ui.activity.book.BookDetailActivity">
 
-    <RelativeLayout
-        android:id="@+id/book_detail_top_layout"
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/coordinator_layout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_214"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/cover_iv"
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/default_detail" />
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <ImageView
-            android:id="@+id/common_left_iv"
-            android:layout_width="wrap_content"
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/collapsingToolbarLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:collapsedTitleGravity="left"
+                app:collapsedTitleTextAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                app:contentScrim="?attr/colorPrimary"
+                app:expandedTitleMarginEnd="10dp"
+                app:expandedTitleMarginStart="10dp"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                <!-- 个人资料头部-->
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/book_detail_top_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/cover_iv"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_214"
+                        android:scaleType="centerCrop"
+                        android:src="@mipmap/default_detail"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <LinearLayout
+                        android:layout_width="@dimen/dp_345"
+                        android:layout_height="@dimen/dp_132"
+                        android:layout_marginTop="@dimen/dp_152"
+                        android:background="@drawable/bg_white_round_solid_20"
+                        android:orientation="vertical"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/book_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dp_20"
+                            android:layout_marginTop="@dimen/dp_16"
+                            android:layout_marginEnd="@dimen/dp_20"
+                            android:singleLine="true"
+                            android:textColor="@color/color_30"
+                            android:textSize="@dimen/sp_17"
+                            android:textStyle="bold" />
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/label_recycler_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dp_20"
+                            android:layout_marginTop="@dimen/dp_8" />
+
+                        <!-- 加入书架-->
+                        <LinearLayout
+                            android:id="@+id/add_bookshelf_layout"
+                            android:layout_width="@dimen/dp_300"
+                            android:layout_height="@dimen/dp_32"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="@dimen/dp_14"
+                            android:background="@drawable/bg_blue3_round_solid_30"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@mipmap/details_page_follow" />
+
+                            <TextView
+                                android:id="@+id/add_bookshelf_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/dp_5"
+                                android:text="@string/BookDetailActivity_add_bookshelf"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/sp_12" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </android.support.constraint.ConstraintLayout>
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_50"
+                    android:layout_marginTop="@dimen/dp_10"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                    app:title=" ">
+
+                    <ImageView
+                        android:id="@+id/common_left_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/selector_back_img_bg"
+                        android:paddingStart="@dimen/dp_2"
+                        android:paddingTop="@dimen/dp_10"
+                        android:paddingEnd="@dimen/dp_10"
+                        android:paddingBottom="@dimen/dp_10"
+                        android:src="@drawable/vector_arrow_left" />
+
+                    <TextView
+                        android:id="@+id/title_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textColor="@color/color_30"
+                        android:textSize="@dimen/sp_18"
+                        android:layout_marginEnd="@dimen/dp_15"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:paddingStart="@dimen/dp_5"
+                        android:paddingEnd="@dimen/dp_5"
+                        android:textStyle="bold" />
+
+
+
+                </android.support.v7.widget.Toolbar>
+            </android.support.design.widget.CollapsingToolbarLayout>
+
+        </android.support.design.widget.AppBarLayout>
+
+        <!-- 下面部分-->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_15"
-            android:background="@drawable/selector_back_img_bg"
-            android:padding="@dimen/dp_10"
-            android:src="@drawable/vector_arrow_left" />
+            android:orientation="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+            <com.androidkun.xtablayout.XTabLayout
+                android:id="@+id/xTabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40"
+                app:xTabIndicatorColor="@color/color_30"
+                app:xTabIndicatorHeight="@dimen/dp_4"
+                app:xTabIndicatorWidth="@dimen/dp_20"
+                app:xTabMode="fixed"
+                app:xTabSelectedTextColor="@color/color_30"
+                app:xTabSelectedTextSize="@dimen/sp_18"
+                app:xTabTextColor="@color/color_9b"
+                app:xTabTextSelectedBold="true"
+                app:xTabTextSize="@dimen/sp_18" />
 
-        <TextView
-            android:id="@+id/book_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="@dimen/dp_20"
-            android:layout_marginTop="@dimen/dp_90"
-            android:layout_marginEnd="@dimen/dp_20"
-            android:singleLine="true"
-            android:textColor="@color/white"
-            android:textSize="@dimen/sp_20"
-            android:textStyle="bold" />
+            <View style="@style/line_height_1" />
 
-        <!-- 加入书架-->
-        <TextView
-            android:id="@+id/add_bookshelf_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="@dimen/dp_125"
-            android:background="@drawable/bg_gray_round_solid_top_left_30"
-            android:drawableStart="@mipmap/details_page_follow"
-            android:drawablePadding="@dimen/dp_5"
-            android:paddingStart="@dimen/dp_12"
-            android:paddingTop="@dimen/dp_6"
-            android:paddingEnd="@dimen/dp_5"
-            android:paddingBottom="@dimen/dp_6"
-            android:text="@string/BookDetailActivity_add_bookshelf"
-            android:textColor="@color/white"
-            android:textSize="@dimen/sp_12" />
+            <android.support.v4.view.ViewPager
+                android:id="@+id/view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/label_recycler_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/add_bookshelf_tv"
-            android:layout_marginStart="@dimen/dp_20"
-            android:layout_marginTop="@dimen/dp_8" />
+    </android.support.design.widget.CoordinatorLayout>
 
-    </RelativeLayout>
-
-
-    <com.androidkun.xtablayout.XTabLayout
-        android:id="@+id/xTabLayout"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_40"
-        app:layout_constraintTop_toBottomOf="@id/book_detail_top_layout"
-        app:xTabIndicatorColor="@color/color_30"
-        app:xTabIndicatorHeight="@dimen/dp_4"
-        app:xTabIndicatorWidth="@dimen/dp_20"
-        app:xTabMode="fixed"
-        app:xTabSelectedTextColor="@color/color_30"
-        app:xTabSelectedTextSize="@dimen/sp_18"
-        app:xTabTextColor="@color/color_9b"
-        app:xTabTextSelectedBold="true"
-        app:xTabTextSize="@dimen/sp_18" />
 
     <!--<View style="@style/line_height_1" />-->
 
@@ -93,6 +187,7 @@
         android:id="@+id/start_reading_tv"
         android:layout_width="@dimen/dp_305"
         android:layout_height="@dimen/dp_40"
+        android:layout_gravity="center"
         android:layout_marginTop="@dimen/dp_28"
         android:layout_marginBottom="@dimen/dp_18"
         android:background="@drawable/start_reading_bg"
@@ -103,13 +198,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/start_reading_tv"
-        app:layout_constraintTop_toBottomOf="@id/xTabLayout" />
 
 
 </android.support.constraint.ConstraintLayout>

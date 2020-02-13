@@ -15,6 +15,7 @@ import com.shushan.manhua.entity.constants.ActivityConstant;
 import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.entity.response.BarrageListResponse;
 import com.shushan.manhua.entity.response.ReadingInfoResponse;
+import com.shushan.manhua.mvp.utils.LogUtils;
 
 /**
  * 阅读漫画页面
@@ -116,7 +117,7 @@ public class ReadActivity extends ReadBaseActivity {
     @Override
     public void getReadingInfoSuccess(ReadingInfoResponse readingInfoResponse) {
         mReadingInfoResponse = readingInfoResponse;
-        mNestedScrollView.fullScroll(ScrollView.FOCUS_UP);  // 滚动至顶部
+//        mNestedScrollView.fullScroll(ScrollView.FOCUS_UP);  // 滚动至顶部
         ReadingInfoResponse.CatalogueBean catalogueBean = readingInfoResponse.getCatalogue();
         if (catalogueBean.getCatalogue_content() != null && !new Gson().toJson(catalogueBean.getCatalogue_content()).equals("[]")) {
             mReadingPicAdapter.setNewData(catalogueBean.getCatalogue_content());
@@ -139,11 +140,10 @@ public class ReadActivity extends ReadBaseActivity {
         }
         setIsRecharge();
         mCommonTitleTv.setText(catalogueBean.getCatalogue_name());
-        mNestedScrollView.post(() -> mNestedScrollView.post(() -> {
+        mNestedScrollView.post(() -> {
             picRvHeight = mPicRecyclerView.getHeight();
             mNestedScrollView.setVisibility(View.VISIBLE);
-            mNestedScrollView.fullScroll(ScrollView.FOCUS_UP);  // 滚动至顶部
-        }));
+        });
     }
 
     private void setIsRecharge() {

@@ -12,6 +12,7 @@ import com.shushan.manhua.mvp.ui.activity.txtreaderlib.bean.TxtFileMsg;
 import com.shushan.manhua.mvp.ui.activity.txtreaderlib.interfaces.IChapter;
 import com.shushan.manhua.mvp.ui.activity.txtreaderlib.interfaces.ILoadListener;
 import com.shushan.manhua.mvp.ui.activity.txtreaderlib.interfaces.IPage;
+import com.shushan.manhua.mvp.ui.activity.txtreaderlib.interfaces.IPageChangeListener2;
 import com.shushan.manhua.mvp.ui.activity.txtreaderlib.interfaces.IReaderViewDrawer;
 import com.shushan.manhua.mvp.ui.activity.txtreaderlib.interfaces.ITextSelectListener;
 import com.shushan.manhua.mvp.ui.activity.txtreaderlib.interfaces.ITxtTask;
@@ -147,14 +148,19 @@ public class TxtReaderView extends TxtReaderBaseView {
 
 
         checkMoveState();
-
         if (getMoveDistance() > 0 && isFirstPage()) {
             ELogger.log(tag, "是第一页了");
+            if (pageChangeListener2 != null) {
+                pageChangeListener2.onPrePage();
+            }
             return;
         }
 
         if (getMoveDistance() < 0 && isLastPage()) {
             ELogger.log(tag, "是最后一页了");
+            if (pageChangeListener2 != null) {
+                pageChangeListener2.onNextPage();
+            }
             return;
         }
         invalidate();
@@ -188,7 +194,7 @@ public class TxtReaderView extends TxtReaderBaseView {
     protected void onTextSelectMoveForward(MotionEvent event) {
         getDrawer().onTextSelectMoveForward(event);
         if (textSelectListener != null) {
-            textSelectListener.onTextChanging(FirstSelectedChar,LastSelectedChar);
+            textSelectListener.onTextChanging(FirstSelectedChar, LastSelectedChar);
             textSelectListener.onTextChanging(getCurrentSelectedText());
         }
     }
@@ -197,7 +203,7 @@ public class TxtReaderView extends TxtReaderBaseView {
     protected void onTextSelectMoveBack(MotionEvent event) {
         getDrawer().onTextSelectMoveBack(event);
         if (textSelectListener != null) {
-            textSelectListener.onTextChanging(FirstSelectedChar,LastSelectedChar);
+            textSelectListener.onTextChanging(FirstSelectedChar, LastSelectedChar);
             textSelectListener.onTextChanging(getCurrentSelectedText());
         }
     }
@@ -218,6 +224,11 @@ public class TxtReaderView extends TxtReaderBaseView {
     }
 
     private ITextSelectListener textSelectListener;
+    private IPageChangeListener2 pageChangeListener2;
+
+    public void setOnPageChangeListener2(IPageChangeListener2 pageChangeListener2) {
+        this.pageChangeListener2 = pageChangeListener2;
+    }
 
     public void setOnTextSelectListener(ITextSelectListener textSelectListener) {
         this.textSelectListener = textSelectListener;
@@ -273,8 +284,8 @@ public class TxtReaderView extends TxtReaderBaseView {
      */
     public void setStyle(int backgroundColor, int textColor) {
         saveProgress();
-       TxtConfig.saveTextColor(getContext(), textColor);
-       TxtConfig.saveBackgroundColor(getContext(), backgroundColor);
+        TxtConfig.saveTextColor(getContext(), textColor);
+        TxtConfig.saveBackgroundColor(getContext(), backgroundColor);
         readerContext.getTxtConfig().textColor = textColor;
         readerContext.getTxtConfig().backgroundColor = backgroundColor;
         if (readerContext.getBitmapData().getBgBitmap() != null) {
@@ -477,7 +488,7 @@ public class TxtReaderView extends TxtReaderBaseView {
      * @param isBold 字体否加粗
      */
     public void setTextBold(boolean isBold) {
-       TxtConfig.saveIsBold(getContext(), isBold);
+        TxtConfig.saveIsBold(getContext(), isBold);
         getTxtReaderContext().getTxtConfig().Bold = isBold;
         refreshCurrentView();
     }
@@ -486,8 +497,8 @@ public class TxtReaderView extends TxtReaderBaseView {
      * 平移切换页面
      */
     public void setPageSwitchByTranslate() {
-       TxtConfig.saveSwitchByTranslate(getContext(), true);
-        getTxtReaderContext().getTxtConfig().Page_Switch_Mode =TxtConfig.PAGE_SWITCH_MODE_SERIAL;
+        TxtConfig.saveSwitchByTranslate(getContext(), true);
+        getTxtReaderContext().getTxtConfig().Page_Switch_Mode = TxtConfig.PAGE_SWITCH_MODE_SERIAL;
         drawer = new SerialPageDrawer(this, readerContext, mScroller);
     }
 
@@ -495,15 +506,16 @@ public class TxtReaderView extends TxtReaderBaseView {
      * 剪切切换页面
      */
     public void setPageSwitchByShear() {
-       TxtConfig.saveSwitchByTranslate(getContext(), true);
-        getTxtReaderContext().getTxtConfig().Page_Switch_Mode =TxtConfig.PAGE_SWITCH_MODE_SHEAR;
+        TxtConfig.saveSwitchByTranslate(getContext(), true);
+        getTxtReaderContext().getTxtConfig().Page_Switch_Mode = TxtConfig.PAGE_SWITCH_MODE_SHEAR;
         drawer = new ShearPageDrawer(this, readerContext, mScroller);
     }
+
     /**
      * 滑盖切换页面
      */
     public void setPageSwitchByCover() {
-       TxtConfig.saveSwitchByTranslate(getContext(), false);
+        TxtConfig.saveSwitchByTranslate(getContext(), false);
         getTxtReaderContext().getTxtConfig().Page_Switch_Mode = TxtConfig.PAGE_SWITCH_MODE_COVER;
         drawer = new NormalPageDrawer(this, readerContext, mScroller);
     }
@@ -583,7 +595,7 @@ public class TxtReaderView extends TxtReaderBaseView {
             for (IChapter chapter : chapters) {
                 int startIndex = chapter.getStartParagraphIndex();
                 int endIndex = chapter.getEndParagraphIndex();
-                ELogger.log("getChapterFromProgress",startIndex+","+endIndex);
+                ELogger.log("getChapterFromProgress", startIndex + "," + endIndex);
                 if (terminalParagraphIndex >= startIndex && terminalParagraphIndex < endIndex) {
                     return chapter;
                 }

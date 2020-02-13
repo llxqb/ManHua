@@ -50,6 +50,7 @@ import com.shushan.manhua.mvp.ui.activity.txtreaderlib.bean.TxtChar;
 import com.shushan.manhua.mvp.ui.activity.txtreaderlib.bean.TxtMsg;
 import com.shushan.manhua.mvp.ui.activity.txtreaderlib.interfaces.ICenterAreaClickListener;
 import com.shushan.manhua.mvp.ui.activity.txtreaderlib.interfaces.ILoadListener;
+import com.shushan.manhua.mvp.ui.activity.txtreaderlib.interfaces.IPageChangeListener2;
 import com.shushan.manhua.mvp.ui.activity.txtreaderlib.interfaces.ISliderListener;
 import com.shushan.manhua.mvp.ui.activity.txtreaderlib.interfaces.ITextSelectListener;
 import com.shushan.manhua.mvp.ui.activity.txtreaderlib.main.TxtConfig;
@@ -282,6 +283,7 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
 
     @Override
     public void getReadingBookInfoSuccess(ReadingBookResponse readingBookResponse) {
+        isMove = true;
         if (readingBookResponse.getCatalogue().getCatalogue_id() == 0) {
             showRechargeDialog(); //进行弹框
         } else {
@@ -623,12 +625,40 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
 
     }
 
+    private boolean isMove = true ;//false 滑动翻页上一页  true 滑动翻页下一页
+
     protected void setPageChangeListener() {
         mTxtReaderView.setPageChangeListener(progress -> {
             int p = (int) (progress * 1000);
 //            LogUtils.e("p:" + p / 10);
             mChapterSeekBar.setProgress(p / 10);
             mChapterNameText.setText(mReadingBookResponse.getCatalogue().getCatalogue_name());
+        });
+
+        mTxtReaderView.setOnPageChangeListener2(new IPageChangeListener2() {
+            @Override
+            public void onPrePage() {
+                //第一页  跳到上一章
+                if (isMove) {
+                    isMove = false;
+                    if (mReadingBookResponse != null) {
+                        mCatalogueId = mReadingBookResponse.getCatalogue().getPre_catalogue_id();
+                        onRequestBookInfo();
+                    }
+                }
+            }
+
+            @Override
+            public void onNextPage() {
+                //最后一页  跳到下一章
+                if (isMove) {
+                    isMove = false;
+                    if (mReadingBookResponse != null) {
+                        mCatalogueId = mReadingBookResponse.getCatalogue().getNext_catalogue_id();
+                        onRequestBookInfo();
+                    }
+                }
+            }
         });
     }
 
