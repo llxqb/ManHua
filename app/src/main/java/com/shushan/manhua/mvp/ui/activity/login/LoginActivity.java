@@ -169,7 +169,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
             if (userinfoBean.getIs_first() == 1) {//注册
                 LogUtils.e("debug:" + BuildConfig.DEBUG);
                 if (!BuildConfig.DEBUG) {
-                    logCompleteRegistrationEvent("完成注册");
+                    logCompleteRegistrationEvent();
                 }
             }
             //刷新main数据 刷新
@@ -185,12 +185,13 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
      * This function assumes logger is an instance of AppEventsLogger and has been
      * created using AppEventsLogger.newLogger() call.
      */
-    public void logCompleteRegistrationEvent(String registrationMethod) {
-        Bundle params = new Bundle();
-        params.putString(AppEventsConstants.EVENT_PARAM_REGISTRATION_METHOD, registrationMethod);
+    public void logCompleteRegistrationEvent () {
         AppEventsLogger logger = AppEventsLogger.newLogger(this);
-        logger.logEvent(AppEventsConstants.EVENT_NAME_COMPLETED_REGISTRATION, params);
+        Bundle params = new Bundle();
+        params.putString(AppEventsConstants.EVENT_PARAM_REGISTRATION_METHOD, "complete register");
+        logger.logEvent(AppEventsConstants.EVENT_NAME_COMPLETED_REGISTRATION, 0,params);
     }
+
 
 //    /**
 //     * 检查app 权限
