@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".mvp.ui.activity.book.BookClassificationActivity">
+
+    <include layout="@layout/common_toolbar" />
+
+    <!--    <android.support.design.widget.TabLayout-->
+    <!--        android:id="@+id/tabLayout"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="@dimen/dp_40"-->
+    <!--        android:layout_gravity="center"-->
+    <!--        android:layout_marginStart="@dimen/dp_30"-->
+    <!--        android:layout_marginEnd="@dimen/dp_30"-->
+    <!--        app:tabBackground="@drawable/tab_background"-->
+    <!--        app:tabMode="fixed"-->
+    <!--        app:tabSelectedTextColor="#915AFF"-->
+    <!--        app:tabTextAppearance="@style/TabLayoutTextStyle"-->
+    <!--        app:tabTextColor="#808080" />-->
+
+    <!--    <android.support.v4.view.ViewPager-->
+    <!--        android:id="@+id/view_pager"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent" />-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_35"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dp_20"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <!-- 漫画-->
+        <TextView
+            android:id="@+id/komik_tv"
+            android:layout_width="@dimen/dp_130"
+            android:layout_height="match_parent"
+            android:background="@drawable/tab_background_selected"
+            android:gravity="center"
+            android:text="@string/HomeFragment_title_comic"
+            android:textColor="@color/buy_check_color"
+            android:textSize="@dimen/sp_14" />
+
+        <!-- 小说-->
+        <TextView
+            android:id="@+id/novel_tv"
+            android:layout_width="@dimen/dp_130"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/dp_25"
+            android:background="@drawable/tab_background_unselected"
+            android:gravity="center"
+            android:text="@string/HomeFragment_title_novel"
+            android:textColor="@color/color_80"
+            android:textSize="@dimen/sp_14" />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/dp_25"
+        android:layout_marginStart="@dimen/dp_20"
+        android:layout_marginEnd="@dimen/dp_23"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

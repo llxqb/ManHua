@@ -21,6 +21,7 @@ import com.shushan.manhua.entity.response.HomeResponse;
 import com.shushan.manhua.entity.user.User;
 import com.shushan.manhua.mvp.ui.activity.book.BookDetailActivity;
 import com.shushan.manhua.mvp.ui.adapter.HomeAdapter;
+import com.shushan.manhua.mvp.ui.adapter.NovelAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseFragment;
 
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 /**
- * 首页小说
+ * 分类 小说
  */
 
 public class HomeNovelFragment extends BaseFragment implements HomeFragmentControl.HomeView {
@@ -45,8 +46,8 @@ public class HomeNovelFragment extends BaseFragment implements HomeFragmentContr
     RecyclerView mRecyclerView;
     Unbinder unbinder;
     private User mUser;
-    private HomeAdapter mHomeAdapter;
-    private List<HomeResponse.BooksBean> homeResponseList = new ArrayList<>();
+    private NovelAdapter mNovelAdapter;
+    private List<HomeResponse.HomeCommonBean> homeResponseList = new ArrayList<>();
 
     @Nullable
     @Override
@@ -64,11 +65,11 @@ public class HomeNovelFragment extends BaseFragment implements HomeFragmentContr
     @Override
     public void initView() {
         mRecyclerView.setNestedScrollingEnabled(false);//解决ScrollView+RecyclerView的滑动冲突问题
-        mHomeAdapter = new HomeAdapter(homeResponseList, mImageLoaderHelper);
+        mNovelAdapter = new NovelAdapter(homeResponseList, mImageLoaderHelper);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.setAdapter(mHomeAdapter);
-        mHomeAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-            HomeResponse.BooksBean booksBean = (HomeResponse.BooksBean) adapter.getItem(position);
+        mRecyclerView.setAdapter(mNovelAdapter);
+        mNovelAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            HomeResponse.HomeCommonBean booksBean = (HomeResponse.HomeCommonBean) adapter.getItem(position);
             if (booksBean != null) {
                 BookDetailActivity.start(getActivity(), String.valueOf(booksBean.getBook_id()));
             }
@@ -83,19 +84,18 @@ public class HomeNovelFragment extends BaseFragment implements HomeFragmentContr
 
     /**
      * 请求首页数据
+     * 1漫画2小说
      */
     private void onRequestHome() {
         HomeInfoRequest homeInfoRequest = new HomeInfoRequest();
         homeInfoRequest.token = mBuProcessor.getToken();
-        homeInfoRequest.channel = mBuProcessor.getChannel();
-        homeInfoRequest.book_type = mBuProcessor.getbookType();
         homeInfoRequest.genre = "2";
         mPresenter.onRequestHomeInfo(homeInfoRequest);
     }
 
     @Override
     public void getHomeInfoSuccess(HomeResponse homeResponse) {
-        mHomeAdapter.setNewData(homeResponse.getBooks());
+        mNovelAdapter.setNewData(homeResponse.getBooks());
     }
 
     @Override

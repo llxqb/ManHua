@@ -3,6 +3,7 @@ package com.shushan.manhua.mvp.model;
 import com.google.gson.Gson;
 import com.shushan.manhua.entity.request.AddBookShelfRequest;
 import com.shushan.manhua.entity.request.BarrageListRequest;
+import com.shushan.manhua.entity.request.BookClassificationRequest;
 import com.shushan.manhua.entity.request.BookDetailRequest;
 import com.shushan.manhua.entity.request.BookShelfInfoRequest;
 import com.shushan.manhua.entity.request.BuyBarrageStyleRequest;
@@ -11,6 +12,7 @@ import com.shushan.manhua.entity.request.CommentRequest;
 import com.shushan.manhua.entity.request.DeleteReadingHistoryRequest;
 import com.shushan.manhua.entity.request.ExchangeBarrageStyleRequest;
 import com.shushan.manhua.entity.request.PublishCommentUserRequest;
+import com.shushan.manhua.entity.request.RankingRequest;
 import com.shushan.manhua.entity.request.ReadRecordingRequest;
 import com.shushan.manhua.entity.request.ReadingBookRequest;
 import com.shushan.manhua.entity.request.ReadingHistoryRequest;
@@ -190,5 +192,19 @@ public class BookModel {
      */
     public Observable<ResponseData> onRequestBookInfo(ReadingBookRequest request) {
         return mBookApi.onRequestBookInfo(mGson.toJson(request)).map(mTransform::transformCommon);
+    }
+
+    /**
+     * 分类  漫画/小说列表
+     */
+    public Observable<ResponseData> onRequestClassification(BookClassificationRequest request) {
+        return mBookApi.onRequestClassification(mGson.toJson(request)).map(mTransform::transformCommon);
+    }
+
+    /**
+     * 获取排行榜数据
+     */
+    public Observable<ResponseData> onRequestRanking(RankingRequest request) {
+        return mBookApi.onRequestRanking(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 }

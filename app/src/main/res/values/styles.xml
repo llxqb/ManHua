@@ -85,7 +85,7 @@
 
 
     <style name="TabLayoutTextStyle">
-        <item name="android:textSize">@dimen/sp_15</item>
+        <item name="android:textSize">@dimen/sp_14</item>
     </style>
 
 
@@ -114,4 +114,10 @@
         <item name="android:windowEnterAnimation">@anim/abc_popup_enter</item>
         <item name="android:windowExitAnimation">@anim/abc_popup_exit</item>
     </style>
+
+<!--    <style name="Base.Widget.Design.TabLayout" parent="android:Widget">-->
+<!--        <item name="tabBackground">@drawable/tab_background</item>-->
+<!--&lt;!&ndash;        <item name="tabIndicatorColor">#ff00ff</item>&ndash;&gt;-->
+<!--&lt;!&ndash;        <item name="tabIndicatorHeight">2dp</item>&ndash;&gt;-->
+<!--    </style>-->
 </resources>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_home_novel_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginEnd="@dimen/dp_10"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/dp_5"
+    android:paddingBottom="@dimen/dp_5">
+
+    <ImageView
+        android:id="@+id/book_iv"
+        android:layout_width="@dimen/dp_162"
+        android:layout_height="@dimen/dp_162"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/default_graph_4" />
+
+
+    <TextView
+        android:id="@+id/book_name_tv"
+        android:layout_width="@dimen/dp_162"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:singleLine="true"
+        android:textColor="@color/color_30"
+        android:textStyle="bold"
+        android:textSize="@dimen/sp_13" />
+
+    <TextView
+        android:id="@+id/book_desc_tv"
+        android:layout_width="@dimen/dp_162"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_8"
+        android:singleLine="true"
+        android:textColor="#989FAE"
+        android:textSize="@dimen/sp_12" />
+
+</LinearLayout>

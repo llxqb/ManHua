@@ -1,22 +1,15 @@
 package com.shushan.manhua.mvp.ui.fragment.home;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.androidkun.xtablayout.XTabLayout;
 import com.shushan.manhua.ManHuaApplication;
 import com.shushan.manhua.R;
 import com.shushan.manhua.di.components.DaggerHomeFragmentComponent;
@@ -26,9 +19,13 @@ import com.shushan.manhua.entity.BannerBean;
 import com.shushan.manhua.entity.request.HomeInfoRequest;
 import com.shushan.manhua.entity.response.BannerResponse;
 import com.shushan.manhua.entity.response.HomeResponse;
+import com.shushan.manhua.mvp.ui.activity.book.BookClassificationActivity;
 import com.shushan.manhua.mvp.ui.activity.book.BookDetailActivity;
+import com.shushan.manhua.mvp.ui.activity.book.RankingActivity;
 import com.shushan.manhua.mvp.ui.adapter.BannerViewHolder;
-import com.shushan.manhua.mvp.ui.adapter.HomeAdapter;
+import com.shushan.manhua.mvp.ui.adapter.HomeComicAdapter;
+import com.shushan.manhua.mvp.ui.adapter.HomeNovelAdapter;
+import com.shushan.manhua.mvp.ui.adapter.HomeRecommendAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseFragment;
 import com.shushan.manhua.mvp.utils.StatusBarUtil;
 import com.zhouwei.mzbanner.MZBannerView;
@@ -55,16 +52,18 @@ public class HomeFragment extends BaseFragment implements HomeFragmentControl.Ho
     HomeFragmentControl.homeFragmentPresenter mPresenter;
     @BindView(R.id.banner)
     MZBannerView mBanner;
-    @BindView(R.id.comic_title_tv)
-    TextView mComicTitleTv;
-    @BindView(R.id.novel_title_tv)
-    TextView mNovelTitleTv;
-    @BindView(R.id.home_recycler_view)
-    RecyclerView homeRecyclerView;
     Unbinder unbinder;
+    @BindView(R.id.recommend_recycler_view)
+    RecyclerView mRecommendRecyclerView;
+    @BindView(R.id.novel_recycler_view)
+    RecyclerView mNovelRecyclerView;
+    @BindView(R.id.komik_recycler_view)
+    RecyclerView mKomikRecyclerView;
     private List<BannerBean> bannerList = new ArrayList<>();
-    private HomeAdapter mHomeAdapter;
-    private List<HomeResponse.BooksBean> homeResponseList = new ArrayList<>();
+    private List<HomeResponse.HomeCommonBean> homeCommonResponseList = new ArrayList<>();
+    private HomeRecommendAdapter mHomeRecommendAdapter;
+    private HomeNovelAdapter mHomeNovelAdapter;
+    private HomeComicAdapter mHomeComicAdapter;
 
     @Nullable
     @Override
@@ -81,31 +80,50 @@ public class HomeFragment extends BaseFragment implements HomeFragmentControl.Ho
 
     @Override
     public void initView() {
-        homeRecyclerView.setFocusable(false);
-        mHomeAdapter = new HomeAdapter(homeResponseList, mImageLoaderHelper);
-        homeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        homeRecyclerView.setAdapter(mHomeAdapter);
-        mHomeAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-            HomeResponse.BooksBean booksBean = (HomeResponse.BooksBean) adapter.getItem(position);
-            if(booksBean!=null){
+        initAdapter();
+    }
+
+    private void initAdapter() {
+        mRecommendRecyclerView.setFocusable(false);
+        mHomeRecommendAdapter = new HomeRecommendAdapter(homeCommonResponseList, mImageLoaderHelper);//推荐
+        mRecommendRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        mRecommendRecyclerView.setAdapter(mHomeRecommendAdapter);
+        mHomeRecommendAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            HomeResponse.HomeCommonBean booksBean = (HomeResponse.HomeCommonBean) adapter.getItem(position);
+            if (booksBean != null) {
                 BookDetailActivity.start(getActivity(), String.valueOf(booksBean.getBook_id()));
             }
         });
-        initTitle();
-    }
 
-    private void initTitle() {
-        mComicTitleTv.setTextColor(getResources().getColor(R.color.black));
-        mNovelTitleTv.setTextColor(getResources().getColor(R.color.color_b4));
-        Drawable drawable = getResources().getDrawable(R.drawable.bg_rectangle_blue_bottom);
-        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-        mComicTitleTv.setCompoundDrawables(null, null, null, drawable);
+        mNovelRecyclerView.setFocusable(false);
+        mHomeNovelAdapter = new HomeNovelAdapter(homeCommonResponseList, mImageLoaderHelper);//小说
+        mNovelRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        mNovelRecyclerView.setAdapter(mHomeNovelAdapter);
+        mHomeNovelAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            HomeResponse.HomeCommonBean booksBean = (HomeResponse.HomeCommonBean) adapter.getItem(position);
+            if (booksBean != null) {
+                BookDetailActivity.start(getActivity(), String.valueOf(booksBean.getBook_id()));
+            }
+        });
+
+        mKomikRecyclerView.setFocusable(false);
+        mHomeComicAdapter = new HomeComicAdapter(homeCommonResponseList, mImageLoaderHelper);//漫画
+        mKomikRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        mKomikRecyclerView.setAdapter(mHomeComicAdapter);
+        mHomeComicAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            HomeResponse.HomeCommonBean booksBean = (HomeResponse.HomeCommonBean) adapter.getItem(position);
+            if (booksBean != null) {
+                BookDetailActivity.start(getActivity(), String.valueOf(booksBean.getBook_id()));
+            }
+        });
+
+
     }
 
     @Override
     public void initData() {
-        onRequestBanner();
-        onRequestHome("1");
+//        onRequestBanner();
+        onRequestHome();
     }
 
     private void initBanner() {
@@ -124,50 +142,41 @@ public class HomeFragment extends BaseFragment implements HomeFragmentControl.Ho
 
     @Override
     public void getBannerSuccess(BannerResponse bannerResponse) {
-        bannerList = bannerResponse.getBanner();
-        initBanner();
+//        bannerList = bannerResponse.getBanner();
+//        initBanner();
     }
 
     /**
      * 请求首页数据
      * genre 1: 漫画   2：小说
-     *
      */
-    private void onRequestHome(String genre) {
+    private void onRequestHome() {
         HomeInfoRequest homeInfoRequest = new HomeInfoRequest();
         homeInfoRequest.token = mBuProcessor.getToken();
         homeInfoRequest.channel = mBuProcessor.getChannel();
         homeInfoRequest.book_type = mBuProcessor.getbookType();
-        homeInfoRequest.genre = genre;
+//        homeInfoRequest.genre = genre;
         mPresenter.onRequestHomeInfo(homeInfoRequest);
     }
 
+
     @Override
     public void getHomeInfoSuccess(HomeResponse homeResponse) {
-        mHomeAdapter.setNewData(homeResponse.getBooks());
+        bannerList = homeResponse.getBanner();
+        initBanner();
+        mHomeRecommendAdapter.setNewData(homeResponse.getRecommend());
+        mHomeNovelAdapter.setNewData(homeResponse.getNovels());
+        mHomeComicAdapter.setNewData(homeResponse.getMoods());
     }
 
-    @OnClick({R.id.comic_title_tv, R.id.novel_title_tv})
+    @OnClick({R.id.peringkat_iv, R.id.jenis_iv})
     public void onViewClicked(View view) {
-        Drawable drawable;
         switch (view.getId()) {
-            case R.id.comic_title_tv://漫画
-                mComicTitleTv.setTextColor(getResources().getColor(R.color.black));
-                mNovelTitleTv.setTextColor(getResources().getColor(R.color.color_b4));
-                drawable = getResources().getDrawable(R.drawable.bg_rectangle_blue_bottom);
-                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-                mNovelTitleTv.setCompoundDrawables(null, null, null, null);
-                mComicTitleTv.setCompoundDrawables(null, null, null, drawable);
-                onRequestHome("1");
+            case R.id.peringkat_iv://排行
+                startActivitys(RankingActivity.class);
                 break;
-            case R.id.novel_title_tv://小说
-                mNovelTitleTv.setTextColor(getResources().getColor(R.color.black));
-                mComicTitleTv.setTextColor(getResources().getColor(R.color.color_b4));
-                drawable = getResources().getDrawable(R.drawable.bg_rectangle_blue_bottom);
-                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-                mComicTitleTv.setCompoundDrawables(null, null, null, null);
-                mNovelTitleTv.setCompoundDrawables(null, null, null, drawable);
-                onRequestHome("2");
+            case R.id.jenis_iv://分类
+                startActivitys(BookClassificationActivity.class);
                 break;
         }
     }

@@ -280,7 +280,7 @@
     <string name="ExpensesRecordAdapter_state7">kirim komentar langsung</string>
     <string name="ExpensesRecordAdapter_state8">tukar model komentar langsung</string>
 
-<!--    漫画 komik、小说novel、夜间mode malam、亮度kecerahan、跟随系统 sesuai sistem、背景 latar belakang、字号Ukuran tulisan、翻页 membalik halaman、上下翻页membalik atas bawah halaman、左右翻页 membalik kanan kiri halaman-->
+    <!--    漫画 komik、小说novel、夜间mode malam、亮度kecerahan、跟随系统 sesuai sistem、背景 latar belakang、字号Ukuran tulisan、翻页 membalik halaman、上下翻页membalik atas bawah halaman、左右翻页 membalik kanan kiri halaman-->
     <string name="HomeFragment_title_comic">komik</string>
     <string name="HomeFragment_title_novel">novel</string>
     <string name="read_book_mode">mode malam</string>

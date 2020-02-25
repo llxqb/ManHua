@@ -22,6 +22,7 @@ import com.shushan.manhua.entity.response.HomeResponse;
 import com.shushan.manhua.entity.user.User;
 import com.shushan.manhua.mvp.ui.activity.book.BookDetailActivity;
 import com.shushan.manhua.mvp.ui.adapter.HomeAdapter;
+import com.shushan.manhua.mvp.ui.adapter.KomikAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseFragment;
 import com.shushan.manhua.mvp.utils.LogUtils;
 
@@ -36,7 +37,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 /**
- * 首页漫画
+ * 分类 漫画
  */
 
 public class HomeComicFragment extends BaseFragment implements HomeFragmentControl.HomeView {
@@ -47,8 +48,8 @@ public class HomeComicFragment extends BaseFragment implements HomeFragmentContr
     RecyclerView mRecyclerView;
     Unbinder unbinder;
     private User mUser;
-    private HomeAdapter mHomeAdapter;
-    private List<HomeResponse.BooksBean> homeResponseList = new ArrayList<>();
+    private KomikAdapter mKomikAdapter;
+    private List<HomeResponse.HomeCommonBean> homeResponseList = new ArrayList<>();
 
     @Nullable
     @Override
@@ -66,11 +67,11 @@ public class HomeComicFragment extends BaseFragment implements HomeFragmentContr
 
     @Override
     public void initView() {
-        mHomeAdapter = new HomeAdapter(homeResponseList, mImageLoaderHelper);
+        mKomikAdapter = new KomikAdapter(homeResponseList, mImageLoaderHelper);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.setAdapter(mHomeAdapter);
-        mHomeAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-            HomeResponse.BooksBean booksBean = (HomeResponse.BooksBean) adapter.getItem(position);
+        mRecyclerView.setAdapter(mKomikAdapter);
+        mKomikAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            HomeResponse.HomeCommonBean booksBean = (HomeResponse.HomeCommonBean) adapter.getItem(position);
             if(booksBean!=null){
                 BookDetailActivity.start(getActivity(), String.valueOf(booksBean.getBook_id()));
             }
@@ -89,8 +90,8 @@ public class HomeComicFragment extends BaseFragment implements HomeFragmentContr
     private void onRequestHome() {
         HomeInfoRequest homeInfoRequest = new HomeInfoRequest();
         homeInfoRequest.token = mBuProcessor.getToken();
-        homeInfoRequest.channel = mBuProcessor.getChannel();
-        homeInfoRequest.book_type = mBuProcessor.getbookType();
+//        homeInfoRequest.channel = mBuProcessor.getChannel();
+//        homeInfoRequest.book_type = mBuProcessor.getbookType();
         homeInfoRequest.genre = "1";
         mPresenter.onRequestHomeInfo(homeInfoRequest);
     }
@@ -98,7 +99,7 @@ public class HomeComicFragment extends BaseFragment implements HomeFragmentContr
     @Override
     public void getHomeInfoSuccess(HomeResponse homeResponse) {
         LogUtils.e("homeResponse111:" + new Gson().toJson(homeResponse));
-        mHomeAdapter.setNewData(homeResponse.getBooks());
+        mKomikAdapter.setNewData(homeResponse.getBooks());
 
     }
 

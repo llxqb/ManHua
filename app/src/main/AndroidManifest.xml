@@ -29,6 +29,8 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
+        <activity android:name=".mvp.ui.activity.book.RankingActivity"></activity>
+        <activity android:name=".mvp.ui.activity.book.BookClassificationActivity" />
         <activity
             android:name=".mvp.ui.activity.book.ReadBookActivity"
             android:screenOrientation="portrait"
@@ -116,6 +118,7 @@
                 android:autoVerify="true"
                 tools:ignore="UnusedAttribute">
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
@@ -128,10 +131,12 @@
         <activity
             android:name=".mvp.ui.activity.main.MainActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:scheme="pulaukomik" />
             </intent-filter>
         </activity>

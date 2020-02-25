@@ -16,6 +16,16 @@ import retrofit2.http.Url;
 
 public interface BookApi {
     /**
+     * 下载文件
+     *
+     * @param fileUrl
+     * @return
+     */
+    @Streaming //大文件时要加不然会OOM
+    @GET
+    Call<ResponseBody> downloadFile(@Url String fileUrl);
+
+    /**
      * 查询书籍详情
      */
     @POST("cartoon/book/bookDetail")
@@ -141,13 +151,17 @@ public interface BookApi {
      */
     @POST("cartoon/book/novelRead")
     Observable<String> onRequestBookInfo(@Body String request);
+
     /**
-     * 下载文件
-     *
-     * @param fileUrl
-     * @return
+     * 分类  漫画/小说列表
      */
-    @Streaming //大文件时要加不然会OOM
-    @GET
-    Call<ResponseBody> downloadFile(@Url String fileUrl);
+    @POST("cartoon/book/classification")
+    Observable<String> onRequestClassification(@Body String request);
+    /**
+     * 获取排行榜数据
+     */
+    @POST("cartoon/book/ranking")
+    Observable<String> onRequestRanking(@Body String request);
+
+
 }

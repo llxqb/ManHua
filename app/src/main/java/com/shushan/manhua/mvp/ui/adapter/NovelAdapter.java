@@ -15,14 +15,14 @@ import com.shushan.manhua.help.ImageLoaderHelper;
 import java.util.List;
 
 /**
- * 首页书城adapter
+ * 小说adapter
  */
-public class HomeAdapter extends BaseQuickAdapter<HomeResponse.HomeCommonBean, BaseViewHolder> {
+public class NovelAdapter extends BaseQuickAdapter<HomeResponse.HomeCommonBean, BaseViewHolder> {
 
     private ImageLoaderHelper mImageLoaderHelper;
 
-    public HomeAdapter(@Nullable List<HomeResponse.HomeCommonBean> data, ImageLoaderHelper imageLoaderHelper) {
-        super(R.layout.item_home, data);
+    public NovelAdapter(@Nullable List<HomeResponse.HomeCommonBean> data, ImageLoaderHelper imageLoaderHelper) {
+        super(R.layout.item_komik, data);
         mImageLoaderHelper = imageLoaderHelper;
     }
 
@@ -31,7 +31,7 @@ public class HomeAdapter extends BaseQuickAdapter<HomeResponse.HomeCommonBean, B
         helper.addOnClickListener(R.id.item_home_layout);
         ImageView coverIv = helper.getView(R.id.cover_iv);
         helper.setText(R.id.book_name_tv, item.getBook_name());
-        mImageLoaderHelper.displayImage(mContext, item.getOblong_cover(), coverIv, Constant.LOADING_DEFAULT_3);
+        mImageLoaderHelper.displayRoundedCornerImage(mContext, item.getOblong_cover(), coverIv,5, Constant.LOADING_DEFAULT_3);
 
         RecyclerView labelRecyclerView = helper.getView(R.id.label_recycler_view);
         HomeLabelAdapter mLabelAdapter = new HomeLabelAdapter(item.getLabel());
