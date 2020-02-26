@@ -20,6 +20,7 @@
         android:layout_marginStart="@dimen/dp_12"
         android:layout_marginTop="@dimen/dp_10"
         android:layout_toEndOf="@id/cover_iv"
+        android:singleLine="true"
         android:textColor="@color/color_30"
         android:textSize="@dimen/sp_14"
         android:textStyle="bold" />

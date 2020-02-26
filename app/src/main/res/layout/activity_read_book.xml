@@ -10,7 +10,7 @@
         android:id="@+id/activity_hwtxtplay_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ffffff">
+        android:background="@color/white">
 
         <ImageView
             android:id="@+id/share_iv"
@@ -71,7 +71,7 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/activity_hwtxtplay_bottom"
         android:layout_below="@+id/activity_hwtxtplay_top"
-        android:background="#ffffff" />
+        android:background="@color/white" />
 
     <ImageView
         android:id="@+id/collection_iv"
@@ -92,16 +92,17 @@
         android:paddingStart="@dimen/dp_10"
         android:paddingTop="@dimen/dp_2"
         android:paddingEnd="@dimen/dp_10"
-        android:paddingBottom="@dimen/dp_10">
+        android:paddingBottom="@dimen/dp_10"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/pre_chapter_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:padding="@dimen/dp_8"
             android:text="@string/read_book_pre_chapter"
             android:textColor="@color/first_text_color"
-            android:gravity="center"
             android:textSize="@dimen/sp_10"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -112,11 +113,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_12"
+            android:gravity="center"
             android:padding="@dimen/dp_8"
             android:text="@string/read_book_next_chapter"
             android:textColor="@color/first_text_color"
             android:textSize="@dimen/sp_10"
-            android:gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

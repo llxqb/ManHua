@@ -2,6 +2,8 @@ package com.shushan.manhua.mvp.ui.activity.txtreaderlib.utils;
 
 import android.text.TextUtils;
 
+import com.shushan.manhua.mvp.utils.LogUtils;
+
 import org.mozilla.intl.chardet.nsDetector;
 import org.mozilla.intl.chardet.nsICharsetDetectionObserver;
 
@@ -43,8 +45,8 @@ public class FileCharsetDetector {
             if (!checked) {
                 charset = guessFileEncoding(file, new nsDetector());
                 if (!TextUtils.isEmpty(charset)) {
-                    if (charset.equals("Big5")) {
-                        charset = "GBK";
+                    if (charset.equals("Big5")||charset.equals("ASCII")) {
+                        charset = "UTF-8";
                     }
                 }
             }

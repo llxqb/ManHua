@@ -29,12 +29,12 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
-        <activity android:name=".mvp.ui.activity.book.RankingActivity"></activity>
+        <activity android:name=".mvp.ui.activity.book.RankingActivity"/>
         <activity android:name=".mvp.ui.activity.book.BookClassificationActivity" />
         <activity
             android:name=".mvp.ui.activity.book.ReadBookActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/HwTxtFullScreen" />
+            />
         <activity
             android:name=".mvp.ui.activity.main.TestActivity"
             android:screenOrientation="portrait" />

@@ -188,6 +188,7 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
     protected void initContentView() {
         setContentView(R.layout.activity_read_book);
         initInjectData();
+        setStatusBar();
         mUser = mBuProcessor.getUser();
         mLoginModel = mBuProcessor.getLoginModel();
     }
@@ -368,7 +369,7 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
             mChapterListPopupWindow = new ChapterListPopupWindow(this, mReadingBookResponse, mSelectionResponse, mBuProcessor, mImageLoaderHelper, this);
         }
         mChapterListPopupWindow.initPopWindow(mReadBookLayout);
-        mChapterListPopupWindow.setBackGroundColor(mTxtReaderView.getBackgroundColor());
+//        mChapterListPopupWindow.setBackGroundColor(mTxtReaderView.getBackgroundColor());
     }
 
     /**
@@ -524,6 +525,7 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
         if (mTxtReaderView.getTxtReaderContext().getFileMsg() != null) {
             FileName = mTxtReaderView.getTxtReaderContext().getFileMsg().FileName;
         }
+        setStatusBar(mTxtReaderView.getBackgroundColor());
         mMenuTextSize.setText(mTxtReaderView.getTextSize() + "");
         mTopDecoration.setBackgroundColor(mTxtReaderView.getBackgroundColor());
         mBottomDecoration.setBackgroundColor(mTxtReaderView.getBackgroundColor());
@@ -559,7 +561,7 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
         setSeekBarListener();
         setCenterClickListener();
         setPageChangeListener();
-        setOnTextSelectListener();
+//        setOnTextSelectListener();
         setStyleChangeListener();
         setExtraListener();
     }
@@ -625,10 +627,14 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
 
     }
 
-    private boolean isMove = true ;//false 滑动翻页上一页  true 滑动翻页下一页
+    private boolean isMove = true;//false 滑动翻页上一页  true 滑动翻页下一页
 
     protected void setPageChangeListener() {
         mTxtReaderView.setPageChangeListener(progress -> {
+            if (mBottomDecoration.getVisibility() == View.VISIBLE) {
+                Gone(mTopMenu, mBottomDecoration);
+                setStatusBar(mTxtReaderView.getBackgroundColor());
+            }
             int p = (int) (progress * 1000);
 //            LogUtils.e("p:" + p / 10);
             mChapterSeekBar.setProgress(p / 10);
@@ -641,6 +647,10 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
                 //第一页  跳到上一章
                 if (isMove) {
                     isMove = false;
+                    if (mBottomDecoration.getVisibility() == View.VISIBLE) {
+                        Gone(mTopMenu, mBottomDecoration);
+                        setStatusBar(mTxtReaderView.getBackgroundColor());
+                    }
                     if (mReadingBookResponse != null) {
                         mCatalogueId = mReadingBookResponse.getCatalogue().getPre_catalogue_id();
                         onRequestBookInfo();
@@ -653,6 +663,10 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
                 //最后一页  跳到下一章
                 if (isMove) {
                     isMove = false;
+                    if (mBottomDecoration.getVisibility() == View.VISIBLE) {
+                        Gone(mTopMenu, mBottomDecoration);
+                        setStatusBar(mTxtReaderView.getBackgroundColor());
+                    }
                     if (mReadingBookResponse != null) {
                         mCatalogueId = mReadingBookResponse.getCatalogue().getNext_catalogue_id();
                         onRequestBookInfo();
@@ -666,12 +680,21 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
         mTxtReaderView.setOnCenterAreaClickListener(new ICenterAreaClickListener() {
             @Override
             public boolean onCenterClick(float widthPercentInView) {
-                mSettingText.performClick();
+                LogUtils.e("onCenterClick()");
+//                mSettingText.performClick();
+                if (mBottomDecoration.getVisibility() == View.VISIBLE) {
+                    Gone(mTopMenu, mBottomDecoration);//
+                    setStatusBar(mTxtReaderView.getBackgroundColor());
+                } else {
+                    Show(mTopMenu, mBottomDecoration);
+                    setStatusBar();
+                }
                 return true;
             }
 
             @Override
             public boolean onOutSideCenterClick(float widthPercentInView) {
+                LogUtils.e("onOutSideCenterClick()");
                 if (mBottomMenu.getVisibility() == View.VISIBLE) {
                     mSettingText.performClick();
                     return true;
@@ -684,6 +707,7 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
     protected void setMenuListener() {
         mCoverView.setOnTouchListener((view, motionEvent) -> {
             Gone(mTopMenu, mBottomMenu, mCoverView, mChapterMsgView);
+            setStatusBar(mTxtReaderView.getBackgroundColor());
             return true;
         });
     }
@@ -735,7 +759,7 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
                         mChapterListPopupWindow = new ChapterListPopupWindow(this, mReadingBookResponse, mSelectionResponse, mBuProcessor, mImageLoaderHelper, this);
                     }
                     mChapterListPopupWindow.initPopWindow(mReadBookLayout);
-                    mChapterListPopupWindow.setBackGroundColor(mTxtReaderView.getBackgroundColor());
+//                    mChapterListPopupWindow.setBackGroundColor(mTxtReaderView.getBackgroundColor());
                 }
                 break;
             case R.id.collection_iv://加入书架
@@ -832,8 +856,8 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
                     } else {
                         mReadModelTv.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.night_mode_choose), null, null);
                         //设置夜间模式
-                        BrightnessTools.setWindowBrightness(25, this, mSharePreferenceUtil);
-                        mMenuSeekBar.setProgress(25 * 100 / 255);
+                        BrightnessTools.setWindowBrightness(20, this, mSharePreferenceUtil);
+                        mMenuSeekBar.setProgress(20 * 100 / 255);
                     }
                 }
             }
@@ -874,7 +898,11 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
 
     @Override
     public void switchChapterPage(int chapterId) {
-        LogUtils.e("chapterId:" + chapterId);
+//        LogUtils.e("chapterId:" + chapterId);
+        if (mBottomDecoration.getVisibility() == View.VISIBLE) {
+            Gone(mTopMenu, mBottomDecoration);
+            setStatusBar(mTxtReaderView.getBackgroundColor());
+        }
         mCatalogueId = chapterId;
         onRequestBookInfo();
     }
@@ -1028,6 +1056,7 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
             mTxtReaderView.setStyle(BgColor, TextColor);
             mTopDecoration.setBackgroundColor(BgColor);
             mBottomDecoration.setBackgroundColor(BgColor);
+            setStatusBar(BgColor);
         }
     }
 
@@ -1074,14 +1103,18 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
     @Override
     public void onBackPressed() {
 //        super.onBackPressed();
-        if (mReadingBookResponse.getCatalogue().getState() == 1) {
-            finish();
-        } else {
-            if (!isAddBookshelf) {
-                new ExitReadingBookPopupWindow(this, this).initPopWindow(mReadBookLayout);
-            } else {
+        if (mReadingBookResponse != null) {
+            if (mReadingBookResponse.getCatalogue().getState() == 1) {
                 finish();
+            } else {
+                if (!isAddBookshelf) {
+                    new ExitReadingBookPopupWindow(this, this).initPopWindow(mReadBookLayout);
+                } else {
+                    finish();
+                }
             }
+        } else {
+            finish();
         }
     }
 

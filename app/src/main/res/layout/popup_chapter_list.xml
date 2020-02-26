@@ -5,14 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:paddingStart="@dimen/dp_16"
-    android:paddingTop="@dimen/dp_32"
-    android:paddingEnd="@dimen/dp_12">
+    android:paddingTop="@dimen/dp_32">
 
     <ImageView
         android:id="@+id/book_cover_iv"
         android:layout_width="@dimen/dp_99"
         android:layout_height="@dimen/dp_60"
+        android:layout_marginStart="@dimen/dp_16"
         android:src="@mipmap/default_graph_2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,7 +21,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_10"
-        android:layout_marginEnd="@dimen/dp_10"
+        android:layout_marginEnd="@dimen/dp_20"
         android:maxLines="2"
         android:textColor="@color/color_30"
         android:textSize="@dimen/sp_16"
@@ -38,18 +37,25 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_10"
         android:layout_marginTop="@dimen/dp_8"
-        android:layout_marginEnd="@dimen/dp_10"
+        android:layout_marginEnd="@dimen/dp_20"
         android:textColor="@color/color_80"
         android:textSize="@dimen/sp_14"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/book_cover_iv"
         app:layout_constraintTop_toBottomOf="@id/book_name_tv" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_18"
+        android:background="#F6F7F9"
+        app:layout_constraintTop_toBottomOf="@id/book_cover_iv" />
 
     <TextView
         android:id="@+id/chapter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_16"
         android:layout_marginTop="@dimen/dp_40"
         android:text="Chapter"
         android:textColor="@color/color_30"
@@ -63,6 +69,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_42"
+        android:layout_marginEnd="@dimen/dp_12"
         android:drawableEnd="@mipmap/list_positive_sequence"
         android:drawablePadding="@dimen/dp_4"
         android:padding="@dimen/dp_4"
@@ -76,7 +83,9 @@
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginStart="@dimen/dp_16"
         android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginEnd="@dimen/dp_12"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/chapter" />
 </android.support.constraint.ConstraintLayout>

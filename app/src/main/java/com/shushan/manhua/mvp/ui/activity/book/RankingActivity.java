@@ -30,7 +30,7 @@ import butterknife.BindView;
 /**
  * 排行榜
  */
-public class RankingActivity extends BaseActivity implements RankingControl.RankingView , BaseQuickAdapter.RequestLoadMoreListener {
+public class RankingActivity extends BaseActivity implements RankingControl.RankingView, BaseQuickAdapter.RequestLoadMoreListener {
 
     @Inject
     RankingControl.PresenterRanking mPresenter;
@@ -75,6 +75,7 @@ public class RankingActivity extends BaseActivity implements RankingControl.Rank
     }
 
     boolean isReqState = false;//加载更多 正在请求状态
+
     @Override
     public void onLoadMoreRequested() {
         if (!isReqState) {
@@ -97,13 +98,21 @@ public class RankingActivity extends BaseActivity implements RankingControl.Rank
             }
         }
     }
-    
+
+    List<RankingResponse.ListBean> tempListBean = new ArrayList<>();
+
     @Override
     public void getRankingSuccess(RankingResponse rankingResponse) {
         isReqState = false;
         mRankingList = rankingResponse.getList();
         mRankingResponse = rankingResponse;
-        mRankingAdapter.setNewData(rankingResponse.getList());
+        for (int i = 0; i < mRankingList.size(); i++) {
+            RankingResponse.ListBean listBean = mRankingList.get(i);
+            if (i >= 3) {
+                tempListBean.add(listBean);
+            }
+        }
+        mRankingAdapter.setNewData(tempListBean);//去掉1、2、3
         initRecyclerViewHeader();
     }
 
@@ -169,10 +178,10 @@ public class RankingActivity extends BaseActivity implements RankingControl.Rank
                 ranking2Label1Tv.setVisibility(View.VISIBLE);
                 ranking2Label1Tv.setText(listBean2.getLabel().get(0));
             }
-            if (listBean2.getLabel().size() > 1) {//2个标签
-                ranking2Label2Tv.setVisibility(View.VISIBLE);
-                ranking2Label2Tv.setText(listBean2.getLabel().get(1));
-            }
+//            if (listBean2.getLabel().size() > 1) {//2个标签
+//                ranking2Label2Tv.setVisibility(View.VISIBLE);
+//                ranking2Label2Tv.setText(listBean2.getLabel().get(1));
+//            }
         }
         //排行榜第三名
         if (mRankingList.size() > 2) {
@@ -187,10 +196,10 @@ public class RankingActivity extends BaseActivity implements RankingControl.Rank
                 ranking3Label1Tv.setVisibility(View.VISIBLE);
                 ranking3Label1Tv.setText(listBean3.getLabel().get(0));
             }
-            if (listBean3.getLabel().size() > 1) {//2个标签
-                ranking3Label2Tv.setVisibility(View.VISIBLE);
-                ranking3Label2Tv.setText(listBean3.getLabel().get(1));
-            }
+//            if (listBean3.getLabel().size() > 1) {//2个标签
+//                ranking3Label2Tv.setVisibility(View.VISIBLE);
+//                ranking3Label2Tv.setText(listBean3.getLabel().get(1));
+//            }
         }
 
         mBackIv.setOnClickListener(v -> finish());
@@ -219,5 +228,4 @@ public class RankingActivity extends BaseActivity implements RankingControl.Rank
     }
 
 
-   
 }

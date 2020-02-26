@@ -67,7 +67,7 @@ public class ChapterListPopupWindow {
             //创建并显示popWindow
             mCustomPopWindow = new CustomPopWindow.PopupWindowBuilder(mContext)
                     .setView(contentView)
-                    .enableBackgroundDark(true)
+                    .enableBackgroundDark(false)
                     .size(SystemUtils.getScreenWidth(mContext) * 4 / 5, ViewGroup.LayoutParams.MATCH_PARENT)//显示大小
                     .create();
             mCustomPopWindow.showAtLocation(view, Gravity.BOTTOM | Gravity.LEFT, 0, 0);

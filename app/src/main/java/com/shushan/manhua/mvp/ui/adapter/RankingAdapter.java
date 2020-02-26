@@ -28,18 +28,16 @@ public class RankingAdapter extends BaseQuickAdapter<RankingResponse.ListBean, B
     @Override
     protected void convert(BaseViewHolder helper, RankingResponse.ListBean item) {
         helper.addOnClickListener(R.id.item_ranking_layout);
-        if (helper.getPosition() >= 3) {//排名1、2、3不计算在内
-            ImageView coverIv = helper.getView(R.id.cover_iv);
-            helper.setText(R.id.book_name_tv, item.getBook_name());
-            helper.setText(R.id.author_tv, "Penulis：" + item.getAuthor());
-            helper.setText(R.id.update_to_chapter_tv, "Perbarui ke " + item.getLastBookCatalogue());
-            mImageLoaderHelper.displayRoundedCornerImage(mContext, item.getOblong_cover(), coverIv, 5, Constant.LOADING_DEFAULT_4);
-            RecyclerView labelRecyclerView = helper.getView(R.id.label_recycler_view);
-            RankingLabelAdapter mRankingLabelAdapter = new RankingLabelAdapter(item.getLabel());
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
-            linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-            labelRecyclerView.setLayoutManager(linearLayoutManager);
-            labelRecyclerView.setAdapter(mRankingLabelAdapter);
-        }
+        ImageView coverIv = helper.getView(R.id.cover_iv);
+        helper.setText(R.id.book_name_tv, item.getBook_name());
+        helper.setText(R.id.author_tv, "Penulis：" + item.getAuthor());
+        helper.setText(R.id.update_to_chapter_tv, "Perbarui ke " + item.getLastBookCatalogue());
+        mImageLoaderHelper.displayRoundedCornerImage(mContext, item.getOblong_cover(), coverIv, 5, Constant.LOADING_DEFAULT_4);
+        RecyclerView labelRecyclerView = helper.getView(R.id.label_recycler_view);
+        RankingLabelAdapter mRankingLabelAdapter = new RankingLabelAdapter(item.getLabel());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        labelRecyclerView.setLayoutManager(linearLayoutManager);
+        labelRecyclerView.setAdapter(mRankingLabelAdapter);
     }
 }
