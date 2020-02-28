@@ -841,6 +841,15 @@ public abstract class TxtReaderBaseView extends View implements GestureDetector.
         return m;
     }
 
+    protected synchronized float getMoveDistanceY() {
+        int i = (int) (mTouch.y - mDown.y);
+        float m = mTouch.y - mDown.y;
+        if (i < m) {
+            return i + 1;
+        }
+        return m;
+    }
+
     protected void tryDoPagePre() {
         BottomPage = readerContext.getBitmapData().FirstPage();
     }

@@ -284,7 +284,19 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
 
     @Override
     public void getReadingBookInfoSuccess(ReadingBookResponse readingBookResponse) {
-        isMove = true;
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    Thread.sleep(2500);//休眠2.5秒
+                    isMove = true;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+
         if (readingBookResponse.getCatalogue().getCatalogue_id() == 0) {
             showRechargeDialog(); //进行弹框
         } else {
@@ -307,6 +319,11 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
             }
             onRequestReadRecording(0);
         }
+    }
+
+    @Override
+    public void getReadingBookInfoFail() {
+        isMove = true;
     }
 
 
@@ -543,6 +560,8 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
             mTxtReaderView.setPageSwitchByCover();
         } else if (pageSwitchMode == TxtConfig.PAGE_SWITCH_MODE_SHEAR) {
             mTxtReaderView.setPageSwitchByShear();
+        } else if (pageSwitchMode == TxtConfig.PAGE_SWITCH_MODE_UP_DOWN) {
+            mTxtReaderView.setPageSwitchByUpDown();
         }
         //章节初始化
         if (mTxtReaderView.getChapters() != null && mTxtReaderView.getChapters().size() > 0) {
@@ -680,7 +699,7 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
         mTxtReaderView.setOnCenterAreaClickListener(new ICenterAreaClickListener() {
             @Override
             public boolean onCenterClick(float widthPercentInView) {
-                LogUtils.e("onCenterClick()");
+//                LogUtils.e("onCenterClick()");
 //                mSettingText.performClick();
                 if (mBottomDecoration.getVisibility() == View.VISIBLE) {
                     Gone(mTopMenu, mBottomDecoration);//
@@ -694,7 +713,6 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
 
             @Override
             public boolean onOutSideCenterClick(float widthPercentInView) {
-                LogUtils.e("onOutSideCenterClick()");
                 if (mBottomMenu.getVisibility() == View.VISIBLE) {
                     mSettingText.performClick();
                     return true;

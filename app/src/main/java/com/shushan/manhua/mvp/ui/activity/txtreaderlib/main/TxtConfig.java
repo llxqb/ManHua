@@ -30,6 +30,7 @@ public class TxtConfig {
     public static  final int PAGE_SWITCH_MODE_COVER = 1;//in px
     public static  final int PAGE_SWITCH_MODE_SERIAL = 2;//in px
     public static  final int PAGE_SWITCH_MODE_SHEAR = 3;//in px
+    public static  final int PAGE_SWITCH_MODE_UP_DOWN = 4;//in px
 
     public static  int Page_PaddingLeft = 20;//in px
     public static  int Page_PaddingBottom = 20;//in px

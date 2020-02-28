@@ -194,7 +194,7 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.search_rl:
-                showToast("搜索");
+//                showToast("搜索");
                 break;
             case R.id.vip_center_tv:
                 startActivitys(MemberCenterActivity.class);
@@ -204,7 +204,7 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
                     if (mBookShelfResponse.getLast_read().getGenre() == 1) {// 类型1漫画（默认）2小说
                         ReadActivity.start(getActivity(), String.valueOf(mBookShelfResponse.getLast_read().getBook_id()), mBookShelfResponse.getLast_read().getCatalogue_id());//阅读页面
                     } else {//小说
-//                        ReadBookActivity.loadTxtFile(this, FilePath);
+                        ReadBookActivity.start(getActivity(), String.valueOf(mBookShelfResponse.getLast_read().getBook_id()),mBookShelfResponse.getLast_read().getCatalogue_id());
                     }
                 }
                 break;

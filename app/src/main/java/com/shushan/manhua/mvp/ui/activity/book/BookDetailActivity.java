@@ -23,6 +23,7 @@ import com.shushan.manhua.entity.constants.ActivityConstant;
 import com.shushan.manhua.entity.request.AddBookShelfRequest;
 import com.shushan.manhua.entity.request.BookDetailRequest;
 import com.shushan.manhua.entity.response.BookDetailInfoResponse;
+import com.shushan.manhua.mvp.ui.activity.login.LoginActivity;
 import com.shushan.manhua.mvp.ui.adapter.LabelAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseActivity;
 import com.shushan.manhua.mvp.ui.fragment.bookDetail.BookDetailFragment;
@@ -64,12 +65,30 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
     private BookDetailInfoResponse mBookDetailInfoResponse;
     private LabelAdapter mLabelAdapter;
     private boolean mIsBook;//是否是小说  false 漫画  true 小说
+    private int mLoginModel = 1;//1 是游客模式 2 是登录模式
 
     public static void start(Context context, String bookId) {
         Intent intent = new Intent(context, BookDetailActivity.class);
         intent.putExtra("bookId", bookId);
         context.startActivity(intent);
     }
+
+    @Override
+    public void onReceivePro(Context context, Intent intent) {
+        if (intent.getAction() != null) {
+           if (intent.getAction().equals(ActivityConstant.LOGIN_SUCCESS_UPDATE_DATA)) {
+                mLoginModel = mBuProcessor.getLoginModel();
+            }
+        }
+        super.onReceivePro(context, intent);
+    }
+
+    @Override
+    public void addFilter() {
+        super.addFilter();
+        mFilter.addAction(ActivityConstant.LOGIN_SUCCESS_UPDATE_DATA);
+    }
+
 
     @Override
     protected void initContentView() {
@@ -94,6 +113,7 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
     @Override
     public void initData() {
         onRequestDetailInfo();
+        mLoginModel = mBuProcessor.getLoginModel();
     }
 
 
@@ -104,7 +124,11 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
                 finish();
                 break;
             case R.id.add_bookshelf_layout:
-                onAddBookShelfRequest();
+                if (mLoginModel == 1) {
+                    toLogin();
+                } else {
+                    onAddBookShelfRequest();
+                }
                 break;
             case R.id.start_reading_tv:
                 if (mBookDetailInfoResponse != null) {
@@ -120,6 +144,14 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
                 }
                 break;
         }
+    }
+
+    /**
+     * 游客提示登录
+     */
+    private void toLogin() {
+        showToast(getString(R.string.please_login_hint));
+        startActivitys(LoginActivity.class);
     }
 
     /**

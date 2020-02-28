@@ -61,6 +61,7 @@ public class ReadBookPresenterImpl implements ReadBookControl.PresenterReadBook 
                 mReadBookView.getReadingBookInfoSuccess(response);
             }
         } else {
+            mReadBookView.getReadingBookInfoFail();
             mReadBookView.showToast(responseData.errorMsg);
         }
     }

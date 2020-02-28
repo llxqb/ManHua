@@ -521,12 +521,12 @@ public class TxtReaderView extends TxtReaderBaseView {
     }
 
     /**
-     * 上下翻页
+     * 上下翻页 TODO
      */
-    public void setPageSwitchByTopBottom() {
+    public void setPageSwitchByUpDown() {
         TxtConfig.saveSwitchByTranslate(getContext(), false);
-        getTxtReaderContext().getTxtConfig().Page_Switch_Mode = TxtConfig.PAGE_SWITCH_MODE_COVER;
-        drawer = new NormalPageDrawer(this, readerContext, mScroller);
+        getTxtReaderContext().getTxtConfig().Page_Switch_Mode = TxtConfig.PAGE_SWITCH_MODE_UP_DOWN;
+        drawer = new UpDownPageDrawer(this, readerContext, mScroller);
     }
 
     /**
