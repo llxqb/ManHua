@@ -46,13 +46,10 @@ import com.shushan.manhua.help.DialogFactory;
 import com.shushan.manhua.listener.DownloadListener;
 import com.shushan.manhua.mvp.ui.activity.login.LoginActivity;
 import com.shushan.manhua.mvp.ui.activity.mine.BuyActivity;
-import com.shushan.manhua.mvp.ui.activity.txtreaderlib.bean.TxtChar;
 import com.shushan.manhua.mvp.ui.activity.txtreaderlib.bean.TxtMsg;
 import com.shushan.manhua.mvp.ui.activity.txtreaderlib.interfaces.ICenterAreaClickListener;
 import com.shushan.manhua.mvp.ui.activity.txtreaderlib.interfaces.ILoadListener;
 import com.shushan.manhua.mvp.ui.activity.txtreaderlib.interfaces.IPageChangeListener2;
-import com.shushan.manhua.mvp.ui.activity.txtreaderlib.interfaces.ISliderListener;
-import com.shushan.manhua.mvp.ui.activity.txtreaderlib.interfaces.ITextSelectListener;
 import com.shushan.manhua.mvp.ui.activity.txtreaderlib.main.TxtConfig;
 import com.shushan.manhua.mvp.ui.activity.txtreaderlib.main.TxtReaderView;
 import com.shushan.manhua.mvp.ui.base.BaseActivity;
@@ -244,7 +241,6 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
         registerListener();
         boolean lingSystem = mSharePreferenceUtil.getBooleanData(Constant.LING_SYSTEM, true);
         int lingValue = mSharePreferenceUtil.getIntData(Constant.SET_LING, BrightnessTools.getSystemLing(this));
-        int readPageModel = mSharePreferenceUtil.getIntData(Constant.READ_PAGE_MODEL, 0);
         boolean nightModelFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_NIGHT_MODEL, false);////夜间模式
         if (lingSystem) {
             mMenuBrightnessSystem.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.novel_settings_oval_choose), null, null, null);
@@ -252,13 +248,7 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
             mMenuBrightnessSystem.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.novel_settings_oval), null, null, null);
         }
         mMenuSeekBar.setProgress(lingValue);
-//        if (readPageModel == 0) {
-//            mMenuPageModel1Tv.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.novel_settings_oval_choose), null, null, null);
-//            mMenuPageModel2Tv.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.novel_settings_oval), null, null, null);
-//        } else {
-//            mMenuPageModel1Tv.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.novel_settings_oval), null, null, null);
-//            mMenuPageModel2Tv.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.novel_settings_oval_choose), null, null, null);
-//        }
+
         if (nightModelFlag) {
             mReadModelTv.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.night_mode_choose), null, null);
         } else {
@@ -370,7 +360,7 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
         selectionRequest.book_id = mBookId;
         selectionRequest.orderby = "asc";
         selectionRequest.page = String.valueOf(1);
-        selectionRequest.pagesize = "500";//
+        selectionRequest.pagesize = "2000";//
         mPresenter.onRequestSelectionInfo(selectionRequest);
     }
 
@@ -544,23 +534,38 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
         }
         setStatusBar(mTxtReaderView.getBackgroundColor());
         mMenuTextSize.setText(mTxtReaderView.getTextSize() + "");
-        mTopDecoration.setBackgroundColor(mTxtReaderView.getBackgroundColor());
-        mBottomDecoration.setBackgroundColor(mTxtReaderView.getBackgroundColor());
+        boolean nightModelFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_NIGHT_MODEL, false);//夜间模式
+        if (nightModelFlag) {
+            setNightBg();
+        } else {
+            mTopDecoration.setBackgroundColor(mTxtReaderView.getBackgroundColor());
+            mBottomDecoration.setBackgroundColor(mTxtReaderView.getBackgroundColor());
+        }
         //mTxtReaderView.setLeftSlider(new MuiLeftSlider());//修改左滑动条
         //mTxtReaderView.setRightSlider(new MuiRightSlider());//修改右滑动条
         //字体初始化
 //        onTextSettingUi(mTxtReaderView.getTxtReaderContext().getTxtConfig().Bold);
         //翻页初始化
-        onPageSwitchSettingUi(mTxtReaderView.getTxtReaderContext().getTxtConfig().Page_Switch_Mode);
+//        onPageSwitchSettingUi(mTxtReaderView.getTxtReaderContext().getTxtConfig().Page_Switch_Mode);
         //保存的翻页模式
-        int pageSwitchMode = mTxtReaderView.getTxtReaderContext().getTxtConfig().Page_Switch_Mode;
-        if (pageSwitchMode == TxtConfig.PAGE_SWITCH_MODE_SERIAL) {
+//        int pageSwitchMode = mTxtReaderView.getTxtReaderContext().getTxtConfig().Page_Switch_Mode;
+//        if (pageSwitchMode == TxtConfig.PAGE_SWITCH_MODE_SERIAL) {
+//            mTxtReaderView.setPageSwitchByTranslate();
+//        } else if (pageSwitchMode == TxtConfig.PAGE_SWITCH_MODE_COVER) {
+//            mTxtReaderView.setPageSwitchByCover();
+//        } else if (pageSwitchMode == TxtConfig.PAGE_SWITCH_MODE_SHEAR) {
+//            mTxtReaderView.setPageSwitchByShear();
+//        } else if (pageSwitchMode == TxtConfig.PAGE_SWITCH_MODE_UP_DOWN) {
+//            mTxtReaderView.setPageSwitchByUpDown();
+//        }
+        int readPageModel = mSharePreferenceUtil.getIntData(Constant.READ_PAGE_MODEL, 0);
+        if (readPageModel == 0) {
+            mMenuPageModel1Tv.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.novel_settings_oval_choose), null, null, null);
+            mMenuPageModel2Tv.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.novel_settings_oval), null, null, null);
             mTxtReaderView.setPageSwitchByTranslate();
-        } else if (pageSwitchMode == TxtConfig.PAGE_SWITCH_MODE_COVER) {
-            mTxtReaderView.setPageSwitchByCover();
-        } else if (pageSwitchMode == TxtConfig.PAGE_SWITCH_MODE_SHEAR) {
-            mTxtReaderView.setPageSwitchByShear();
-        } else if (pageSwitchMode == TxtConfig.PAGE_SWITCH_MODE_UP_DOWN) {
+        } else {
+            mMenuPageModel1Tv.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.novel_settings_oval), null, null, null);
+            mMenuPageModel2Tv.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.novel_settings_oval_choose), null, null, null);
             mTxtReaderView.setPageSwitchByUpDown();
         }
         //章节初始化
@@ -580,7 +585,6 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
         setSeekBarListener();
         setCenterClickListener();
         setPageChangeListener();
-//        setOnTextSelectListener();
         setStyleChangeListener();
         setExtraListener();
     }
@@ -601,49 +605,6 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
         mMenuStyle3.setOnClickListener(new StyleChangeClickListener(ContextCompat.getColor(this, R.color.hwtxtreader_styleclor3), StyleTextColors[2]));
         mMenuStyle4.setOnClickListener(new StyleChangeClickListener(ContextCompat.getColor(this, R.color.hwtxtreader_styleclor4), StyleTextColors[3]));
         mMenuStyle5.setOnClickListener(new StyleChangeClickListener(ContextCompat.getColor(this, R.color.hwtxtreader_styleclor5), StyleTextColors[4]));
-    }
-
-    protected void setOnTextSelectListener() {
-        mTxtReaderView.setOnTextSelectListener(new ITextSelectListener() {
-            @Override
-            public void onTextChanging(TxtChar firstSelectedChar, TxtChar lastSelectedChar) {
-                //firstSelectedChar.Top
-                //  firstSelectedChar.Bottom
-                // 这里可以根据 firstSelectedChar与lastSelectedChar的top与bottom的位置
-                //计算显示你要显示的弹窗位置，如果需要的话
-            }
-
-            @Override
-            public void onTextChanging(String selectText) {
-                onCurrentSelectedText(selectText);
-            }
-
-            @Override
-            public void onTextSelected(String selectText) {
-                onCurrentSelectedText(selectText);
-            }
-        });
-
-        mTxtReaderView.setOnSliderListener(new ISliderListener() {
-            @Override
-            public void onShowSlider(TxtChar txtChar) {
-                //TxtChar 为当前长按选中的字符
-                // 这里可以根据 txtChar的top与bottom的位置
-                //计算显示你要显示的弹窗位置，如果需要的话
-            }
-
-            @Override
-            public void onShowSlider(String currentSelectedText) {
-                onCurrentSelectedText(currentSelectedText);
-                Show(ClipboardView);
-            }
-
-            @Override
-            public void onReleaseSlider() {
-                Gone(ClipboardView);
-            }
-        });
-
     }
 
     private boolean isMove = true;//false 滑动翻页上一页  true 滑动翻页下一页
@@ -801,7 +762,26 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
                 }
                 break;
             case R.id.read_model_tv:
-                checkPermissions(3, 0);
+//                checkPermissions(3, 0);
+                boolean nightModelFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_NIGHT_MODEL, false);//夜间模式
+//                mSharePreferenceUtil.setData(Constant.LING_SYSTEM, false);
+                mMenuBrightnessSystem.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.novel_settings_oval), null, null, null);
+                if (nightModelFlag) {
+                    mReadModelTv.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.night_mode), null, null);
+                    //设置白天模式
+                    mSharePreferenceUtil.setData(Constant.IS_NIGHT_MODEL, false);
+                    //111
+                    int BgColor = mTxtReaderView.getBackgroundColor();
+                    mTxtReaderView.setStyle(BgColor, TxtConfig.getTextColor(this));
+                    mTopDecoration.setBackgroundColor(BgColor);
+                    mBottomDecoration.setBackgroundColor(BgColor);
+                    setStatusBar(BgColor);
+                } else {
+                    mReadModelTv.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.night_mode_choose), null, null);
+                    //设置夜间模式
+                    mSharePreferenceUtil.setData(Constant.IS_NIGHT_MODEL, true);
+                    setNightBg();
+                }
                 break;
             case R.id.activity_hwtxtplay_setting_text://设置
                 Show(mTopMenu, mBottomMenu, mCoverView);
@@ -809,20 +789,30 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
             case R.id.txtreadr_menu_brightness_system://亮度跟随系统
                 checkPermissions(1, 0);
                 break;
-            case R.id.txtreadr_menu_page_model1_tv://阅读页面模式  左右翻页
+            case R.id.txtreadr_menu_page_model1_tv:///阅读页面模式  左右翻页
                 mSharePreferenceUtil.setData(Constant.READ_PAGE_MODEL, 0);
                 mMenuPageModel1Tv.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.novel_settings_oval_choose), null, null, null);
                 mMenuPageModel2Tv.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.novel_settings_oval), null, null, null);
+                mTxtReaderView.setPageSwitchByTranslate();
                 break;
-            case R.id.txtreadr_menu_page_model2_tv:///阅读页面模式  上下翻页
-//                mSharePreferenceUtil.setData(Constant.READ_PAGE_MODEL, 1);
-//                mMenuPageModel1Tv.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.novel_settings_oval), null, null, null);
-//                mMenuPageModel2Tv.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.novel_settings_oval_choose), null, null, null);
+            case R.id.txtreadr_menu_page_model2_tv://阅读页面模式  上下翻页
+                mSharePreferenceUtil.setData(Constant.READ_PAGE_MODEL, 1);
+                mMenuPageModel1Tv.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.novel_settings_oval), null, null, null);
+                mMenuPageModel2Tv.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.novel_settings_oval_choose), null, null, null);
+                mTxtReaderView.setPageSwitchByUpDown();
                 break;
             case R.id.share_iv:
                 new SharePopupWindow(this, this).initPopWindow(mReadBookLayout);
                 break;
         }
+    }
+
+    private void setNightBg() {
+        int BgColor = ContextCompat.getColor(this, R.color.black);
+        mTxtReaderView.setNightStyle(BgColor, Color.parseColor("#ffffff"));
+        mTopDecoration.setBackgroundColor(BgColor);
+        mBottomDecoration.setBackgroundColor(BgColor);
+        setStatusBar(BgColor);
     }
 
     /**
@@ -898,21 +888,6 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
         }
     }
 
-    private void onPageSwitchSettingUi(int pageSwitchMode) {
-        if (pageSwitchMode == TxtConfig.PAGE_SWITCH_MODE_SERIAL) {
-            mMenuTranslateSelectedLayout.setBackgroundResource(R.drawable.shape_menu_textsetting_selected);
-            mMenuCoverSelectedLayout.setBackgroundResource(R.drawable.shape_menu_textsetting_unselected);
-            mMenuShearSelectedLayout.setBackgroundResource(R.drawable.shape_menu_textsetting_unselected);
-        } else if (pageSwitchMode == TxtConfig.PAGE_SWITCH_MODE_COVER) {
-            mMenuTranslateSelectedLayout.setBackgroundResource(R.drawable.shape_menu_textsetting_unselected);
-            mMenuCoverSelectedLayout.setBackgroundResource(R.drawable.shape_menu_textsetting_selected);
-            mMenuShearSelectedLayout.setBackgroundResource(R.drawable.shape_menu_textsetting_unselected);
-        } else if (pageSwitchMode == TxtConfig.PAGE_SWITCH_MODE_SHEAR) {
-            mMenuTranslateSelectedLayout.setBackgroundResource(R.drawable.shape_menu_textsetting_unselected);
-            mMenuCoverSelectedLayout.setBackgroundResource(R.drawable.shape_menu_textsetting_unselected);
-            mMenuShearSelectedLayout.setBackgroundResource(R.drawable.shape_menu_textsetting_selected);
-        }
-    }
 
     @Override
     public void switchChapterPage(int chapterId) {
@@ -1031,7 +1006,6 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
             if (pageSwitchMode == TxtConfig.PAGE_SWITCH_MODE_SHEAR) {
                 mTxtReaderView.setPageSwitchByShear();
             }
-            onPageSwitchSettingUi(pageSwitchMode);
         }
     }
 

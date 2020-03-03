@@ -148,26 +148,59 @@ public class TxtReaderView extends TxtReaderBaseView {
 
 
         checkMoveState();
-        if (getMoveDistance() > 0 && isFirstPage()) {
-            ELogger.log(tag, "是第一页了");
-            if (pageChangeListener2 != null) {
-                pageChangeListener2.onPrePage();
-            }
-            return;
-        }
 
-        if (getMoveDistance() < 0 && isLastPage()) {
-            ELogger.log(tag, "是最后一页了");
-            if (pageChangeListener2 != null) {
-                pageChangeListener2.onNextPage();
+        if (getOrientation() == 0) {
+            if (getMoveDistance() > 0 && isFirstPage()) {
+                ELogger.log(tag, "是第一页了");
+                if (pageChangeListener2 != null) {
+                    pageChangeListener2.onPrePage();
+                }
+                return;
             }
-            return;
+
+            if (getMoveDistance() < 0 && isLastPage()) {
+                ELogger.log(tag, "是最后一页了");
+                if (pageChangeListener2 != null) {
+                    pageChangeListener2.onNextPage();
+                }
+                return;
+            }
+        } else {
+            if (getMoveDistanceY() > 0 && isFirstPage()) {
+                ELogger.log(tag, "是第一页了");
+                if (pageChangeListener2 != null) {
+                    pageChangeListener2.onPrePage();
+                }
+                return;
+            }
+
+            if (getMoveDistanceY() < 0 && isLastPage()) {
+                ELogger.log(tag, "是最后一页了");
+                if (pageChangeListener2 != null) {
+                    pageChangeListener2.onNextPage();
+                }
+                return;
+            }
         }
         invalidate();
     }
 
     protected void onActionUp(MotionEvent event) {
         super.onActionUp(event);
+        if (CurrentMode == Mode.SelectMoveBack) {
+            if (textSelectListener != null) {
+                textSelectListener.onTextSelected(getCurrentSelectedText());
+            }
+        } else if (CurrentMode == Mode.SelectMoveForward) {
+            if (textSelectListener != null) {
+                textSelectListener.onTextSelected(getCurrentSelectedText());
+            }
+        }
+
+    }
+
+    protected void onActionUp_Y(MotionEvent event) {
+        super.onActionUp_Y(event);
         if (CurrentMode == Mode.SelectMoveBack) {
             if (textSelectListener != null) {
                 textSelectListener.onTextSelected(getCurrentSelectedText());
@@ -188,6 +221,13 @@ public class TxtReaderView extends TxtReaderBaseView {
     @Override
     protected void drawSelectedText(Canvas canvas) {
         getDrawer().drawSelectedText(canvas);
+    }
+
+    private int mOrientation;
+
+    @Override
+    public int getOrientation() {
+        return mOrientation;
     }
 
     @Override
@@ -286,6 +326,24 @@ public class TxtReaderView extends TxtReaderBaseView {
         saveProgress();
         TxtConfig.saveTextColor(getContext(), textColor);
         TxtConfig.saveBackgroundColor(getContext(), backgroundColor);
+        readerContext.getTxtConfig().textColor = textColor;
+        readerContext.getTxtConfig().backgroundColor = backgroundColor;
+        if (readerContext.getBitmapData().getBgBitmap() != null) {
+            readerContext.getBitmapData().getBgBitmap().recycle();
+        }
+        int width = readerContext.getPageParam().PageWidth;
+        int height = readerContext.getPageParam().PageHeight;
+        readerContext.getBitmapData().setBgBitmap(TxtBitmapUtil.createBitmap(backgroundColor, width, height));
+        refreshCurrentView();
+    }
+    /**
+     * 设置样式
+     *
+     * @param backgroundColor
+     * @param textColor
+     */
+    public void setNightStyle(int backgroundColor, int textColor) {
+        saveProgress();
         readerContext.getTxtConfig().textColor = textColor;
         readerContext.getTxtConfig().backgroundColor = backgroundColor;
         if (readerContext.getBitmapData().getBgBitmap() != null) {
@@ -497,6 +555,7 @@ public class TxtReaderView extends TxtReaderBaseView {
      * 平移切换页面
      */
     public void setPageSwitchByTranslate() {
+        mOrientation = 0;
         TxtConfig.saveSwitchByTranslate(getContext(), true);
         getTxtReaderContext().getTxtConfig().Page_Switch_Mode = TxtConfig.PAGE_SWITCH_MODE_SERIAL;
         drawer = new SerialPageDrawer(this, readerContext, mScroller);
@@ -506,6 +565,7 @@ public class TxtReaderView extends TxtReaderBaseView {
      * 剪切切换页面
      */
     public void setPageSwitchByShear() {
+        mOrientation = 0;
         TxtConfig.saveSwitchByTranslate(getContext(), true);
         getTxtReaderContext().getTxtConfig().Page_Switch_Mode = TxtConfig.PAGE_SWITCH_MODE_SHEAR;
         drawer = new ShearPageDrawer(this, readerContext, mScroller);
@@ -515,19 +575,22 @@ public class TxtReaderView extends TxtReaderBaseView {
      * 滑盖切换页面
      */
     public void setPageSwitchByCover() {
+        mOrientation = 0;
         TxtConfig.saveSwitchByTranslate(getContext(), false);
         getTxtReaderContext().getTxtConfig().Page_Switch_Mode = TxtConfig.PAGE_SWITCH_MODE_COVER;
         drawer = new NormalPageDrawer(this, readerContext, mScroller);
     }
 
     /**
-     * 上下翻页 TODO
+     *  上下滑动切换页面
      */
     public void setPageSwitchByUpDown() {
+        mOrientation = 1;
         TxtConfig.saveSwitchByTranslate(getContext(), false);
         getTxtReaderContext().getTxtConfig().Page_Switch_Mode = TxtConfig.PAGE_SWITCH_MODE_UP_DOWN;
-        drawer = new UpDownPageDrawer(this, readerContext, mScroller);
+        drawer = new UpDownDrawer(this, readerContext, mScroller);
     }
+
 
     /**
      * 保存当前进度到数据库，建议退出时调用

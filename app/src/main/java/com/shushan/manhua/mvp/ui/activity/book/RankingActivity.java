@@ -88,14 +88,16 @@ public class RankingActivity extends BaseActivity implements RankingControl.Rank
                     } else {
                         //等于10条
                         page++;
-                        onRequestRanking();
                         isReqState = true;
+                        onRequestRanking();
                         mRankingAdapter.loadMoreComplete();
                     }
                 }
             } else {
                 mRankingAdapter.loadMoreEnd();
             }
+        }else {
+            mRankingAdapter.loadMoreEnd();
         }
     }
 
@@ -106,14 +108,18 @@ public class RankingActivity extends BaseActivity implements RankingControl.Rank
         isReqState = false;
         mRankingList = rankingResponse.getList();
         mRankingResponse = rankingResponse;
-        for (int i = 0; i < mRankingList.size(); i++) {
-            RankingResponse.ListBean listBean = mRankingList.get(i);
-            if (i >= 3) {
-                tempListBean.add(listBean);
+        if(page ==1){
+            for (int i = 0; i < mRankingList.size(); i++) {
+                RankingResponse.ListBean listBean = mRankingList.get(i);
+                if (i >= 3) {
+                    tempListBean.add(listBean);
+                }
             }
+            mRankingAdapter.setNewData(tempListBean);//去掉1、2、3
+            initRecyclerViewHeader();
+        }else {
+            mRankingAdapter.addData(mRankingList);
         }
-        mRankingAdapter.setNewData(tempListBean);//去掉1、2、3
-        initRecyclerViewHeader();
     }
 
 

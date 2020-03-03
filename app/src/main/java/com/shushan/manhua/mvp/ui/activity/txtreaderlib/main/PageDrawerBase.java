@@ -33,6 +33,11 @@ public class PageDrawerBase {
     protected float getMoveDistance() {
         return readerView.getMoveDistance();
     }
+
+    protected float getMoveDistanceY(){
+        return readerView.getMoveDistanceY();
+    }
+
     protected int getHeight() {
         return readerView.getHeight();
     }
