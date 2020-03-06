@@ -83,12 +83,11 @@
         android:layout_marginBottom="@dimen/dp_150"
         android:src="@mipmap/night_mode_like" />
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/activity_hwtxtplay_bottom"
+    <RelativeLayout
+        android:id="@+id/read_bottom_rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/app_bg_color"
         android:paddingStart="@dimen/dp_10"
         android:paddingTop="@dimen/dp_2"
         android:paddingEnd="@dimen/dp_10"
@@ -99,48 +98,46 @@
             android:id="@+id/pre_chapter_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
             android:gravity="center"
             android:padding="@dimen/dp_8"
             android:text="@string/read_book_pre_chapter"
             android:textColor="@color/first_text_color"
             android:textSize="@dimen/sp_10"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints" />
 
         <TextView
             android:id="@+id/next_chapter_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:layout_marginStart="@dimen/dp_12"
             android:gravity="center"
             android:padding="@dimen/dp_8"
             android:text="@string/read_book_next_chapter"
             android:textColor="@color/first_text_color"
-            android:textSize="@dimen/sp_10"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textSize="@dimen/sp_10" />
 
         <SeekBar
             android:id="@+id/chapter_seekBar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_6"
+            android:layout_toStartOf="@id/next_chapter_tv"
+            android:layout_toEndOf="@id/pre_chapter_tv"
             android:max="100"
             android:maxHeight="3.4dp"
             android:minHeight="3.4dp"
             android:progress="0"
             android:progressDrawable="@drawable/bg_adjust_seek_bar"
-            android:thumb="@mipmap/oval"
-            app:layout_constraintEnd_toStartOf="@id/next_chapter_tv"
-            app:layout_constraintStart_toEndOf="@id/pre_chapter_tv"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:thumb="@mipmap/oval" />
 
 
         <TextView
             android:id="@+id/directory_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/pre_chapter_tv"
             android:layout_marginStart="@dimen/dp_20"
             android:layout_marginTop="@dimen/dp_12"
             android:drawableTop="@mipmap/night_novel_directory"
@@ -148,14 +145,14 @@
             android:gravity="center"
             android:text="@string/read_book_mune"
             android:textColor="@color/first_text_color"
-            android:textSize="@dimen/sp_10"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/pre_chapter_tv" />
+            android:textSize="@dimen/sp_10" />
 
         <TextView
             android:id="@+id/read_model_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/pre_chapter_tv"
+            android:layout_centerHorizontal="true"
             android:layout_marginStart="@dimen/dp_8"
             android:layout_marginTop="@dimen/dp_12"
             android:drawableTop="@mipmap/night_mode"
@@ -163,15 +160,14 @@
             android:gravity="center"
             android:text="@string/read_book_mode"
             android:textColor="@color/first_text_color"
-            android:textSize="@dimen/sp_10"
-            app:layout_constraintEnd_toStartOf="@id/activity_hwtxtplay_setting_text"
-            app:layout_constraintStart_toEndOf="@id/directory_tv"
-            app:layout_constraintTop_toBottomOf="@id/pre_chapter_tv" />
+            android:textSize="@dimen/sp_10" />
 
         <TextView
             android:id="@+id/activity_hwtxtplay_setting_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/pre_chapter_tv"
+            android:layout_alignParentEnd="true"
             android:layout_marginTop="@dimen/dp_12"
             android:layout_marginEnd="@dimen/dp_20"
             android:drawableTop="@mipmap/novel_settings"
@@ -179,9 +175,7 @@
             android:gravity="center"
             android:text="@string/read_book_setting"
             android:textColor="@color/first_text_color"
-            android:textSize="@dimen/sp_10"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/pre_chapter_tv" />
+            android:textSize="@dimen/sp_10" />
 
 
         <!--        <TextView-->
@@ -207,7 +201,7 @@
         <!--            android:visibility="gone"-->
         <!--            android:text="设置"-->
         <!--            android:textColor="#858582" />-->
-    </android.support.constraint.ConstraintLayout>
+    </RelativeLayout>
 
 
     <RelativeLayout
@@ -216,7 +210,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="#000000"
-        android:visibility="gone">
+        android:visibility="gone"
+        >
 
         <View
             android:layout_width="match_parent"

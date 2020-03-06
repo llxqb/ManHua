@@ -11,12 +11,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.RequiresApi;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -91,8 +92,8 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
     TextView mChapterMsgProgress;
     @BindView(R.id.activity_hwtxtplay_top)
     RelativeLayout mTopDecoration;
-    @BindView(R.id.activity_hwtxtplay_bottom)
-    ConstraintLayout mBottomDecoration;
+    @BindView(R.id.read_bottom_rl)
+    RelativeLayout mReadBottomRl;
     @BindView(R.id.activity_hwtxtplay_readerView)
     TxtReaderView mTxtReaderView;
     @BindView(R.id.activity_hwtxtplay_chaptername)
@@ -170,7 +171,11 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
     private ChapterListPopupWindow mChapterListPopupWindow;
     private User mUser;
     private ReadUseCoinDialog mReadUseCoinDialog;//非免费章节 弹出购买弹框
-    public int mLoginModel =1;//1 是游客模式 2 是登录模式
+    public int mLoginModel = 1;//1 是游客模式 2 是登录模式
+    private Animation mTopInAnim;
+    private Animation mTopOutAnim;
+    private Animation mBottomInAnim;
+    private Animation mBottomOutAnim;
 
     public static void start(Context context, String bookId, int catalogueId) {
         Intent intent = new Intent(context, ReadBookActivity.class);
@@ -252,7 +257,22 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
         } else {
             mReadModelTv.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.night_mode), null, null);
         }
+        initMenuAnim();
     }
+
+    //初始化菜单动画
+    private void initMenuAnim() {
+        if (mTopInAnim != null) return;
+
+        mTopInAnim = AnimationUtils.loadAnimation(this, R.anim.slide_top_in);
+        mTopOutAnim = AnimationUtils.loadAnimation(this, R.anim.slide_top_out);
+        mBottomInAnim = AnimationUtils.loadAnimation(this, R.anim.slide_bottom_in);
+        mBottomOutAnim = AnimationUtils.loadAnimation(this, R.anim.slide_bottom_out);
+        //退出的速度要快
+        mTopOutAnim.setDuration(200);
+        mBottomOutAnim.setDuration(200);
+    }
+
 
     /**
      * 请求书籍信息
@@ -525,19 +545,18 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
 
 
     protected void initWhenLoadDone() {
-        hideTopBottom();
         TxtConfig.saveIsOnVerticalPageMode(this, false);
         if (mTxtReaderView.getTxtReaderContext().getFileMsg() != null) {
             FileName = mTxtReaderView.getTxtReaderContext().getFileMsg().FileName;
         }
-        setStatusBar(mTxtReaderView.getBackgroundColor());
         mMenuTextSize.setText(mTxtReaderView.getTextSize() + "");
         boolean nightModelFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_NIGHT_MODEL, false);//夜间模式
         if (nightModelFlag) {
             setNightBg();
         } else {
+            setStatusBar(mTxtReaderView.getBackgroundColor());
             mTopDecoration.setBackgroundColor(mTxtReaderView.getBackgroundColor());
-            mBottomDecoration.setBackgroundColor(mTxtReaderView.getBackgroundColor());
+            hideTopBottom();
         }
         //mTxtReaderView.setLeftSlider(new MuiLeftSlider());//修改左滑动条
         //mTxtReaderView.setRightSlider(new MuiRightSlider());//修改右滑动条
@@ -633,16 +652,12 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
             public boolean onCenterClick(float widthPercentInView) {
                 LogUtils.e("onCenterClick()");
 //                mSettingText.performClick();
-                if (mBottomDecoration.getVisibility() == View.VISIBLE) {
-                    Gone(mTopMenu, mBottomDecoration);//
-                    setStatusBar(mTxtReaderView.getBackgroundColor());
+                if (mReadBottomRl.getVisibility() == View.VISIBLE) {
+                    hideTopBottom();
                 } else {
-                    Show(mTopMenu, mBottomDecoration);
-                    mTopDecoration.setBackgroundColor(mTxtReaderView.getBackgroundColor());
-                    mBottomDecoration.setBackgroundColor(mTxtReaderView.getBackgroundColor());
-                    setStatusBar();
+                    showTopBottom();
                 }
-                return true;
+                return false;
             }
 
             @Override
@@ -750,8 +765,7 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
                     int BgColor = mTxtReaderView.getBackgroundColor();
                     mTxtReaderView.setStyle(BgColor, TxtConfig.getTextColor(this));
                     mTopDecoration.setBackgroundColor(BgColor);
-                    mBottomDecoration.setBackgroundColor(BgColor);
-                    setStatusBar(BgColor);
+                    hideTopBottom();
                 } else {
                     mReadModelTv.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.night_mode_choose), null, null);
                     //设置夜间模式
@@ -787,16 +801,42 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
         int BgColor = ContextCompat.getColor(this, R.color.black);
         mTxtReaderView.setNightStyle(BgColor, Color.parseColor("#ffffff"));
         mTopDecoration.setBackgroundColor(BgColor);
-        mBottomDecoration.setBackgroundColor(BgColor);
-        setStatusBar(BgColor);
+        mReadBottomRl.setBackgroundColor(BgColor);
+        setStatusBar();
+//        hideTopBottom();
     }
 
-    private void hideTopBottom(){
-        if (mBottomDecoration.getVisibility() == View.VISIBLE) {
-            Gone(mTopMenu, mBottomDecoration);
+    /**
+     * 显示菜单
+     */
+    private void showTopBottom() {
+        if (mReadBottomRl.getVisibility() == View.GONE) {
             setStatusBar(mTxtReaderView.getBackgroundColor());
+            Show(mTopMenu, mReadBottomRl);
+            mTopMenu.setBackgroundColor(mTxtReaderView.getBackgroundColor());
+            mReadBottomRl.setBackgroundColor(mTxtReaderView.getBackgroundColor());
+            mTopMenu.startAnimation(mTopInAnim);
+            mReadBottomRl.startAnimation(mBottomInAnim);
+//        showSystemBar();
+        }
+//        boolean nightModelFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_NIGHT_MODEL, false);//夜间模式
+//        if(nightModelFlag){
+//        }
+    }
+
+    /**
+     * 隐藏菜单
+     */
+    private void hideTopBottom() {
+        if (mReadBottomRl.getVisibility() == View.VISIBLE) {
+            Gone(mTopMenu, mReadBottomRl);
+            setStatusBar(mTxtReaderView.getBackgroundColor());
+            mTopMenu.startAnimation(mTopOutAnim);
+            mReadBottomRl.startAnimation(mBottomOutAnim);
         }
     }
+
+
     /**
      * 检查app 权限
      * flag 1: 亮度跟随系统   2:mMenuSeekBar 调节亮度  3 ：切换夜间模式
@@ -833,22 +873,6 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
                     mSharePreferenceUtil.setData(Constant.LING_SYSTEM, false);
                     mMenuBrightnessSystem.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.novel_settings_oval), null, null, null);
                     BrightnessTools.setWindowBrightness(progress * 255 / 100, this, mSharePreferenceUtil);
-                } else if (flag == 3) {
-                    boolean nightModelFlag = mSharePreferenceUtil.getBooleanData(Constant.IS_NIGHT_MODEL, false);//夜间模式
-                    mSharePreferenceUtil.setData(Constant.IS_NIGHT_MODEL, !nightModelFlag);
-                    mSharePreferenceUtil.setData(Constant.LING_SYSTEM, false);
-                    mMenuBrightnessSystem.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.novel_settings_oval), null, null, null);
-                    if (nightModelFlag) {
-                        mReadModelTv.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.night_mode), null, null);
-                        //设置白天模式
-                        BrightnessTools.setWindowBrightness(110, this, mSharePreferenceUtil);
-                        mMenuSeekBar.setProgress(110 * 100 / 255);
-                    } else {
-                        mReadModelTv.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.night_mode_choose), null, null);
-                        //设置夜间模式
-                        BrightnessTools.setWindowBrightness(20, this, mSharePreferenceUtil);
-                        mMenuSeekBar.setProgress(20 * 100 / 255);
-                    }
                 }
             }
         }
@@ -1026,7 +1050,7 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
         public void onClick(View view) {
             mTxtReaderView.setStyle(BgColor, TextColor);
             mTopDecoration.setBackgroundColor(BgColor);
-            mBottomDecoration.setBackgroundColor(BgColor);
+            mReadBottomRl.setBackgroundColor(BgColor);
             setStatusBar(BgColor);
         }
     }
