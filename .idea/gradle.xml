@@ -9,6 +9,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/BaseRecyclerViewAdapterLibrary" />
+            <option value="$PROJECT_DIR$/NovelReaderLibrary" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/multipleimageselect_library" />
             <option value="$PROJECT_DIR$/mzbanner" />
