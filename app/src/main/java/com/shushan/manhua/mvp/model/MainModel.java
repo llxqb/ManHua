@@ -8,6 +8,7 @@ import com.shushan.manhua.entity.request.MineRequest;
 import com.shushan.manhua.entity.request.PaySwitchRequest;
 import com.shushan.manhua.entity.request.ReadingSettingRequest;
 import com.shushan.manhua.entity.request.RecommendRequest;
+import com.shushan.manhua.entity.request.ScoreFinishRequest;
 import com.shushan.manhua.entity.request.UnReadMessageRequest;
 import com.shushan.manhua.network.networkapi.MainApi;
 
@@ -58,6 +59,13 @@ public class MainModel {
      */
     public Observable<ResponseData> onRequestPaySwitch(PaySwitchRequest request) {
         return mMainApi.onRequestPaySwitch(new Gson().toJson(request)).map(mTransform::transformCommon);
+    }
+
+    /**
+     * 评分完成
+     */
+    public Observable<ResponseData> onRequestScoreFinish(ScoreFinishRequest request) {
+        return mMainApi.onRequestScoreFinish(new Gson().toJson(request)).map(mTransform::transformCommon);
     }
 
     /**

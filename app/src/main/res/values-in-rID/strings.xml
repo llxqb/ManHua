@@ -116,6 +116,7 @@
     <string name="MineFragment_buy_book">Telah membeli\nkomik</string>
     <string name="MineFragment_other_hint_title">Lainnya</string>
     <string name="MineFragment_other_feedback">Pendapat dan\numpan balik</string>
+    <string name="MineFragment_other_score">Komentar \nbagus APP</string>
 
     <string name="MemberCenterActivity_title">Pusat keanggotaan</string>
     <string name="MemberCenterActivity_become_vip_hint">Daftar anggota, bisa menikmati \nbanyak hak istimewa</string>

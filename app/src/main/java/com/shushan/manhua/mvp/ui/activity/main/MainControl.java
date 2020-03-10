@@ -4,6 +4,7 @@ package com.shushan.manhua.mvp.ui.activity.main;
 import com.shushan.manhua.entity.request.LoginTouristModeRequest;
 import com.shushan.manhua.entity.request.PaySwitchRequest;
 import com.shushan.manhua.entity.request.ReadingSettingRequest;
+import com.shushan.manhua.entity.request.ScoreFinishRequest;
 import com.shushan.manhua.entity.response.BookTypeResponse;
 import com.shushan.manhua.entity.response.LoginTouristModeResponse;
 import com.shushan.manhua.entity.response.PaySwitchResponse;
@@ -44,6 +45,11 @@ public class MainControl {
          * 查询开关，应对过审
          */
         void onRequestPaySwitch(PaySwitchRequest paySwitchRequest);
+
+        /**
+         * 评分完成
+         */
+        void onRequestScoreFinish(ScoreFinishRequest scoreFinishRequest);
 
     }
 

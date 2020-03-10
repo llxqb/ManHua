@@ -25,6 +25,7 @@ import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.entity.request.LoginTouristModeRequest;
 import com.shushan.manhua.entity.request.PaySwitchRequest;
 import com.shushan.manhua.entity.request.ReadingSettingRequest;
+import com.shushan.manhua.entity.request.ScoreFinishRequest;
 import com.shushan.manhua.entity.response.BookTypeResponse;
 import com.shushan.manhua.entity.response.LoginTouristModeResponse;
 import com.shushan.manhua.entity.response.PaySwitchResponse;
@@ -34,6 +35,7 @@ import com.shushan.manhua.mvp.ui.activity.book.ReadBaseActivity;
 import com.shushan.manhua.mvp.ui.activity.login.LoginActivity;
 import com.shushan.manhua.mvp.ui.adapter.MyFragmentAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseActivity;
+import com.shushan.manhua.mvp.ui.dialog.ScoreAppDialog;
 import com.shushan.manhua.mvp.ui.dialog.SelectChannelDialog;
 import com.shushan.manhua.mvp.ui.dialog.SelectManHuaTypeDialog;
 import com.shushan.manhua.mvp.ui.fragment.bookshelf.BookShelfFragment;
@@ -53,7 +55,8 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import io.reactivex.annotations.NonNull;
 
-public class MainActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener, MainControl.MainView, SelectChannelDialog.SelectChannelDialogListener, SelectManHuaTypeDialog.SelectManHuaTypeDialogListener {
+public class MainActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener, MainControl.MainView, SelectChannelDialog.SelectChannelDialogListener,
+        SelectManHuaTypeDialog.SelectManHuaTypeDialogListener, ScoreAppDialog.ScoreAppDialogListener {
 
     @Inject
     MainControl.PresenterMain mPresenter;
@@ -351,8 +354,60 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             showToast(getResources().getString(R.string.main_exit_app));
             exitTime = System.currentTimeMillis();
         } else {
-            finish();
+            boolean firstExit = mSharePreferenceUtil.getBooleanData("firstExit", true);
+            if (firstExit) {
+                mSharePreferenceUtil.setData("firstExit", false);
+                showGoScoreDialog();
+            } else {
+                finish();
+            }
         }
+    }
+
+    /**
+     * 显示去评分dialog
+     */
+    private void showGoScoreDialog() {
+        ScoreAppDialog scoreAppDialog = ScoreAppDialog.newInstance();
+        scoreAppDialog.setListener(this);
+        DialogFactory.showDialogFragment(getSupportFragmentManager(), scoreAppDialog, ScoreAppDialog.TAG);
+    }
+
+    @Override
+    public void goScoreListener() {
+        launchAppDetail(SystemUtils.getPackageName(this));
+    }
+
+
+    /**
+     * 启动到应用商店app详情界面
+     *
+     * @param appPkg 目标App的包名
+     */
+    public void launchAppDetail(String appPkg) {
+        //这里开始执行一个应用市场跳转逻辑，默认this为Context上下文对象
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse("market://details?id=" + appPkg)); //跳转到应用市场，非Google Play市场一般情况也实现了这个接口
+        //存在手机里没安装应用市场的情况，跳转会包异常，做一个接收判断
+        if (intent.resolveActivity(getPackageManager()) != null) { //可以接收
+            startActivity(intent);
+        } else { //没有应用市场，我们通过浏览器跳转到Google Play
+            intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + appPkg));
+            //这里存在一个极端情况就是有些用户浏览器也没有，再判断一次
+            if (intent.resolveActivity(getPackageManager()) != null) { //有浏览器
+                startActivity(intent);
+            }
+        }
+        onRequestScoreFinish();
+    }
+
+    /**
+     * 评分完成
+     */
+    private void onRequestScoreFinish() {
+        ScoreFinishRequest scoreFinishRequest = new ScoreFinishRequest();
+        scoreFinishRequest.token = mBuProcessor.getToken();
+        mPresenter.onRequestScoreFinish(scoreFinishRequest);
     }
 
     /**

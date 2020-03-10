@@ -276,4 +276,11 @@ public class SystemUtils {
     public static float getScreenDensity(Context context) {
         return context.getResources().getDisplayMetrics().density;
     }
+
+    /**
+     * 获取包名
+     */
+    public static String getPackageName(Context context) {
+        return context.getPackageName();
+    }
 }

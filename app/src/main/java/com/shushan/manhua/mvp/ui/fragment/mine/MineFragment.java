@@ -2,6 +2,7 @@ package com.shushan.manhua.mvp.ui.fragment.mine;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -26,11 +27,13 @@ import com.shushan.manhua.di.modules.MineFragmentModule;
 import com.shushan.manhua.entity.constants.ActivityConstant;
 import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.entity.request.MineRequest;
+import com.shushan.manhua.entity.request.ScoreFinishRequest;
 import com.shushan.manhua.entity.request.UnReadMessageRequest;
 import com.shushan.manhua.entity.response.MineInfoResponse;
 import com.shushan.manhua.entity.response.MineReadingResponse;
 import com.shushan.manhua.entity.response.UnReadMessageResponse;
 import com.shushan.manhua.entity.user.User;
+import com.shushan.manhua.help.DialogFactory;
 import com.shushan.manhua.mvp.ui.activity.book.ReadingHistoryActivity;
 import com.shushan.manhua.mvp.ui.activity.login.LoginActivity;
 import com.shushan.manhua.mvp.ui.activity.mine.BuyActivity;
@@ -44,7 +47,9 @@ import com.shushan.manhua.mvp.ui.activity.user.MessageActivity;
 import com.shushan.manhua.mvp.ui.activity.user.PersonalInfoActivity;
 import com.shushan.manhua.mvp.ui.adapter.MineReadingAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseFragment;
+import com.shushan.manhua.mvp.ui.dialog.ScoreAppDialog;
 import com.shushan.manhua.mvp.utils.StatusBarUtil;
+import com.shushan.manhua.mvp.utils.SystemUtils;
 import com.shushan.manhua.mvp.utils.UserUtil;
 import com.shushan.manhua.mvp.views.CircleImageView;
 import com.shushan.manhua.mvp.views.ResizableImageView;
@@ -64,7 +69,7 @@ import butterknife.Unbinder;
  * 我的
  */
 
-public class MineFragment extends BaseFragment implements MineFragmentControl.MineView, SwipeRefreshLayout.OnRefreshListener {
+public class MineFragment extends BaseFragment implements MineFragmentControl.MineView, SwipeRefreshLayout.OnRefreshListener, ScoreAppDialog.ScoreAppDialogListener {
 
     @Inject
     MineFragmentControl.MineFragmentPresenter mPresenter;
@@ -182,7 +187,8 @@ public class MineFragment extends BaseFragment implements MineFragmentControl.Mi
         });
     }
 
-    @OnClick({R.id.avatar_iv, R.id.setting_iv, R.id.message_ll, R.id.recharge_tv, R.id.vip_icon, R.id.tourist_login_in, R.id.become_vip_tv, R.id.check_in_beans_ll, R.id.vip_check_in_beans_ll, R.id.feedback_tv})
+    @OnClick({R.id.avatar_iv, R.id.setting_iv, R.id.message_ll, R.id.recharge_tv, R.id.vip_icon, R.id.tourist_login_in, R.id.become_vip_tv, R.id.check_in_beans_ll, R.id.vip_check_in_beans_ll,
+            R.id.feedback_tv, R.id.score_tv})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.avatar_iv:
@@ -210,6 +216,7 @@ public class MineFragment extends BaseFragment implements MineFragmentControl.Mi
                 break;
             case R.id.vip_icon://立即开通
             case R.id.become_vip_tv://立即开通
+            case R.id.vip_check_in_beans_ll:
                 startActivitys(MemberCenterActivity.class);
                 break;
             case R.id.check_in_beans_ll:
@@ -219,11 +226,11 @@ public class MineFragment extends BaseFragment implements MineFragmentControl.Mi
                     startActivitys(CheckInActivity.class);
                 }
                 break;
-            case R.id.vip_check_in_beans_ll:
-                startActivitys(MemberCenterActivity.class);
-                break;
             case R.id.feedback_tv:
                 startActivitys(FeedbackActivity.class);
+                break;
+            case R.id.score_tv:
+                showGoScoreDialog();
                 break;
         }
     }
@@ -232,6 +239,52 @@ public class MineFragment extends BaseFragment implements MineFragmentControl.Mi
     public void onRefresh() {
         onRequestMineInfo();
 //        onRequestUnReadMessage();
+    }
+
+
+    /**
+     * 显示去评分dialog
+     */
+    private void showGoScoreDialog() {
+        ScoreAppDialog scoreAppDialog = ScoreAppDialog.newInstance();
+        scoreAppDialog.setListener(this);
+        DialogFactory.showDialogFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), scoreAppDialog, ScoreAppDialog.TAG);
+    }
+
+    @Override
+    public void goScoreListener() {
+        launchAppDetail(SystemUtils.getPackageName(Objects.requireNonNull(getActivity())));
+    }
+
+    /**
+     * 启动到应用商店app详情界面
+     *
+     * @param appPkg 目标App的包名
+     */
+    public void launchAppDetail(String appPkg) {
+        //这里开始执行一个应用市场跳转逻辑，默认this为Context上下文对象
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse("market://details?id=" + appPkg)); //跳转到应用市场，非Google Play市场一般情况也实现了这个接口
+        //存在手机里没安装应用市场的情况，跳转会包异常，做一个接收判断
+        if (intent.resolveActivity(Objects.requireNonNull(getActivity()).getPackageManager()) != null) { //可以接收
+            startActivity(intent);
+        } else { //没有应用市场，我们通过浏览器跳转到Google Play
+            intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + appPkg));
+            //这里存在一个极端情况就是有些用户浏览器也没有，再判断一次
+            if (intent.resolveActivity(getActivity().getPackageManager()) != null) { //有浏览器
+                startActivity(intent);
+            }
+        }
+        onRequestScoreFinish();
+    }
+
+    /**
+     * 评分完成
+     */
+    private void onRequestScoreFinish() {
+        ScoreFinishRequest scoreFinishRequest = new ScoreFinishRequest();
+        scoreFinishRequest.token = mBuProcessor.getToken();
+        mPresenter.onRequestScoreFinish(scoreFinishRequest);
     }
 
     /**

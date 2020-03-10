@@ -2,6 +2,7 @@ package com.shushan.manhua.mvp.ui.fragment.mine;
 
 
 import com.shushan.manhua.entity.request.MineRequest;
+import com.shushan.manhua.entity.request.ScoreFinishRequest;
 import com.shushan.manhua.entity.request.UnReadMessageRequest;
 import com.shushan.manhua.entity.response.MineInfoResponse;
 import com.shushan.manhua.entity.response.UnReadMessageResponse;
@@ -30,6 +31,11 @@ public class MineFragmentControl {
          * 查询是否有未读消息
          */
         void onRequestUnReadMessage(UnReadMessageRequest unReadMessageRequest);
+
+        /**
+         * 评分完成
+         */
+        void onRequestScoreFinish(ScoreFinishRequest scoreFinishRequest);
     }
 
 }

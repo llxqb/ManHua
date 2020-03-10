@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.shushan.manhua.R;
 import com.shushan.manhua.entity.request.MineRequest;
+import com.shushan.manhua.entity.request.ScoreFinishRequest;
 import com.shushan.manhua.entity.request.UnReadMessageRequest;
 import com.shushan.manhua.entity.response.MineInfoResponse;
 import com.shushan.manhua.entity.response.UnReadMessageResponse;
@@ -89,6 +90,35 @@ public class MineFragmentPresenterImpl implements MineFragmentControl.MineFragme
         }
     }
 
+    /**
+     * 评分完成
+     */
+    @Override
+    public void onRequestScoreFinish(ScoreFinishRequest scoreFinishRequest) {
+        mMineView.showLoading(mContext.getResources().getString(R.string.loading));
+        Disposable disposable = mMainModel.onRequestScoreFinish(scoreFinishRequest).compose(mMineView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
+                .subscribe(this::requestScoreFinishSuccess, throwable -> mMineView.showErrMessage(throwable),
+                        () -> mMineView.dismissLoading());
+        mMineView.addSubscription(disposable);
+    }
+
+    /**
+     * 评分完成 成功
+     */
+    private void requestScoreFinishSuccess(ResponseData responseData) {
+        mMineView.judgeToken(responseData.resultCode);
+        if (responseData.resultCode == 0) {
+//            responseData.parseData(PaySwitchResponse.class);
+//            if (responseData.parsedData != null) {
+//                PaySwitchResponse response = (PaySwitchResponse) responseData.parsedData;
+//                mMineView.getPaySwitchSuccess(response);
+//            }
+            mMineView.showToast(responseData.errorMsg);
+        } else {
+            mMineView.showToast(responseData.errorMsg);
+        }
+    }
+    
     @Override
     public void onCreate() {
 

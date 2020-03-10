@@ -110,9 +110,11 @@ public class SettingActivity extends BaseActivity implements CommonDialog.Common
     public void exitLogin() {
         String channel = mBuProcessor.getChannel();
         String bookType = mBuProcessor.getbookType();
+        boolean firstExit = mSharePreferenceUtil.getBooleanData("firstExit", true);
         mSharePreferenceUtil.clearData();
         mSharePreferenceUtil.setData(Constant.CHANNEL, channel);
         mSharePreferenceUtil.setData(Constant.BOOK_TYPE, bookType);//不重置频道 和 类型
+        mSharePreferenceUtil.setData("firstExit", firstExit);//不重置第一次退出
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);//表示 不创建新的实例activity
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);//表示 移除该activity上面的activity

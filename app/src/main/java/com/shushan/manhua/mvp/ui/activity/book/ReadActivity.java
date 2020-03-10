@@ -15,11 +15,14 @@ import com.shushan.manhua.entity.constants.ActivityConstant;
 import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.entity.response.BarrageListResponse;
 import com.shushan.manhua.entity.response.ReadingInfoResponse;
+import com.shushan.manhua.help.DialogFactory;
+import com.shushan.manhua.mvp.ui.activity.login.LoginActivity;
+import com.shushan.manhua.mvp.ui.dialog.ToLoginDialog;
 
 /**
  * 阅读漫画页面
  */
-public class ReadActivity extends ReadBaseActivity {
+public class ReadActivity extends ReadBaseActivity implements ToLoginDialog.ToLoginDialogListener {
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -112,9 +115,11 @@ public class ReadActivity extends ReadBaseActivity {
         }
     }
 
+    private int readChapterNum = 0;//阅读章节数量
 
     @Override
     public void getReadingInfoSuccess(ReadingInfoResponse readingInfoResponse) {
+        readChapterNum++;
         mReadingInfoResponse = readingInfoResponse;
         mNestedScrollView.fullScroll(ScrollView.FOCUS_UP);  // 滚动至顶部
         ReadingInfoResponse.CatalogueBean catalogueBean = readingInfoResponse.getCatalogue();
@@ -143,6 +148,10 @@ public class ReadActivity extends ReadBaseActivity {
             picRvHeight = mPicRecyclerView.getHeight();
             mNestedScrollView.setVisibility(View.VISIBLE);
         });
+
+        if (readChapterNum == 4 && mReadingInfoResponse.getCatalogue().getType() == 0 && mLoginModel == 1) {
+            showLoginDialog();
+        }
     }
 
     private void setIsRecharge() {
@@ -167,6 +176,20 @@ public class ReadActivity extends ReadBaseActivity {
         } else {
             onRequestReadRecording(0);
         }
+    }
+
+    /**
+     * 去登陆dialog
+     */
+    private void showLoginDialog() {
+        ToLoginDialog toLoginDialog = ToLoginDialog.newInstance();
+        toLoginDialog.setListener(this);
+        DialogFactory.showDialogFragment(getSupportFragmentManager(), toLoginDialog, ToLoginDialog.TAG);
+    }
+
+    @Override
+    public void goLoginListener() {
+        startActivitys(LoginActivity.class);
     }
 
     /**

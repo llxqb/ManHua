@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/score_app_dialog_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#90000000">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="@dimen/dp_280"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="@dimen/dp_30"
+        android:layout_marginEnd="@dimen/dp_30"
+        android:layout_marginBottom="@dimen/dp_30"
+        android:background="@drawable/bg_white_round_solid_5"
+        android:minHeight="@dimen/dp_240"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/close_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp_10"
+            android:src="@mipmap/popup_close"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/to_login_logo_iv"
+            android:layout_width="@dimen/dp_70"
+            android:layout_height="@dimen/dp_70"
+            android:layout_marginTop="@dimen/dp_22"
+            android:src="@mipmap/login_prompt"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_30"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginEnd="@dimen/dp_30"
+            android:gravity="center"
+            android:text="log in app dan dapatkan lebihbanyak chapter yang bisa dibacagratis !"
+            android:textColor="@color/color_30"
+            android:textSize="@dimen/sp_14"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/to_login_logo_iv" />
+
+        <TextView
+            android:id="@+id/go_login_tv"
+            android:layout_width="@dimen/dp_175"
+            android:layout_height="@dimen/dp_34"
+            android:layout_marginTop="@dimen/dp_40"
+            android:layout_marginBottom="@dimen/dp_30"
+            android:background="@drawable/bg_blue3_round_solid_30"
+            android:gravity="center"
+            android:text="Log in"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</RelativeLayout>

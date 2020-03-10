@@ -33,6 +33,11 @@ public interface MainApi {
      */
     @POST("cartoon/user/search_switch")
     Observable<String> onRequestPaySwitch(@Body String request);
+    /**
+     * 评分完成
+     */
+    @POST("cartoon/user/evaluate")
+    Observable<String> onRequestScoreFinish(@Body String request);
 
     /**
      * 首页banner

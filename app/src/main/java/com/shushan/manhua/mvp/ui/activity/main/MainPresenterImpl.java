@@ -7,6 +7,7 @@ import com.shushan.manhua.R;
 import com.shushan.manhua.entity.request.LoginTouristModeRequest;
 import com.shushan.manhua.entity.request.PaySwitchRequest;
 import com.shushan.manhua.entity.request.ReadingSettingRequest;
+import com.shushan.manhua.entity.request.ScoreFinishRequest;
 import com.shushan.manhua.entity.response.BookTypeResponse;
 import com.shushan.manhua.entity.response.LoginTouristModeResponse;
 import com.shushan.manhua.entity.response.PaySwitchResponse;
@@ -146,6 +147,34 @@ public class MainPresenterImpl implements MainControl.PresenterMain {
                 PaySwitchResponse response = (PaySwitchResponse) responseData.parsedData;
                 mMainView.getPaySwitchSuccess(response);
             }
+        } else {
+            mMainView.showToast(responseData.errorMsg);
+        }
+    }
+    /**
+     * 评分完成
+     */
+    @Override
+    public void onRequestScoreFinish(ScoreFinishRequest scoreFinishRequest) {
+        mMainView.showLoading(mContext.getResources().getString(R.string.loading));
+        Disposable disposable = mMainModel.onRequestScoreFinish(scoreFinishRequest).compose(mMainView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
+                .subscribe(this::requestScoreFinishSuccess, throwable -> mMainView.showErrMessage(throwable),
+                        () -> mMainView.dismissLoading());
+        mMainView.addSubscription(disposable);
+    }
+
+    /**
+     * 评分完成 成功
+     */
+    private void requestScoreFinishSuccess(ResponseData responseData) {
+        mMainView.judgeToken(responseData.resultCode);
+        if (responseData.resultCode == 0) {
+//            responseData.parseData(PaySwitchResponse.class);
+//            if (responseData.parsedData != null) {
+//                PaySwitchResponse response = (PaySwitchResponse) responseData.parsedData;
+//                mMainView.getPaySwitchSuccess(response);
+//            }
+            mMainView.showToast(responseData.errorMsg);
         } else {
             mMainView.showToast(responseData.errorMsg);
         }

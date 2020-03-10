@@ -56,6 +56,7 @@ import com.shushan.manhua.mvp.ui.dialog.ChapterListPopupWindow;
 import com.shushan.manhua.mvp.ui.dialog.ExitReadingBookPopupWindow;
 import com.shushan.manhua.mvp.ui.dialog.ReadUseCoinDialog;
 import com.shushan.manhua.mvp.ui.dialog.SharePopupWindow;
+import com.shushan.manhua.mvp.ui.dialog.ToLoginDialog;
 import com.shushan.manhua.mvp.utils.BrightnessTools;
 import com.shushan.manhua.mvp.utils.DownloadUtil;
 import com.shushan.manhua.mvp.utils.FileUtils;
@@ -77,7 +78,7 @@ import butterknife.OnClick;
  * 阅读小说
  */
 public class ReadBookActivity extends BaseActivity implements ReadBookControl.ReadBookView, ChapterListPopupWindow.ChapterListPopupWindowListener,
-        ReadUseCoinDialog.ReadUseCoinDialogListener, SharePopupWindow.PopupWindowShareListener, ExitReadingBookPopupWindow.PopupWindowListener {
+        ReadUseCoinDialog.ReadUseCoinDialogListener, SharePopupWindow.PopupWindowShareListener, ExitReadingBookPopupWindow.PopupWindowListener, ToLoginDialog.ToLoginDialogListener {
 
     @Inject
     ReadBookControl.PresenterReadBook mPresenter;
@@ -289,9 +290,11 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
     protected String FilePath = null;
     protected String FileName = null;
     private boolean isFirstLoadActivity = true;
+    private int readChapterNum = 0;//阅读章节数量
 
     @Override
     public void getReadingBookInfoSuccess(ReadingBookResponse readingBookResponse) {
+        readChapterNum++;
         new Thread() {
             @Override
             public void run() {
@@ -325,8 +328,27 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
                 loadFile();
             }
             onRequestReadRecording(0);
+            if (readChapterNum >= 4 && mLoginModel == 1) {
+                showLoginDialog();
+            }
         }
     }
+
+
+    /**
+     * 去登陆dialog
+     */
+    private void showLoginDialog() {
+        ToLoginDialog toLoginDialog = ToLoginDialog.newInstance();
+        toLoginDialog.setListener(this);
+        DialogFactory.showDialogFragment(getSupportFragmentManager(), toLoginDialog, ToLoginDialog.TAG);
+    }
+
+    @Override
+    public void goLoginListener() {
+        startActivitys(LoginActivity.class);
+    }
+
 
     @Override
     public void getReadingBookInfoFail() {
@@ -970,13 +992,19 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
 
     @Override
     public void addBookShelf() {
-        onAddBookShelfRequest();
+        if (mLoginModel == 1) {
+            showToast(getString(R.string.please_login_hint));
+            startActivitys(LoginActivity.class);
+        } else {
+            onAddBookShelfRequest();
+        }
     }
 
     @Override
     public void exitReading() {
         finish();
     }
+
 
     private class TextSettingClickListener implements View.OnClickListener {
         private Boolean Bold;
