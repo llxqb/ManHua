@@ -45,6 +45,8 @@ import com.shushan.manhua.help.DialogFactory;
 import com.shushan.manhua.listener.DownloadListener;
 import com.shushan.manhua.mvp.ui.activity.login.LoginActivity;
 import com.shushan.manhua.mvp.ui.activity.mine.BuyActivity;
+import com.shushan.manhua.mvp.ui.activity.txtreaderlib.bean.MuiLeftSlider;
+import com.shushan.manhua.mvp.ui.activity.txtreaderlib.bean.MuiRightSlider;
 import com.shushan.manhua.mvp.ui.activity.txtreaderlib.bean.TxtMsg;
 import com.shushan.manhua.mvp.ui.activity.txtreaderlib.interfaces.ICenterAreaClickListener;
 import com.shushan.manhua.mvp.ui.activity.txtreaderlib.interfaces.ILoadListener;
@@ -178,6 +180,7 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
     private Animation mBottomInAnim;
     private Animation mBottomOutAnim;
 
+
     public static void start(Context context, String bookId, int catalogueId) {
         Intent intent = new Intent(context, ReadBookActivity.class);
         intent.putExtra("bookId", bookId);
@@ -310,6 +313,7 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
         if (readingBookResponse.getCatalogue().getCatalogue_id() == 0) {
             showRechargeDialog(); //进行弹框
         } else {
+            onAddBookShelfRequest();//自动加入书架
             mReadingBookResponse = readingBookResponse;
             String urlPath = readingBookResponse.getCatalogue().getNovel_url();
             FileName = readingBookResponse.getCatalogue().getBook_name();
@@ -328,7 +332,7 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
                 loadFile();
             }
             onRequestReadRecording(0);
-            if (readChapterNum >= 4 && mLoginModel == 1) {
+            if (readChapterNum == 4 && mLoginModel == 1) {
                 showLoginDialog();
             }
         }
@@ -430,8 +434,8 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
 
     @Override
     public void getAddBookShelfSuccess() {
-        showToast("success");
-        isAddBookshelf = true;
+//        showToast("success");
+//        isAddBookshelf = true;
         LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(ActivityConstant.UPDATE_BOOKSHELF));
     }
 
@@ -488,7 +492,7 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
             Color.parseColor("#4a453a"),
             Color.parseColor("#505550"),
             Color.parseColor("#453e33"),
-            Color.parseColor("#8f8e88"),
+            Color.parseColor("#453e33"),
             Color.parseColor("#27576c")
     };
 
@@ -580,10 +584,10 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
             mTopDecoration.setBackgroundColor(mTxtReaderView.getBackgroundColor());
             hideTopBottom();
         }
-        //mTxtReaderView.setLeftSlider(new MuiLeftSlider());//修改左滑动条
-        //mTxtReaderView.setRightSlider(new MuiRightSlider());//修改右滑动条
+        mTxtReaderView.setLeftSlider(new MuiLeftSlider());//修改左滑动条
+        mTxtReaderView.setRightSlider(new MuiRightSlider());//修改右滑动条
         //字体初始化
-//        onTextSettingUi(mTxtReaderView.getTxtReaderContext().getTxtConfig().Bold);
+        mTxtReaderView.setTextBold(false);
         //翻页初始化
 //        onPageSwitchSettingUi(mTxtReaderView.getTxtReaderContext().getTxtConfig().Page_Switch_Mode);
         //保存的翻页模式
@@ -619,11 +623,12 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
         mMenuShearSelectedLayout.setOnClickListener(new SwitchSettingClickListener(TxtConfig.PAGE_SWITCH_MODE_SHEAR));
     }
 
+
     protected void setStyleChangeListener() {
         mMenuStyle1.setOnClickListener(new StyleChangeClickListener(ContextCompat.getColor(this, R.color.hwtxtreader_styleclor1), StyleTextColors[0]));
         mMenuStyle2.setOnClickListener(new StyleChangeClickListener(ContextCompat.getColor(this, R.color.hwtxtreader_styleclor2), StyleTextColors[1]));
         mMenuStyle3.setOnClickListener(new StyleChangeClickListener(ContextCompat.getColor(this, R.color.hwtxtreader_styleclor3), StyleTextColors[2]));
-        mMenuStyle4.setOnClickListener(new StyleChangeClickListener(ContextCompat.getColor(this, R.color.hwtxtreader_styleclor4), StyleTextColors[3]));
+        mMenuStyle4.setOnClickListener(new StyleChangeClickListener(ContextCompat.getColor(this, R.color.hwtxtreader_styleclor4), StyleTextColors[2]));
         mMenuStyle5.setOnClickListener(new StyleChangeClickListener(ContextCompat.getColor(this, R.color.hwtxtreader_styleclor5), StyleTextColors[4]));
     }
 
@@ -753,12 +758,12 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
                 }
                 break;
             case R.id.collection_iv://加入书架
-                if (mLoginModel == 1) {
-                    showToast(getString(R.string.please_login_hint));
-                    startActivitys(LoginActivity.class);
-                } else {
-                    onAddBookShelfRequest();
-                }
+//                if (mLoginModel == 1) {
+//                    showToast(getString(R.string.please_login_hint));
+//                    startActivitys(LoginActivity.class);
+//                } else {
+//                    onAddBookShelfRequest();
+//                }
                 break;
             case R.id.pre_chapter_tv://上一章
                 hideTopBottom();
@@ -827,6 +832,7 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
         setStatusBar();
 //        hideTopBottom();
     }
+
 
     /**
      * 显示菜单
@@ -1121,24 +1127,25 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
         Gone(ClipboardView);
     }
 
-    private boolean isAddBookshelf = false;
+//    private boolean isAddBookshelf = false;
 
     @Override
     public void onBackPressed() {
 //        super.onBackPressed();
-        if (mReadingBookResponse != null) {
-            if (mReadingBookResponse.getCatalogue().getState() == 1) {
-                finish();
-            } else {
-                if (!isAddBookshelf) {
-                    new ExitReadingBookPopupWindow(this, this).initPopWindow(mReadBookLayout);
-                } else {
-                    finish();
-                }
-            }
-        } else {
-            finish();
-        }
+//        if (mReadingBookResponse != null) {
+//            if (mReadingBookResponse.getCatalogue().getState() == 1) {
+//                finish();
+//            } else {
+//                if (!isAddBookshelf) {
+//                    new ExitReadingBookPopupWindow(this, this).initPopWindow(mReadBookLayout);
+//                } else {
+//                    finish();
+//                }
+//            }
+//        } else {
+//            finish();
+//        }
+        finish();
     }
 
     @Override

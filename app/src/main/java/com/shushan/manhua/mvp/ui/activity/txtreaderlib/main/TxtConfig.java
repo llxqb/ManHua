@@ -26,38 +26,40 @@ public class TxtConfig {
     public static final String C_PAGE_SWITCH_DURATION = "PAGE_SWITCH_DURATION";
     public static final String C_PAGE_VERTICAL_MODE = "PAGE_VERTICAL_MODE ";
     public static final String C_PAGE_SWITCH_STYPE_MODE = "PAGE_SWITCH_STYPE_MODE ";
+    public static final int DEFAULT_TEXT_COLOR = Color.parseColor("#453e33");//默认字体颜色
+    public static final int DEFAULT_BG_COLOR = Color.parseColor("#FBF6E9");//默认背景颜色
 
-    public static  final int PAGE_SWITCH_MODE_COVER = 1;//in px
-    public static  final int PAGE_SWITCH_MODE_SERIAL = 2;//in px
-    public static  final int PAGE_SWITCH_MODE_SHEAR = 3;//in px
-    public static  final int PAGE_SWITCH_MODE_UP_DOWN = 4;//in px
+    public static final int PAGE_SWITCH_MODE_COVER = 1;//in px
+    public static final int PAGE_SWITCH_MODE_SERIAL = 2;//in px
+    public static final int PAGE_SWITCH_MODE_SHEAR = 3;//in px
+    public static final int PAGE_SWITCH_MODE_UP_DOWN = 4;//in px
 
-    public static  int Page_PaddingLeft = 20;//in px
-    public static  int Page_PaddingBottom = 20;//in px
-    public static  int Page_PaddingTop = 20;//in px
-    public static  int Page_PaddingRight = 20;//in px
-    public static  int Page_LinePadding = 30;//in px
-    public static  int Page_Paragraph_margin = 20;//in px,为0，没有间距
+    public static int Page_PaddingLeft = 20;//in px
+    public static int Page_PaddingBottom = 20;//in px
+    public static int Page_PaddingTop = 20;//in px
+    public static int Page_PaddingRight = 20;//in px
+    public static int Page_LinePadding = 30;//in px
+    public static int Page_Paragraph_margin = 40;//in px,为0，没有间距
 
-    public   int Page_Switch_Mode = PAGE_SWITCH_MODE_COVER;
-    public static  int MAX_TEXT_SIZE = 150;//in px
-    public static  int MIN_TEXT_SIZE = 30;//in px
-    public static  int DEFAULT_SELECT_TEXT_COLOR = Color.parseColor("#44f6950b");
-    public static  int DEFAULT_SLIDER_COLOR = Color.parseColor("#1f4cf5");
+    public int Page_Switch_Mode = PAGE_SWITCH_MODE_COVER;
+    public static int MAX_TEXT_SIZE = 150;//in px
+    public static int MIN_TEXT_SIZE = 30;//in px
+    public static int DEFAULT_SELECT_TEXT_COLOR = Color.parseColor("#44f6950b");
+    public static int DEFAULT_SLIDER_COLOR = Color.parseColor("#1f4cf5");
 
-    public int textSize = MIN_TEXT_SIZE;//字体大小
-    public int textColor = Color.BLACK;//字体颜色
-    public int backgroundColor = Color.WHITE;//背景颜色
+    public int textSize = 40;//字体大小
+    public int textColor = DEFAULT_TEXT_COLOR;//字体颜色
+    public int backgroundColor = DEFAULT_BG_COLOR;//背景颜色
     public int NoteColor = Color.RED;//笔记颜色
     public int SelectTextColor = DEFAULT_SELECT_TEXT_COLOR;//选中颜色
     public int SliderColor = DEFAULT_SLIDER_COLOR;//滑动条颜色
 
 
     public Boolean showNote = true;//是否显示笔记
-    public Boolean canPressSelect = true;//是否能长按选中
+    public Boolean canPressSelect = false;//是否能长按选中
     //public Boolean SwitchByTranslate = true;//是否平移切换
     public Boolean VerticalPageMode = false;
-    public Boolean Bold = false;//是否加粗
+    public Boolean Bold = true;//是否加粗
     public Boolean ShowSpecialChar = false;//是否显示特殊符号，对于数字、英文，可以显示特定颜色
     public float CenterClickArea = 0.35f;//0~1,中间点击区域占View宽度的百分比，区域为高为宽两倍的矩形，如果为1f，说明点击翻页将不起效果
     public int PageSwitchDuration = 400;//页面滑动时间间隔，毫秒，建议不要低于200
@@ -69,10 +71,10 @@ public class TxtConfig {
 
     public static int getPageSwitchMode(Context context) {
         SharedPreferences share = getS(context);
-        int PageSwitchMode =  share.getInt(C_PAGE_SWITCH_STYPE_MODE, PAGE_SWITCH_MODE_COVER);
-        if(PageSwitchMode!=PAGE_SWITCH_MODE_COVER
-                &&PageSwitchMode!= PAGE_SWITCH_MODE_SERIAL
-                &&PageSwitchMode!= PAGE_SWITCH_MODE_SHEAR){
+        int PageSwitchMode = share.getInt(C_PAGE_SWITCH_STYPE_MODE, PAGE_SWITCH_MODE_COVER);
+        if (PageSwitchMode != PAGE_SWITCH_MODE_COVER
+                && PageSwitchMode != PAGE_SWITCH_MODE_SERIAL
+                && PageSwitchMode != PAGE_SWITCH_MODE_SHEAR) {
             return PAGE_SWITCH_MODE_COVER;
         }
         return PageSwitchMode;
@@ -82,7 +84,7 @@ public class TxtConfig {
      * @param context
      * @param PageSwitchMode PAGE_SWITCH_MODE_COVER、PAGE_SWITCH_MODE_SERIAL、PAGE_SWITCH__MODE_SHEAR
      */
-    public static void savePageSwitchMode(Context context,int PageSwitchMode) {
+    public static void savePageSwitchMode(Context context, int PageSwitchMode) {
         SharedPreferences share = getS(context);
         SharedPreferences.Editor editor = share.edit();
         editor.putInt(C_PAGE_SWITCH_STYPE_MODE, PageSwitchMode);
@@ -131,7 +133,7 @@ public class TxtConfig {
 
     public static int getTextColor(Context context) {
         SharedPreferences share = getS(context);
-        return share.getInt(C_TEXT_COLOR, Color.BLACK);
+        return share.getInt(C_TEXT_COLOR, DEFAULT_TEXT_COLOR);
     }
 
     public static void saveNoteTextColor(Context context, int textColor) {
@@ -171,7 +173,7 @@ public class TxtConfig {
 
     public static int getBackgroundColor(Context context) {
         SharedPreferences share = getS(context);
-        return share.getInt(C_BACKGROUND_COLOR, Color.WHITE);
+        return share.getInt(C_BACKGROUND_COLOR, DEFAULT_BG_COLOR);
     }
 
     public static void saveCenterClickArea(Context context, float CenterClickArea) {
@@ -233,7 +235,6 @@ public class TxtConfig {
         editor.apply();
         editor.commit();
     }
-
 
 
     public static Boolean isSwitchByTranslate(Context context) {

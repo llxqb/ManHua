@@ -16,7 +16,7 @@ public class PageParam {
     public int PageLineNum = -1;
     public float LineWidth = 0;
     public float LineHeight = 0;
-    public float TextPadding = 5;
+    public float TextPadding = 3;
     public int PageWidth = 0;
     public int PageHeight = 0;
 }

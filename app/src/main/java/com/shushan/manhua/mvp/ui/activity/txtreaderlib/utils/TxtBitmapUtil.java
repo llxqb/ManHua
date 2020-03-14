@@ -43,7 +43,9 @@ public class TxtBitmapUtil {
 
         float x = topL;
         float y = bottom;
-
+//        Typeface mFace = Typeface.createFromAsset(getContext().getAssets(),"fonts/microsoft_yahei.ttf");
+//        paint.setTypeface(mFace);
+        paint.setStrokeWidth(3f);
         if (!txtConfig.ShowSpecialChar) {
             paint.setColor(defaultColor);
         }
@@ -97,7 +99,10 @@ public class TxtBitmapUtil {
 
         float x = topL;
         float y = bottom;
-
+//        Typeface mFace = Typeface.createFromAsset(getContext().getAssets(),"fonts/microsoft_yahei.ttf");
+//        paint.setTypeface(mFace);
+        //设置画笔的描边宽度值
+        paint.setStrokeWidth(3f);
         if (!txtConfig.ShowSpecialChar) {
             paint.setColor(defaultColor);
         }

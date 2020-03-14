@@ -6,8 +6,8 @@ android {
         applicationId "com.shushan.manhua"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 31
-        versionName "1.0.6"
+        versionCode 32
+        versionName "1.0.7"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true//as3.0对vector兼容
         //as3.0对butterknife兼容

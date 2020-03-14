@@ -116,8 +116,6 @@ public class HomeFragment extends BaseFragment implements HomeFragmentControl.Ho
                 BookDetailActivity.start(getActivity(), String.valueOf(booksBean.getBook_id()));
             }
         });
-
-
     }
 
     @Override
@@ -131,6 +129,18 @@ public class HomeFragment extends BaseFragment implements HomeFragmentControl.Ho
         mBanner.setDelayedTime(4000);//切换时间
         mBanner.setIndicatorPadding(0, 0, 0, 30);
         mBanner.setPages(bannerList, (MZHolderCreator<BannerViewHolder>) () -> new BannerViewHolder(mImageLoaderHelper));
+        mBanner.start();//开始轮播
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        mBanner.pause();//暂停轮播
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mBanner.start();//开始轮播
     }
 
     /**

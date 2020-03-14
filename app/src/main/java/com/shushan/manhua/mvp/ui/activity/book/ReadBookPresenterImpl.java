@@ -142,7 +142,7 @@ public class ReadBookPresenterImpl implements ReadBookControl.PresenterReadBook 
         if (responseData.resultCode == 0) {
             mReadBookView.getAddBookShelfSuccess();
         } else {
-            mReadBookView.showToast(responseData.errorMsg);
+//            mReadBookView.showToast(responseData.errorMsg);
         }
     }
 

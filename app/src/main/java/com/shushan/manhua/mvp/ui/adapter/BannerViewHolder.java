@@ -10,6 +10,7 @@ import com.shushan.manhua.R;
 import com.shushan.manhua.entity.BannerBean;
 import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.help.ImageLoaderHelper;
+import com.shushan.manhua.mvp.ui.activity.book.BookDetailActivity;
 import com.shushan.manhua.mvp.ui.activity.mine.MemberCenterActivity;
 import com.zhouwei.mzbanner.holder.MZViewHolder;
 
@@ -51,9 +52,14 @@ public class BannerViewHolder implements MZViewHolder<BannerBean> {
                     if (item.getCustom().equals("experience")) { //优惠购买
                         Intent intent = new Intent(context, MemberCenterActivity.class);
                         context.startActivity(intent);
-                    } else if (item.getCustom().equals("invite")) {
+                    }
+                    if (item.getCustom().equals("invite")) {
                         //邀请好友
 //                        CouponActivity.start(context, "邀请好友");
+                    }
+                    if (item.getCustom().contains("book")) {
+                        String bookId = item.getCustom().split("/")[1];
+                        BookDetailActivity.start(context, bookId);
                     }
                 }
             }
