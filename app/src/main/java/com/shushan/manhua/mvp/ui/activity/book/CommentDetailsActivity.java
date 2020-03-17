@@ -162,45 +162,36 @@ public class CommentDetailsActivity extends BaseActivity implements CommentDetai
         mPresenter.onRequestCommentDetail(commentDetailRequest);
     }
 
-    boolean isReqState = false;//加载更多 正在请求状态
 
     @Override
     public void onLoadMoreRequested() {
-        if (!isReqState) {
-            if (!commentDetailResponseList.isEmpty()) {
-                if (page == 1 && commentDetailResponseList.size() < Constant.PAGESIZE) {
-                    mCommentDetailAdapter.loadMoreEnd(true);
-                } else {
-                    if (commentDetailResponseList.size() < Constant.PAGESIZE) {
-                        mCommentDetailAdapter.loadMoreEnd();
-                    } else {
-                        //等于10条
-                        page++;
-                        mCommentDetailAdapter.loadMoreComplete();
-                        onRequestCommentDetail();
-                        isReqState = true;
-                    }
-                }
-            } else {
-                mCommentDetailAdapter.loadMoreEnd();
-            }
-        }
+        page++;
+        onRequestCommentDetail();
     }
 
     @Override
     public void getCommentDetailSuccess(CommentDetailResponse commentDetailResponse) {
-        isReqState = false;
         mCommentDetailResponse = commentDetailResponse;
         commentDetailResponseList = commentDetailResponse.getReview();
-        //加载更多这样设置
-        if (!commentDetailResponse.getReview().isEmpty()) {
+        if (!commentDetailResponseList.isEmpty()) {
             if (page == 1) {
-                mCommentDetailAdapter.setNewData(commentDetailResponse.getReview());
+                mCommentDetailAdapter.setNewData(commentDetailResponseList);
+                if (commentDetailResponseList.size() == Constant.PAGESIZE) {
+                    mCommentDetailAdapter.loadMoreComplete();
+                } else {
+                    mCommentDetailAdapter.loadMoreEnd(true);
+                }
             } else {
-                mCommentDetailAdapter.addData(commentDetailResponse.getReview());
+                mCommentDetailAdapter.addData(commentDetailResponseList);
+                if (commentDetailResponseList.size() == Constant.PAGESIZE) {
+                    mCommentDetailAdapter.loadMoreComplete();
+                } else {
+                    mCommentDetailAdapter.loadMoreEnd();
+                }
             }
+        } else {
+            mCommentDetailAdapter.loadMoreEnd();
         }
-        mPicAdapter.setNewData(commentDetailResponse.getPics());
         mImageLoaderHelper.displayImage(this, commentDetailResponse.getHead_portrait(), mAvatarIv, Constant.LOADING_AVATOR);
         mNameTv.setText(commentDetailResponse.getName());
         if (commentDetailResponse.getIs_like() == 0) {//未点赞

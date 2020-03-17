@@ -15,7 +15,7 @@
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/dp_18">
+            android:paddingBottom="@dimen/dp_50">
 
             <TextView
                 android:id="@+id/desc_hint_tv"
@@ -152,7 +152,6 @@
                 android:id="@+id/more_comment_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_10"
                 android:drawableEnd="@mipmap/more_comments"
                 android:drawablePadding="@dimen/dp_5"
                 android:padding="@dimen/dp_5"

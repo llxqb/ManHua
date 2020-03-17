@@ -89,48 +89,39 @@ public class ExpensesRecordFragment extends BaseFragment implements ExpensesReco
         mPresenter.onRequestRechargeRecord(rechargeRecordRequest);
     }
 
-    boolean isReqState = false;//加载更多 正在请求状态
-
     @Override
     public void onLoadMoreRequested() {
-        if (!isReqState) {
-            if (!expensesRecordResponseList.isEmpty()) {
-                if (page == 1 && expensesRecordResponseList.size() < Constant.PAGESIZE) {
-                    mExpensesRecordAdapter.loadMoreEnd(true);
-                } else {
-                    if (expensesRecordResponseList.size() < Constant.PAGESIZE) {
-                        mExpensesRecordAdapter.loadMoreEnd();
-                    } else {
-                        //等于10条
-                        page++;
-                        isReqState = true;
-                        onRequestRechargeRecord();
-                    }
-                }
-            } else {
-                mExpensesRecordAdapter.loadMoreEnd();
-            }
-        }
+        page++;
+        onRequestRechargeRecord();
     }
     /**
      * 消费记录 成功
      */
     @Override
     public void getExpensesRecordSuccess(ExpensesRecordResponse expensesRecordResponse) {
-        isReqState = false;
         expensesRecordResponseList = expensesRecordResponse.getData();
-        //加载更多这样设置
-        if (!expensesRecordResponse.getData().isEmpty()) {
+        if (!expensesRecordResponseList.isEmpty()) {
             if (page == 1) {
-                mExpensesRecordAdapter.setNewData(expensesRecordResponse.getData());
+                mExpensesRecordAdapter.setNewData(expensesRecordResponseList);
+                if (expensesRecordResponseList.size() == Constant.PAGESIZE) {
+                    mExpensesRecordAdapter.loadMoreComplete();
+                } else {
+                    mExpensesRecordAdapter.loadMoreEnd(true);
+                }
             } else {
-                mExpensesRecordAdapter.addData(expensesRecordResponse.getData());
-                mExpensesRecordAdapter.loadMoreComplete();
+                mExpensesRecordAdapter.addData(expensesRecordResponseList);
+                if (expensesRecordResponseList.size() == Constant.PAGESIZE) {
+                    mExpensesRecordAdapter.loadMoreComplete();
+                } else {
+                    mExpensesRecordAdapter.loadMoreEnd();
+                }
             }
         } else {
             if (page == 1) {
                 mExpensesRecordAdapter.setNewData(null);
                 mExpensesRecordAdapter.setEmptyView(mEmptyView);
+            } else {
+                mExpensesRecordAdapter.loadMoreEnd();
             }
         }
     }

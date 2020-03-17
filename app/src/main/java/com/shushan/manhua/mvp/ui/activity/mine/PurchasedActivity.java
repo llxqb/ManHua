@@ -87,47 +87,39 @@ public class PurchasedActivity extends BaseActivity implements PurchasedControl.
         mPresenter.onRequestPurchasedBook(purchasedBookRequest);
     }
 
-    boolean isReqState = false;//加载更多 正在请求状态
 
     @Override
     public void onLoadMoreRequested() {
-        if (!isReqState) {
-            if (!purchasedResponseList.isEmpty()) {
-                if (page == 1 && purchasedResponseList.size() < Constant.PAGESIZE) {
-                    mPurchasedAdapter.loadMoreEnd(true);
-                } else {
-                    if (purchasedResponseList.size() < Constant.PAGESIZE) {
-                        mPurchasedAdapter.loadMoreEnd();
-                    } else {
-                        //等于10条
-                        page++;
-                        mPurchasedAdapter.loadMoreComplete();
-                        onRequestPurchasedBook();
-                        isReqState = true;
-                    }
-                }
-            } else {
-                mPurchasedAdapter.loadMoreEnd();
-            }
-        }
+        page++;
+        onRequestPurchasedBook();
     }
 
 
     @Override
     public void getPurchasedBookSuccess(PurchasedResponse purchasedResponse) {
-        isReqState = false;
         purchasedResponseList = purchasedResponse.getData();
-        //加载更多这样设置
-        if (!purchasedResponse.getData().isEmpty()) {
+        if (!purchasedResponseList.isEmpty()) {
             if (page == 1) {
-                mPurchasedAdapter.setNewData(purchasedResponse.getData());
+                mPurchasedAdapter.setNewData(purchasedResponseList);
+                if (purchasedResponseList.size() == Constant.PAGESIZE) {
+                    mPurchasedAdapter.loadMoreComplete();
+                } else {
+                    mPurchasedAdapter.loadMoreEnd(true);
+                }
             } else {
-                mPurchasedAdapter.addData(purchasedResponse.getData());
+                mPurchasedAdapter.addData(purchasedResponseList);
+                if (purchasedResponseList.size() == Constant.PAGESIZE) {
+                    mPurchasedAdapter.loadMoreComplete();
+                } else {
+                    mPurchasedAdapter.loadMoreEnd();
+                }
             }
         } else {
             if (page == 1) {
                 mPurchasedAdapter.setNewData(null);
                 mPurchasedAdapter.setEmptyView(mEmptyView);
+            } else {
+                mPurchasedAdapter.loadMoreEnd();
             }
         }
     }

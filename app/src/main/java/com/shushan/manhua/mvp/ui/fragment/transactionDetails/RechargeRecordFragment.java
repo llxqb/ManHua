@@ -89,29 +89,10 @@ public class RechargeRecordFragment extends BaseFragment implements RechargeReco
         mPresenter.onRequestRechargeRecord(rechargeRecordRequest);
     }
 
-    boolean isReqState = false;//加载更多 正在请求状态
-
     @Override
     public void onLoadMoreRequested() {
-        if (!isReqState) {
-            if (!rechargeRecordResponseList.isEmpty()) {
-                if (page == 1 && rechargeRecordResponseList.size() < Constant.PAGESIZE) {
-                    mRechargeRecordAdapter.loadMoreEnd(true);//第一页如果不够一页就不显示没有更多数据布局
-                } else {
-                    if (rechargeRecordResponseList.size() < Constant.PAGESIZE) {
-                        mRechargeRecordAdapter.loadMoreEnd();
-                    } else {
-                        //等于10条
-                        page++;
-                        onRequestRechargeRecord();
-                        isReqState = true;
-                        mRechargeRecordAdapter.loadMoreComplete();
-                    }
-                }
-            } else {
-                mRechargeRecordAdapter.loadMoreEnd();
-            }
-        }
+        page++;
+        onRequestRechargeRecord();
     }
 
     /**
@@ -120,19 +101,28 @@ public class RechargeRecordFragment extends BaseFragment implements RechargeReco
     @Override
     public void getRechargeRecordSuccess(RechargeRecordResponse rechargeRecordResponse) {
         rechargeRecordResponseList = rechargeRecordResponse.getData();
-        isReqState = false;
-        //加载更多这样设置
-        if (!rechargeRecordResponse.getData().isEmpty()) {
+        if (!rechargeRecordResponseList.isEmpty()) {
             if (page == 1) {
-                mRechargeRecordAdapter.setNewData(rechargeRecordResponse.getData());
+                mRechargeRecordAdapter.setNewData(rechargeRecordResponseList);
+                if (rechargeRecordResponseList.size() == Constant.PAGESIZE) {
+                    mRechargeRecordAdapter.loadMoreComplete();
+                } else {
+                    mRechargeRecordAdapter.loadMoreEnd(true);
+                }
             } else {
-                mRechargeRecordAdapter.addData(rechargeRecordResponse.getData());
-                mRechargeRecordAdapter.loadMoreComplete();
+                mRechargeRecordAdapter.addData(rechargeRecordResponseList);
+                if (rechargeRecordResponseList.size() == Constant.PAGESIZE) {
+                    mRechargeRecordAdapter.loadMoreComplete();
+                } else {
+                    mRechargeRecordAdapter.loadMoreEnd();
+                }
             }
         } else {
             if (page == 1) {
                 mRechargeRecordAdapter.setNewData(null);
                 mRechargeRecordAdapter.setEmptyView(mEmptyView);
+            } else {
+                mRechargeRecordAdapter.loadMoreEnd();
             }
         }
     }
