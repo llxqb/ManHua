@@ -382,7 +382,7 @@ public abstract class PageLoader {
         // 如果当前已经显示数据
         if (isChapterListPrepare && mStatus == STATUS_FINISH) {
             // 重新计算当前页面
-            dealLoadPageList(mCurChapterPos,true,true);
+            dealLoadPageList(mCurChapterPos,true);
 
             // 防止在最后一页，通过修改字体，以至于页面数减少导致崩溃的问题
             if (mCurPage.position >= mCurPageList.size()) {
@@ -677,14 +677,14 @@ public abstract class PageLoader {
      * @param chapterPos:章节序号
      * @return
      */
-    private List<TxtPage> loadPageList(int chapterPos, boolean currentChapter) throws Exception {
+    private List<TxtPage> loadPageList(int chapterPos) throws Exception {
         // 获取章节
         TxtChapter chapter = mChapterList.get(chapterPos);
         // 判断章节是否存在
         if (!hasChapterData(chapter)) {
             return null;
         }
-        if (currentChapter && mPageChangeListener != null) {
+        if ( mPageChangeListener != null) {
             mPageChangeListener.onPageUnReadble(chapter);
         }
         // 获取章节的文本流
@@ -926,7 +926,7 @@ public abstract class PageLoader {
         } else {
             // 如果章节已显示，那么就重新计算页面
             if (mStatus == STATUS_FINISH) {
-                dealLoadPageList(mCurChapterPos,true,false);
+                dealLoadPageList(mCurChapterPos,true);
                 // 重新设置文章指针的位置
                 mCurPage = getCurPage(mCurPage.position);
             }
@@ -993,7 +993,7 @@ public abstract class PageLoader {
             // 回调
             chapterChangeCallback(false);
         } else {
-            dealLoadPageList(prevChapter,false,false);
+            dealLoadPageList(prevChapter,false);
         }
         return mCurPageList != null ? true : false;
     }
@@ -1053,7 +1053,7 @@ public abstract class PageLoader {
 
     boolean parseCurChapter() {
         // 解析数据
-        dealLoadPageList(mCurChapterPos,true,false);
+        dealLoadPageList(mCurChapterPos,true);
         // 预加载下一页面
         preLoadNextChapter();
         return mCurPageList != null ? true : false;
@@ -1081,7 +1081,7 @@ public abstract class PageLoader {
             chapterChangeCallback(false);
         } else {
             // 处理页面解析
-            dealLoadPageList(nextChapter,false,false);
+            dealLoadPageList(nextChapter,false);
         }
         // 预加载下一页面
         preLoadNextChapter();
@@ -1089,12 +1089,11 @@ public abstract class PageLoader {
     }
 
     /**
-     * @param currentChapter  是否是当前显示的章节
      * @param isSizeChange    是否是字体改变
      */
-    private void dealLoadPageList(int chapterPos,boolean currentChapter,boolean isSizeChange) {
+    private void dealLoadPageList(int chapterPos,boolean isSizeChange) {
         try {
-            mCurPageList = loadPageList(chapterPos, currentChapter);
+            mCurPageList = loadPageList(chapterPos);
             if (mCurPageList != null) {
                 if (mCurPageList.isEmpty()) {
                     mStatus = STATUS_EMPTY;
@@ -1146,7 +1145,7 @@ public abstract class PageLoader {
         Single.create(new SingleOnSubscribe<List<TxtPage>>() {
             @Override
             public void subscribe(SingleEmitter<List<TxtPage>> e) throws Exception {
-                e.onSuccess(loadPageList(nextChapter, false));
+                e.onSuccess(loadPageList(nextChapter));
             }
         }).compose(RxUtils::toSimpleSingle)
                 .subscribe(new SingleObserver<List<TxtPage>>() {

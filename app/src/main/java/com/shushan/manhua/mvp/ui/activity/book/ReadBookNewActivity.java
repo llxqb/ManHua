@@ -636,10 +636,10 @@ public class ReadBookNewActivity extends BaseActivity implements ReadBookControl
 
                     @Override
                     public void onPageUnReadble(TxtChapter txtChapter) {
-//                        LogUtils.e("txtChapter:" + new Gson().toJson(txtChapter));
+                        LogUtils.e("txtChapter:" + new Gson().toJson(txtChapter));
                         if (txtChapter.isUnreadble()) {//不能读
                             toggleMenu(false);
-                            //如果非免费章节请求章节信息
+                            //如果是非免费章节请求章节信息
                             onRequestBookInfo(txtChapter.getChapterId());
                         } else {
                             onRequestReadRecording(txtChapter.getChapterId(), "1");//阅读上报
