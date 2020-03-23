@@ -84,4 +84,65 @@
     <color name="hwtxtreader_text_styleclor4">#8f8e88</color>
     <color name="hwtxtreader_text_styleclor5">#27576c</color>
 
+
+    <color name="nb_theme_background">@color/white</color>
+    <!--common-->
+    <color name="transparent">#00000000</color>
+    <color name="red">#FF0000</color>
+    <color name="orange">#DE6014</color>
+    <color name="gray">#b8b8b8</color>
+    <color name="green">#5FB236</color>
+    <color name="light_white">#EEEEEE</color>
+    <color name="light_coffee">#A58D5E</color>
+    <color name="light_red">#EC4A48</color>
+    <color name="light_translucent">#23000000</color>
+
+    <!--button-->
+    <color name="nb_widget_button_selected">#E3E3E3</color>
+
+    <!--list-->
+    <color name="nb_divider_common">#727272</color>
+    <color name="nb_divider_dash">@color/light_white</color>
+    <!--通用分割线细-->
+    <color name="nb_divider_narrow">#E3E3E3</color>
+    <!--通用分割线粗-->
+    <color name="nb_divider_wide">@color/light_white</color>
+
+    <color name="nb_scroll_refresh">#88303F9F</color>
+    <!--button-->
+    <color name="nb_widget_button_normal">@color/white</color>
+    <color name="nb_widget_button_normal_selected">#E3E3E3</color>
+    <!--text-->
+
+    <color name="nb_text_default">@color/black</color>
+    <!--通用一级标题的颜色-->
+    <color name="nb_text_common_h1">#212121</color>
+    <!--通用二级标题的颜色-->
+    <color name="nb_text_common_h2">#727272</color>
+    <!--通用三级标题的颜色-->
+    <color name="nb_text_common_h3">#B2B2B2</color>
+
+
+
+    <!--read-->
+    <color name="nb_read_bg_1">#CEC29C</color>
+    <color name="nb_read_bg_2">#CCEBCC</color>
+    <color name="nb_read_bg_3">#AAAAAA</color>
+    <color name="nb_read_bg_4">#D1CEC5</color>
+    <color name="nb_read_bg_5">#001C27</color>
+    <color name="nb_read_bg_6">#DDCEC29C</color>
+
+
+    <color name="nb_read_font_1">#2C2C2C</color>
+    <color name="nb_read_font_2">#2F332D</color>
+    <color name="nb_read_font_3">#92918C</color>
+    <color name="nb_read_font_4">#383429</color>
+    <color name="nb_read_font_5">#627176</color>
+
+    <color name="nb_read_bg_night">#000000</color>
+    <color name="nb_read_font_night">#99ffffff</color>
+
+    <color name="nb_read_menu_bg">#191919</color>
+    <color name="nb_read_menu_text">#CBCBCB</color>
+    <color name="nb_read_bar_translucent">#88000000</color>
 </resources>

@@ -7,6 +7,7 @@ import com.shushan.manhua.di.modules.ActivityModule;
 import com.shushan.manhua.di.modules.ReadBookModule;
 import com.shushan.manhua.di.scopes.PerActivity;
 import com.shushan.manhua.mvp.ui.activity.book.ReadBookActivity;
+import com.shushan.manhua.mvp.ui.activity.book.ReadBookNewActivity;
 
 import dagger.Component;
 
@@ -20,6 +21,7 @@ import dagger.Component;
 public interface ReadBookComponent extends ActivityComponent {
     //对LoginActivity进行依赖注入
     void inject(ReadBookActivity activity);
+    void inject(ReadBookNewActivity activity);
 
     AppCompatActivity activity();
 

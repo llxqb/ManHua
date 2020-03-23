@@ -163,5 +163,9 @@ public interface BookApi {
     @POST("cartoon/book/ranking")
     Observable<String> onRequestRanking(@Body String request);
 
-
+    /**
+     * 根据章节id获取章节内容
+     */
+    @POST("cartoon/book/catalogueTxt")
+    Observable<String> onRequestChapterInfo(@Body String request);
 }

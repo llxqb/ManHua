@@ -38,7 +38,6 @@ public class SelectionFragmentPresenterImpl implements SelectionFragmentControl.
      */
     @Override
     public void onRequestSelectionInfo(SelectionRequest selectionRequest) {
-        mSelectionView.showLoading(mContext.getResources().getString(R.string.loading));
         Disposable disposable = mBookModel.onRequestSelectionInfo(selectionRequest).compose(mSelectionView.applySchedulers()).retryWhen(new RetryWithDelay(3, 3000))
                 .subscribe(this::requestSelectionInfoSuccess, throwable -> mSelectionView.showErrMessage(throwable),
                         () -> mSelectionView.dismissLoading());

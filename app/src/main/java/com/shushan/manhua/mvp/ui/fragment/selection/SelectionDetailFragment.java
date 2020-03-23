@@ -22,8 +22,10 @@ import com.shushan.manhua.entity.constants.Constant;
 import com.shushan.manhua.entity.request.SelectionRequest;
 import com.shushan.manhua.entity.request.SupportRequest;
 import com.shushan.manhua.entity.response.SelectionResponse;
+import com.shushan.manhua.ireader.model.bean.CollBookBean;
+import com.shushan.manhua.ireader.utils.StringUtils;
 import com.shushan.manhua.mvp.ui.activity.book.ReadBaseActivity;
-import com.shushan.manhua.mvp.ui.activity.book.ReadBookActivity;
+import com.shushan.manhua.mvp.ui.activity.book.ReadBookNewActivity;
 import com.shushan.manhua.mvp.ui.adapter.SelectionAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseFragment;
 
@@ -94,7 +96,9 @@ public class SelectionDetailFragment extends BaseFragment implements SelectionFr
                 onCommentSuggestRequest();
             } else if (view.getId() == R.id.item_selection_layout) {
                 if (mIsBook) {
-                    ReadBookActivity.start(getActivity(), mBookId, dataBean.getCatalogue_id());
+//                    ReadBookActivity.start(getActivity(), mBookId, dataBean.getCatalogue_id());
+                    CollBookBean collBookBean = tranCollBookBean(dataBean, String.valueOf(mSelectionResponse.getLast_catalogue_id()));
+                    ReadBookNewActivity.startActivity(getActivity(), collBookBean, true, sort, position);
                 } else {
                     ReadBaseActivity.start(getActivity(), mBookId, dataBean.getCatalogue_id());
                 }
@@ -196,8 +200,11 @@ public class SelectionDetailFragment extends BaseFragment implements SelectionFr
         }
     }
 
+    SelectionResponse mSelectionResponse;
+
     @Override
     public void getSelectionInfoSuccess(SelectionResponse selectionResponse) {
+        mSelectionResponse = selectionResponse;
         isReqState = false;
         selectionResponseList = selectionResponse.getAnthology();
         initSortList(selectionResponseList);
@@ -218,6 +225,21 @@ public class SelectionDetailFragment extends BaseFragment implements SelectionFr
     @Override
     public void getSuggestSuccess() {
         mSelectionAdapter.notifyItemChanged(clickPos, dataBean.getLike());//局部刷新
+    }
+
+    private CollBookBean tranCollBookBean(SelectionResponse.AnthologyBean detailBean, String lastChapterId) {
+        CollBookBean collBookBean = new CollBookBean();
+        collBookBean.set_id(mBookId);//MD5Utils.strToMd5By16("100")
+        collBookBean.setTitle(detailBean.getCatalogue_name());
+        collBookBean.setAuthor("");
+        collBookBean.setShortIntro("");
+        collBookBean.setCover(detailBean.getCatalogue_cover());
+        collBookBean.setLocal(false);
+        collBookBean.setLastChapter(lastChapterId);
+        collBookBean.setUpdate(true);
+        collBookBean.setUpdated(StringUtils.dateConvert(System.currentTimeMillis(), com.shushan.manhua.ireader.utils.Constant.FORMAT_BOOK_DATE));
+        collBookBean.setLastRead(StringUtils.dateConvert(System.currentTimeMillis(), com.shushan.manhua.ireader.utils.Constant.FORMAT_BOOK_DATE));
+        return collBookBean;
     }
 
 

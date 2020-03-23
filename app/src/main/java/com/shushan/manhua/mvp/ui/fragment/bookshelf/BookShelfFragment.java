@@ -30,10 +30,12 @@ import com.shushan.manhua.entity.request.BookShelfInfoRequest;
 import com.shushan.manhua.entity.request.RecommendRequest;
 import com.shushan.manhua.entity.response.BookShelfResponse;
 import com.shushan.manhua.entity.response.RecommendResponse;
+import com.shushan.manhua.ireader.model.bean.CollBookBean;
+import com.shushan.manhua.ireader.utils.StringUtils;
 import com.shushan.manhua.mvp.ui.activity.book.BookDetailActivity;
 import com.shushan.manhua.mvp.ui.activity.book.LongDeleteActivity;
 import com.shushan.manhua.mvp.ui.activity.book.ReadActivity;
-import com.shushan.manhua.mvp.ui.activity.book.ReadBookActivity;
+import com.shushan.manhua.mvp.ui.activity.book.ReadBookNewActivity;
 import com.shushan.manhua.mvp.ui.activity.book.ReadingHistoryActivity;
 import com.shushan.manhua.mvp.ui.activity.login.LoginActivity;
 import com.shushan.manhua.mvp.ui.activity.mine.MemberCenterActivity;
@@ -171,10 +173,12 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
             } else {
                 BookShelfResponse.BookrackBean bookrackBean = (BookShelfResponse.BookrackBean) adapter.getItem(position);
                 if (bookrackBean != null) {
-                    if(bookrackBean.getGenre()==1){
+                    if (bookrackBean.getGenre() == 1) {
                         ReadActivity.start(getActivity(), String.valueOf(bookrackBean.getBook_id()), bookrackBean.getCatalogue_id());//阅读页面
-                    }else if(bookrackBean.getGenre()==2){
-                        ReadBookActivity.start(getActivity(), String.valueOf(bookrackBean.getBook_id()), bookrackBean.getCatalogue_id());//小说页面
+                    } else if (bookrackBean.getGenre() == 2) {
+//                        ReadBookActivity.start(getActivity(), String.valueOf(bookrackBean.getBook_id()), bookrackBean.getCatalogue_id());//小说页面
+                        CollBookBean collBookBean = tranCollBookBean(bookrackBean);
+                        ReadBookNewActivity.startActivity(getActivity(), collBookBean, true, 0, 0);
                     }
                 }
             }
@@ -204,7 +208,9 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
                     if (mBookShelfResponse.getLast_read().getGenre() == 1) {// 类型1漫画（默认）2小说
                         ReadActivity.start(getActivity(), String.valueOf(mBookShelfResponse.getLast_read().getBook_id()), mBookShelfResponse.getLast_read().getCatalogue_id());//阅读页面
                     } else {//小说
-                        ReadBookActivity.start(getActivity(), String.valueOf(mBookShelfResponse.getLast_read().getBook_id()),mBookShelfResponse.getLast_read().getCatalogue_id());
+//                        ReadBookActivity.start(getActivity(), String.valueOf(mBookShelfResponse.getLast_read().getBook_id()),mBookShelfResponse.getLast_read().getCatalogue_id());
+                        CollBookBean collBookBean = tranCollBookBean(mBookShelfResponse.getLast_read(), String.valueOf(mBookShelfResponse.getLast_read().getCatalogue_id()));
+                        ReadBookNewActivity.startActivity(getActivity(), collBookBean, true, 0, 0);
                     }
                 }
                 break;
@@ -274,6 +280,37 @@ public class BookShelfFragment extends BaseFragment implements BookShelfFragment
     public void getRecommendInfoSuccess(RecommendResponse recommendResponse) {
 //        mRecommendAdapter.setEmptyView(recommendResponse.getData());
         mRecommendAdapter.setNewData(recommendResponse.getData());
+    }
+
+
+    private CollBookBean tranCollBookBean(BookShelfResponse.LastReadBean detailBean, String lastChapterId) {
+        CollBookBean collBookBean = new CollBookBean();
+        collBookBean.set_id(String.valueOf(detailBean.getBook_id()));//MD5Utils.strToMd5By16("100")
+        collBookBean.setTitle(detailBean.getBook_name());
+        collBookBean.setAuthor("");
+        collBookBean.setShortIntro("");
+        collBookBean.setCover(detailBean.getOblong_cover());
+        collBookBean.setLocal(false);
+        collBookBean.setLastChapter(lastChapterId);
+        collBookBean.setUpdate(true);
+        collBookBean.setUpdated(StringUtils.dateConvert(System.currentTimeMillis(), com.shushan.manhua.ireader.utils.Constant.FORMAT_BOOK_DATE));
+        collBookBean.setLastRead(StringUtils.dateConvert(System.currentTimeMillis(), com.shushan.manhua.ireader.utils.Constant.FORMAT_BOOK_DATE));
+        return collBookBean;
+    }
+
+    private CollBookBean tranCollBookBean(BookShelfResponse.BookrackBean detailBean) {
+        CollBookBean collBookBean = new CollBookBean();
+        collBookBean.set_id(String.valueOf(detailBean.getBook_id()));//MD5Utils.strToMd5By16("100")
+        collBookBean.setTitle(detailBean.getBook_name());
+        collBookBean.setAuthor("");
+        collBookBean.setShortIntro("");
+        collBookBean.setCover(detailBean.getDetail_cover());
+        collBookBean.setLocal(false);
+        collBookBean.setLastChapter(String.valueOf(detailBean.getCatalogue_id()));
+        collBookBean.setUpdate(true);
+        collBookBean.setUpdated(StringUtils.dateConvert(System.currentTimeMillis(), com.shushan.manhua.ireader.utils.Constant.FORMAT_BOOK_DATE));
+        collBookBean.setLastRead(StringUtils.dateConvert(System.currentTimeMillis(), com.shushan.manhua.ireader.utils.Constant.FORMAT_BOOK_DATE));
+        return collBookBean;
     }
 
 

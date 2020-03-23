@@ -299,4 +299,12 @@
     <string name="read_book_exit_title">Masukkan ke rak buku, akan memudahkanmu mencari buku ini nantinya</string>
     <string name="read_book_add_bookshelf">masukkan ke rak buku</string>
     <string name="read_book_exit">Keluar dari membaca</string>
+
+
+    <!--阅读-->
+    <string name="nb_mode_night">夜间</string>
+    <string name="nb_mode_morning">日间</string>
+    <string name="nb_read_category">目录</string>
+    <string name="nb_read_setting">设置</string>
+    <string name="nb_download_chapter_scope">(%1$d-%2$d章)</string>
 </resources>

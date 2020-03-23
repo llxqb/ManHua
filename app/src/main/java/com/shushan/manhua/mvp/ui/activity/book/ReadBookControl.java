@@ -8,8 +8,11 @@ import com.shushan.manhua.entity.request.SelectionRequest;
 import com.shushan.manhua.entity.request.ShareTaskRequest;
 import com.shushan.manhua.entity.response.ReadingBookResponse;
 import com.shushan.manhua.entity.response.SelectionResponse;
+import com.shushan.manhua.ireader.widget.page.TxtChapter;
 import com.shushan.manhua.mvp.presenter.LoadDataView;
 import com.shushan.manhua.mvp.presenter.Presenter;
+
+import java.util.List;
 
 /**
  * Created by li.liu on 2019/11/14.
@@ -26,6 +29,9 @@ public class ReadBookControl {
         void getSelectionInfoSuccess(SelectionResponse selectionResponse);
 
         void getAddBookShelfSuccess();
+
+        void finishChapter();
+        void errorChapter();
     }
 
     public interface PresenterReadBook extends Presenter<ReadBookView> {
@@ -55,6 +61,8 @@ public class ReadBookControl {
          * 请求分享任务
          */
         void onRequestShareTask(ShareTaskRequest shareTaskRequest);
+
+        void loadChapter(String bookId, List<TxtChapter> bookChapterList,String token);
     }
 
 }

@@ -32,9 +32,11 @@
         <activity android:name=".mvp.ui.activity.book.RankingActivity" />
         <activity android:name=".mvp.ui.activity.book.BookClassificationActivity" />
         <activity
+            android:name=".mvp.ui.activity.book.ReadBookNewActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".mvp.ui.activity.book.ReadBookActivity"
-            android:screenOrientation="portrait"
-             />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".mvp.ui.activity.main.TestActivity"
             android:screenOrientation="portrait" />

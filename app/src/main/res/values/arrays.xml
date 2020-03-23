@@ -9,5 +9,18 @@
         <!--<item>Anggota akan memiliki simbol spesial dan bisa dimunculkan semau anggota</item>-->
     <!--</string-array>-->
 
+    <declare-styleable name="ScrollRefreshLayout">
+        <attr name="layout_scroll_empty" format="reference"/>
+        <attr name="text_error_tip" format="string"/>
+    </declare-styleable>
 
+    <declare-styleable name="RefreshLayout">
+        <attr name="layout_refresh_empty" format="reference"/>
+        <attr name="layout_refresh_error" format="reference"/>
+        <attr name="layout_refresh_loading" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="BookTextView">
+        <attr name="bookColor" format="reference"/>
+    </declare-styleable>
 </resources>

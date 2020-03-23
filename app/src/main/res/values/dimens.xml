@@ -716,4 +716,14 @@
     <dimen name="hwtxtreader_menu_textsetting_padding_topbottom">3dp</dimen>
     <dimen name="hwtxtreader_menu_textsetting_padding_leftright">10dp</dimen>
     <dimen name="hwtxtreader_ic_selector">20dp</dimen>
+
+    <dimen name="nb.padding.large">16dp</dimen>
+    <!---->
+    <dimen name="nb.divider.line">0.5dp</dimen>
+    <!--read-->
+    <dimen name="nb.read.text.top">16sp</dimen>
+    <dimen name="nb.read.text.bottom">12dp</dimen>
+    <!--read setting-->
+    <dimen name="nb.read_setting.divider">20dp</dimen>
+    <dimen name="nb.read_setting.btn_height">35dp</dimen>
 </resources>

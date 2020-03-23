@@ -2,6 +2,7 @@ package com.shushan.manhua;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsConstants;
@@ -11,6 +12,7 @@ import com.shushan.manhua.di.components.AppComponent;
 import com.shushan.manhua.di.components.DaggerAppComponent;
 import com.shushan.manhua.di.modules.AppModule;
 import com.shushan.manhua.entity.constants.ServerConstant;
+import com.shushan.manhua.ireader.service.DownloadService;
 import com.umeng.commonsdk.UMConfigure;
 
 import javax.inject.Inject;
@@ -22,6 +24,7 @@ import javax.inject.Inject;
 public class ManHuaApplication extends Application {
     private String TAG = "HomeworkApplication";
     private AppComponent mAppComponent;
+    private static Context sInstance;
     public Context mContext;
     @Inject
     Gson mGson;
@@ -33,13 +36,18 @@ public class ManHuaApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        sInstance = this;
         mContext = this.getApplicationContext();
         mAppComponent = DaggerAppComponent.builder().appModule(new AppModule(this)).build();
         mAppComponent.inject(this);//必须有
+        startService(new Intent(getContext(), DownloadService.class));
         initUM();
         logActivatedAppEvent();
     }
 
+    public static Context getContext() {
+        return sInstance;
+    }
     /**
      * 初始化友盟
      * 用到了友盟分享

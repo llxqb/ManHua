@@ -23,6 +23,9 @@ import com.shushan.manhua.entity.constants.ActivityConstant;
 import com.shushan.manhua.entity.request.AddBookShelfRequest;
 import com.shushan.manhua.entity.request.BookDetailRequest;
 import com.shushan.manhua.entity.response.BookDetailInfoResponse;
+import com.shushan.manhua.ireader.model.bean.CollBookBean;
+import com.shushan.manhua.ireader.utils.Constant;
+import com.shushan.manhua.ireader.utils.StringUtils;
 import com.shushan.manhua.mvp.ui.activity.login.LoginActivity;
 import com.shushan.manhua.mvp.ui.adapter.LabelAdapter;
 import com.shushan.manhua.mvp.ui.base.BaseActivity;
@@ -76,7 +79,7 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
     @Override
     public void onReceivePro(Context context, Intent intent) {
         if (intent.getAction() != null) {
-           if (intent.getAction().equals(ActivityConstant.LOGIN_SUCCESS_UPDATE_DATA)) {
+            if (intent.getAction().equals(ActivityConstant.LOGIN_SUCCESS_UPDATE_DATA)) {
                 mLoginModel = mBuProcessor.getLoginModel();
             }
         }
@@ -139,11 +142,28 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContro
                         intent.putExtra("is_book_detail_activity", true);
                         startActivity(intent);//阅读页面 章节默认第一章节;
                     } else if (mBookDetailInfoResponse.getDetail().getGenre() == 2) {
-                        ReadBookActivity.start(this, mBookId, mBookDetailInfoResponse.getLast_catalogue_id());
+//                        ReadBookActivity.start(this, mBookId, mBookDetailInfoResponse.getLast_catalogue_id());
+                        CollBookBean collBookBean = tranCollBookBean(mBookDetailInfoResponse.getDetail(), String.valueOf(mBookDetailInfoResponse.getLast_catalogue_id()));
+                        ReadBookNewActivity.startActivity(this, collBookBean, true, 0, 0);
                     }
                 }
                 break;
         }
+    }
+
+    private CollBookBean tranCollBookBean(BookDetailInfoResponse.DetailBean detailBean, String lastChapterId) {
+        CollBookBean collBookBean = new CollBookBean();
+        collBookBean.set_id(mBookId);//MD5Utils.strToMd5By16("100")
+        collBookBean.setTitle(detailBean.getBook_name());
+        collBookBean.setAuthor(detailBean.getAuthor());
+        collBookBean.setShortIntro(detailBean.getDes());
+        collBookBean.setCover(detailBean.getDetail_cover());
+        collBookBean.setLocal(false);
+        collBookBean.setLastChapter(lastChapterId);
+        collBookBean.setUpdate(true);
+        collBookBean.setUpdated(StringUtils.dateConvert(System.currentTimeMillis(), Constant.FORMAT_BOOK_DATE));
+        collBookBean.setLastRead(StringUtils.dateConvert(System.currentTimeMillis(), Constant.FORMAT_BOOK_DATE));
+        return collBookBean;
     }
 
     /**

@@ -440,6 +440,17 @@ public class ReadBookActivity extends BaseActivity implements ReadBookControl.Re
     }
 
 
+    @Override
+    public void finishChapter() {
+
+    }
+
+    @Override
+    public void errorChapter() {
+
+    }
+
+
     /**
      * 下载音频文件
      */

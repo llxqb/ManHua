@@ -4,25 +4,26 @@ import com.google.gson.Gson;
 import com.shushan.manhua.entity.request.AddBookShelfRequest;
 import com.shushan.manhua.entity.request.BarrageListRequest;
 import com.shushan.manhua.entity.request.BookClassificationRequest;
+import com.shushan.manhua.entity.request.BookContentRequest;
 import com.shushan.manhua.entity.request.BookDetailRequest;
 import com.shushan.manhua.entity.request.BookShelfInfoRequest;
 import com.shushan.manhua.entity.request.BuyBarrageStyleRequest;
 import com.shushan.manhua.entity.request.CommentDetailRequest;
 import com.shushan.manhua.entity.request.CommentRequest;
+import com.shushan.manhua.entity.request.DeleteBookShelfRequest;
 import com.shushan.manhua.entity.request.DeleteReadingHistoryRequest;
 import com.shushan.manhua.entity.request.ExchangeBarrageStyleRequest;
+import com.shushan.manhua.entity.request.PublishCommentRequest;
 import com.shushan.manhua.entity.request.PublishCommentUserRequest;
 import com.shushan.manhua.entity.request.RankingRequest;
 import com.shushan.manhua.entity.request.ReadRecordingRequest;
 import com.shushan.manhua.entity.request.ReadingBookRequest;
 import com.shushan.manhua.entity.request.ReadingHistoryRequest;
+import com.shushan.manhua.entity.request.ReadingRequest;
+import com.shushan.manhua.entity.request.SelectionRequest;
 import com.shushan.manhua.entity.request.SendBarrageRequest;
 import com.shushan.manhua.entity.request.ShareTaskRequest;
 import com.shushan.manhua.entity.request.SupportRequest;
-import com.shushan.manhua.entity.request.DeleteBookShelfRequest;
-import com.shushan.manhua.entity.request.PublishCommentRequest;
-import com.shushan.manhua.entity.request.ReadingRequest;
-import com.shushan.manhua.entity.request.SelectionRequest;
 import com.shushan.manhua.entity.request.UploadImage;
 import com.shushan.manhua.network.networkapi.BookApi;
 
@@ -206,5 +207,12 @@ public class BookModel {
      */
     public Observable<ResponseData> onRequestRanking(RankingRequest request) {
         return mBookApi.onRequestRanking(mGson.toJson(request)).map(mTransform::transformCommon);
+    }
+
+    /**
+     * 根据章节id获取章节内容
+     */
+    public Observable<ResponseData> onRequestChapterInfo(BookContentRequest request) {
+        return mBookApi.onRequestChapterInfo(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 }

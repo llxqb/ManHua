@@ -213,7 +213,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         if (mDisposable != null) {
-            mDisposable.clear();
+            mDisposable.dispose();
         }
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
     }

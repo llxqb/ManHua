@@ -79,7 +79,16 @@ public class SelectionResponse {
         private int change_like;
         private int type;
         private int sort;
+        private String novel_url;
         private int is_like;
+
+        public String getNovel_url() {
+            return novel_url;
+        }
+
+        public void setNovel_url(String novel_url) {
+            this.novel_url = novel_url;
+        }
 
         public int getCatalogue_id() {
             return catalogue_id;
